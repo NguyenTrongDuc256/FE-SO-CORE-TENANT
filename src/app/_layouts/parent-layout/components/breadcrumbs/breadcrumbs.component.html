@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="kt-subheader  kt-grid__item  my-3" >
+    <div class="kt-subheader__main">
+      <div class="kt-subheader__breadcrumbs d-flex align-items-center">
+        <li *ngFor="let breadcrumb of showBreadcrumbs"  class="d-flex align-items-center me-2 ms-2">
+<!--          <span class="kt-subheader__breadcrumbs-separator mr-1"></span>-->
+          <a class="kt-subheader__breadcrumbs-link mr-5" [routerLink]="breadcrumb?.url" style="color: {{breadcrumb?.color}}">
+            <i *ngIf="breadcrumb?.icon" [class]="breadcrumb?.icon" style="color: {{breadcrumb?.color}}"></i>
+            {{breadcrumb?.title }}
+          </a>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

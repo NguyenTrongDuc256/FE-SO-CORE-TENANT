@@ -1,0 +1,78 @@
+
+.box-img {
+  .symbol {
+    background: rgba(203, 203, 203, 0.2);
+    border: 1px solid rgba(203, 203, 203, 0.2);
+    border-radius: 1.5rem;
+    .avatar {
+      width: 125px;
+      height: 125px;
+    }
+    .delete-img {
+      position: absolute;
+      top: -12px;
+      right: -8px;
+      cursor: pointer;
+      img {
+
+      }
+    }
+    .upload-img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 3rem;
+      background-color: #556EE6;
+      border-bottom-left-radius: 0.6rem;
+      border-bottom-right-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      img {
+
+      }
+      span {
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+.action {
+  a {
+    margin: 0 10px;
+  }
+}
+
+.pt-34 {
+  padding-top: 3.4rem;
+}
+
+.border-bt {
+  border-bottom: 1px solid #EFF2F5;
+}
+
+.employee-tab {
+  li {
+    cursor: pointer;
+    .nav-link {
+      .tab-txt {
+        color: #3F4254;
+      }
+    }
+    .active {
+      .tab-txt {
+        color: #50A5F1 !important;
+      }
+    }
+  }
+}
+
+.disabled-input {
+  cursor: no-drop;
+}
+.pd-8-5 {
+  padding-top: 7.5px;
+}
+

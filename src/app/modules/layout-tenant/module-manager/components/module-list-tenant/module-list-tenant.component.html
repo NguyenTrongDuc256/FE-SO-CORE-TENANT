@@ -1,0 +1,77 @@
+<div class="card style-module-manager" *transloco="let t; scope: 'module-manager'">
+  <div class="card-header-custom border-0 p-5">
+    <div class="w-100 d-flex justify-content-between align-items-center">
+      <div class="title-content  mb-3">
+        <span class="fs-18 fw-700">{{ t('moduleManager.moduleList') }}</span>
+      </div>
+      <div class="d-flex justify-content-end align-items-center custom-search">
+        <select class="fs-13 fw-700 form-select form-select-solid form-select-lg custom-select-status"
+          name="select-filter-status-module" (change)="changeFilterStatus($event)">
+          <option value="">{{ t('status') }}</option>
+          <option value="1">{{ t('moduleManager.activated') }}</option>
+          <option value="0">{{ t('moduleManager.locked') }}</option>
+        </select>
+        <div class="search-input">
+          <input name="input-search-module" type="text" class="form-control custom-tag-of-form fs-14"
+            placeholder="{{ t('moduleManager.enterNameCodeModule') }}" (keyup)="checkChangeKeywordSerach($event)">
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body-custom pt-0 mt-6">
+    <table class="table align-middle table-global">
+      <thead>
+        <tr class="text-center">
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 10%;">
+            {{ t('moduleManager.order') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%;">
+            {{ t('moduleManager.moduleName') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 25%;">
+            {{ t('moduleManager.moduleCode') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 25%;">
+            {{ t('moduleManager.pemission') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 10%;">
+            {{ t('status') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="fw-bold text-gray-600">
+        <tr *ngFor="let item of dataSource;let i = index">
+          <td class="color-td fs-13 fw-700">{{ (pageSize * (pageIndex - 1)) + i+1 }}</td>
+          <td class="color-td module-manager-name fs-13 fw-600" id="view-detail-module"
+            (click)="viewDetailModule(item)">
+            {{ item.name }}
+          </td>
+          <td class="color-td custom-module-code fs-13 fw-700">
+            {{ item.code }}
+          </td>
+          <td class="color-td fs-13 fw-700">
+            <span class="custom-module-permisson" name="view-permission" (click)="getListPermissionOfModule(item)">
+              {{ item.permissionNumber }}
+            </span>
+          </td>
+          <td class="color-td">
+            <span class="custom-status-{{item.isActive}} fs-11 fw-400">
+              {{ getNameStatus(item.isActive) }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="dataSource?.length == 0 || !dataSource">
+          <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

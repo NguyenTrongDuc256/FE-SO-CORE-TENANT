@@ -1,0 +1,241 @@
+<form action="" [formGroup]="formSubmit" *transloco="let t; scope: 'school'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-normal-global">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row pe-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="name" class="fw-600">{{t('school.tenDiemTruong')}} <span class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="name" name="name"
+                placeholder="{{t('school.enterTenDiemTruong')}}" autocomplete="off" formControlName="TenDiemTruong">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: t('requiredName'),
+                  control: formSubmit.controls['TenDiemTruong']
+                  }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'notEmpty',
+                message: t('requiredName'),
+                control: formSubmit.controls['TenDiemTruong']
+                }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'maxlength',
+                  message: t('maxLengthName'),
+                  control: formSubmit.controls['TenDiemTruong']
+                  }">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row ps-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="code" class="fw-600">{{t('code')}} <span class="text-danger">*</span></label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="code" name="code" placeholder="{{t('enterCode')}}"
+                autocomplete="off" formControlName="MaDiemTruong" [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: t('school.requiredCode'),
+                control: formSubmit.controls['MaDiemTruong']
+                }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: t('patternCode'),
+                control: formSubmit.controls['MaDiemTruong']
+                }">
+              </ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message: t('maxLengthCode'),
+                control: formSubmit.controls['MaDiemTruong']
+                }">
+            </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row pe-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="address" class="fw-600">{{t('address')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="address" name="address" placeholder="{{t('enterAddress')}}"
+                autocomplete="off" formControlName="DiaChi">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row ps-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="khoangCach" class="fw-600">{{t('school.khoangCach')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="number" class="form-control" id="khoangCach" name="khoangCach"
+              placeholder="{{t('school.enterKhoangCach')}}" autocomplete="off" formControlName="KhoangCach">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: t('school.onlyNumber'),
+                control: formSubmit.controls['KhoangCach']
+                }">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row pe-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="phuongTien" class="fw-600">{{t('school.phuongTien')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="phuongTien" name="phuongTien"
+              placeholder="{{t('school.enterPhuongTien')}}" autocomplete="off" formControlName="PhuongTien">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row ps-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="dienTich" class="fw-600">{{t('school.dienTich')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="number" class="form-control" id="dienTich" name="dienTich"
+              placeholder="{{t('school.enterDienTich')}}" autocomplete="off" formControlName="DienTich">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: t('school.onlyNumber'),
+                control: formSubmit.controls['DienTich']
+                }">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row pe-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="phone" class="fw-600">{{t('phone')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="phone" name="phone" placeholder="{{t('school.enterSĐT')}}"
+              autocomplete="off" formControlName="DienThoai">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: t('school.patternPhone'),
+                control: formSubmit.controls['DienThoai']
+                }">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row ps-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="email" class="fw-600">{{t('email')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <input type="text" class="form-control" id="email" name="email" placeholder="{{t('school.enterEmail')}}"
+              autocomplete="off" formControlName="Email">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: t('school.patternEmail'),
+                control: formSubmit.controls['Email']
+                }">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row pe-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="quanHuyen" class="fw-600">{{t('school.district')}}</label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <select name="quanHuyen" id="quanHuyen" class="w-full" formControlName="QuanHuyen">
+                <option [value]="null">{{t('school.chonDistrict')}}</option>
+                <ng-container *ngFor="let district of arrDistrict">
+                  <option [value]="district.MA">{{district.TEN}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <div class="row ps-3">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <label for="status" class="fw-600">{{t('status')}} </label>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
+              <label class="p-0" nz-checkbox name="status" formControlName="TrangThai">{{ t("activated") }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- error -->
+    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+          <span role="alert">
+            <div class="err-form text-danger">
+              <img src="assets/images/svg/icon-false.svg" alt="">
+              <span>&nbsp;{{ message }}</span>
+            </div>
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+      (click)="submit(formSubmit.value)" [disabled]="!formSubmit.valid">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</form>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

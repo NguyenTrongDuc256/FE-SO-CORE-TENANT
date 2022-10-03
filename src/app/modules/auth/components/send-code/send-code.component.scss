@@ -1,0 +1,20 @@
+@import url("../../helper-auth.scss");
+
+.btn-auth-submit {
+  color: #50A5F1;
+  background: #CFE8FF;
+}
+
+.btn.btn-light-primary{
+  min-width: 8rem;
+}
+
+.btn-disable {
+  cursor: unset;
+}
+
+.btn-light-primary.btn-disable:hover {
+  background-color: #F1FAFF !important;
+  opacity: 1 !important;
+  color: #009EF7 !important;
+}

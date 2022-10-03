@@ -1,0 +1,30 @@
+.kt-subheader__breadcrumbs-separator:after{
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    content: " ";
+    background: #dbdce7;
+
+    //display: inline-block;
+    //content: '\00bb';
+    //margin: 0 0.6em;
+    //color: #959fa5;
+
+    //padding: 0 5px;
+    //color: #ccc;
+    //content: "/\00a0";
+}
+
+.kt-subheader__breadcrumbs-link {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 25px;
+  color: #FFFFFF;
+    i{
+        font-weight: 601;
+        color: #959cb6;
+        font-size: 1.11rem;
+    }
+}

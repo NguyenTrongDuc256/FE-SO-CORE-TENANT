@@ -1,0 +1,14 @@
+<div class="custom-single-date-picker">
+  <input type="text" autocomplete="off" readonly ngxDaterangepickerMd [autoApply]="options.autoApply"
+    [linkedCalendars]="options.linkedCalendars" [singleDatePicker]="options.singleDatePicker" applyLabel="Xong"
+    [showDropdowns]="true" [locale]="options.locale" [(ngModel)]="selected" [showWeekNumbers]="options.showWeekNumbers"
+    [showCancel]="options.showCancel" [showClearButton]="options.showClearButton"
+    [showISOWeekNumbers]="options.showISOWeekNumbers" [customRangeDirection]="options.customRangeDirection"
+    [lockStartDate]="options.lockStartDate" [timePicker]="options.timePicker"
+    [closeOnAutoApply]="options.closeOnAutoApply" firstMonthDayClass="first-day" lastMonthDayClass="last-day"
+    emptyWeekRowClass="empty-week" lastDayOfPrevi ousMonthClass="last-previous-day"
+    firstDayOfNextMonthClass="first-next-day" name="start_date" class="form-control fs-14"
+    (startDateChanged)="ngModelChange($event)" [showDropdowns]="true" [maxDate]="maxDateValue" [minDate]="minDateValue"
+    placeholder="DD/MM/YYYY" />
+  <img class="icon-date-picker ngx-daterangepicker-action" src="assets/images/svg/calendar.svg" alt="" (click)="open()">
+</div>

@@ -1,0 +1,74 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+          [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'employee'">
+  <div class="dien-bien-luong w-full">
+    <div class="row border-button fs-14 fw-700 w-full">
+      <div class="col-md-2">
+        <span>{{ t('employee.tieuChiDanhGia') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div class="col-md-6">
+        <span>{{ t('employee.noiDung') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div class="col-md-2">
+        <span>{{ t('employee.tuDanhGia') }}</span>
+      </div>
+      <div class="col-md-2">
+        <span>{{ t('employee.capTrenDanhGia') }}</span>
+      </div>
+    </div>
+    <div class="row fs-14 fw-700 w-full" *ngIf="tieuChiDanhGiaNhanSu.length == 0">
+      <div class="col-md-12">
+        <span class="text-danger fs-14 fw-700" *ngIf="nhomChucVu.name != undefined">{{ t('employee.khongTimThayTieuChiDanhgia')}} {{nhomChucVu.name}}</span>
+        <span class="text-danger fs-14 fw-700" *ngIf="nhomChucVu.name == undefined">{{ t('employee.nhomChucVuRequired')}}</span>
+      </div>
+    </div>
+    <form [formGroup]="formGroup" *ngIf="formGroup && tieuChiDanhGiaNhanSu.length != 0">
+      <ng-container formArrayName="danhGiaChuanNgheNghiep">
+        <ng-container *ngFor="let itemForm of formGroup.get('danhGiaChuanNgheNghiep')['controls']; let index = index">
+            <div class="row border-button fs-14" [formGroupName]="index">
+              <div class="col-md-2">
+                <span class="color-text fw-700 fs-14">{{ t('employee.tieuChi') }} {{itemForm.value.indexOrder}}</span>
+              </div>
+              <div class="col-md-6">
+                <span>{{itemForm.value.name}}</span>
+              </div>
+              <div class="col-md-2">
+                <nz-select id="tuDanhGia" formControlName="tuDanhGia"
+                           [ngModel]="itemForm.value.tuDanhGia"
+                           [nzNotFoundContent]="nzNotFoundContent">
+                  <nz-option nzValue="" [nzLabel]="txtSelect"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.muc_dat_duoc_danh_gia_nhan_su"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+              <div class="col-md-2">
+                <nz-select id="capTrenDanhGia" formControlName="capTrenDanhGia"
+                           [ngModel]="itemForm.value.capTrenDanhGia"
+                           [nzNotFoundContent]="nzNotFoundContent">
+                  <nz-option nzValue="" [nzLabel]="txtSelect"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.muc_dat_duoc_danh_gia_nhan_su"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+        </ng-container>
+      </ng-container>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+          (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" data-dismiss="modal"
+          *ngIf="tieuChiDanhGiaNhanSu.length != 0"
+          (click)="save(danhGiaChuanNgheNghiep.value)">{{dataModal?.btnAccept}}</button>
+</div>

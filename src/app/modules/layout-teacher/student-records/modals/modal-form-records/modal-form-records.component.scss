@@ -1,0 +1,59 @@
+.so-form-group {
+  display: flex;
+  flex-direction: column;
+  label {
+    margin-bottom: 0;
+    min-width: 12rem;
+  }
+}
+
+.so-form-group select.select-cate {
+  flex-grow: initial;
+}
+
+.btn-upload-file {
+  background: #f1faff;
+  border: 1px dashed #00a3ff;
+  box-shadow: 0px 0px 20px rgba(76, 87, 125, 0.02);
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  img {
+    width: 24px;
+    height: 23px;
+    margin-right: 5px;
+  }
+  div span:first-child {
+    font-size: 1.3rem;
+    color: #3f4254;
+    font-weight: 500;
+    line-height: 1;
+    display: block;
+  }
+  div span:last-child {
+    font-size: 1.2rem;
+    color: #7e8299;
+  }
+}
+
+.btn-remote {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 3px;
+  cursor: pointer;
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+.btn-remote:focus {
+  outline: none;
+}
+
+.name-file-local, .name-file-local.active, .name-file-local:focus {
+  border: none;
+  box-shadow: none !important;
+  cursor: default;
+}
+

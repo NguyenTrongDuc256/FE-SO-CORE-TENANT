@@ -1,0 +1,248 @@
+{
+  "titleDelete": "Delete employee",
+  "title": "List of employee",
+  "create": "Add new employee",
+  "edit": "Edit employee",
+  "school": "School",
+  "school1": "School",
+  "noActive": "Locked",
+  "avatar": "Avatar",
+  "upload": "Upload",
+  "fullName": "First and last name",
+  "code": "Code",
+  "codeMoet": "Moet code",
+  "assignRole": "Assign permissions",
+  "selectRole": "Choose permission",
+  "dob": "Date of birth",
+  "gender": "Gender",
+  "accessApp": "Access the App",
+  "active": "Activated",
+  "locked": "lock up",
+  "generalInformation": "General information",
+  "campus": "Campus",
+  "username": "user name",
+  "password": "Password",
+  "email": "Email",
+  "phone": "Phone number",
+  "danToc": "Ethnic",
+  "tonGiao": "Religion",
+  "nhomMau": "Blood group",
+  "quocTich": "Nationality",
+  "diaChi": "Address",
+  "hktt": "permanent residence",
+  "tinh": "Province/City",
+  "bhxh": "Social insurance number",
+  "huyen": "District",
+  "trangThaiCB": "Officer status",
+  "xa": "Wards",
+  "laDoanVien": "Being a Union member",
+  "cc": "Citizen identification",
+  "laDangVien": "Being a Party member",
+  "placeOfBirth": "Place of birth",
+  "select": "Choose",
+  "nhap": "Enter",
+  "notFoundContent": "No data",
+
+  "1ViTriViecLam": "I. Job position, title criteria",
+  "2PhuCap": "II. Allowance",
+  "3DaoTaoBoiDuong": "III. Training, Nurturing",
+  "4DanhGiaPhanLoai": "IV. Rating, Rating",
+  "viTriViecLam": "Job position",
+  "nhiemVuKiemNhiem": "Part-time duty",
+  "nhomChucVu": "Position group",
+  "soTietDayTrenTuan": "Number of lessons per week",
+  "ngayBoNhiem": "Appointment date",
+  "soTietKhongNhiemTrenTuan": "Number of part-time hours per week",
+  "soLanBoNhiem": "Number of appointments",
+  "ngach": "Quota/Rank",
+  "hinhThucHopDong": "Contract form",
+  "ngayTuyenDung": "Recruitment Day",
+  "coQuanTuyenDung": "Employment Agencies",
+  "namVaoTruong": "Year in school",
+  "ngheNghiepKhiDuocTuyenDung": "Occupation when hired",
+  "maSoNgach": "Quota code",
+  "danhHieuPhongTangCaoNhat": "The highest conferred title",
+  "daTapHuanDayKiNangSong": "Life skills training",
+  "phoPhuTrach": "Deputy in charge",
+  "dayHocSinhKienThucHoaNhap": "Teaching students about inclusive learning",
+  "dayLopKhuyetTat": "Teaching disabled class",
+  "tongPhuTrachDoi": "Total charge of team",
+  "day1BuoiNgay": "Teach 1 lesson/day",
+  "TGCTBTTX": "Participate in regular training program",
+  "day2BuoiNgay": "Teach 2 lesson/day",
+  "coCCBoiDuongTCCD": "There is a certificate of standardization of title/day",
+  "chuyenTrachDoanDoi": "In charge of the team",
+  "phuCapThuHutNghe": "Occupational attraction allowance",
+  "bacLuong": "Wage step ",
+  "phuCapThamNien": "Seniority allowance (%)",
+  "phanTramVuotKhung": "Percentage out of frame",
+  "phuCapUuDaiNghe": "Occupational incentive allowance",
+  "heSoLuong": "Coefficients salary",
+  "phuCapChucVuLanhDao": "Leadership allowance (%)",
+  "ngayHuongLuong": "Salary date",
+  "dienBienQuaTrinhLuong": "Salary process evolution",
+  "chiTiet": "Detail",
+  "dong": "Close",
+  "thoiGian": "May",
+  "maBacLuong": "Salary level code",
+  "ketQuaBoiDuongTX": "Results of regular training",
+  "loaiChungChiNgoaiNgu": "Type of foreign language certificate",
+  "trinhDoCMNV": "Mission Expert Speed",
+  "khungNangLucNgoaiNgu": "Framework of foreign language ability",
+  "trinhDoLLCT": "Political theory degree",
+  "trinhDoTinHoc": "Computer skill",
+  "trinhDoQLGD": "Education management qualification",
+  "chuyenNganhChinh": "Main major",
+  "thamGiaBDNghiepVuQLGD": "Participating in educational management training",
+  "trinhDoChinh": "Main qualification",
+  "thamGiaBDCBQLGVCotCan": "Participating in training for key managers/teachers",
+  "coSoDaoTao": "Training facilities",
+  "thamGiaBDThaySach": "Participating in book replacement training",
+  "chuyenNganhKhac": "Other majors",
+  "ngoaiNguChinh": "Main foreign language",
+  "trinhDoKhac": "Other qualifications",
+  "trinhDoDaoTaoNgoaiNgu": "Foreign language training",
+  "chungChiDanTocTS": "Teacher have a certificate of ethnic minorities",
+  "nhomChungChiNgoaiNgu": "Foreign language certificate group",
+  "tongPhuTrachDoiGioi": "General in charge of good team",
+  "diemNgoaiNgu": "Foreign language score",
+  "danhGiaVienChuc": "Officer evaluation",
+  "gvDayGioi": "Good teacher",
+  "gvChuNhiemGioi": "Good homeroom teacher",
+  "danhHieuPhongTang": "Awarded title",
+  "danhGiaChuanNgheNghiep": "Assessment of professional standards for Manager/Teacher",
+  "qhGiaDinh": "Family relationship",
+  "khenThuong": "Bonus",
+  "qhGiaDinhVoChong": "Family relationship (Spouse)",
+  "kyLuat": "Discipline",
+  "quaTrinhCongTac": "Working process",
+  "quaTrinhDaoTaoBD": "The training process",
+  "ngoaiNgu": "Foreign Language",
+  "ngoaiNguKhac": "Other foreign languages",
+  "trinhDoNgoaiNgu": "English level",
+  "ngayCap": "Date Range",
+  "chuThich": "Note",
+  "chuyenNganhDTBoiDuong": "Specialization in Training and Retraining",
+  "tuNgay": "From date",
+  "denNgay": "To date",
+  "hinhThucDT": "Forms of training",
+  "vanBangCCTrinhDo": "Diplomas, Certificates, Qualifications",
+  "titleDanhGiaChuanNgheNghiep": "Assessment of professional standards of employees",
+  "tieuChiDanhGia": "Evaluation Criteria",
+  "noiDung": "Content",
+  "tuDanhGia": "Self assessment",
+  "capTrenDanhGia": "Evaluation by superiors",
+  "mucDatDuoc": "Level achieved",
+  "khenThuongGV": "Teacher commendation",
+  "kyLuatGV": "Teacher Discipline",
+  "quanHeGiaDinh": "Family relationship",
+  "quanHeGiaDinhVoChong": "Family relationship (Spouse)",
+  "loaiKhenThuong": "Reward Type",
+  "capKhenThuong": "Reward level",
+  "soQuyetDinh": "Decision number",
+  "ngayKhenThuong": "Reward day",
+  "chucDanhChucVuDonViCongTac": "Title, position, work unit",
+  "loaiKyLuat": "Kind of Discipline",
+  "capKyQuyetDinh": "Decision signing level",
+  "ngayKyLuat": "Disciplinary Day",
+  "quanHe": "Relationship",
+  "hoVaTen": "First and last name",
+  "namSinh": "Year of birth",
+  "contentQhGiaDinh": "Hometown, occupation, title, unit of work, study, place of residence",
+  "khongTimThayTieuChiDanhgia": "No evaluation criteria were found for the Position group:",
+  "nhomChucVuRequired": "You have not selected Position group [32] in Section I. Job position, title criteria",
+  "tieuChi": "Criteria",
+  "modalEmployeeEdit": "Select the field to update the corresponding Employee",
+
+  "btnAction": {
+    "send": "Send notifications",
+    "changedPassword": "Change Password",
+    "luu": "Save",
+    "them": "Add",
+    "huy": "Cancel"
+  },
+  "validators": {
+    "fullName":{
+      "required":"Your first and last name is required",
+      "maxlength":"Your first and last name cannot exceed 255 characters"
+    },
+    "code":{
+      "required":"Code is required",
+      "pattern":"Code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength":"Your code cannot exceed 50 characters"
+    },
+    "username":{
+      "required":"You have not entered your username",
+      "pattern":"Username can only use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength":"Your username cannot exceed 50 characters"
+    },
+    "password":{
+      "required":"You have not entered your password",
+      "pattern":"Passwords can only use letters (a-z), (A-Z), numbers (0-9), and special character",
+      "maxlength":"Your password must be between 6 and 50 in character length",
+      "minlength":"Your password must be between 6 and 50 in character length"
+    },
+
+    "email":{
+      "required":"You have not entered your email",
+      "email":"Invalid email"
+    },
+    "phone":{
+      "required":"You did not enter a phone number",
+      "pattern":"invalid phone number"
+    },
+    "codeMoet": {
+      "required":"Moet code is required",
+      "pattern":"Moet code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength":"Moet code cannot exceed 50 characters"
+    },
+    "roleId": {
+      "required": "You haven't selected a role yet"
+    },
+    "campusId": {
+      "required": "You have not selected campus"
+    },
+    "schoolId": {
+      "required": "You have not selected school"
+    },
+    "ngach": {
+      "required": "You have not selected a Quota/Rank"
+    },
+    "bacLuong": {
+      "required": "You have not selected a salary level"
+    },
+    "heSoLuong": {
+      "required": "You have not selected a salary coefficient"
+    },
+    "ngoaiNgu": {
+      "required": "You have not selected a foreign language"
+    },
+    "truong": {
+      "required": "You have not selected a school"
+    },
+    "chuyenNganhDaoTao": {
+      "required": "You have not chosen a training and retraining major"
+    },
+    "hinhThucDaoTao": {
+      "required": "You have not selected a form of training"
+    },
+    "trinhDo": {
+      "required": "You have not selected a level"
+    },
+    "tieuChi": {
+      "required": "You have not selected a criteria"
+    },
+    "loai": {
+      "required": "You have not selected a reward type"
+    },
+    "content": {
+      "required": "You have not entered your title, position, work unit"
+    },
+    "loaiKyLuat": {
+      "required": "You have not chosen a discipline type"
+    },
+    "moiQuanHe": {
+      "required": "You have not selected a relationship"
+    }
+  }
+}

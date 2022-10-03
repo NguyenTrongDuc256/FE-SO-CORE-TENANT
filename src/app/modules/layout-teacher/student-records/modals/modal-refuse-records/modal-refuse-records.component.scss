@@ -1,0 +1,27 @@
+.main-content {
+  h3 {
+    font-size: 1.6rem;
+    color: #50a5f1;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  textarea {
+    background: #f5f8fa;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    padding: 1rem 1.5rem;
+  }
+}
+
+.img {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 30rem;
+    height: 30rem;
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+}

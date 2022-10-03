@@ -1,0 +1,147 @@
+<ng-container *transloco="let t; scope: 'campus'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal()"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="content-form-campus" *ngIf="formGroup">
+      <form [formGroup]="formGroup">
+        <div class="col-md-12 row mb-5">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusName') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-campus-name"
+              placeholder="{{ t('campus.placeholderCampusName') }}" formControlName="name" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+              <div
+                *ngIf="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 row mb-5">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusPhone') }}</span>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-campus-phone"
+              placeholder="{{ t('campus.placeholderCampusPhone') }}" formControlName="hotline" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.hotline">
+              <div
+                *ngIf="formGroup.get('hotline').hasError(err.type) && (formGroup.get('hotline').dirty || formGroup.get('hotline').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusEmail') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-campus-email"
+              placeholder="{{ t('campus.placeholderCampusEmail') }}" formControlName="email" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+              <div
+                *ngIf="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 row mb-5">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusAddress') }}</span>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-campus-address"
+              placeholder="{{ t('campus.placeholderCampusAddress') }}" formControlName="address" />
+          </div>
+        </div>
+        <div class="col-md-12 row mb-5">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.phone') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-phone" placeholder="{{ t('campus.placeholderPhone') }}"
+              formControlName="contactPhone" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactPhone">
+              <div
+                *ngIf="formGroup.get('contactPhone').hasError(err.type) && (formGroup.get('contactPhone').dirty || formGroup.get('contactPhone').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.email') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-email" placeholder="{{ t('campus.placeholderEmail') }}"
+              formControlName="contactEmail" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactEmail">
+              <div
+                *ngIf="formGroup.get('contactEmail').hasError(err.type) && (formGroup.get('contactEmail').dirty || formGroup.get('contactEmail').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 row mb-5">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.contactPersonName') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control custom-tag-of-form fs-14" name="input-campus-contact"
+              placeholder="{{ t('campus.placeholderContactPersonName') }}" formControlName="contactName" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactName">
+              <div
+                *ngIf="formGroup.get('contactName').hasError(err.type) && (formGroup.get('contactName').dirty || formGroup.get('contactName').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('status') }}</span>
+          </div>
+          <div class="col-md-4">
+            <label nz-checkbox name="campus-status" formControlName="isActive"></label>
+          </div>
+        </div>
+        <div class="col-md-12 row">
+          <div class="col-md-2">
+            <span class="lb-form-campus fs-14 fw-700">{{ t('campus.indexOrder') }} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-4">
+            <input onlyNumber type="number" min="0" class="form-control custom-tag-of-form fs-14" name="input-campus-contact"
+              placeholder="{{ t('campus.placeholderIndexOrder') }}" formControlName="indexOrder" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.indexOrder">
+              <div
+                *ngIf="formGroup.get('indexOrder').hasError(err.type) && (formGroup.get('indexOrder').dirty || formGroup.get('indexOrder').touched)"
+                class="message-erro">
+                {{ t(err.message) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal()">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" [disabled]="formGroup.invalid"
+      (click)="saveForm(formGroup.value)">{{dataModal?.btnAccept}}</button>
+  </div>
+</ng-container>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

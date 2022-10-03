@@ -1,0 +1,1 @@
+Các module của layout division (phòng) thì nằm trong thư mục này.

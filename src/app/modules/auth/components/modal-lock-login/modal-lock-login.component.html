@@ -1,0 +1,28 @@
+<ng-container *transloco="let t; scope: 'auth'">
+  <div class="modal-header">
+    <div class="text-center d-flex algin-items-center">
+      <div class="logo">
+        <img src="assets/images/png/auth/logo-SO.png" alt="">
+      </div>
+      <h1 class="form-title d-flex align-items-center flex-grow-1 mb-0 mx-3">{{t('auth.system')}} &nbsp;<a
+          routerLink="/auth/registration" class="link-primary fw-bolder">SchoolOnline</a></h1>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="img-lock">
+      <img src="assets/images/png/auth/img-lock-login.png" alt="">
+    </div>
+    <div class="text-danger err-login mb-5">
+      <span class="icon-warming">
+        <img src="assets/images/svg/icon-warming.svg" alt="">
+      </span>
+      <span>{{t('auth.warmingEnterErrPassword')}} </span>
+    </div>
+    <p class="so-text-primary text-normal-global">{{t('auth.lockLoginOn')}} <span
+        class="so-text-secondary"><strong class="timeLeft">{{timeLeft | formatTimeToMinute }}</strong></span> {{t('auth.canLoginAgain')}}</p>
+  </div>
+  <div class="modal-footer {{dataModal?.isCenterBtn ? 'justify-content-center' : ''}}">
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="closeModal(false)">{{dataModal?.btnAccept}}</button>
+  </div>
+</ng-container>

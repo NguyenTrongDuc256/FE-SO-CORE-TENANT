@@ -1,0 +1,74 @@
+{
+  "children": "Con",
+  "create": "Thêm mới phụ huynh",
+  "edit": "Chỉnh sửa phụ huynh",
+  "title": "Danh sách phụ huynh",
+  "detail": "Thông tin phụ huynh",
+  "listChild": "Danh sách các con",
+  "fullName": "Họ và tên",
+  "username": "Tên đăng nhập",
+  "code": "Mã phụ huynh",
+  "phone": "Số điện thoại",
+  "students": "Học sinh",
+  "school": "Trường",
+  "newPassword": "Mật khẩu mới",
+  "confirmPassword": "Xác nhận mật khẩu",
+  "deleteUser": "Xóa phụ huynh",
+  "dob": "Ngày sinh",
+  "class": "Lớp",
+  "grade": "Khối",
+  "school1": "Trường học",
+  "lockedApp": "Khóa truy cập app",
+  "openApp": "Mở truy cập app",
+  "confirmUpdateStatus": "Bạn có chắc muốn thực hiện thao tác này không?",
+  "lockedContent":  "Tài khoản của phụ huynh sẽ bị khóa truy cập",
+  "openContent": "Tài khoản của phụ huynh sẽ được mở truy cập",
+  "accessApp": "Được phép truy cập app",
+  "noAccessApp": "Không được phép truy cập app",
+  "active": "Kích hoạt",
+  "noActive": "Đã khóa",
+  "password": "Mật khẩu",
+  "btnAction": {
+    "send": "Gửi thông báo",
+    "changedPassword": "Đổi mật khẩu",
+    "lockedAccount": "Khóa truy cập app",
+    "unlockAppAccess": "Mở khóa truy cập app"
+  },
+  "validators": {
+    "fullName":{
+      "required":"Bạn chưa nhập tên người dùng",
+      "maxLength":"Tên người dùng không được có nhiều hơn 50 kí tự"
+    },
+    "code":{
+      "required":"Bạn chưa nhập mã người dùng",
+      "pattern":"Mã người dùng không hợp lệ",
+      "maxlength":"Mã của bạn không được vượt quá 50 ký tự"
+    },
+    "username": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "pattern": "Tên đăng nhập không hợp lệ",
+      "minLength": "Tên đăng nhập chứa tối thiểu 6 kí tự",
+      "maxLength": "Tên đăng nhập không được có nhiều hơn 50 kí tự"
+    },
+    "password":{
+      "required":"Bạn chưa nhập mật khẩu",
+      "pattern":"Mật khẩu không hợp lệ"
+    },
+    "students":{
+      "required":"Chọn ít nhất 1 con"
+    },
+    "confirmPassword":{
+      "required":"Bạn chưa nhập xác nhận mật khẩu",
+      "mustMatch":"Xác nhận mật khẩu không hợp lệ"
+    },
+    "email":{
+      "pattern":"Email không hợp lệ"
+    },
+    "phone":{
+      "pattern":"Số điện thoại không hợp lệ"
+    }
+  },
+  "avatar": "Ảnh đại diện",
+  "upload": "Tải ảnh",
+  "close": "Đóng"
+}

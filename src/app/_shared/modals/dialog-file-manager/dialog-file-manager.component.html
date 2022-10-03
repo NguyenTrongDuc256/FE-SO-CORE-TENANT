@@ -1,0 +1,191 @@
+<div class="dialog-div-title pb-2 d-flex justify-content-between align-items-center">
+    <h5 class="dialog-active-title m-0" *ngIf="type === 1">Ảnh</h5>
+    <h5 class="dialog-active-title m-0" *ngIf="type !== 1">File</h5>
+    <button (click)="onDismiss()" class="btn-close-dialog" ><i class="fa fa-times"></i></button>
+</div>
+
+<div class="mat-typography dialog-detail-manage-followers">
+    <div class="row mx-0  mt-2" >
+        <div class="col-md-2 px-0">
+            <div class="mat-tree-exam-list pr-2" >
+                <div class="example-tree-container">
+                    <div class="box px-2 d-flex justify-content-between align-items-center" >
+                        <span class="box-title-name"  (click)="loadFolder()" *ngIf="!dataApi?.folder?.checkEdit">
+                            <i class="fas fa-file mr-2"></i> {{dataApi?.folder?.name}}
+                        </span>
+                        <span   *ngIf="dataApi?.folder?.checkEdit">
+                            <input class="form-control form-control-sm" value="{{dataApi?.folder?.name}}" #valueChangeFolder (blur)="editFolder($event, valueChangeFolder.value, dataApi.folder)" (keydown)="editFolder($event, valueChangeFolder.value, dataApi.folder)">
+                        </span>
+                        <div class="dropdown dropdown-inline" >
+                            <button [nzPlacement]="'bottomRight'" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" type="button" class="btn  btn-clean btn-icon btn-sm btn-icon-md" >
+                                <i class="fa fa-ellipsis-h text-white"></i>
+                            </button>
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                                <ul nz-menu class="navi navi-hover dropdown-menu-global-sm">
+                                    <li class="navi-item" (click)="dataApi.folder.checkEdit = !dataApi.folder.checkEdit">
+                                        <a class="navi-link cursor-pointer">
+                                            <span class="navi-icon"><i class="fa fa-edit"></i></span>
+                                            <span class="navi-text">Edit</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="example-tree-container-child ml-5">
+                    <ng-container *ngFor="let item of dataApi?.children_folders">
+                        <div  class=" box px-2 d-flex justify-content-between align-items-center">
+                            <span class="box-title-name"  (click)="loadFolder(item.id)" *ngIf="!item?.checkEdit">
+                                <i class="fas fa-file mr-2"></i> {{item?.name |substring:50}}
+                            </span>
+                            <span  *ngIf="item?.checkEdit">
+                                <input class="form-control form-control-sm" value="{{item?.name}}" #valueChangeFolderChild (keydown)="editFolder($event, valueChangeFolderChild.value, item)" (blur)="editFolder($event, valueChangeFolderChild.value, item)" >
+                            </span>
+                            <div class="dropdown dropdown-inline" >
+                                <button [nzPlacement]="'bottomRight'" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" type="button" class="btn btn-clean  btn-icon btn-sm btn-icon-md" >
+                                    <i class="fa fa-ellipsis-h text-white"></i>
+                                </button>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <ul nz-menu class="navi navi-hover dropdown-menu-global-sm">
+                                        <li class="navi-item" (click)="item.checkEdit = !item.checkEdit">
+                                            <a class="navi-link cursor-pointer">
+                                                <span class="navi-icon"><i class="fa fa-edit"></i></span>
+                                                <span class="navi-text">Edit</span>
+                                            </a>
+                                        </li>
+                                        <li class="navi-item" (click)="deleteFolder(item.id)">
+                                            <a class="navi-link cursor-pointer">
+                                                <span class="navi-icon"><i class="fa fa-times"></i></span>
+                                                <span class="navi-text">Delete</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="type === 1">
+            <div class="col-md-8 row mx-0" >
+                <p >
+                    <ng-container *ngFor="let item of dataApi?.parents_folder_links, let i = index">
+                        <span class="cursor-pointer" (click)="loadFolder(item.id)"  [class] = "i === 0 ? 'text-span-bread' : ''">
+                            {{item?.name}} <span *ngIf="i !== dataApi.parents_folder_links.length - 1">> </span>
+                        </span>
+                    </ng-container>
+                </p>
+                <div class="col-sm-12 row" style="max-height: 515px;overflow-y: auto;">
+                    <div class="col-md-3 col-xs-3 " *ngFor="let item of dataApi?.files">
+                        <!--                file-manager-photo-label-choose-->
+                        <div class="card file-manager-photo-label card-stretch gutter-b" [class]="item.checked ? 'file-manager-photo-label-checked' : ''">
+                            <button style="width: 30px" class="btn btn-danger btn-sm btn-delete-img"  title="Xóa" (click)="deleteFile(item.id)">
+                                <i class="fa fa-times" style="font-size: 1rem !important;"></i>
+                            </button>
+                            <div class=" d-flex flex-column" >
+                                <div class="flex-grow-1" (click)="chooseFile(item)">
+                                    <div id="kt_mixed_widget_14_chart" >
+                                        <img src="{{item?.path}}"  >
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="input-group">
+                                        <input style="border: none" class="form-control form-control-lg" value="{{item?.name}}" #valueChangeNameFile  placeholder="Nhập tên ảnh tại đây..." (blur)="updateFile($event, item, valueChangeNameFile.value);">
+                                        <div class="input-group-append mx-0">
+                                    <span class="input-group-text">
+                                        <label class="m-checkbox m-checkbox--solid m-checkbox--success" title="Chọn">
+                                            <input type="checkbox" class="input-checkbox-chosen-file file_path" [checked]="item.checked" >
+                                        </label>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--        cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+            <div class="col-md-2 pr-0" >
+                <button class="btn btn-outline-success" (click)="insertFileManager()" *ngIf="type === 1">Thêm Ảnh<i class="fa fa-caret-right "></i></button>
+                <div class="mt-2" style="max-height: 450px;overflow-y: auto" [sortablejs]="filesChoose">
+                    <div class="image-wrapper ui-sortable-handle d-flex justify-content-start" *ngFor="let item of filesChoose, let i = index" style="width: 100%; height: 150px; overflow: hidden;">
+                        <div  class="mr-2">
+                            <button class="btn btn-sm btn-success">{{i + 1}}</button>
+                            <button class="btn btn-sm btn-danger mt-2" (click)="chooseFile(item)"> <i class="fa fa-times px-0" style="font-size: 1rem!important;"></i></button>
+                        </div>
+                        <div  style="border-radius: 5px">
+                            <img  src="{{item.path}}" alt="" width="100%" style="cursor: pointer;border-radius: 10px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="type === 2">
+            <div class="col-md-10 d-flex flex-column align-items-start">
+                <div class="row mx-0"   >
+                    <p class="col-sm-12 d-flex  justify-content-between">
+                        <ng-container *ngFor="let item of dataApi?.parents_folder_links, let i = index">
+                            <span class="cursor-pointer" (click)="loadFolder(item.id)"  [class] = "i === 0 ? 'text-span-bread' : ''">
+                                {{item?.name}} <span *ngIf="i !== dataApi.parents_folder_links.length - 1">> </span>
+                            </span>
+                        </ng-container>
+                        <button class="btn btn-outline-success" (click)="insertFileManager()" >Thêm File  <i class="fa fa-caret-right "></i></button>
+                    </p>
+                    <div class="col-sm-12 row" style="max-height: 515px;overflow-y: auto;">
+                        <div class="col-sm-12 mt-2" *ngFor="let item of dataApi?.files">
+                            <div class="input-group input-group-sm" >
+                                <div class="input-group-append mx-0" (click)="chooseFile(item)">
+                                    <span class="input-group-text input-group-text-sm" style="height: 32.53px">
+                                        <label class="m-checkbox m-checkbox--solid m-checkbox--success" title="Chọn">
+                                        <input type="checkbox" class="input-checkbox-chosen-file file_path" [checked]="item.checked" >
+                                    </label></span>
+                                </div>
+                                <input class="form-control form-control-lg" value="{{item?.name}}" #valueChangeNameFile  placeholder="Vui loòng nhập tên file..." (blur)="updateFile($event, item, valueChangeNameFile.value);">
+                                <div class="input-group-append" style="z-index: 0;">
+                                    <a href="{{item?.path}}" target="_blank" class="btn btn-sm btn-success file_path" title="Vui lòng nhập tên">
+                                        <span class="file_extension">{{item?.extension}}</span> <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
+                                <div class="input-group-append" style="z-index: 0;height: 40px">
+                                    <button class="btn btn-sm btn-danger btn-delete-file" (click)="deleteFile(item.id)" title="Xoá">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row mx-0 py-5">
+        <div class="col-md-4  px-0 d-flex justify-content-start align-items-end">
+            <div class="input-group input-group-sm">
+                <input type="text" #valueClick class="form-control" placeholder="Vui lòng nhập tên folder">
+                <div class="input-group-append">
+                    <button class="btn btn-info btn-sm mx-0" type="button" (click)="addFolder(valueClick.value)">
+                        Thêm folder <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 upload-image-file-manager pr-0 d-flex justify-content-end align-items-end" draggable="true" >
+            <div class="dropzone d-flex justify-content-center align-items-center"(click)="uploadImage()" *ngIf="openUploadImageFile">
+                <h3 *ngIf="filesAdd.length === 0" class="dropzone-title">Thêm File</h3>
+                <ng-container *ngIf="filesAdd.length > 0" >
+                    <img *ngFor="let item of filesAdd"  [src]="item.file" class="image-question">
+                </ng-container>
+            </div>
+            <button class="btn btn-success border-circle btn-dropzone ml-4" (click)="openUploadImageFile = !openUploadImageFile">
+                <i class="fa fa-plus"></i>
+            </button>
+            <input type="file" multiple accept="image/x-png,image/gif,image/jpeg" class="avatar-file" name="avatar" hidden id="input-image-file-manager" (change)="onFileChange($event)">
+            <input type="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="avatar-file" name="avatar" hidden id="input-more-file-manager" (change)="onFileChange($event)">
+        </div>
+    </div>
+</div>
+
+<!-- <app-splash-screen *ngIf="isLoading"></app-splash-screen> -->

@@ -1,0 +1,19 @@
+<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'school'">
+  <nz-tabset (nzSelectedIndexChange)="changeTab($event)" [nzSelectedIndex]="tabActive" class="so-tab-custom">
+    <nz-tab [nzTitle]="tab1">
+      <ng-template #tab1>
+        <img src="assets/images/svg/icon-note-book-blue2.svg" alt="">
+        {{t('school.managerSubject')}}
+      </ng-template>
+      <app-tab-subject-school-tenant></app-tab-subject-school-tenant>
+    </nz-tab>
+    <nz-tab [nzTitle]="tab2">
+      <ng-template #tab2>
+        <img src="assets/images/svg/icon-grade-blue.svg" alt="">
+        {{t('school.managerGrade')}}
+      </ng-template>
+      <app-tab-grade-school-tenant></app-tab-grade-school-tenant>
+    </nz-tab>
+  </nz-tabset>
+</div>
+

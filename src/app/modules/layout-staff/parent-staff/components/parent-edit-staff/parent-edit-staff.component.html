@@ -1,0 +1,213 @@
+<div class="style-student card" *transloco="let t; scope: 'parent'">
+  <div class="col-xl-12 py-3">
+    <span class="card-label fs-18 fw-700">{{t('parent.edit')}}</span>
+  </div>
+  <form [formGroup]="infoForm" *ngIf="infoForm">
+    <div class="header-info d-flex pt-5 text-normal-global">
+      <!-- ảnh -->
+      <div class="custom-avatar">
+        <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+          <img [src]="avatarUser" alt="image" class="avatar">
+          <div class="delete-img" (click)="onDeleteFileInputAvatar()" name="btn-onDeleteFileInputAvatar">
+            <img src="assets/images/svg/close.svg" alt="img">
+          </div>
+          <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+            <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+            <span class="fs-11">Tải ảnh</span>
+          </div>
+          <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                 accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
+        </div>
+      </div>
+      <div class="w-100">
+        <div class="row w-100">
+          <div class="col-xl-6 d-flex get-info">
+            <!-- Họ và tên , học sinh-->
+            <div class=" label-info d-flex align-items-center">
+              <img src="assets/images/svg/info.svg" alt="">
+              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.fullName')}} <span class="text-danger">*</span></span>
+              <span class=" fw-700">[1]</span>
+            </div>
+
+            <div class=" input-custom ">
+              <input placeholder="{{t('parent.fullName')}}" type="text" name="input-fullname"
+                     class=" fs-13 form-control custom-tag-of-form " formControlName="fullName">
+              <div *ngFor="let item of validation_messages.fullName">
+                <span class="text-danger"
+                      *ngIf="infoForm.get('fullName')?.hasError(item.type)  && infoForm.get('fullName')?.touched">
+                  {{ t( item.message ) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 d-flex get-info">
+            <!-- Mã học sinh -->
+            <div class=" label-info d-flex align-items-center">
+              <img src="assets/images/svg/info.svg" alt="">
+              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.code')}}  <span class="text-danger">*</span></span>
+              <span class=" fw-700">[2]</span>
+            </div>
+
+            <div class=" input-custom d-flex align-items-center">
+              {{this.infoForm.get('code').value}}
+              <!--              <input placeholder="{{t('parent.code')}}" type="text" name="input-code"-->
+              <!--                     class=" fs-13  form-control custom-tag-of-form " formControlName="code">-->
+              <!--              <div *ngFor="let item of validation_messages.code">-->
+              <!--                <span class="text-danger"-->
+              <!--                      *ngIf="infoForm.get('code')?.hasError(item.type)  && infoForm.get('code')?.touched">-->
+              <!--                  {{ t( item.message )}}-->
+              <!--                </span>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row w-100">
+          <div class="col-xl-6 d-flex get-info">
+            <!-- Giới tính -->
+            <div class=" label-info d-flex align-items-center">
+              <img src="assets/images/svg/info.svg" alt="">
+              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.students')}} <span class="text-danger">*</span></span>
+              <span class=" fw-700">[3]</span>
+            </div>
+
+            <div class=" input-custom ">
+              <nz-select class="select-search fs-13" name="select-cityCode" nzPlaceHolder="{{t('parent.students')}}" nzMode="multiple" formControlName="childrens">
+                <nz-option *ngFor="let option of studentDataRelate" [nzLabel]="option.fullName" [nzValue]="option.studentUserId"></nz-option>
+              </nz-select>
+              <div >
+                <span class="text-danger" *ngIf="infoForm.get('childrens').value.length === 0 && infoForm.get('childrens')?.touched">
+                  {{t('parent.validators.students.required')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 d-flex get-info">
+            <!-- Giới tính -->
+            <div class=" label-info d-flex align-items-center">
+              <img src="assets/images/svg/info.svg" alt="">
+              <span class="fw-700 text-label fs-15">{{ t('gender') }}</span>
+              <span class=" fw-700">[4]</span>
+            </div>
+
+            <div class=" input-custom ">
+              <select name="select-isFemale" id="gender" formControlName="gender"
+                      class="gender form-select form-select-solid form-select-lg ant-select-selection-search-input fs-13 ">
+                <ng-container *ngFor="let item of gender">
+                  <option [value]="item.id">{{ t( item.name )}}</option>
+                </ng-container>
+
+              </select>
+              <!-- <span class="text-danger">fefweiofwe</span> -->
+            </div>
+          </div>
+        </div>
+        <div class="row w-100">
+          <div class="col-xl-4 d-flex get-info justify-content-between">
+            <label class="" nz-checkbox formControlName="isAccessApp" name="is-AccessApp">
+              <span class="fw-700 text-label fs-15">{{ t('parent.accessApp') }}</span>
+            </label>
+            <label class="" nz-checkbox formControlName="isActive" name="is-Active">
+              <span class="fw-700 text-label fs-15">{{ t('activated') }}</span>
+            </label>
+
+            <span class=" fw-700">[5]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--    <div class="general-info">-->
+    <div class="row w-100 mt-5">
+      <div class="col-xl-6 row get-info">
+        <!-- Tên đăng nhập  -->
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label text-danger fs-15">{{ t('username') }} <span class="text-danger">*</span></span>
+        </div>
+        <div class="col-md-6 input-custom d-flex align-items-center">
+          {{this.infoForm.get('username').value}}
+          <!--          <div class="d-flex align-items-center">-->
+          <!--            {{this.infoForm.get('username').value}}-->
+          <!--            <input placeholder="{{ t('username') }}" type="text" name="input-username"-->
+          <!--                   class=" fs-13  form-control custom-tag-of-form " formControlName="username">-->
+          <!--            <span class="fw-700"> [06]</span>-->
+          <!--          </div>-->
+          <!--          <div *ngFor="let item of validation_messages.username">-->
+          <!--                <span class="text-danger"-->
+          <!--                      *ngIf="infoForm.get('username')?.hasError(item.type)  && infoForm.get('username')?.touched">-->
+          <!--                  {{ t( item.message )}}-->
+          <!--                </span>-->
+          <!--          </div>-->
+        </div>
+      </div>
+      <div class="col-xl-6 row get-info">
+        <!-- Mã Moet -->
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label fs-15">{{ t('parent.phone') }}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <div class="d-flex align-items-center">
+            <input placeholder="{{ t('parent.phone') }}" type="text" name="input-phone"
+                   class=" fs-13  form-control custom-tag-of-form " formControlName="phone">
+            <span class="fw-700">[08]</span>
+          </div>
+          <div *ngFor="let item of validation_messages.phone">
+                <span class="text-danger"
+                      *ngIf="infoForm.get('phone')?.hasError(item.type)  && infoForm.get('phone')?.touched">
+                  {{ t( item.message )}}
+                </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row w-100">
+      <div class="col-xl-6 row get-info">
+        <!-- Ngày cấp -->
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label fs-15">{{ t('birthday') }}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <div class="d-flex align-items-center">
+            <app-single-date-picker class="date-picker" [currentDate]="this.infoForm.get('birthday').value" [timePicker]="timePicker"
+                                    (dataTimeOutput)="dataTimeBirthday($event)" ></app-single-date-picker>
+            <span class="fw-700">[10]</span>
+          </div>
+          <!-- <span class="text-danger">fefweiofwe</span> -->
+        </div>
+      </div>
+
+      <div class="col-xl-6 row get-info">
+        <!-- Email -->
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label fs-15">{{ t('email') }}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <div class="d-flex align-items-center">
+            <input placeholder="{{ t('email') }}" type="text" name="email"
+                   class=" fs-13  form-control custom-tag-of-form " formControlName="email">
+            <span class="fw-700">[09]</span>
+          </div>
+          <div *ngFor="let item of validation_messages.email">
+              <span class="text-danger"
+                    *ngIf="infoForm.get('email')?.hasError(item.type)  && infoForm.get('email')?.touched">
+               {{ t( item.message )}}
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--    </div>-->
+    <div class="button-footer d-flex justify-content-end">
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel" (click)="clickCancel()">{{ t('btnAction.cancel') }}</button>
+      <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-submit" [disabled]="infoForm.invalid || isSubmitForm"
+              (click)="onSubmit(infoForm)">{{ t('btnAction.save') }}</button>
+    </div>
+  </form>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

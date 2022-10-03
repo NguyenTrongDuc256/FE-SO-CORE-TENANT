@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+          [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'user'">
+  <div>
+    <table class="table-global w-full fs-14">
+      <caption></caption>
+      <thead>
+      <th style="width: 5%;" class="text-header-table"> {{t('STT')}}</th>
+      <th style="width: 20%;" class="text-header-table"> {{t('user.roleName')}}</th>
+      <th style="width: 20%;" class="text-header-table"> {{t('user.roleCode')}} </th>
+      <th style="width: 20%;" class="text-header-table"> {{t('user.layout')}} </th>
+      <th style="width: 25%;" class="text-header-table"> {{t('user.donVi')}} </th>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let item of dataModal.dataFromParent.roleList; let i = index">
+        <tr>
+          <td>
+            {{i + 1}}
+          </td>
+          <td>
+            {{item.roleName}}
+          </td>
+          <td>
+            {{item.roleCode}}
+          </td>
+          <td>
+            {{getLayoutName(item.layout)}}
+          </td>
+          <td>
+            {{item.unitName}}
+          </td>
+        </tr>
+      </ng-container>
+      <tr *ngIf="dataModal.dataFromParent.roleList?.length == 0 || !dataModal.dataFromParent.roleList">
+        <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+</div>
+<!--it du lieu nen khong can loading-->
+<!--<div class="spinner" *ngIf="isLoading">-->
+<!--  <app-loading></app-loading>-->
+<!--</div>-->

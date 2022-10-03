@@ -1,0 +1,191 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+          [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'employee'">
+  <div class="dien-bien-luong w-full">
+    <div class="row border-button fs-14 fw-700 w-full">
+      <div style="width: 15%">
+        <span>{{ t('employee.school') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div style="width: 15%">
+        <span>{{ t('employee.chuyenNganhDTBoiDuong') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div style="width: 13%">
+        <span>{{ t('employee.tuNgay') }} </span>
+      </div>
+      <div style="width: 13%">
+        <span>{{ t('employee.denNgay') }}</span>
+      </div>
+      <div style="width: 15%">
+        <span>{{ t('employee.hinhThucDT') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div style="width: 15%">
+        <span>{{ t('employee.vanBangCCTrinhDo') }} <span class="text-danger fw-700">*</span></span>
+      </div>
+      <div style="width: 14%">
+        <span>{{ t('action') }}</span>
+      </div>
+    </div>
+    <form [formGroup]="formGroup" *ngIf="formGroup">
+      <ng-container formArrayName="quaTrinhDaoTaoBD">
+        <ng-container *ngFor="let itemForm of formGroup.get('quaTrinhDaoTaoBD')['controls']; let index = index">
+          <!--BEGIN: Item form có isInput = 0 -->
+          <ng-container *ngIf="!itemForm.value.isInput">
+            <div class="row border-button fs-14" [formGroupName]="index">
+              <div style="width: 15%">
+                <span class="color-text">{{itemForm.value.truong}}</span>
+              </div>
+              <div style="width: 15%">
+                <span class="color-text">{{itemForm.value.chuyenNganhDaoTao}}</span>
+              </div>
+              <div style="width: 13%">
+                <span>{{itemForm.value.fromDate ? (itemForm.value.fromDate | formatTime) : ''}}</span>
+              </div>
+              <div style="width: 13%">
+                <span>{{itemForm.value.toDate ? (itemForm.value.toDate | formatTime) : ''}}</span>
+              </div>
+              <div style="width: 15%">
+                <span class="color-text">{{getNameHinhThucDaoTao(itemForm.value.hinhThucDaoTao)}}</span>
+              </div>
+              <div style="width: 14%">
+                <span class="color-text">{{getNameTrinhDo(itemForm.value.trinhDo)}}</span>
+              </div>
+              <div style="width: 15%" class="d-flex align-items-center">
+                <span class="d-flex align-items-center me-5 cursor-pointer" (click)="edit(itemForm.value, index)">
+                  <img class="action-icon pe-1" src="assets/images/svg/write.svg" alt="icon">
+                  <span>{{ t('btnAction.update') }}</span>
+                </span>
+                <span class="d-flex align-items-center cursor-pointer" (click)="deleteItemFormArray(index)">
+                  <img class="action-icon pe-1" src="assets/images/svg/delete6.svg" alt="icon">
+                  <span>{{ t('btnAction.delete') }}</span>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+          <!--END: Item form có isInput = 0 -->
+
+          <!--BEGIN: Item form có isInput = 1 -->
+          <ng-container *ngIf="itemForm.value.isInput">
+            <div class="row border-button fs-14" [formGroupName]="index">
+              <div style="width: 15%">
+                <input type="text" name="truong" formControlName="truong"
+                       class="fs-14 form-control form-control-solid">
+                <div class="text-danger fs-13" *ngFor="let err of validationMsg.truong">
+                  <div
+                    *ngIf="itemForm.get('truong').hasError(err.type) && (itemForm.get('truong').dirty || itemForm.get('truong').touched)"
+                  >
+                    {{ err.message }}
+                  </div>
+                </div>
+              </div>
+              <div style="width: 15%">
+                <input type="text" name="chuyenNganhDaoTao" formControlName="chuyenNganhDaoTao"
+                       class="fs-14 form-control form-control-solid">
+                <div class="text-danger fs-13" *ngFor="let err of validationMsg.chuyenNganhDaoTao">
+                  <div
+                    *ngIf="itemForm.get('chuyenNganhDaoTao').hasError(err.type) && (itemForm.get('chuyenNganhDaoTao').dirty || itemForm.get('chuyenNganhDaoTao').touched)"
+                  >
+                    {{ err.message }}
+                  </div>
+                </div>
+              </div>
+              <div style="width: 13%">
+                <app-single-date-picker [currentDate]="itemForm.value.fromDate" [timePicker]="timePicker"
+                                        (dataTimeOutput)="dataFromDateOutput($event, index)"
+                                        [maxDate]="itemForm.value.toDate ? itemForm.value.toDate - 86400 : null">
+                </app-single-date-picker>
+              </div>
+              <div style="width: 13%">
+                <app-single-date-picker [currentDate]="itemForm.value.toDate" [timePicker]="timePicker"
+                                        (dataTimeOutput)="dataToDateOutput($event, index)"
+                                        [minDate]="itemForm.value.fromDate ? itemForm.value.fromDate + 86400: null">
+                </app-single-date-picker>
+              </div>
+              <div style="width: 15%">
+                <nz-select id="hinhThucDaoTao" formControlName="hinhThucDaoTao" nzShowSearch
+                           [ngModel]="itemForm.value.hinhThucDaoTao"
+                           [nzNotFoundContent]="nzNotFoundContent">
+                  <nz-option nzValue="" [nzLabel]="txtSelect"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.hinh_thuc_dao_tao"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+                <div class="text-danger fs-13" *ngFor="let err of validationMsg.hinhThucDaoTao">
+                  <div
+                    *ngIf="itemForm.get('hinhThucDaoTao').hasError(err.type) && (itemForm.get('hinhThucDaoTao').dirty || itemForm.get('hinhThucDaoTao').touched)"
+                  >
+                    {{ err.message }}
+                  </div>
+                </div>
+              </div>
+              <div style="width: 15%">
+                <nz-select id="trinhDo" formControlName="trinhDo" nzShowSearch [ngModel]="itemForm.value.trinhDo"
+                           [nzNotFoundContent]="nzNotFoundContent">
+                  <nz-option nzValue="" [nzLabel]="txtSelect"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.trinh_do"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+                <div class="text-danger fs-13" *ngFor="let err of validationMsg.trinhDo">
+                  <div
+                    *ngIf="itemForm.get('trinhDo').hasError(err.type) && (itemForm.get('trinhDo').dirty || itemForm.get('trinhDo').touched)"
+                  >
+                    {{ err.message }}
+                  </div>
+                </div>
+              </div>
+              <!--BEGIN: them -->
+              <div style="width: 14%" class="d-flex" *ngIf="!itemForm.value.isUpdate">
+                <button class="so-btn so-btn-primary so-btn-primary--small me-3 action-button" name="btn-add-row"
+                        (click)="store(itemForm.value, index)"
+                        [disabled]="itemForm.invalid">
+                  {{t('employee.btnAction.them')}}
+                </button>
+
+                <button class="so-btn so-btn-primary so-btn-primary--small action-button" name="btn-delete-row"
+                        (click)="deleteItemFormArray(index)">
+                  {{t('btnAction.delete')}}
+                </button>
+              </div>
+              <!-- END: them-->
+
+              <div style="width: 14%" class="d-flex" *ngIf="itemForm.value.isUpdate">
+                <button class="so-btn so-btn-primary so-btn-primary--small me-3 action-button" name="btn-add-row"
+                        (click)="update(itemForm.value, index)"
+                        [disabled]="itemForm.invalid">
+                  {{t('employee.btnAction.luu')}}
+                </button>
+
+                <button class="so-btn so-btn-primary so-btn-primary--small action-button" name="btn-delete-row"
+                        (click)="cancel(index)">
+                  {{t('employee.btnAction.huy')}}
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <!--END: Item form có isInput = 1 -->
+        </ng-container>
+      </ng-container>
+    </form>
+
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-add-row"
+                (click)="themQuaTrinhDaoTaoBD()">
+          <img src="assets/images/svg/add.svg" alt="">
+          {{t('btnAction.add')}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+          (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+</div>

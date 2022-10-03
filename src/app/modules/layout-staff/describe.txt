@@ -1,0 +1,1 @@
+Các module của layout quản lý đào tạo thì nằm trong thư mục này.

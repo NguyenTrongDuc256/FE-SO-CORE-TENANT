@@ -1,0 +1,240 @@
+{
+  "title": "User list",
+  "studentList": "Student list",
+  "changePassword": "Change password",
+  "updateUsernameCode": "Update username and code",
+  "fullname": "Fullname",
+  "createStudent": "Create student",
+  "updateStudent": "Update student",
+  "username": "Username",
+  "code": "Code",
+  "phone": "Phone",
+  "login": "Login",
+  "loginTrue": "Logged",
+  "loginFalse": "Not logged",
+  "password": "Password",
+  "passwordTrue": "Changed",
+  "passwordFalse": "Haven't changed",
+  "active": "Actived",
+  "noActive": "locked",
+  "school": "School",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
+  "deleteUser": "Delete user",
+  "avatar": "Avatar",
+  "upload": "Upload image",
+  "dob": "Date of birth",
+  "class": "Class",
+  "grade": "Grade",
+  "school1": "School",
+  "studentInfo": "Student info",
+  "father": "Father",
+  "mother": "Mother",
+  "select": "Select-",
+  "notFoundContent": "Not found content",
+  "btnAction": {
+    "send": "Send notifications",
+    "changedPassword": "Change Password",
+    "appAccessLock": "App access lock",
+    "unlockAppAccess": "Unlock app access"
+  },
+  "currentAccommodation": "Current accommodation",
+  "sortOrder": "Sort order",
+  "personalInformation": "Personal information",
+  "parentsInformation": "Parents information",
+  "area": "Area",
+  "eyeDisease": "Eye disease",
+  "typeOfDisability": "Type of disability",
+  "policyObject": "Policy object",
+  "vocationalTraining": "HD, Vocational training",
+  "placeOfGrant": "Place of grant",
+  "disadvantagedAreas": "Disadvantaged areas",
+  "supportStudyExpenses": "Support study expenses",
+  "riceSupply": "Rice supply",
+  "livingSkill": "Living skill",
+  "freeTuition": "Free tuition",
+  "housingAssistance": "Housing assistance",
+  "studyInformatics": "Study informatics",
+  "poorHousehold": "Poor household",
+  "reduceTuition": "Reduce tuition",
+  "biologicalFather": "Biological father",
+  "parentCode": "Parent code",
+  "student": "Student",
+  "relationship": "Relationship",
+  "job": "Job",
+  "biologicalMother": "Biological mother",
+  "tutor": "Tutor",
+  "ACEcode": "ACE code",
+  "address": "Address",
+  "updateUsernameAndCode": "Update username and code",
+  "studentPersonalInformation": "Student personal information",
+  "generalInformation": "General information",
+  "studentAddress": "Student address",
+  "gender": "Gender",
+  "bilingual": "Bilingual",
+  "accessApp": "Allowed to access the app",
+  "active": "Activated",
+  "completeProfile": "Complete profile",
+  "priorityObject": "Priority object",
+  "schoolField": "School field",
+  "studentCode": "Student code",
+  "nationality": "Nationality",
+  "moetCode": "MOET code",
+  "ethnic": "Ethnic",
+  "dateOfBirth": "Date of birth",
+  "religion": "Religion",
+  "admissionForm": "Admission form",
+  "city": "City",
+  "status": "Status",
+  "studentEmail": "Student email",
+  "district": "District",
+  "bloodGroup": "Blood group",
+  "ward": "Ward",
+  "placeOfBirth": "Place of birth",
+  "permanentResidence": "Permanent residence",
+  "presentAddress": "Present address",
+  "enter": "Enter-",
+  "validators": {
+    "fullName": {
+      "required": "fullname is required",
+      "pattern": "fullName invalid"
+    },
+    "code": {
+      "required": "code is required",
+      "pattern": "code invalid"
+    },
+    "birthday": {
+      "required": "birthday is required"
+    },
+    "schoolId": {
+      "required": "school is required"
+    },
+    "gradeId": {
+      "required": "grade is required"
+    },
+    "username": {
+      "required": "username is required",
+      "minLength": "username contain at least 6 characters",
+      "maxLength": "username can't have more than 50 characters",
+      "pattern": "username invalid"
+    },
+    "password": {
+      "required": "password is required",
+      "minLength": "password contain at least 6 characters",
+      "maxLength": "password can't have more than 50 characters",
+      "pattern": "password invalid"
+    },
+    "status": {
+      "required": "status is required"
+    },
+    "homeroomClassId": {
+      "required": "class is required"
+    },
+    "ethnic": {
+      "required": "ethnic is required"
+    },
+    "email": {
+      "required": "email is required",
+      "email": "Email invalid"
+    },
+    "phone": {
+      "required": "phone is required",
+      "pattern": "phone is invalid"
+    },
+    "cityCode": {
+      "required": "city is requied"
+    },
+    "thuTu": {
+      "required": "thứ tự sắp xếp",
+      "pattern": "Thứ tự sắp xếp invalid"
+    },
+    "idNumber": {
+      "required": "id number is required",
+      "pattern": "id number invalid"
+    },
+    "fatherFullName": {
+      "required": "fullName is required",
+      "pattern": "fullname invalid"
+    },
+    "fatherCode": {
+      "required": "code is required",
+      "pattern": "code is invalid"
+    },
+    "fatherUserName": {
+      "required": "username",
+      "minLength": "username contain at least 6 characters",
+      "maxLength": "username can't have more than 50 characters",
+      "pattern": "username invalid"
+    },
+    "fatherPassword": {
+      "required": "password",
+      "minLength": "password contain at least 6 characters",
+      "maxLength": "password can't have more than 50 characters",
+      "pattern": "password invalid"
+    },
+    "fatherPhone": {
+      "required": "phone is required",
+      "pattern": "phone is invalid"
+    },
+    "fatherEmail": {
+      "required": "emailis required",
+      "email": "Email invalid"
+    },
+    "motherFullName": {
+      "required": "fullName is required",
+      "pattern": "fullName invalid"
+    },
+    "motherCode": {
+      "required": "code is required",
+      "pattern": "code is invalid"
+    },
+    "motherUserName": {
+      "required": "username",
+      "minLength": "username contain at least 6 characters",
+      "maxLength": "username can't have more than 50 characters",
+      "pattern": "username invalid"
+    },
+    "motherPassword": {
+      "required": "password",
+      "minLength": "password contain at least 6 characters",
+      "maxLength": "password can't have more than 50 characters",
+      "pattern": "password invalid"
+    },
+    "motherPhone": {
+      "required": "phone is required",
+      "pattern": "phone is invalid"
+    },
+    "motherEmail": {
+      "required": "emailis required",
+      "email": "Email invalid"
+    },
+    "tutorFullName": {
+      "required": "fullName is required",
+      "pattern": "fullName invalid"
+    },
+    "tutorCode": {
+      "required": "code is required",
+      "pattern": "code is invalid"
+    },
+    "tutorUserName": {
+      "required": "username",
+      "minLength": "username contain at least 6 characters",
+      "maxLength": "username can't have more than 50 characters",
+      "pattern": "username invalid"
+    },
+    "tutorPassword": {
+      "required": "password",
+      "minLength": "password contain at least 6 characters",
+      "maxLength": "password can't have more than 50 characters",
+      "pattern": "password invalid"
+    },
+    "tutorPhone": {
+      "required": "phone is required",
+      "pattern": "phone is invalid"
+    },
+    "tutorEmail": {
+      "required": "emailis required",
+      "email": "Email invalid"
+    }
+  }
+}

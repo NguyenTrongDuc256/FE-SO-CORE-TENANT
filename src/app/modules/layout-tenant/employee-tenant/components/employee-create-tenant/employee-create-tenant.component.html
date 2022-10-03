@@ -1,0 +1,1966 @@
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'employee'">
+  <div class="col-xl-12">
+    <div class="card card-flush h-md-100">
+      <div class="card-header pt-7">
+        <h3 class="card-title d-flex align-items-start flex-column">
+          <span class="card-label fs-18 fw-700">{{ t('employee.create') }}</span>
+        </h3>
+        <div class="card-toolbar">
+        </div>
+      </div>
+      <div class="card-body pt-6">
+        <form [formGroup]="formGroup" *ngIf="formGroup">
+          <!--BEGIN: Thong tin nguoi dung-->
+          <div class="row mb-5 border-bt">
+            <!-- begin: avatar -->
+            <div class="col-md-2">
+              <div class="box-img">
+                <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+                  <img [src]="formGroup.value.avatar" alt="image" class="avatar">
+                  <div class="delete-img" (click)="onDeleteFileInputAvatar()">
+                    <img src="assets/images/svg/close.svg" alt="img">
+                  </div>
+                  <div class="upload-img" (click)="fileInputAvatar.click()">
+                    <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                    <span class="fs-11">{{t('employee.upload')}}</span>
+                  </div>
+                  <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                         accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="row mb-5">
+                <!-- begin: Họ và tên -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.fullName')}} <span class="text-danger fw-700">*</span></span>
+                    </div>
+                    <div>[1]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="fullName" formControlName="fullName"
+                         class="fs-14 form-control form-control-solid">
+                  <div class="text-danger" *ngFor="let err of validationMsg.fullName">
+                    <div
+                      *ngIf="formGroup.get('fullName').hasError(err.type) && (formGroup.get('fullName').dirty || formGroup.get('fullName').touched)"
+                    >
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+                <!-- begin: Mã -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.code')}} <span class="text-danger fw-700">*</span></span>
+                    </div>
+                    <div>[2]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="code" formControlName="code"
+                         class="fs-14 form-control form-control-solid">
+                  <div class="text-danger" *ngFor="let err of validationMsg.code">
+                    <div
+                      *ngIf="formGroup.get('code').hasError(err.type) && (formGroup.get('code').dirty || formGroup.get('code').touched)"
+                    >
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Mã Moet-->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.codeMoet')}}</span>
+                    </div>
+                    <div>[3]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="codeMoet" formControlName="codeMoet"
+                         class="fs-14 form-control form-control-solid">
+                  <div class="text-danger" *ngFor="let err of validationMsg.codeMoet">
+                    <div
+                      *ngIf="formGroup.get('codeMoet').hasError(err.type) && (formGroup.get('codeMoet').dirty || formGroup.get('codeMoet').touched)"
+                    >
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+                <!-- begin: Gán phân quyền -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.assignRole')}} <span class="text-danger fw-700">*</span></span>
+                    </div>
+                    <div>[4]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <select name="roleId" formControlName="roleId"
+                          class="form-select form-select form-select-solid form-select-lg fs-14">
+                    <option value="">{{ t('employee.selectRole') }}</option>
+                    <option value="{{item.id}}" *ngFor="let item of roleList">{{item.name}}</option>
+                  </select>
+                  <div class="text-danger" *ngFor="let err of validationMsg.roleId">
+                    <div
+                      *ngIf="formGroup.get('roleId').hasError(err.type) && (formGroup.get('roleId').dirty || formGroup.get('roleId').touched)"
+                    >
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Ngày sinh -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.dob')}}</span>
+                    </div>
+                    <div>[5]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <app-single-date-picker id="birthday" [currentDate]="birthday"
+                                          [timePicker]="timePicker"
+                                          (dataTimeOutput)="dataTimeOutputBirthday($event)"
+                  ></app-single-date-picker>
+                </div>
+                <!-- begin: Giới tính -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.gender')}}</span>
+                    </div>
+                    <div>[6]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <select name="gender" formControlName="gender"
+                          class="form-select form-select form-select-solid form-select-lg fs-14">
+                    <option *ngFor="let item of gender" value="{{item.id}}">
+                      {{ t(item.name) }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: begin: được phép truy cập áp -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.accessApp')}}</span>
+                    </div>
+                    <div>[7]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isAccessApp" formControlName="isAccessApp">
+                  </label>
+                </div>
+                <!-- begin: begin: kích hoạt -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.active')}}</span>
+                    </div>
+                    <div>[8]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isActive" formControlName="isActive">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <label class="col-md-2 col-form-label fs-14 fw-800">
+              <div class="d-flex  align-items-center">
+                <img src="assets/images/svg/tab6.svg" alt="" class="pe-2">
+                <span> {{ t('employee.generalInformation') }}</span>
+              </div>
+            </label>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: tên đăng nhập-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.username')}} <span class="text-danger fw-700">*</span></span>
+                </div>
+                <div>[9]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="username" formControlName="username"
+                     class="fs-14 form-control form-control-solid">
+              <div class="text-danger" *ngFor="let err of validationMsg.username">
+                <div
+                  *ngIf="formGroup.get('username').hasError(err.type) && (formGroup.get('username').dirty || formGroup.get('username').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+            <!-- begin: mật khẩu-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.password')}} <span class="text-danger fw-700">*</span></span>
+                </div>
+                <div>[10]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="password" name="password" formControlName="password"
+                     class="fs-14 form-control form-control-solid">
+              <div class="text-danger" *ngFor="let err of validationMsg.password">
+                <div
+                  *ngIf="formGroup.get('password').hasError(err.type) && (formGroup.get('password').dirty || formGroup.get('password').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: school-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.school')}} <span class="text-danger fw-700">*</span></span>
+                </div>
+                <div>[11]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <select name="schoolId" formControlName="schoolId"
+                      class="form-select form-select form-select-solid form-select-lg fs-14">
+                <option value="">{{ t('employee.select') }}</option>
+                <option value="{{item.id}}" *ngFor="let item of schoolList">{{item.name}}</option>
+              </select>
+              <div class="text-danger" *ngFor="let err of validationMsg.schoolId">
+                <div
+                  *ngIf="formGroup.get('schoolId').hasError(err.type) && (formGroup.get('schoolId').dirty || formGroup.get('schoolId').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+            <!-- begin: email-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.email')}}</span>
+                </div>
+                <div>[12]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="email" name="email" formControlName="email"
+                     class="fs-14 form-control form-control-solid">
+              <div class="text-danger" *ngFor="let err of validationMsg.email">
+                <div
+                  *ngIf="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: số điện thoại-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.phone')}} </span>
+                </div>
+                <div>[13]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="phone" formControlName="phone"
+                     class="fs-14 form-control form-control-solid">
+              <div class="text-danger" *ngFor="let err of validationMsg.phone">
+                <div
+                  *ngIf="formGroup.get('phone').hasError(err.type) && (formGroup.get('phone').dirty || formGroup.get('phone').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+            <!-- begin: nhóm máu-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.nhomMau')}}</span>
+                </div>
+                <div>[14]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <nz-select nzShowSearch id="blood-type" formControlName="bloodType"
+                           [ngModel]="formGroup.value.bloodType"
+                           nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                  <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.nhom_mau"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: dân tộc-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.danToc')}}</span>
+                </div>
+                <div>[15]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <nz-select id="ethnic" formControlName="ethnic" nzShowSearch [ngModel]="formGroup.value.ethnic"
+                           nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                  <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                  <nz-option *ngFor="let item of moetCategories?.dan_toc"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <!-- begin: tôn giáo -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.tonGiao')}} </span>
+                </div>
+                <div>[16]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <nz-select id="religion" formControlName="religion" nzShowSearch [ngModel]="formGroup.value.religion"
+                         nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                <nz-option *ngFor="let item of moetCategories?.ton_giao"
+                           [nzLabel]="item.name"
+                           [nzValue]="item.code">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: quốc tịch -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.quocTich')}} </span>
+                </div>
+                <div>[17]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <nz-select id="nationality" nzShowSearch formControlName="nationality"
+                         [ngModel]="formGroup.value.nationality"
+                         nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                <nz-option *ngFor="let item of moetCategories?.quoc_tich"
+                           [nzLabel]="item.name"
+                           [nzValue]="item.code">
+                </nz-option>
+              </nz-select>
+            </div>
+            <!-- begin: số BHXH -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.bhxh')}} </span>
+                </div>
+                <div>[18]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="socialInsuranceNumber" formControlName="socialInsuranceNumber"
+                     class="fs-14 form-control form-control-solid">
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: địa chỉ-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.diaChi')}}</span>
+                </div>
+                <div>[19]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <input type="text" name="address" formControlName="address"
+                       class="fs-14 form-control form-control-solid">
+              </div>
+            </div>
+            <!-- begin: hktt -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.hktt')}} </span>
+                </div>
+                <div>[20]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="permanentResidence" formControlName="permanentResidence"
+                     class="fs-14 form-control form-control-solid">
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <!-- begin: tỉnh/thành phố-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.tinh')}}</span>
+                </div>
+                <div>[21]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <nz-select id="cityCode" nzShowSearch formControlName="cityCode" [ngModel]="formGroup.value.cityCode"
+                           (ngModelChange)="onChangeCity($event)"
+                           nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                  <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                  <nz-option *ngFor="let item of cityList"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <!-- begin: CMND/CC-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.cc')}}</span>
+                </div>
+                <div>[22]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <input type="text" name="idNumber" formControlName="idNumber"
+                       class="fs-14 form-control form-control-solid">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: quận/huyện-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.huyen')}}</span>
+                </div>
+                <div>[23]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <nz-select id="districtCode" nzShowSearch formControlName="districtCode"
+                           [ngModel]="formGroup.value.districtCode"
+                           [nzDisabled]="formGroup.value['cityCode'] == '' ? true : false"
+                           (ngModelChange)="onChangeDistrict($event)"
+                           nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                  <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                  <nz-option *ngFor="let item of districtList"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <!-- begin: Trạng thái CB -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.trangThaiCB')}} </span>
+                </div>
+                <div>[24]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <nz-select id="trangThaiCanBo" formControlName="trangThaiCanBo" nzShowSearch
+                         [ngModel]="formGroup.value.trangThaiCanBo"
+                         nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                <nz-option *ngFor="let item of moetCategories?.trang_thai_can_bo"
+                           [nzLabel]="item.name"
+                           [nzValue]="item.code">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <!-- begin: phường xã-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.xa')}}</span>
+                </div>
+                <div>[25]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <nz-select id="wardCode" nzShowSearch formControlName="wardCode" [ngModel]="formGroup.value.wardCode"
+                           [nzDisabled]="formGroup.value['districtCode'] == '' ? true : false"
+                           nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                  <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                  <nz-option *ngFor="let item of wardList"
+                             [nzLabel]="item.name"
+                             [nzValue]="item.code">
+                  </nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <!-- begin: là đoàn viên -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.laDoanVien')}} </span>
+                </div>
+                <div>[26]</div>
+              </div>
+            </label>
+            <div class="col-md-4 d-flex align-items-center">
+              <label nz-checkbox class="so-checkbox" id="isDoanVien" formControlName="isDoanVien">
+              </label>
+            </div>
+          </div>
+
+          <div class="row mb-5">
+            <!-- begin: nơi sinh-->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.placeOfBirth')}}</span>
+                </div>
+                <div>[27]</div>
+              </div>
+            </label>
+            <div class="col-md-4">
+              <div class="fs-14">
+                <input type="text" name="placeOfBirth" formControlName="placeOfBirth"
+                       class="fs-14 form-control form-control-solid">
+              </div>
+            </div>
+            <!-- begin: là đảng viên -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex  align-items-center">
+                  <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                  <span> {{t('employee.laDangVien')}} </span>
+                </div>
+                <div>[28]</div>
+              </div>
+            </label>
+            <div class="col-md-4 d-flex align-items-center">
+              <label nz-checkbox class="so-checkbox" id="isDangVien" formControlName="isDangVien">
+              </label>
+            </div>
+          </div>
+          <!--END: Thong tin nguoi dung-->
+          <!--BEGIN: Tab -->
+          <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 mt-10 fs-14 employee-tab">
+            <li class="nav-item d-flex align-items-center" (click)="onChangeTab(1)">
+              <span class="nav-link" [ngClass]="{'active': tab === 1}">
+                <img src="assets/images/svg/tab6.svg" alt="icon" class="pe-1">
+                <span class="tab-txt fw-700">{{t('employee.1ViTriViecLam')}}</span>
+              </span>
+            </li>
+            <li class="nav-item d-flex align-items-center" (click)="onChangeTab(2)">
+              <span class="nav-link" [ngClass]="{'active': tab === 2}">
+                <img src="assets/images/svg/tab6.svg" alt="icon" class="pe-1">
+                <span class="tab-txt fw-700">{{t('employee.2PhuCap')}}</span>
+              </span>
+            </li>
+            <li class="nav-item d-flex align-items-center" (click)="onChangeTab(3)">
+              <span class="nav-link" [ngClass]="{'active': tab === 3}">
+                <img src="assets/images/svg/tab6.svg" alt="icon" class="pe-1">
+                <span class="tab-txt fw-700">{{t('employee.3DaoTaoBoiDuong')}}</span>
+              </span>
+            </li>
+            <li class="nav-item d-flex align-items-center" (click)="onChangeTab(4)">
+              <span class="nav-link" [ngClass]="{'active': tab === 4}">
+                <img src="assets/images/svg/tab6.svg" alt="icon" class="pe-1">
+                <span class="tab-txt fw-700">{{t('employee.4DanhGiaPhanLoai')}}</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" *ngIf="tab === 1" [ngClass]="{'show active': tab === 1}">
+              <div class="row mb-5">
+                <!-- begin: Vị trí việc làm -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.viTriViecLam')}}</span>
+                    </div>
+                    <div>[29]</div>
+                  </div>
+                </label>
+                <div class="col-md-2">
+                  <div class="fs-14">
+                    <nz-select id="viTriViecLam" formControlName="viTriViecLam" nzShowSearch
+                               [ngModel]="formGroup.value.viTriViecLam"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.vi_tri_viec_lam"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="fs-14">
+                    <nz-select id="capDay" formControlName="capDay" nzShowSearch [ngModel]="formGroup.value.capDay"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.cap_day"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+                <!-- begin: nhiệm vụ kiêm nhiệm -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.nhiemVuKiemNhiem')}} </span>
+                    </div>
+                    <div>[30]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <nz-select id="nhiemVuKiemNhiem" formControlName="nhiemVuKiemNhiem" nzShowSearch
+                               [ngModel]="formGroup.value.nhiemVuKiemNhiem"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.nhiem_vu_kiem_nhiem"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Nhóm chức vụ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.nhomChucVu')}}</span>
+                    </div>
+                    <div>[31]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <nz-select id="nhomChucVu" formControlName="nhomChucVu" nzShowSearch
+                               [ngModel]="formGroup.value.nhomChucVu"
+                               (ngModelChange)="onChangeNhomChucVu($event)"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.nhom_chuc_vu"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+                <!-- begin: S.tiết thực dạy trên tuần -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.soTietDayTrenTuan')}} </span>
+                    </div>
+                    <div>[32]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="number" name="soTietThucDayTrenTuan" formControlName="soTietThucDayTrenTuan"
+                           min="0"
+                           class="fs-14 form-control form-control-solid">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: ngày bổ nhiệm -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngayBoNhiem')}}</span>
+                    </div>
+                    <div>[33]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <app-single-date-picker id="ngayBoNhiem"
+                                            [currentDate]="ngayBoNhiem" [timePicker]="timePicker"
+                                            (dataTimeOutput)="dataTimeOutputNgayBoNhiem($event)"
+                    ></app-single-date-picker>
+                  </div>
+                </div>
+                <!-- begin: S.tiết k.nhiệm trên tuần -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.soTietKhongNhiemTrenTuan')}} </span>
+                    </div>
+                    <div>[34]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="number" name="soTietKiemNhiemTrenTuan" formControlName="soTietKiemNhiemTrenTuan"
+                           min="0"
+                           class="fs-14 form-control form-control-solid">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: số lần bổ nhiệm -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.soLanBoNhiem')}}</span>
+                    </div>
+                    <div>[35]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="soLanBoNhiem" formControlName="soLanBoNhiem" min="0"
+                         class="fs-14 form-control form-control-solid">
+                </div>
+                <!-- begin: ngạch/hạng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngach')}} </span>
+                    </div>
+                    <div>[36]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <nz-select id="ngach" formControlName="ngach" nzShowSearch [ngModel]="formGroup.value.ngach"
+                               (ngModelChange)="onChangeNgach($event)"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.ngach"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Hình thức hợp đồng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.hinhThucHopDong')}}</span>
+                    </div>
+                    <div>[37]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <nz-select id="hinhThucHopDong" formControlName="hinhThucHopDong" nzShowSearch
+                               [ngModel]="formGroup.value.hinhThucHopDong"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.hinh_thuc_hop_dong"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+                <!-- begin: mã số ngạch -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.maSoNgach')}} </span>
+                    </div>
+                    <div>[38]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="text" name="maSoNgach" formControlName="maSoNgach" readonly
+                           class="fs-14 form-control form-control-solid form-disable">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Cơ quan tuyển dụng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.coQuanTuyenDung')}}</span>
+                    </div>
+                    <div>[39]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="coQuanTuyenDung" formControlName="coQuanTuyenDung"
+                         class="fs-14 form-control form-control-solid">
+                </div>
+                <!-- begin: Năm vào trường -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.namVaoTruong')}} </span>
+                    </div>
+                    <div>[40]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="number" name="namVaoTruong" formControlName="namVaoTruong"
+                           class="fs-14 form-control form-control-solid">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Nghề nghiệp khi được tuyển dụng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngheNghiepKhiDuocTuyenDung')}}</span>
+                    </div>
+                    <div>[41]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="text" name="ngheNghiepTuyenDung" formControlName="ngheNghiepTuyenDung"
+                           class="fs-14 form-control form-control-solid">
+                  </div>
+                </div>
+                <!-- begin: Ngày tuyển dụng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngayTuyenDung')}} </span>
+                    </div>
+                    <div>[42]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <app-single-date-picker id="ngayTuyenDung"
+                                            [currentDate]="ngayTuyenDung" [timePicker]="timePicker"
+                                            (dataTimeOutput)="dataTimeOutputNgayTuyenDung($event)"
+                    ></app-single-date-picker>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Danh hiệu phong tặng cao nhất -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.danhHieuPhongTangCaoNhat')}}</span>
+                    </div>
+                    <div>[43]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <input type="text" name="danhHieuPhongTangCaoNhat" formControlName="danhHieuPhongTangCaoNhat"
+                           class="fs-14 form-control form-control-solid">
+                  </div>
+                </div>
+                <!-- begin: Đã Tập huấn dạy K.N sống (HIV,SKSS...) -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.daTapHuanDayKiNangSong')}} </span>
+                    </div>
+                    <div>[44]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isTapHuanDayKNS"
+                         formControlName="isTapHuanDayKNS">
+                  </label>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Phó phụ trách -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phoPhuTrach')}}</span>
+                    </div>
+                    <div>[45]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isPhoPhuTrach" formControlName="isPhoPhuTrach">
+                  </label>
+                </div>
+                <!-- begin: Đã Tập huấn dạy K.N sống (HIV,SKSS...) -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.dayHocSinhKienThucHoaNhap')}} </span>
+                    </div>
+                    <div>[46]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isDayHocHoaNhap"
+                         formControlName="isDayHocHoaNhap">
+                  </label>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Dạy lớp khuất tật -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.dayLopKhuyetTat')}}</span>
+                    </div>
+                    <div>[47]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isDayLopKhuyetTat"
+                         formControlName="isDayLopKhuyetTat">
+                  </label>
+                </div>
+                <!-- begin: Tổng phụ trách đội -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.tongPhuTrachDoi')}} </span>
+                    </div>
+                    <div>[48]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isTongPhuTrachDoi"
+                         formControlName="isTongPhuTrachDoi">
+                  </label>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: begin: Dạy 1 buổi / ngày -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.day1BuoiNgay')}}</span>
+                    </div>
+                    <div>[49]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isDay1Buoi" formControlName="isDay1Buoi">
+                  </label>
+                </div>
+                <!-- T.gia CT b.dưỡng T.xuyên -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.TGCTBTTX')}} </span>
+                    </div>
+                    <div>[50]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isThamGiaBoiDuongTx"
+                         formControlName="isThamGiaBoiDuongTx">
+                  </label>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: begin: Dạy 2 buổi / ngày -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.day2BuoiNgay')}}</span>
+                    </div>
+                    <div>[51]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isDay2Buoi" formControlName="isDay2Buoi">
+                  </label>
+                </div>
+                <!-- T.gia CT b.dưỡng T.xuyên -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.coCCBoiDuongTCCD')}} </span>
+                    </div>
+                    <div>[52]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isBoiDuongTCCD"
+                         formControlName="isBoiDuongTCCD">
+                  </label>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: begin: Chuyên trách đoàn đội -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.chuyenTrachDoanDoi')}}</span>
+                    </div>
+                    <div>[53]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <label nz-checkbox class="so-checkbox pd-8-5" id="isChuyenTrachDoanDoi"
+                         formControlName="isChuyenTrachDoanDoi">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" *ngIf="tab === 2" [ngClass]="{'show active': tab === 2}">
+              <div class="row mb-5">
+                <!-- begin: Mức phụ cấp thu hút nghề nghiệp -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phuCapThuHutNghe')}}</span>
+                    </div>
+                    <div>[54]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="phuCapThuHutNghe" formControlName="phuCapThuHutNghe"
+                         class="fs-14 form-control form-control-solid">
+                </div>
+                <!-- begin: bậc lương -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.bacLuong')}} </span>
+                    </div>
+                    <div>[55]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="fs-14">
+                    <nz-select id="bacLuong" formControlName="bacLuong" nzShowSearch
+                               [ngModel]="formGroup.value.bacLuong"
+                               nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                      <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                      <nz-option *ngFor="let item of moetCategories?.bac_luong"
+                                 [nzLabel]="item.name"
+                                 [nzValue]="item.code">
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Mức phụ cấp thâm niên (%) -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phuCapThamNien')}}</span>
+                    </div>
+                    <div>[56]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="phuCapThamNien" formControlName="phuCapThamNien"
+                         class="fs-14 form-control form-control-solid" min="0">
+                </div>
+                <!-- begin: Phần trăm vượt khung -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phanTramVuotKhung')}} </span>
+                    </div>
+                    <div>[57]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="phanTramVuotKhung" formControlName="phanTramVuotKhung"
+                         class="fs-14 form-control form-control-solid" min="0">
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Mức phụ cấp ưu đãi nghề nghiệp -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phuCapUuDaiNghe')}}</span>
+                    </div>
+                    <div>[58]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="phuCapUuDaiNghe" formControlName="phuCapUuDaiNghe"
+                         class="fs-14 form-control form-control-solid" min="0">
+                </div>
+                <!-- begin: Hệ số lương -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.heSoLuong')}} </span>
+                    </div>
+                    <div>[59]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="heSoLuong" formControlName="heSoLuong"
+                         class="fs-14 form-control form-control-solid" min="0">
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Mức phụ cấp chức vị lãnh đạo (%) -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.phuCapChucVuLanhDao')}}</span>
+                    </div>
+                    <div>[60]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="number" name="phuCapChucVuLanhDao" formControlName="phuCapChucVuLanhDao"
+                         class="fs-14 form-control form-control-solid" min="0">
+                </div>
+                <!-- begin: ngày hưởng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngayHuongLuong')}} </span>
+                    </div>
+                    <div>[61]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <app-single-date-picker id="ngayHuongLuong"
+                                          [currentDate]="ngayHuongLuong" [timePicker]="timePicker"
+                                          (dataTimeOutput)="dataTimeOutputNgayHuongLuong($event)"
+                  ></app-single-date-picker>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Diễn biến quá trình lương -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.dienBienQuaTrinhLuong')}}</span>
+                    </div>
+                    <div>[62]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnDienBienLuong"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalDienBienLuong()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" *ngIf="tab === 3" [ngClass]="{'show active': tab === 3}">
+              <div class="row mb-5">
+                <!-- begin: K.Q b.dưỡng thường xuyên -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ketQuaBoiDuongTX')}}</span>
+                    </div>
+                    <div>[63]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="ketQuaBoiDuongTX" formControlName="ketQuaBoiDuongTX" nzShowSearch
+                             [ngModel]="formGroup.value.ketQuaBoiDuongTX"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.boi_duong_thuong_xuyen"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Loại C.Chỉ N.Ngữ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.loaiChungChiNgoaiNgu')}}</span>
+                    </div>
+                    <div>[64]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="loaiChungChiNgoaiNgu" formControlName="loaiChungChiNgoaiNgu" nzShowSearch
+                             [ngModel]="formGroup.value.loaiChungChiNgoaiNgu"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.loai_chung_chi_ngoai_ngu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: T.độ c.môn n.vụ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoCMNV')}}</span>
+                    </div>
+                    <div>[65]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoCMNV" formControlName="trinhDoCMNV" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoCMNV"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do_chuyen_mon_nghiep_vu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Khung N.Lực N.Ngữ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.khungNangLucNgoaiNgu')}}</span>
+                    </div>
+                    <div>[66]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="khungNangLucNgoaiNgu" formControlName="khungNangLucNgoaiNgu" nzShowSearch
+                             [ngModel]="formGroup.value.khungNangLucNgoaiNgu"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.khung_nang_luc_ngoai_ngu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: trinh do LLCT -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoLLCT')}}</span>
+                    </div>
+                    <div>[67]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoLLCT" formControlName="trinhDoLLCT" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoLLCT"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do_llct"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Trình độ tin học -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoTinHoc')}}</span>
+                    </div>
+                    <div>[68]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoTinHoc" formControlName="trinhDoTinHoc" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoTinHoc"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do_tin_hoc"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: T.độ quản lý giáo dục -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoQLGD')}}</span>
+                    </div>
+                    <div>[69]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoQLGD" formControlName="trinhDoQLGD" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoQLGD"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do_qlgd"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Chuyên ngành chính -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.chuyenNganhChinh')}}</span>
+                    </div>
+                    <div>[70]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="ChuyenMonChinh" formControlName="ChuyenMonChinh" nzShowSearch
+                             [ngModel]="formGroup.value.ChuyenMonChinh"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.chuyen_mon"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Tham gia BD nghiệp vụ QLGD -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.thamGiaBDNghiepVuQLGD')}}</span>
+                    </div>
+                    <div>[71]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="thamGiaBDNghiepVuQLGD" formControlName="thamGiaBDNghiepVuQLGD" nzShowSearch
+                             [ngModel]="formGroup.value.thamGiaBDNghiepVuQLGD"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.boi_duong_nghiep_vu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Trình độ chính -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoChinh')}}</span>
+                    </div>
+                    <div>[72]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoChinh" formControlName="trinhDoChinh" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoChinh"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Tham gia BD CBQL/GV cốt cán -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.thamGiaBDCBQLGVCotCan')}}</span>
+                    </div>
+                    <div>[73]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="thamGiaBDCBQLCotCan" formControlName="thamGiaBDCBQLCotCan" nzShowSearch
+                             [ngModel]="formGroup.value.thamGiaBDCBQLCotCan"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.boi_duong_cbql_cot_can"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Cơ sở đào tạo -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.coSoDaoTao')}}</span>
+                    </div>
+                    <div>[74]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="coSoDaoTao" formControlName="coSoDaoTao" nzShowSearch
+                             [ngModel]="formGroup.value.coSoDaoTao"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.co_so_dao_tao"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Tham gia BD thay sách -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.thamGiaBDThaySach')}}</span>
+                    </div>
+                    <div>[75]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="thamGiaBDThaySach" formControlName="thamGiaBDThaySach" nzShowSearch
+                             [ngModel]="formGroup.value.thamGiaBDThaySach"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.boi_duong_thay_sach"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Chuyên ngành khác -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.chuyenNganhKhac')}}</span>
+                    </div>
+                    <div>[76]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="chuyenMonKhac" formControlName="chuyenMonKhac" nzShowSearch
+                             [ngModel]="formGroup.value.chuyenMonKhac"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.chuyen_mon"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Ngoại ngữ chính -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.ngoaiNguChinh')}}</span>
+                    </div>
+                    <div>[77]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="ngoaiNguChinh" formControlName="ngoaiNguChinh" nzShowSearch
+                             [ngModel]="formGroup.value.ngoaiNguChinh"
+                             (ngModelChange)="onChangengoaiNguChinh($event)"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.ngoai_ngu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- END: Ngoại ngữ chính -->
+                <!-- begin: Trình độ khác -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoKhac')}}</span>
+                    </div>
+                    <div>[78]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoKhac" formControlName="trinhDoKhac" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoKhac"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.trinh_do"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- END: Trình độ khác -->
+              </div>
+              <div class="row mb-5">
+                <!-- begin: T.độ Đ.tạo N.Ngữ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.trinhDoDaoTaoNgoaiNgu')}}</span>
+                    </div>
+                    <div>[79]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="trinhDoDaoTaoNgoaiNgu" formControlName="trinhDoDaoTaoNgoaiNgu" nzShowSearch
+                             [ngModel]="formGroup.value.trinhDoDaoTaoNgoaiNgu"
+                             [nzDisabled]="formGroup.value['ngoaiNguChinh'] == '' ? true : false"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of trinhDoNgoaiNguList"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: G.V có c.chỉ d.tộc t.số -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.chungChiDanTocTS')}}</span>
+                    </div>
+                    <div>[80]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="chungChiDanTocTS" formControlName="chungChiDanTocTS" nzShowSearch
+                             [ngModel]="formGroup.value.chungChiDanTocTS"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.tieng_dan_toc"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Nhóm C.Chỉ N.Ngữ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.nhomChungChiNgoaiNgu')}}</span>
+                    </div>
+                    <div>[81]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="nhomChungChiNgoaiNgu" formControlName="nhomChungChiNgoaiNgu" nzShowSearch
+                             [ngModel]="formGroup.value.nhomChungChiNgoaiNgu"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.nhom_chung_chi_ngoai_ngu"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Tổng phụ trách đội giỏi -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.tongPhuTrachDoiGioi')}}</span>
+                    </div>
+                    <div>[82]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="tongPhuTrachDoiGioi" formControlName="tongPhuTrachDoiGioi" nzShowSearch
+                             [ngModel]="formGroup.value.tongPhuTrachDoiGioi"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.gv_tong_phu_trach_doi_gioi"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Điểm ngoại ngữ -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.diemNgoaiNgu')}}</span>
+                    </div>
+                    <div>[83]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <input type="number" min="0" name="diemNgoaiNgu" formControlName="diemNgoaiNgu"
+                             class="fs-14 form-control form-control-solid">
+                    </div>
+                    <div class="col-md-4">
+                      <button type="button"
+                              class="so-btn so-btn-primary so-btn-primary--small"
+                              (click)="openModalNgoaiNgu()"
+                      >{{t('employee.chiTiet')}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- begin: Q.trình ĐT B.dưỡng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.quaTrinhDaoTaoBD')}}</span>
+                    </div>
+                    <div>[84]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalQuaTrinhDaoTaoBD()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" *ngIf="tab === 4" [ngClass]="{'show active': tab === 4}">
+              <div class="row mb-5">
+                <!-- begin: Đánh giá viên chức -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.danhGiaVienChuc')}}</span>
+                    </div>
+                    <div>[85]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="danhGiaVienChuc" formControlName="danhGiaVienChuc" nzShowSearch
+                             [ngModel]="formGroup.value.danhGiaVienChuc"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.danh_gia_vien_chuc"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Giáo viên dạy giỏi -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.gvDayGioi')}}</span>
+                    </div>
+                    <div>[86]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="gvDayGioi" formControlName="gvDayGioi" nzShowSearch
+                             [ngModel]="formGroup.value.gvDayGioi"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.giao_vien_gioi"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: giao viên chủ nhiệm giỏi -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.gvChuNhiemGioi')}}</span>
+                    </div>
+                    <div>[87]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <nz-select id="gvChuNhiemGioi" formControlName="gvChuNhiemGioi" nzShowSearch
+                             [ngModel]="formGroup.value.gvChuNhiemGioi"
+                             nzNotFoundContent="{{t(nzNotFoundContent)}}">
+                    <nz-option nzValue="" nzLabel="{{t(txtSelect)}}"></nz-option>
+                    <nz-option *ngFor="let item of moetCategories?.gv_chu_nhiem_gioi"
+                               [nzLabel]="item.name"
+                               [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                </div>
+                <!-- begin: Danh hiệu phong tặng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.danhHieuPhongTang')}}</span>
+                    </div>
+                    <div>[88]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="danhHieuPhongTang" formControlName="danhHieuPhongTang"
+                         class="fs-14 form-control form-control-solid">
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Đ.giá chuẩn NN CBQL/GV -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.danhGiaChuanNgheNghiep')}}</span>
+                    </div>
+                    <div>[89]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnDanhGiaChuanNgheNghiep"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalDanhGiaChuanNgheNghiep()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+                <!-- begin: Quan hệ gia đình-->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.qhGiaDinh')}}</span>
+                    </div>
+                    <div>[90]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnQhGiaDinh"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalQuanHeGiaDinh()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Khen thưởng -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.khenThuong')}}</span>
+                    </div>
+                    <div>[91]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnKhenThuong"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalKhenThuongGV()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+                <!-- begin: Quan hệ gia đình (Vợ/chồng) -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.qhGiaDinhVoChong')}}</span>
+                    </div>
+                    <div>[92]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnQhGiaDinhVoChong"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalQuanHeGiaDinhVoChong()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <!-- begin: Kỉ luật -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.kyLuat')}}</span>
+                    </div>
+                    <div>[93]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnKyLuat"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalKyLuatGV()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+                <!-- begin: Qúa trình công tác -->
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex  align-items-center">
+                      <img src="assets/images/svg/vetor.svg" alt="" class="pe-2">
+                      <span> {{t('employee.quaTrinhCongTac')}}</span>
+                    </div>
+                    <div>[94]</div>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <button type="button" id="btnQuaTrinhCongTac"
+                          class="so-btn so-btn-primary so-btn-primary--small"
+                          (click)="openModalQuaTrinhCongTac()"
+                  >{{t('employee.chiTiet')}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--END: Tab -->
+
+          <div class="row mb-8">
+            <div class="col-md-12 action d-flex justify-content-end">
+              <a [routerLink]="['/tenant/employee']" type="button"
+                 class="so-btn so-btn-cancel">{{t('btnAction.cancel')}}
+              </a>
+              <button type="button" id="btnSubmit"
+                      class="so-btn so-btn-primary so-btn-primary--small"
+                      (click)="onSubmit(formGroup.value)"
+
+              >{{t('btnAction.save')}}
+              </button>
+            </div>
+<!--            [disabled]="formGroup.invalid || isSubmitForm"-->
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

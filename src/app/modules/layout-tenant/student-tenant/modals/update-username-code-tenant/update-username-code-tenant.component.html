@@ -1,0 +1,62 @@
+<ng-container *transloco="let t; scope: 'student'">
+  <form [formGroup]="infoForm">
+
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" name="btn-top-close-modal" (click)="closeModal('dismiss')"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="custom-form-add-admin-account">
+      <div class="info-user">
+        <div class="lb-info fs-14 fw-700">{{ t('student.fullname') }}: <span class="value-info">{{ dataModal.dataFromParent.fullName }}</span></div>
+        <div class="lb-info fs-14 fw-700">{{ t('student.code') }}: <span class="value-info">{{ dataModal.dataFromParent.code }}</span></div>
+        <div class="lb-info fs-14 fw-700">{{ t('student.username') }}: <span class="value-info">{{ dataModal.dataFromParent.username }}</span></div>
+      </div>
+      <div class="form-school-manager" [formGroup]="infoForm" >
+        <div class="row mb-5">  
+          <div class="col-md-3 custom-lb-form">
+            <span class="lb-form fs-15 fw-700">{{ t('student.username') }}</span>
+          </div>
+          <div class="col-md-9">
+            <input type="text" name="input-text" class="form-control custom-input-form fs-15" formControlName="username">
+            <div class="text-danger mt-2" *ngFor="let item of validation_messages.username">
+              <span class="text-danger"
+              *ngIf="infoForm.get('username')?.hasError(item.type)  && infoForm.get('username')?.touched">
+              {{item.message}}
+            </span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-md-3 custom-lb-form">
+            <span class="lb-form fs-15 fw-700">{{ t('student.code') }}</span>
+          </div>
+          <div class="col-md-9">
+            <input type="text" name="input-text" class="form-control custom-input-form fs-15" formControlName="code">
+            <div class="text-danger mt-2" *ngFor="let item of validation_messages.code">
+              <span class="text-danger"
+                  *ngIf="infoForm.get('code')?.hasError(item.type)  && infoForm.get('code')?.touched">
+                  {{item.message}}
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal('cancel')" name="btn-bottom-close-modal">{{dataModal?.btnCancel}}</button>
+    <button type="button" [disabled]="infoForm.invalid"
+      class="so-btn so-btn-primary so-btn-primary--small {{ infoForm.invalid ? 'btn-disable' : '' }}"
+      (click)="closeModal('accept')" name="btn-bottom-accept-modal">{{dataModal?.btnAccept}}</button>
+  </div>
+</form>
+
+</ng-container>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

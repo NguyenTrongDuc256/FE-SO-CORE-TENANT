@@ -1,0 +1,52 @@
+{
+    "subjectManager": "Danh sách môn học",
+    "subject": "Môn học",
+    "subjectMoet": "Môn học MOET",
+    "subjectPrivate": "Môn học riêng",
+    "subjectBilingual": "Môn song ngữ",
+    "educationalStages": "Cấp học",
+    "order": "STT",
+    "subjectName": "Tên môn học",
+    "enterSubjectName": "Nhập tên môn học",
+    "subjectCode": "Mã môn học",
+    "enterSubjectCode": "Nhập mã môn học",
+    "educationalStagesApply": "Cấp học áp dụng",
+    "primarySchool": "Tiểu học",
+    "secondarySchool": "Trung học cơ sở",
+    "highSchool": "Trung học phổ thông",
+    "applyFor": "Áp dụng cho",
+    "nodata": "Không có dữ liệu",
+    "addSuject": "Thêm môn học",
+    "updateSuject": "Cập nhật môn học",
+    "updateSujectMoet": "Cập nhật môn học moet",
+    "moetCode": "Mã MOET",
+    "grade": "Khối",
+    "displayOrder": "Thứ tự hiển thị",
+    "enterDisplayOrder": "Nhập thứ tự hiển thị",
+    "deleteSubject": "Xóa môn học",
+    "subjectType": "Loại môn học",
+    "used": "Sử dụng",
+    "validators": {
+        "name": {
+            "required": "Bạn chưa nhập tên môn học",
+            "maxlength": "Tên môn học không được có nhiều hơn 255 kí tự",
+            "pattern": "Tên môn học không hợp lệ"
+        },
+        "code": {
+            "required": "Bạn chưa nhập mã môn học",
+            "maxlength": "Mã môn học không được có nhiều hơn 50 kí tự",
+            "pattern": "Mã môn học không hợp lệ"
+        },
+        "moetCode": {
+            "required": "Bạn chưa nhập mã MOET",
+            "maxlength": "Mã MOET không được có nhiều hơn 50 kí tự",
+            "pattern": "Mã MOET không hợp lệ"
+        },
+        "educationalStages": {
+            "required": "Bạn chưa chọn cấp học áp dụng"
+        },
+        "displayOrder": {
+            "pattern": "Thứ tự hiển thị không hợp lệ"
+        }
+    }
+}

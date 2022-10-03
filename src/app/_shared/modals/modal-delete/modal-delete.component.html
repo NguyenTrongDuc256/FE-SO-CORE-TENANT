@@ -1,0 +1,30 @@
+<ng-container *transloco="let t;">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)" name="icon-close"
+    [hidden]="dataModal?.isHiddenBtnClose">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex align-items-center">
+      <div class="content-left">
+        <img src="assets/images/png/bg-confirm-delete.png" alt="">
+      </div>
+      <div class="content-right">
+        <p class="content-header">{{dataFromParent?.textConfirmHeader ? dataFromParent?.textConfirmHeader : t('warmingConfirm1')}}</p>
+        <p class="content-desc">{{dataFromParent?.textConfirmDesc ? dataFromParent?.textConfirmDesc : t('warmingConfirm2')}}</p>
+        <div class="d-flex align-items-center">
+          <button type="button" class="so-btn so-btn-danger" name="btn-cancel" (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+          <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-accept" (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
+
+

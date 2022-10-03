@@ -1,0 +1,56 @@
+<div class="card style-module-manager-detail" *transloco="let t; scope: 'module-manager'">
+  <h4 class="title-module fs-18 fw-700">{{ t('moduleManager.moduleInfomation') }}</h4>
+  <div class="infomation-module">
+    <span class="lb-info fs-15 fw-700">{{ t('moduleManager.moduleName') }}: <b class="value-info fs-16 fw-700">{{ dataModule?.name }}</b></span>
+    <span class="lb-info fs-15 fw-700">{{ t('moduleManager.moduleCode') }}: <b class="value-info fs-16 fw-700">{{ dataModule?.code }}</b></span>
+  </div>
+  <div class="module-status">
+    <span class="lb-info fs-15 fw-700">{{ t('status') }}: <label class="value-status" nz-checkbox [disabled]="true" [ngModel]="dataModule?.isActive == 1 ? true : false">{{ t('moduleManager.activated') }}</label></span>
+  </div>
+  <div class="header-permission">
+    <h4 class="title-permission fs-15 fw-700">{{ t('moduleManager.permissionList') }}</h4>
+    <div class="search-input">
+      <input name="input-search-module" type="text" class="form-control custom-tag-of-form fs-14"
+        placeholder="{{ t('moduleManager.enterNameCodePermission') }}" (keyup)="checkChangeKeywordSerach($event)">
+      <img class="search-icon" src="assets/images/svg/search.svg" alt="">
+    </div>
+  </div>
+  <div class="content-permission pt-0 mt-6">
+    <table class="table align-middle table-global">
+      <thead>
+        <tr class="text-center">
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 10%;">
+            {{ t('moduleManager.order') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
+            {{ t('moduleManager.permissionName') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
+            {{ t('moduleManager.permissionCode') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 50%;">
+            {{ t('moduleManager.description') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="fw-bold text-gray-600" *ngIf="dataPermission && dataPermission.length > 0">
+        <tr *ngFor="let item of dataPermission;let i = index">
+          <td class="color-td permission-index fs-15 fw-400">{{ i+1 }}</td>
+          <td class="color-td permission-name fs-15 fw-700">
+            {{ item.name }}
+          </td>
+          <td class="color-td permission-code fs-15 fw-500">
+            {{ item.code }}
+          </td>
+          <td class="color-td permission-description fs-15 fw-500">
+            {{ item.description }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

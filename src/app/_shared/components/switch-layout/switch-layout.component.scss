@@ -1,0 +1,13 @@
+::ng-deep .custom-layout{
+    cursor: pointer;
+}
+::ng-deep .custom-item-layout{
+    color: #5e6278;
+    font-size: 1.4rem;
+}
+::ng-deep li.active.custom-item-layout{
+    color: #009ef7;
+    background: #f4f6fa !important;
+    border-radius: 3px !important;
+    font-size: 1.4rem;
+}

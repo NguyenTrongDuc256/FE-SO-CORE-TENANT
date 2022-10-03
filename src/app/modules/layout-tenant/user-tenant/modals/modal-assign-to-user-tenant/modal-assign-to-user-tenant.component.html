@@ -1,0 +1,106 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+          [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'user'">
+  <form [formGroup]="formGroup" *ngIf="formGroup">
+    <div class="assign-role-to-user">
+      <ng-container formArrayName="roles">
+        <ng-container *ngFor="let roleForm of formGroup.get('roles')['controls']; let i=index">
+          <div class="row mb-5 role-item" [formGroup]="roleForm">
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex align-items-center">
+                <span>{{ t('user.role') }} <span class="text-danger fw-700">*</span></span>
+              </div>
+            </label>
+            <div class="col-md-3">
+              <nz-select name="role" formControlName="roleId" ngModel=""
+                         (ngModelChange)="onChangeRole($event, i)">
+                <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
+                <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of roleToAssignList" [nzLabel]="item.name" [nzValue]="item.id">
+                </nz-option>
+              </nz-select>
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.roleId">
+                <div
+                  *ngIf="roleForm.get('roleId').hasError(err.type) && (roleForm.get('roleId').dirty || roleForm.get('roleId').touched)"
+                >
+                  {{ t(err.message) }}
+                </div>
+              </div>
+            </div>
+            <!-- BEGIN: chon campus -->
+            <label class="col-md-2 col-form-label fs-14">
+              <div class="d-flex align-items-center" *ngIf="roleForm.value.isDisplay == 1">
+                <span>{{t('user.selectCampus')}} <span class="text-danger fw-700">*</span></span>
+              </div>
+              <div class="d-flex align-items-center" *ngIf="roleForm.value.isDisplay == 2">
+                <span>{{t('user.selectSchool')}} <span class="text-danger fw-700">*</span></span>
+              </div>
+            </label>
+            <div class="col-md-4" >
+              <!-- CAMPUS-->
+              <div *ngIf="roleForm.value.isDisplay == 1">
+                <nz-select name="campusId" formControlName="campusId" ngModel=""
+                           (ngModelChange)="onChangeCampus()">
+                  <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
+                  <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of campusList" [nzLabel]="item.name" [nzValue]="item.id">
+                  </nz-option>
+                </nz-select>
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.campusId">
+                  <div
+                    *ngIf="roleForm.get('campusId').hasError(err.type)"
+                  >
+                    {{ t(err.message) }}
+                  </div>
+                </div>
+              </div>
+              <!-- School-->
+              <div *ngIf="roleForm.value.isDisplay == 2">
+                <nz-select name="schoolId" formControlName="schoolId" ngModel=""
+                           (ngModelChange)="onChangeSchool($event, i)">
+                  <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
+                  <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of roleForm.value.schoolList" [nzLabel]="item.name" [nzValue]="item.id">
+                  </nz-option>
+                </nz-select>
+
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.schoolId">
+                  <div
+                    *ngIf="roleForm.get('schoolId').hasError(err.type)"
+                  >
+                    {{ t(err.message) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <label class="col-md-1 col-form-label fs-14 text-center">
+              <div class="close">
+                <img class="action-icon pe-3" src="assets/images/svg/icon-false.svg" alt="icon" (click)="deleteRole(i)">
+              </div>
+            </label>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <div class="row mt-15">
+        <div class="col-md-12">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-add-row" (click)="addRole()">
+            <img src="assets/images/svg/add.svg" alt="">
+            {{t('btnAction.add')}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+          (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" *ngIf="formGroup" [disabled]="formGroup.invalid || isSubmitForm"
+          (click)="submitForm(formGroup.value)">{{dataModal?.btnAccept}}</button>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

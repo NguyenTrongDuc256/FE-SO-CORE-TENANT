@@ -1,0 +1,153 @@
+.padding-compo {
+    height: auto;
+    background-color: #FFFFFF;
+    padding: 3rem 2.5rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
+    border-right-width: 1px !important;
+    border: 1px;
+}
+
+.header-card {
+    margin-bottom: 2rem;
+
+    .title-content {
+        width: 17%;
+        min-width: 129px;
+    }
+
+    .select-status {
+        margin-right: 2rem;
+        width: 12%;
+        min-width: 92px;
+
+        select {
+            height: 4rem;
+            cursor: pointer;
+        }
+    }
+
+    .nav-bar {
+        flex-grow: 1;
+    }
+
+    .search-input {
+        margin-right: 2rem;
+        position: relative;
+        min-width: 115px;
+        width: 20%;
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 0;
+            width: 2rem;
+            height: 4rem;
+            cursor: pointer;
+        }
+    }
+
+    .add-action {
+        .add-icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 12%;
+        }
+
+        height: 4rem;
+        background: #556EE6;
+        border-radius: 6px;
+        padding: 0.3rem 1rem;
+        color: #FFFFFF;
+        border: none;
+    }
+
+    .add-action:hover {
+        background: #3c5ae9;
+    }
+
+    .card-button {
+        width: 9.5%;
+        min-width: 105px;
+    }
+}
+
+.body-card {
+
+
+    .grade-color {
+        color: #73B2FF;
+    }
+
+
+    .stages-primarry-school {
+        color: #F178B6;
+    }
+
+    .stages-secondary-school {
+        color: #F69220;
+    }
+
+    .stages-high-school {
+        color: #50A5F1;
+    }
+
+    .p-right {
+        margin-right: 0.5rem;
+    }
+
+    .active {
+        padding: 0.5rem 1.2rem;
+        background-color: #50A5F1;
+        border-radius: 8px;
+        color: #FFFFFF;
+    }
+
+    .unActive {
+        padding: 0.5rem 1.2rem;
+        background-color: #F69220;
+        border-radius: 8px;
+        color: #FFFFFF;
+    }
+
+    .add-action {
+        .add-icon {
+            width: 12px;
+            height: 12px;
+            margin-right: 5%;
+            filter: brightness(0) saturate(100%) invert(51%) sepia(57%) saturate(5417%) hue-rotate(215deg) brightness(93%) contrast(94%);
+        }
+
+        height: 2.7rem;
+        width: 11.5rem;
+        background-color: #FFFFFF;
+        border-radius: 3px;
+        color: #556EE6;
+        border: 1px solid #556EE6
+    }
+
+    .add-action:hover {
+        .add-icon {
+            filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7453%) hue-rotate(173deg) brightness(103%) contrast(102%);
+        }
+
+        border: 1px solid #556EE6;
+        background-color: #556EE6;
+        color: #FFFFFF;
+    }
+
+}
+
+.action-icon {
+    margin-right: 1.6rem;
+}
+
+.footer-card {
+    margin-top: 3rem;
+}

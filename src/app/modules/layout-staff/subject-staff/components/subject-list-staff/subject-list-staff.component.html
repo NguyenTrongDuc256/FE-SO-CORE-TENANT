@@ -1,0 +1,74 @@
+<div class="card style-campus">
+  <div class="card-header-custom border-0 p-5">
+    <div class="w-100 d-flex justify-content-between align-items-center">
+      <div class="title-content mb-3">
+        <span class="fs-18 fw-700">adad</span>
+      </div>
+      <div class="d-flex justify-content-end align-items-center custom-search">
+        <!-- <select class="fs-13 fw-700 form-select form-select-solid form-select-lg custom-select-status"
+          name="select-filter-status-campus" >
+          <option value="">1</option>
+          <option value="1">22</option>
+          <option value="0">333</option>
+        </select> -->
+        <div class="search-input">
+          <input
+            name="input-search-campus"
+            type="text"
+            class="form-control custom-tag-of-form fs-14"
+            placeholder="tìm kiếm"
+          />
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="" />
+        </div>
+
+        <span
+          class="add-action d-flex justify-content-center align-items-center fs-14"
+          name="btn-add-campus"
+        >
+          <img class="add-icon" src="assets/images/svg/plus.svg" alt="" />
+          Thêm mới
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body-custom pt-0 mt-6">
+    <table class="table align-middle table-global">
+      <thead>
+        <tr class="text-center">
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 5%">
+            STT
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%">
+            Tên môn học
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%">
+            Mã môn học
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%">
+            Loại môn học
+          </th>
+        </tr>
+      </thead>
+      <tbody class="fw-bold text-gray-600">
+        <tr>
+          <td class="color-td fs-13 fw-700">â</td>
+          <td class="color-td campus-name fs-13 fw-700">cc</td>
+          <td class="color-td">aaaaa</td>
+          <td class="color-td">
+            <div *ngIf="item.subjectType == 1"
+              class=" d-flex justify-content-center align-items-center subject-style  subject-moet">
+              <span class=" fs-13 fw-700 ">aaaaa</span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="dataSource?.length == 0 || !dataSource">
+          <td class="text-no-data" colspan="6">sdadsdsa</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div> -->

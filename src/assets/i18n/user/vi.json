@@ -1,0 +1,98 @@
+{
+  "create": "Thêm mới người dùng",
+  "edit": "Chỉnh sửa người dùng",
+  "title": "Danh sách người dùng",
+  "studentList": "Danh sách học sinh",
+  "fullName": "Họ và tên",
+  "username": "Tên đăng nhập",
+  "code": "Mã",
+  "phone": "Số điện thoại",
+  "login": "Đăng nhập",
+  "loginTrue": "Đã đăng nhập",
+  "loginFalse": "Chưa đăng nhập",
+  "password": "Mật khẩu",
+  "passwordTrue": "Đã đổi",
+  "passwordFalse": "Chưa đổi",
+  "active": "Kích hoạt",
+  "noActive": "Đã khóa",
+  "school": "Trường",
+  "newPassword": "Mật khẩu mới",
+  "confirmPassword": "Xác nhận mật khẩu",
+  "deleteUser": "Xóa người dùng",
+  "btnAction": {
+    "send": "Gửi thông báo",
+    "changedPassword": "Đổi mật khẩu"
+  },
+  "validators":{
+    "fullName":{
+      "required":"Bạn chưa nhập họ và tên",
+      "maxlength":"Họ và tên của bạn không được vượt quá 255 ký tự"
+    },
+    "code":{
+      "required":"Bạn chưa nhập mã",
+      "pattern":"Mã chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength":"Mã của bạn không được vượt quá 50 ký tự"
+    },
+    "username":{
+      "required":"Bạn chưa nhập tên đăng nhập",
+      "pattern":"Tên đăng nhập chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength":"Tên đăng nhập của bạn không được vượt quá 50 ký tự"
+    },
+    "password":{
+      "required":"Bạn chưa nhập mật khẩu",
+      "pattern":"Mật khẩu chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự đặc biệt",
+      "maxlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50",
+      "minlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50"
+    },
+
+    "email":{
+      "required":"Bạn chưa nhập email",
+      "email":"Email không hợp lệ"
+    },
+    "phone":{
+      "required":"Bạn chưa nhập số điện thoại",
+      "pattern":"Số điện thoại không hợp lệ"
+    },
+    "roleId": {
+      "required":"Bạn chưa chọn phân quyền"
+    },
+    "schoolId": {
+      "required":"Bạn chưa chọn trường học"
+    },
+    "campusId": {
+      "required":"Bạn chưa chọn Campus"
+    }
+  },
+  "avatar": "Ảnh đại diện",
+  "upload": "Tải ảnh",
+  "dob": "Ngày sinh",
+  "class": "Lớp",
+  "grade": "Khối",
+  "school1": "Trường học",
+  "father": "Bố",
+  "mother": "Mẹ",
+  "assignRole": "Gán phân quyền",
+  "selectRole": "Chọn quyền",
+  "roleList": "Danh sách phân quyền",
+  "roleName": "Tên phân quyền",
+  "roleCode": "Mã phân quyền",
+  "layout": "Layout",
+  "role": "Phân quyền",
+  "donVi": "Đơn vị",
+  "assignRoleToUser": "Gán phân quyền cho người dùng",
+  "accessApp": "Được phép truy cập App",
+  "noAccessApp": "Khóa truy cập App",
+  "selectSchool": "Chọn trường",
+  "selectCampus": "Chọn campus",
+  "deleteRole": "Xóa phân quyền",
+  "updateStatus": "Cập nhật trạng thái",
+  "locked": "Khóa",
+  "confirmUpdateStatus": "Bạn có chắc muốn thực hiện thao tác này không?",
+  "userLocked":  "Tài khoản người dùng sẽ bị khóa",
+  "userActive": "Tài khoản người dùng sẽ được kích hoạt",
+  "close": "Đóng",
+  "select": "Chọn",
+  "truyCapAp": "Truy cập app",
+  "access": "Cho phép",
+  "khac": "Khác"
+}

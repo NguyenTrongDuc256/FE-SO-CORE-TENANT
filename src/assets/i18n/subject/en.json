@@ -1,0 +1,52 @@
+{
+    "subjectManager": "List subject",
+    "subject": "Subject",
+    "subjectMoet": "Subject Moet",
+    "subjectPrivate": "Subject private",
+    "subjectBilingual": "Subject bilingual",
+    "educationalStages": "Educational stages",
+    "order": "Order",
+    "subjectName": "Subject name",
+    "enterSubjectName": "Enter subject name",
+    "subjectCode": "Subject code",
+    "enterSubjectCode": "Enter subject code",
+    "educationalStagesApply": "Educational stages apply",
+    "primarySchool": "Primary school",
+    "secondarySchool": "Secondary school",
+    "highSchool": "High school",
+    "applyFor": "Apply for",
+    "nodata": "no data",
+    "addSuject": "Add suject",
+    "updateSuject": "Update subject",
+    "updateSujectMoet": "Update subject moet",
+    "moetCode": "Moet code",
+    "grade": "Grade",
+    "displayOrder": "Display order",
+    "enterDisplayOrder": "Enter display order",
+    "deleteSubject": "Delete subject",
+    "subjectType": "Subject type",
+    "used": "Used",
+    "validators": {
+        "name": {
+            "required": "Subject name is required",
+            "maxlength": "Subject name can't have more than 255 characters",
+            "pattern": "Subject name invalid"
+        },
+        "code": {
+            "required": "Subject code is required",
+            "maxlength": "Subject code can't have more than 50 characters",
+            "pattern": "Subject code invalid"
+        },
+        "moetCode": {
+            "required": "Subject moetCode is required",
+            "maxlength": "Subject moetCode can't have more than 255 characters",
+            "pattern": "Subject moetCode invalid"
+        },
+        "educationalStages": {
+            "required": "Educational stages is required"
+        },
+        "displayOrder": {
+            "pattern": "Display order invalid"
+        }
+    }
+}

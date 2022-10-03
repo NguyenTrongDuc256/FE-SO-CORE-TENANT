@@ -1,0 +1,136 @@
+.text-link {
+  color: #3289f3;
+}
+
+.text-underline,
+.text-underline:hover {
+  text-decoration: underline !important;
+}
+
+.border-radius-bg {
+  border-radius: 5px;
+}
+
+.so-badge {
+  font-size: 1.1rem;
+  padding: 6px 8px;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.so-badge-status-0 {
+  background: #f46a6a;
+}
+
+.so-badge-status-1 {
+  background: #50a5f1;
+}
+
+.so-badge-status {
+  font-size: 1.1rem;
+  min-width: 7rem;
+  text-align: center;
+  border-radius: 6px;
+}
+
+// ============ start style checkbox =========
+::ng-deep .so-checkbox {
+  display: flex;
+  align-items: center;
+  max-width: max-content;
+  .ant-checkbox {
+    top: 0;
+  }
+  .ant-checkbox-inner {
+    width: 19px;
+    height: 19px;
+    border-radius: 4px;
+    border: 1px solid #556ee6;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #556ee6;
+  }
+  .ant-checkbox-wrapper:hover {
+    border-color: #556ee6;
+  }
+  .ant-checkbox + span {
+    display: inline-flex;
+    flex-wrap: wrap;
+  }
+}
+::ng-deep .so-checkbox--white {
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #fff;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border: 2px solid #556ee6;
+  }
+}
+// =========== end style checkbox ============
+
+.btn-import-export {
+  background: #f5f8fa;
+  border-radius: 6px;
+  color: #556EE6;
+  padding-left: 12px;
+  padding-right: 12px;
+  img {
+    width: 16px;
+    height: 15px;
+    margin-right: 5px;
+  }
+}
+
+.btn-import-export:hover {
+  background: #d1d3d4ab;
+}
+
+.btn-remote {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 3px;
+  cursor: pointer;
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+.btn-remote:focus {
+  outline: none;
+}
+
+::ng-deep table caption {
+  display: none;
+}
+
+.so-badge-action {
+  color: #fff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  img {
+    width: 13px;
+    height: 13px;
+    margin-right: 3px;
+  }
+  &--approve {
+    background: #556EE6;
+  }
+
+  &--refuse {
+    background: #F1B44C;
+  }
+}
+
+.icon-mark {
+  display: inline-block;
+  margin-left: 4px;
+  img {
+    width: 11px;
+    height: 14px;
+  }
+}
+
+

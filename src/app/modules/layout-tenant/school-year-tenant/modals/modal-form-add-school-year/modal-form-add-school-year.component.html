@@ -1,0 +1,261 @@
+<!-- <form class="custom-form-add-menu fs-14" > -->
+<div *transloco="let t; scope: 'school-year'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+            [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-school-year">
+      <div>
+        <nz-radio-group [(ngModel)]="schoolYearId" (ngModelChange)="onChangeSchoolYearId()" name="school-year-id">
+          <div class="row">
+            <div class="col-md-3 pb-8" *ngFor="let item of schoolYearList">
+              <label nz-radio [nzValue]="item.id">
+                <span class="fw-700 pe-3">{{ item.name }}</span>
+                <span class="color-50a5f1">({{ item.code }})</span>
+              </label>
+              <div class="d-block  pl-24">
+                <span class="fs-13 pe-4">
+                  <span class="color-979797 p-2">{{ t('schoolYear.from') }}</span>
+                  <span class="color-50a5f1">{{ item.startDate | formatTime }}</span>
+                </span>
+                <span class="fs-13 pe-3">
+                  <span class="color-979797 p-2">{{ t('schoolYear.to') }}</span>
+                  <span class="color-50a5f1">{{ item.endDate | formatTime }}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </nz-radio-group>
+      </div>
+      <div class="box-input border-top">
+        <div class="card card-custom">
+          <div class="card-header card-header-stretch">
+            <h3 class="card-title color-2D3748 fs-18 fw-700">
+              {{ t('schoolYear.edit') }}
+            </h3>
+            <div class="card-toolbar">
+              <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x nav-stretch fs-14 border-0">
+                <li class="nav-item" (click)="onChangeTab('info')">
+                  <span class="nav-link color-495057 fw-700 d-flex align-content-center"
+                        [ngClass]="{'active': tab === 'info'}">
+                    <span>{{ t('schoolYear.info') }}</span>
+                  </span>
+                </li>
+                <li class="nav-item" (click)="onChangeTab('circulars')">
+                  <span class="nav-link color-495057 fw-700" [ngClass]="{'active': tab === 'circulars'}">
+                    <span>{{ t('schoolYear.circulars') }}</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-body custom-form-school-year">
+            <form [formGroup]="formGroup" *ngIf="formGroup && schoolYearInfo">
+              <div class="tab-content">
+                <div class="tab-info-content" *ngIf="tab == 'info'">
+                  <div class="row mb-8">
+                    <label class="col-md-2 col-form-label">
+                      <div class="d-flex align-items-center fw-700 fs-14">
+                        <span>{{ t('schoolYear.name') }} <span class="text-danger fw-700">*</span></span>
+                      </div>
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" name="name" formControlName="name"
+                             class="fs-14 form-control form-control-solid">
+                      <div class="text-danger mt-1" *ngFor="let err of validationMessages.name">
+                        <div
+                          *ngIf="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+                          class="message-erro">
+                          {{ t(err.message) }}
+                        </div>
+                      </div>
+                    </div>
+                    <label class="col-md-2 col-form-label">
+                      <div class="d-flex align-items-center justify-content-center fw-700 fs-14">
+                        <span>{{ t('schoolYear.form.code') }} <span class="text-danger fw-700">*</span></span>
+                      </div>
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" name="code" formControlName="code"
+                             class="fs-14 form-control form-control-solid form-disable" readonly>
+                    </div>
+                  </div>
+                  <div class="row mb-8">
+                    <label class="col-md-2 col-form-label">
+                      <div class="d-flex align-items-center fw-700 fs-14">
+                        <span>{{ t('schoolYear.applyFrom') }} <span class="text-danger fw-700">*</span></span>
+                      </div>
+                    </label>
+                    <div class="col-md-4">
+                      <app-single-date-picker [currentDate]="formGroup.value.startDate" [timePicker]="timePicker"
+                                              (dataTimeOutput)="dataStartDate($event)"
+                                              [maxDate]="formGroup.value.endDate - 86400">
+                      </app-single-date-picker>
+                      <div class="text-danger mt-1" *ngFor="let err of validationMessages.startDate">
+                        <div
+                          *ngIf="formGroup.get('startDate').hasError(err.type)" class="message-erro">
+                          {{ t(err.message) }}
+                        </div>
+                      </div>
+                    </div>
+                    <label class="col-md-2 col-form-label">
+                      <div class="d-flex align-items-center justify-content-center fw-700 fs-14">
+                        <span>{{ t('schoolYear.to') }} <span class="text-danger fw-700">*</span></span>
+                      </div>
+                    </label>
+                    <div class="col-md-4">
+                      <app-single-date-picker [currentDate]="formGroup.value.endDate" [timePicker]="timePicker"
+                                              (dataTimeOutput)="dataEndDate($event)"
+                                              [minDate]="formGroup.value.startDate + 86400">
+                      </app-single-date-picker>
+                      <div class="text-danger mt-1" *ngFor="let err of validationMessages.endDate">
+                        <div
+                          *ngIf="formGroup.get('endDate').hasError(err.type)" class="message-erro">
+                          {{ t(err.message) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-8">
+                    <label class="col-md-2 col-form-label">
+                      <div class="d-flex align-items-center fw-700 fs-14">
+                        <span>{{ t('status') }}</span>
+                      </div>
+                    </label>
+                    <div class="col-md-4">
+                      <div class="search-select-option">
+                        <select formControlName="status" name="status"
+                                class="form-select text-start form-select form-select-solid form-select-lg text-formcontrol-global fs-14">
+                          <option class="fs-14" value="{{ item.id }}" *ngFor="let item of schoolYearStatusList">{{ item.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <label class="col-md-2 col-form-label">
+                      <span></span>
+                    </label>
+                    <div class="col-md-4 d-flex align-items-center">
+                      <div class="search-select-option">
+                        <label class="fw-700 fs-14" nz-checkbox formControlName="isLockGradebookInput" name="is-lock-gradebook-input">
+                          {{t('schoolYear.lockGradebook') }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="schoolYearInfo">
+                    <ng-container *ngIf="formGroup.value.terms.length > 0">
+                      <div formArrayName="terms">
+                        <div *ngFor="let item of formGroup.get('terms')['controls']; let i = index;">
+                          <div class="row mb-8" [formGroupName]="i">
+                            <div class="col-md-2">
+                              <label nz-radio [(ngModel)]="item.value.isCurrent" (click)="onChangeIsCurrentTerm(i)"
+                                     name="isCurrent" [ngModelOptions]="{standalone: true}">
+                                <span class="fs-14 fw-700 lb-is-current {{item.value.isCurrent ? 'active' : ''}}">{{ item.value.name }}</span>
+                              </label>
+                            </div>
+                            <div class="col-md-3">
+                              <app-single-date-picker [currentDate]="item.value.startDate" [timePicker]="timePicker"
+                                                      (dataTimeOutput)="dataTermStartDate($event, i)"
+                                                      [maxDate]="item.value.endDate != null ? item.value.endDate - 86400 : formGroup.value.endDate - 86400"
+                                                      [minDate]="formGroup.value.startDate">
+                              </app-single-date-picker>
+                              <div class="text-danger mt-1" *ngFor="let err of validationMessages.startDate">
+                                <div
+                                  *ngIf="item.get('startDate').hasError(err.type)" class="message-erro">
+                                  {{ t(err.message) }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-2 col-form-label">
+                              <div class="d-flex justify-content-center">
+                                <span class="fs-14 fw-700">{{ t('schoolYear.to') }}</span>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <app-single-date-picker [currentDate]="item.value.endDate" [timePicker]="timePicker"
+                                                      (dataTimeOutput)="dataTermEndDate($event, i)"
+                                                      [minDate]="item.value.startDate != null ? item.value.startDate + 86400 : formGroup.value.startDate + 86400"
+                                                      [maxDate]="formGroup.value.endDate">
+                              </app-single-date-picker>
+                              <div class="text-danger mt-1" *ngFor="let err of validationMessages.endDate">
+                                <div
+                                  *ngIf="item.get('endDate').hasError(err.type)" class="message-erro">
+                                  {{ t(err.message) }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center">
+                              <div class="d-block">
+                                <nz-switch [(ngModel)]="item.value.isPublishReport" class="pe-3" name="isPublishReport"
+                                           [ngModelOptions]="{standalone: true}">
+                                </nz-switch>
+                              </div>
+                              <div class="d-block">
+                                <span class="col-md-10 lb-report fs-14 fw-700 {{item.value.isPublishReport ? 'active' : ''}}">
+                                  {{ item.value.isPublishReport ? t('schoolYear.showReport') : t('schoolYear.turnOffShowReports')  }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div class="tab-circulars-content" *ngIf="tab == 'circulars'">
+                  <div formArrayName="gradeCirculars">
+                    <div *ngFor="let item of formGroup.get('gradeCirculars')['controls']; let i = index;">
+                      <div [formGroupName]="i">
+                        <div class="row mb-4">
+                          <label class="col-md-1 col-form-label form-label-custom">
+                            <div class="d-flex align-items-center fs-14 fw-700">
+                              <span>{{ item.value.gradeName }}</span>
+                            </div>
+                          </label>
+                          <div class="col-md-11">
+                            <span class="fw-700">{{t('schoolYear.ttApDung')}} <span class="text-danger fw-700">*</span></span>
+                            <select name="circulars"
+                                    class="form-select custom-select text-start form-select form-select-solid form-select-lg text-formcontrol-global fs-14"
+                                    formControlName="circularsId">
+                              <option value="">
+                                {{ t('schoolYear.select') }}
+                              </option>
+                              <option value="{{ circulars.id }}" *ngFor="let circulars of circularsList">
+                                {{ circulars.name }}
+                              </option>
+                            </select>
+                            <div class="text-danger mt-1" *ngFor="let err of validationMessages.circularsId">
+                              <div
+                                *ngIf="item.get('circularsId').hasError(err.type)"
+                                class="message-erro">
+                                {{ t(err.message) }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+            (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+            (click)="submitForm(formGroup.value)" [disabled]="formGroup.invalid || isSubmit">{{dataModal?.btnAccept}}</button>
+  </div>
+  <!-- </form> -->
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

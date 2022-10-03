@@ -1,0 +1,42 @@
+.box {
+  &-icon {
+    width: 16px;
+    height: 15px;
+  }
+  &-main {
+    padding: 0px 15px;
+  }
+  &-field {
+    padding: 6px 15px;
+  }
+}
+
+.so-input-upload-img {
+  position: relative;
+  .btn-click-change-logo {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    img {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  .btn-click-remove-logo {
+    img {
+      width: 17px;
+      height: 17px;
+    }
+  }
+}
+
+.ant-collapse {
+  border-radius: 6px;
+}
+
+::ng-deep .ant-collapse>.ant-collapse-item>.ant-collapse-header {
+  font-weight: 600;
+}

@@ -1,0 +1,68 @@
+{
+  "schoolYear": "School year management",
+  "addSchoolYear": "Add school year",
+  "updateSchoolYear": "Edit school year",
+  "delete": "Delete school year",
+  "stt": "STT",
+  "name": "School year name",
+  "setting": "Setting",
+  "lockGradebook": "Point Entry Lock",
+  "from": "From",
+  "to": "To",
+  "inputScore": "Input score",
+  "lockTrue": "Locked",
+  "lockFalse": "Opened",
+  "lock0": "Finished",
+  "lock1": "Current",
+  "lock2": "Upcoming",
+  "info": "Information",
+  "circulars": "Circulars",
+  "applyFrom": "Apply from",
+  "reportTrue": "Show report",
+  "edit": "Edit information",
+  "noLockGradebook": "Open score entry",
+  "confirmUpdateGradebookInput": "Are you sure you want to do this?",
+  "gradebookInput": "The score entry function will",
+  "gradebookInputTrue": "is open",
+  "gradebookInputFalse": "locked",
+  "showReport": "Show report",
+  "turnOffShowReports": "Turn off show reports",
+  "select": "Select",
+  "ttApDung": "applicable circulars",
+  "form": {
+    "name": "Name",
+    "code": "Code"
+  },
+  "validators": {
+    "name": {
+      "required": "School year name required",
+      "maxlength": "School year name cannot exceed 255 characters"
+    },
+    "startDate": {
+      "required": "You have not selected a start date"
+    },
+    "endDate": {
+      "required": "You have not selected an end date"
+    },
+    "circularsId": {
+      "required": "You have not selected a circular"
+    }
+  },
+  "circularsName": "Circulars name",
+  "circularsCode": "Circulars code",
+  "gradeApply": "Grade apply",
+  "link": "Link",
+  "expired": "Expired",
+  "unexpired": "Unexpired",
+  "termSchoolYear": "Term school year",
+  "pointEntryLock": "Point entry lock",
+  "schoolYearName": "Name",
+  "schoolYearCode": "Code",
+  "schoolYearDetail": "School year detail",
+  "order": "Order",
+  "report": "Report",
+  "time": "Time",
+  "upcoming": "Upcoming",
+  "current": "Current",
+  "finished": "Finished"
+}

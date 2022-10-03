@@ -1,0 +1,240 @@
+{
+  "title": "Danh sách người dùng",
+  "studentList": "Danh sách học sinh",
+  "changePassword": "Đổi mật khẩu",
+  "updateUsernameCode": "Cập nhật username và code",
+  "fullname": "Họ và tên",
+  "createStudent": "Thêm mới học sinh",
+  "updateStudent": "Cập nhật học sinh",
+  "username": "Tên đăng nhập",
+  "code": "Mã",
+  "phone": "Số điện thoại",
+  "login": "Đăng nhập",
+  "loginTrue": "Đã đăng nhập",
+  "loginFalse": "Chưa đăng nhập",
+  "password": "Mật khẩu",
+  "passwordTrue": "Đã đổi",
+  "passwordFalse": "Chưa đổi",
+  "active": "Kích hoạt",
+  "noActive": "Đã khóa",
+  "school": "Trường",
+  "newPassword": "Mật khẩu mới",
+  "confirmPassword": "Xác nhận mật khẩu",
+  "deleteUser": "Xóa người dùng",
+  "avatar": "Ảnh đại diện",
+  "upload": "Tải ảnh",
+  "dob": "Ngày sinh",
+  "class": "Lớp",
+  "grade": "Khối",
+  "school1": "Trường học",
+  "studentInfo": "Thông tin học sinh",
+  "father": "Bố",
+  "mother": "Mẹ",
+  "select": "Chọn-",
+  "notFoundContent": "Không tìm thấy nội dung",
+  "btnAction": {
+    "send": "Gửi thông báo",
+    "changedPassword": "Đổi mật khẩu",
+    "appAccessLock": "Khóa truy cập app",
+    "unlockAppAccess": "Mở khóa truy cập app"
+  },
+  "currentAccommodation": "Chỗ ở hiện nay",
+  "sortOrder": "Thứ tự sắp xếp",
+  "personalInformation": "Thông tin cá nhân",
+  "parentsInformation": "Thông tin phụ huynh",
+  "area": "Khu vực",
+  "eyeDisease": "Bệnh về mắt",
+  "typeOfDisability": "Loại khuyết tật",
+  "policyObject": "Đối tượng chính sách",
+  "vocationalTraining": "HD, Dạy nghề",
+  "placeOfGrant": "Nơi cấp",
+  "disadvantagedAreas": "Vùng khó khăn",
+  "supportStudyExpenses": "Hỗ trợ chi phí học tập",
+  "riceSupply": "Cấp gạo",
+  "livingSkill": "Kỹ năng sống",
+  "freeTuition": "Miễn học phí",
+  "housingAssistance": "Hỗ trợ nhà ở",
+  "studyInformatics": "Học tin học",
+  "poorHousehold": "Hộ nghèo",
+  "reduceTuition": "Giảm học phí",
+  "biologicalFather": "Bố ruột",
+  "parentCode": "Mã PH",
+  "student": "Học sinh",
+  "relationship": "Mối quan hệ",
+  "job": "Nghề nghiệp",
+  "biologicalMother": "Mẹ đẻ",
+  "tutor": "Người đỡ đầu",
+  "ACEcode": "Mã ACE",
+  "address": "Địa chỉ",
+  "updateUsernameAndCode": "Cập nhật username và code",
+  "studentPersonalInformation": "Thông tin cá nhân học sinh",
+  "generalInformation": "Thông tin chung",
+  "studentAddress": "Địa chỉ học sinh",
+  "gender": "Giới tính",
+  "bilingual": "Hệ song ngữ",
+  "accessApp": "Được phép truy cập app",
+  "active": "Kích hoạt",
+  "completeProfile": "Hoàn thành hồ sơ",
+  "priorityObject": "Đối tượng ưu tiên",
+  "schoolField": "Điểm trường",
+  "studentCode": "Mã học sinh",
+  "nationality": "Quốc tịch",
+  "moetCode": "Mã MOET",
+  "ethnic": "Dân tộc",
+  "dateOfBirth": "Ngày sinh",
+  "religion": "Tôn giáo",
+  "admissionForm": "Hình thức trúng tuyển",
+  "city": "Tỉnh/Thành phố",
+  "status": "Trạng thái",
+  "studentEmail": "Email học sinh",
+  "district": "Quận/Huyện",
+  "bloodGroup": "Nhóm máu",
+  "ward": "Phường/Xã",
+  "placeOfBirth": "Nơi sinh",
+  "permanentResidence": "HKTT",
+  "presentAddress": "Địa chỉ hiện nay",
+  "enter": "Nhập-",
+  "validators": {
+    "fullName": {
+      "required": "Bạn chưa nhập họ và tên",
+      "pattern": "Họ và tên không đúng định dạng"
+    },
+    "code": {
+      "required": "Bạn chưa nhập mã",
+      "pattern": "Mã không đúng định dạng"
+    },
+    "birthday": {
+      "required": "Bạn chưa nhập ngày sinh"
+    },
+    "schoolId": {
+      "required": "Bạn chưa chọn trường"
+    },
+    "gradeId": {
+      "required": "Bạn chưa nhập khối"
+    },
+    "username": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "minlength": "Tên đăng nhập chứa tối thiểu 6 kí tự",
+      "maxlength": "Tên đăng nhập không được có nhiều hơn 50 kí tự",
+      "pattern": "Tên đăng nhập không hợp lệ"
+    },
+    "password": {
+      "required": "Bạn chưa nhập mật khẩu",
+      "minlength": "Mật khẩu chứa tối thiểu 6 kí tự",
+      "maxlength": "Mật khẩu không được có nhiều hơn 50 kí tự",
+      "pattern": "Mật khẩu không hợp lệ"
+    },
+    "status": {
+      "required": "Bạn chưa chọn trạng thái"
+    },
+    "homeroomClassId": {
+      "required": "Bạn chưa chọn lớp"
+    },
+    "ethnic": {
+      "required": "Bạn chưa chọn dân tộc"
+    },
+    "email": {
+      "required": "Bạn chưa nhập email",
+      "email": "Email không đúng định dạng"
+    },
+    "phone": {
+      "required": "Bạn chưa nhập số điện thoại",
+      "pattern": "Số điện thoại không đúng định dạng"
+    },
+    "cityCode": {
+      "required": "Bạn chưa nhập tỉnh/thành phố"
+    },
+    "thuTu": {
+      "required": "Bạn chưa nhập thứ tự sắp xếp",
+      "pattern": "Thứ tự sắp xếp không đúng định dạng"
+    },
+    "idNumber": {
+      "required": "Bạn chưa nhập số CMND",
+      "pattern": "Số CMND không đúng định dạng"
+    },
+    "fatherFullName": {
+      "required": "Bạn chưa nhập họ và tên",
+      "pattern": "Họ và tên không đúng định dạng"
+    },
+    "fatherCode": {
+      "required": "Bạn chưa nhập mã",
+      "pattern": "Mã không đúng định dạng"
+    },
+    "fatherUserName": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "minlength": "Tên đăng nhập chứa tối thiểu 6 kí tự",
+      "maxlength": "Tên đăng nhập không được có nhiều hơn 50 kí tự",
+      "pattern": "Tên đăng nhập không hợp lệ"
+    },
+    "fatherPassword": {
+      "required": "Bạn chưa nhập mật khẩu",
+      "minlength": "Mật khẩu chứa tối thiểu 6 kí tự",
+      "maxlength": "Mật khẩu không được có nhiều hơn 50 kí tự",
+      "pattern": "Mật khẩu không hợp lệ"
+    },
+    "fatherPhone": {
+      "required": "Bạn chưa nhập số điện thoại",
+      "pattern": "Số điện thoại không đúng định dạng"
+    },
+    "fatherEmail": {
+      "required": "Bạn chưa nhập email",
+      "email": "Email không đúng định dạng"
+    },
+    "motherFullName": {
+      "required": "Bạn chưa nhập họ và tên",
+      "pattern": "Họ và tên không đúng định dạng"
+    },
+    "motherCode": {
+      "required": "Bạn chưa nhập mã",
+      "pattern": "Mã không đúng định dạng"
+    },
+    "motherUserName": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "minlength": "Tên đăng nhập chứa tối thiểu 6 kí tự",
+      "maxlength": "Tên đăng nhập không được có nhiều hơn 50 kí tự",
+      "pattern": "Tên đăng nhập không hợp lệ"
+    },
+    "motherPassword": {
+      "required": "Bạn chưa nhập mật khẩu",
+      "minlength": "Mật khẩu chứa tối thiểu 6 kí tự",
+      "maxlength": "Mật khẩu không được có nhiều hơn 50 kí tự",
+      "pattern": "Mật khẩu không hợp lệ"
+    },
+    "motherPhone": {
+      "required": "Bạn chưa nhập số điện thoại",
+      "pattern": "Số điện thoại không đúng định dạng"
+    },
+    "motherEmail": {
+      "required": "Bạn chưa nhập email",
+      "email": "Email không đúng định dạng"
+    },
+    "tutorFullName": {
+      "required": "Bạn chưa nhập họ và tên",
+      "pattern": "Họ và tên không đúng định dạng"
+    },
+    "tutorCode": {
+      "required": "Bạn chưa nhập mã",
+      "pattern": "Mã không đúng định dạng"
+    },
+    "tutorUserName": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "minlength": "Tên đăng nhập chứa tối thiểu 6 kí tự",
+      "maxlength": "Tên đăng nhập không được có nhiều hơn 50 kí tự",
+      "pattern": "Tên đăng nhập không hợp lệ"
+    },
+    "tutorPassword": {
+      "required": "Bạn chưa nhập mật khẩu",
+      "minlength": "Mật khẩu chứa tối thiểu 6 kí tự",
+      "maxlength": "Mật khẩu không được có nhiều hơn 50 kí tự",
+      "pattern": "Mật khẩu không hợp lệ"
+    },
+    "tutorPhone": {
+      "required": "Bạn chưa nhập số điện thoại",
+      "pattern": "Số điện thoại không đúng định dạng"
+    },
+    "tutorEmail": {
+      "required": "Bạn chưa nhập email",
+      "email": "Email không đúng định dạng"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+.so-btn-submit {
+  background: #00a3ff;
+  border-radius: 6px;
+  font-size: 1.4rem;
+  padding: 0.7rem 1.5rem;
+  outline: none;
+  border: none;
+  color: #fff;
+}
+
+.so-btn-submit:disabled {
+  opacity: 0.8;
+}
+
+.form-select-layout-SO {
+  h1.form-title {
+    color: #a7a8bb;
+    font-size: 1.6rem;
+
+    a {
+      color: #3699ff;
+    }
+  }
+}
+
+.fv-plugins-message-container span {
+  color: #F1416C !important;
+}
+
+.group-option {
+  position: absolute;
+  top: 0;
+  right: 15%;
+  display: flex;
+  flex-direction: column;
+  .select-language {
+    position: relative !important;
+    top: unset;
+    right: unset;
+    margin-bottom: 10px;
+  }
+}
+
+.so-btn-logout {
+  border: 1px solid #556EE6 !important;
+  border-radius: 6px;
+  border: none;
+  padding: 5.5px 10px !important;
+  outline: none;
+  color: #79819A;
+  font-size: 1.3rem;
+  box-sizing: border-box;
+}
+
+.so-btn-logout:focus {
+  outline: none;
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+  border-right-width: 1px !important;
+}
+
+@media (max-width: 576px) {
+  .so-form-heading {
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .action {
+    flex-direction: column-reverse;
+
+    .so-btn-submit {
+      margin-bottom: 2rem;
+    }
+  }
+}

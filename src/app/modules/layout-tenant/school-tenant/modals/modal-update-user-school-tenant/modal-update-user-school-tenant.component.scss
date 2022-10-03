@@ -1,0 +1,44 @@
+.box-img {
+  .delete-img {
+    position: absolute;
+    top: 8px;
+    right: 13px;
+    cursor: pointer;
+    img {
+      width: 19px;
+      height: 19px;
+    }
+  }
+  .symbol {
+    background: rgba(203, 203, 203, 0.2);
+    border: 1px solid rgba(203, 203, 203, 0.2);
+    border-radius: 50%;
+    overflow: hidden;
+    .avatar {
+      width: 13.5rem;
+      height: 13.5rem;
+    }
+    .upload-img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 3.5rem;
+      background-color: #556EE6;
+      border-bottom-left-radius: 1.5rem;
+      border-bottom-right-radius: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding-bottom: 5px;
+      img {
+        width: 13px;
+        height: 13px;
+      }
+      span {
+        color: #FFFFFF;
+      }
+    }
+  }
+}

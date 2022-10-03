@@ -1,0 +1,33 @@
+<ng-container *transloco="let t; scope: 'student-records'">
+  <form>
+    <div class="modal-header">
+      <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+      <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+        name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="img mx-auto mb-8">
+          <img src="assets/images/png/bg-modal2.png" alt="">
+        </div>
+        <div class="main-content">
+          <h3>{{t('studentRecords.reasonRefuse')}}</h3>
+          <textarea name="desc" id="" cols="30" rows="6" placeholder="{{t('studentRecords.enterReasonRefuse')}}"
+            [(ngModel)]="note"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+        (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+      <button type="submit" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+        (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+    </div>
+  </form>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

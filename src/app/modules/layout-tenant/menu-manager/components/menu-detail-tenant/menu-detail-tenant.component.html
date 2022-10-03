@@ -1,0 +1,73 @@
+<div class="card style-detail-menu-manager">
+  <div class="container-detail-menu-manager">
+    <div class="content-left-menu-manager">
+      <div class="menu-items">
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+        <div class="item">
+          <img class="menu-icon" src="assets/images/svg/home.svg" alt="">
+          <span class="menu-name fs-16 fw-600">Trang chủ</span>
+        </div>
+      </div>
+    </div>
+    <div class="content-rigth-menu-manager">
+      <h4 class="menu-title fs-18 fw-600">Menu mặc định <span class="menu-code">(OMT123)</span></h4>
+      <div class="menu-more">
+        <div class="menu-infomation">
+          <div class="item-infomation">
+            <img class="info-icon" src="assets/images/svg/school_code_icon.svg" alt="">
+            <span class="lb-info fs-13 fw-700">Mã</span>
+            <span class="value-info fs-14 fw-700">OMT2012</span>
+          </div>
+          <div class="item-infomation">
+            <img class="info-icon" src="assets/images/svg/customer_info.svg" alt="">
+            <span class="lb-info fs-13 fw-700">Khách hàng</span>
+            <span class="value-info fs-14 fw-700">10 khách hàng</span>
+          </div>
+        </div>
+        <div class="menu-action">
+          <span class="btn-update-menu fs-12 fw-500">
+            <img class="update-icon" src="assets/images/svg/edit.svg" alt=""> Chỉnh sửa
+          </span>
+        </div>
+      </div>
+      <div class="detail-tree-menu">
+        <nz-tree nzBlockNode [nzExpandAll]="true" [nzData]="nodes" [nzSearchValue]="searchValue"
+          (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)" (nzSearchValueChange)="nzEvent($event)"
+          [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+        <ng-template #nzTreeTemplate let-node let-origin="origin">
+          <span class="custom-node">
+            <span class="tree-menu-item">
+              <span class="custom-menu-icon"><img class="menu-icon" [src]="node.icon" alt=""></span>
+              <span class="custom-menu-order fs-16 fw-600">{{ node.key }}</span>
+              <span class="custom-menu-title fs-16 fw-600">{{ node.title }}</span>
+              <span class="custom-menu-router fs-16 fw-600">{{ origin.menuRouter }}</span>
+            </span>
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

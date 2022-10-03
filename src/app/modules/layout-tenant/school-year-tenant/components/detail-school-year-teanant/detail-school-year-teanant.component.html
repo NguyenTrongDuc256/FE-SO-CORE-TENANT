@@ -1,0 +1,99 @@
+<div class="custom-detail-school-year" *transloco="let t; scope: 'school-year'">
+  <div class="header-detail-school-year">
+    <div class="title-school-year">
+      <span class="title-detail fs-16 fw-700">{{ t('schoolYear.schoolYearDetail') }}</span>
+      <span class="btn-update-school-year fs-12 fw-500" name="btn-update-school-year" (click)="getDataRelationship()"><img class="img-update" src="assets/images/svg/icon-pen-white.svg" alt=""> {{t('btnAction.update')}}</span>
+    </div>
+    <div class="tab-form">
+      <span class="lab-tab fs-14 fw-700 {{ tabActive == 1 ? 'active' : '' }}" name="btn-click-change-tab-1"
+        (click)="changeActiveTab(1)">{{ t('information') }}</span>
+      <span class="lab-tab fs-14 fw-700 {{ tabActive == 2 ? 'active' : '' }}" name="btn-click-change-tab-2"
+        (click)="changeActiveTab(2)">{{ t('circulars') }}</span>
+    </div>
+  </div>
+  <div class="content-detail-school-year" *ngIf="dataDetailSchoolYear">
+    <div class="tab-content {{ tabActive == 1 ? '' : 'hide-tab' }}">
+      <div class="d-flex align-items-center mb-6">
+        <div class="lb-infomation fs-14 fw-700">{{ t('schoolYear.schoolYearName') }}:</div>
+        <div class="schoolyear-name fs-14 fw-600">{{ dataDetailSchoolYear.name }}</div>
+        <div class="lb-infomation fs-14 fw-700 text-right">{{ t('schoolYear.schoolYearCode') }}:</div>
+        <div class="schoo-year-code fs-14 fw-600">{{ dataDetailSchoolYear.code }}</div>
+      </div>
+      <div class="d-flex align-items-center mb-6">
+        <div class="lb-infomation fs-14 fw-700">{{ t("schoolYear.applyFrom") }}:</div>
+        <div class="school-year-apply fs-14 fw-500">{{ t("schoolYear.from") }} <span>{{ dataDetailSchoolYear.startDate | formatTime:'dd/MM/yyyy' }}</span> {{ t("schoolYear.to") }} <span>{{ dataDetailSchoolYear.endDate | formatTime:'dd/MM/yyyy' }}</span></div>
+      </div>
+      <div class="d-flex align-items-center mb-6">
+        <div class="lb-infomation fs-14 fw-700">{{ t('status') }}:</div>
+        <div class="custom-status"><span class="status-{{dataDetailSchoolYear.status}}">{{ getNameStatusSchoolYear(dataDetailSchoolYear.status) }}</span></div>
+        <div class="lb-infomation fs-14 fw-700 text-right"><label nz-checkbox [ngModel]="true" [disabled]="true"></label></div>
+        <div class="lock-grade-book-input fs-14 fw-700">{{ t('schoolYear.pointEntryLock') }}</div>
+      </div>
+      <div class="list-term">
+        <table class="table align-middle table-global">
+          <thead>
+            <tr class="text-center">
+              <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%;">
+                {{ t('schoolYear.termSchoolYear') }}
+              </th>
+              <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 50%;">
+                {{ t('schoolYear.time') }}
+              </th>
+              <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
+                {{ t('schoolYear.report') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="fw-bold text-gray-600">
+            <tr *ngFor="let item of dataDetailSchoolYear.terms">
+              <td class="color-td fs-13 fw-700 custom-term-name">{{ item.name }}</td>
+              <td class="color-td fs-13 fw-500 custom-term-time">{{ t("schoolYear.from") }} <span>{{ item.startDate | formatTime:'dd/MM/yyyy' }}</span> {{ t("schoolYear.to") }} <span>{{ item.endDate | formatTime:'dd/MM/yyyy' }}</span></td>
+              <td class="color-td fs-13 fw-600 custom-term-notification-{{item.isPublishReport}}">{{ t(getNameStatusReportOfTerm(item.isPublishReport)) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-content {{ tabActive == 2 ? '' : 'hide-tab' }}">
+      <table class="table align-middle table-global">
+        <thead>
+          <tr class="text-center">
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 5%;">
+              {{ t('schoolYear.order') }}
+            </th>
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 25%;">
+              {{ t('schoolYear.circularsName') }}
+            </th>
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 15%;">
+              {{ t('schoolYear.circularsCode') }}
+            </th>
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 15%;">
+              {{ t('schoolYear.gradeApply') }}
+            </th>
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%;">
+              {{ t('schoolYear.link') }}
+            </th>
+            <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 10%;">
+              {{ t('status') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="fw-bold text-gray-600">
+          <tr *ngFor="let item of dataDetailSchoolYear.gradeCirculars;let i = index;">
+            <td class="color-td fs-13 fw-400 custom-order">{{ i+1 }}</td>
+            <td class="color-td fs-13 fw-700 custom-circulars-name">{{ item.circularsName }}</td>
+            <td class="color-td fs-13 fw-700 custom-circulars-code">{{ item.circularsCode }}</td>
+            <td class="color-td fs-13 fw-700 custom-circulars-grade-apply">{{ item.gradeName }}</td>
+            <td class="color-td fs-13 fw-500">
+              <a class="custom-circulars-link" href="{{ item.circularsUrl }}" target="_blank" rel="noopener noreferrer">{{ item.circularsUrl }}</a>
+            </td>
+            <td class="color-td"><span class="custom-circulars-status-{{item.circularsIsActive}} fs-11 fw-700">{{ t(getNameStatusCirculars(item.circularsIsActive)) }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

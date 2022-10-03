@@ -1,0 +1,68 @@
+{
+  "schoolYear": "Quản lý năm học",
+  "addSchoolYear": "Thêm mới năm học",
+  "updateSchoolYear": "Chỉnh sửa năm học",
+  "delete": "Xóa năm học",
+  "stt": "STT",
+  "name": "Tên năm học",
+  "setting": "Cài đặt",
+  "lockGradebook": "Khóa nhập điểm",
+  "from": "Từ",
+  "to": "Đến",
+  "inputScore": "Nhập điểm",
+  "lockTrue": "Đã khóa",
+  "lockFalse": "Mở khóa",
+  "lock0": "Đã kết thúc",
+  "lock1": "Hiện tại",
+  "lock2": "Sắp diễn ra",
+  "info": "Thông tin",
+  "circulars": "Thông tư",
+  "applyFrom": "Áp dụng từ",
+  "reportTrue": "Hiển thị báo cáo",
+  "edit": "Chỉnh sửa thông tin",
+  "noLockGradebook": "Mở nhập điểm",
+  "confirmUpdateGradebookInput": "Bạn có chắc muốn thực hiện thao tác này không?",
+  "gradebookInput": "Chức năng nhập điểm sẽ",
+  "gradebookInputTrue": "được mở",
+  "gradebookInputFalse": "bị khóa",
+  "showReport": "Hiển thị báo cáo",
+  "turnOffShowReports": "Tắt hiển thị báo cáo",
+  "select": "Chọn",
+  "ttApDung": "Thông tư áp dụng",
+  "form": {
+    "name": "Tên",
+    "code": "Mã"
+  },
+  "validators": {
+    "name": {
+      "required": "Bạn chưa nhập tên năm học",
+      "maxlength": "Tên năm học không được vượt quá 255 ký tự"
+    },
+    "startDate": {
+      "required": "Bạn chưa chọn ngày bắt đầu"
+    },
+    "endDate": {
+      "required": "Bạn chưa chọn ngày kết thúc"
+    },
+    "circularsId": {
+      "required": "Bạn chưa chọn thông tư"
+    }
+  },
+  "circularsName": "Tên thông tư",
+  "circularsCode": "Mã thông tư",
+  "gradeApply": "Khối áp dụng",
+  "link": "Đường dẫn",
+  "expired": "Đã hết hạn",
+  "unexpired": "Còn hiệu lực",
+  "termSchoolYear": "Giai đoạn năm học",
+  "pointEntryLock": "Khóa nhập điểm",
+  "schoolYearName": "Tên năm học",
+  "schoolYearCode": "Mã năm học",
+  "schoolYearDetail": "Chi tiết năm học",
+  "order": "STT",
+  "report": "Báo cáo",
+  "time": "Thời gian",
+  "upcoming": "Sắp diễn ra",
+  "current": "Hiện tại",
+  "finished": "Đã kết thúc"
+}

@@ -1,0 +1,79 @@
+.toolbar-custom-teacher {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+.so-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1.2rem;
+  transition: all 0.2s ease;
+  margin: 5px 5px 5px 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: #979dae;
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
+  &-icon img {
+    width: 17px;
+    height: 17px;
+    filter: brightness(0) saturate(100%) invert(48%) sepia(52%) saturate(4828%)
+      hue-rotate(177deg) brightness(102%) contrast(100%);
+  }
+}
+
+.so-menu-item.active,
+.so-menu-item:hover {
+  box-shadow: 0 2px 0 0 #50a5f1;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  color: #495057;
+}
+
+.so-menu-item-custom-teacher {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  color: #495057;
+  font-size: 1.4rem !important;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  &-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 7px;
+    transition: all 0.2s ease;
+  }
+  &-icon img {
+    width: 17px;
+    height: 17px;
+    filter: brightness(0) saturate(100%) invert(48%) sepia(52%) saturate(4828%)
+      hue-rotate(177deg) brightness(102%) contrast(100%);
+  }
+}
+
+.so-menu-item-custom-teacher.active,
+.so-menu-item-custom-teacher:hover {
+  background: #50a5f1 !important;
+  box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.04);
+  color: #ffffff;
+  .so-menu-item-custom-teacher-icon {
+    img {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(97%) saturate(76%)
+        hue-rotate(198deg) brightness(110%) contrast(112%);
+    }
+  }
+}

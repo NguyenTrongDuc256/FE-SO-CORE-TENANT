@@ -1,0 +1,16 @@
+{
+  "order":"Order",
+  "moduleName":"Module name",
+  "moduleCode":"Module code",
+  "pemission":"Pemission",
+  "moduleList":"Module list",
+  "activated":"Activated",
+  "locked":"Locked",
+  "enterNameCodeModule":"Enter name, code module",
+  "enterNameCodePermission":"Enter name, code permission",
+  "permissionList":"Permission list",
+  "moduleInfomation":"Module infomation",
+  "permissionName":"Permission name",
+  "permissionCode":"Permission code",
+  "description":"Description"
+}

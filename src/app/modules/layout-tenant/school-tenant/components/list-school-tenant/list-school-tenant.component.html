@@ -1,0 +1,114 @@
+<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'school'">
+  <!-- start header -->
+  <div class="d-flex algin-items-center justify-content-between flex-wrap">
+    <h3 class="title-compo-global mb-3">{{t('school.listSchool')}}</h3>
+    <div class="filter d-flex flex-wrap algin-items-center">
+      <div class="so-input-search mx-4 mb-3">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input type="text" name="input-search" nz-input placeholder="{{t('school.search')}}" #searchInput
+            (keydown)="search($event, searchInput.value)" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <img src="assets/images/svg/search.svg" alt="" nzType="search">
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <!-- end header -->
+
+  <!-- content -->
+  <div class="mt-12">
+    <table class="table-global w-full mb-4">
+      <caption></caption>
+      <thead>
+        <th style="width: 5%;" class="text-header-table text-center">
+          {{t('STT')}}</th>
+        <th style="width: 20%;" class="text-header-table"><img src="assets/images/svg/school_icon.svg" alt="">
+          &ensp;{{t('school.nameSchool')}}</th>
+        <th style="width: 15%;" class="text-header-table"><img src="assets/images/svg/school_code_icon.svg" alt="">
+          &ensp;{{t('school.codeMoet')}} </th>
+        <th style="width: 18%;" class="text-header-table"><img src="assets/images/svg/school_code_icon.svg" alt="">
+          &ensp;{{t('campus')}} </th>
+        <th style="width: 20%;" class="text-header-table"><img src="assets/images/svg/address_icon.svg" alt="">
+          &ensp;{{t('address')}} </th>
+        <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+          <th style="width: 12%;" class="text-header-table text-center"> {{t('action')}} </th>
+        </ng-template>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of arrList; let i=index">
+          <tr>
+            <td class="text-content-table text-center">
+              {{(pageIndex-1)*pageSize + i + 1}}
+            </td>
+            <td class="text-content-table">
+              <span class="text-link fw-500 cursor-pointer" [routerLink]="'detail/' + item.id" [queryParams]="{tab: 1}">{{item.Name}}</span><br>
+              <p class="d-flex flex-wrap align-items-center">
+                <span style="margin-right: 20px"><img src="assets/images/svg/phone_icon.svg"
+                    alt="">&ensp;{{item.Phone}}</span>
+                <span><img src="assets/images/svg/email_icon.svg" alt="">&ensp;{{item.Email}}</span>
+              </p>
+            </td>
+            <td>
+              {{item.MoetUnitCode}}
+            </td>
+            <td>
+              {{item.CampusName}}
+            </td>
+            <td>
+              {{item.Address}}
+            </td>
+            <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+              <td class="text-center">
+                <div class="d-flex justify-content-center">
+                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                    class="so-btn-open-drop-menu so-btn-open-drop-menu-no-border d-flex align-items-center justify-content-center" name="btn-open-menu">
+                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  </span>
+                </div>
+                <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">
+                  <ul nz-menu>
+                    <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+                      <li nz-menu-item (click)="update(item.id)" class="d-flex align-items-center so-item-drop-menu"
+                        name="btn-update">
+                        <img src="assets/images/svg/write.svg" alt="">
+                        {{t('btnAction.update')}}
+                      </li>
+                    </ng-template>
+                    <li nz-menu-item (click)="viewList(item.id)" class="d-flex align-items-center so-item-drop-menu"
+                      name="btn-view-list">
+                      <img src="assets/images/svg/icon-document-blue.svg" alt="">
+                      {{t('school.danhSachDiemTruong')}}
+                    </li>
+                    <li nz-menu-item (click)="sendNoti(item.id)" class="d-flex align-items-center so-item-drop-menu"
+                      name="btn-send-noti">
+                      <img src="assets/images/svg/icon-email-noti-blue.svg" alt="">
+                      {{t('school.sendNoti')}}
+                    </li>
+                    <li nz-menu-item (click)="moveStudent(item.id)" class="d-flex align-items-center so-item-drop-menu"
+                      name="btn-move">
+                      <img src="assets/images/svg/icon-social-distancing-blue.svg" alt="">
+                      {{t('school.moveStudent')}}
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </td>
+            </ng-template>
+          </tr>
+        </ng-container>
+        <tr *ngIf="arrList?.length == 0 || !arrList">
+          <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+  <!-- end content -->
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

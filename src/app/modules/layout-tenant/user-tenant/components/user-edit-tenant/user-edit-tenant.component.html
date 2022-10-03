@@ -1,0 +1,170 @@
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'user'">
+  <div class="col-xl-12">
+    <div class="card card-flush h-md-100">
+      <div class="card-header pt-7">
+        <h3 class="card-title d-flex align-items-start flex-column">
+          <span class="card-label fs-18 fw-700">{{ t('user.edit') }}</span>
+        </h3>
+        <div class="card-toolbar">
+        </div>
+      </div>
+      <div class="card-body pt-6">
+        <form [formGroup]="formGroup" *ngIf="formGroup">
+          <div class="d-flex">
+            <div class="box-img me-4">
+              <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+                <img [src]="avatarUser" alt="image" class="avatar">
+                <div class="delete-img" (click)="onDeleteFileInputAvatar()">
+                  <img src="assets/images/svg/close.svg" alt="img">
+                </div>
+                <div class="upload-img" (click)="fileInputAvatar.click()">
+                  <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                  <span class="fs-11">{{t('user.upload')}}</span>
+                </div>
+                <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                       accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
+              </div>
+              <div class="col-form-label d-flex align-items-center justify-content-center">
+                <span class="fs-14 text-center">{{t('user.avatar')}}</span>
+              </div>
+            </div>
+            <div class="w-full">
+              <div class="row mb-6">
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span> {{t('user.fullName')}} <span class="text-danger fw-700">*</span></span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="full-name" formControlName="fullName"
+                         class="form-control form-control-solid fs-14">
+                  <span class="text-danger fs-13 mt-1" *ngFor="let err of validationMessages.fullName">
+                    <span
+                      *ngIf="formGroup.get('fullName').hasError(err.type) && (formGroup.get('fullName').dirty || formGroup.get('fullName').touched)">
+                      {{ t(err.message) }}
+                    </span>
+                  </span>
+                </div>
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span> {{t('user.code')}} <span class="text-danger fw-700">*</span></span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="code" formControlName="code" readonly
+                         class="form-control form-control-solid form-disable fs-14">
+                </div>
+              </div>
+              <div class="row mb-6">
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span> {{t('user.dob')}}</span>
+                  </div>
+                </label>
+                <div class="col-md-4 fs-14">
+                  <app-single-date-picker
+                    [currentDate]="currentDate" [timePicker]="timePicker" (dataTimeOutput)="dataTimeOutput($event)">
+                  </app-single-date-picker>
+                </div>
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span>{{ t('gender') }}</span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <select name="gender"
+                          class="form-select custom-select text-start form-select form-select-solid form-select-lg fs-14"
+                          formControlName="gender">
+                    <option *ngFor="let item of gender" value="{{item.id}}">
+                      {{ t(item.name) }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-6">
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span> {{t('user.username')}} <span class="text-danger fw-700">*</span></span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="username" formControlName="username" readonly
+                         class="form-control form-control-solid form-disable fs-14">
+                </div>
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span>Email</span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="email" formControlName="email" class="form-control form-control-solid fs-14">
+                  <div class="text-danger fs-13 mt-1" *ngFor="let err of validationMessages.email">
+                    <div
+                      *ngIf="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)">
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-6">
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span>{{t('user.phone')}}</span>
+                  </div>
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="phone" formControlName="phone" class="form-control form-control-solid fs-14">
+                  <div class="text-danger fs-13 mt-1" *ngFor="let err of validationMessages.phone">
+                    <div
+                      *ngIf="formGroup.get('phone').hasError(err.type) && (formGroup.get('phone').dirty || formGroup.get('phone').touched)">
+                      {{ t(err.message) }}
+                    </div>
+                  </div>
+                </div>
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span>{{t('user.truyCapAp')}}</span>
+                  </div>
+                </label>
+                <div class="col-md-4 d-flex align-items-center">
+                  <label nz-checkbox class="so-checkbox fs-14" name="checkbox-is-access-app"
+                         formControlName="isAccessApp">
+                    {{ t('user.access') }}
+                  </label>
+                </div>
+              </div>
+
+              <div class="row mb-6">
+                <label class="col-md-2 col-form-label fs-14">
+                  <div class="d-flex align-items-start">
+                    <span>{{t('status')}}</span>
+                  </div>
+                </label>
+                <div class="col-md-4 d-flex align-items-center">
+                  <label nz-checkbox class="so-checkbox fs-14" name="checkbox-user" formControlName="isActive">
+                    {{ t('user.active') }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-8">
+            <div class="col-md-12 action d-flex justify-content-end">
+              <a [routerLink]="['/tenant/user']" type="button"
+                 class="so-btn so-btn-cancel">{{t('btnAction.cancel')}}</a>
+              <button type="button" [disabled]="formGroup.invalid || isSubmitForm"
+                      class="so-btn so-btn-primary so-btn-primary--small"
+                      (click)="onSubmit(formGroup)"
+              >{{t('btnAction.save')}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

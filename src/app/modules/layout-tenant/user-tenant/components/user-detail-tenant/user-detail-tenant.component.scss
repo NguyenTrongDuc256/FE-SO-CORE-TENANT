@@ -1,0 +1,91 @@
+.text-color {
+  color: #495057;
+}
+.text-color-blue {
+  color: #50A5F1;
+  font-weight: 700;
+}
+.avatar {
+  border: 1px solid rgba(203, 203, 203, 0.3);
+  img {
+    width: 13.5rem;
+    height: 13.5rem;
+  }
+}
+.action-edit {
+  a {
+    background-color: #556EE6;
+    color: #FFFFFF;
+  }
+
+  a:hover {
+    background-color: #556EE6;
+    color: #FFFFFF;
+  }
+
+}
+
+.user-info {
+  .gender-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff8dd;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #f1bc00;
+  }
+
+  .gender-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1faff;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #50a5f1;
+  }
+
+  .gender-3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6e1f1;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #7239ea;
+  }
+}
+.user-info1 {
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(203, 203, 203, 0.5);
+}
+
+.role {
+  .search-input {
+    min-width: 20rem;
+    position: relative;
+    input {
+      height: 40px;
+      padding-right: 40px;
+    }
+    .search-icon {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}
+
+.role-delete {
+  cursor: pointer;
+}

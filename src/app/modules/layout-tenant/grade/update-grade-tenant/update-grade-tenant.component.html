@@ -1,0 +1,52 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+  [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="card-dialog " *transloco="let t; scope: 'grade'">
+  <form [formGroup]="infoForm">
+    <div class=" d-flex align-items-center ">
+      <span class="fs-14 fw-700 label-input">{{ t('grade.gradeName') }} <span class="text-danger">*</span></span>
+      <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('grade.enterGradeName') }}"
+        name="input-name" type="text" formControlName="name">
+    </div>
+    <div *ngFor="let item of validation_messages.name">
+      <span class="warning " *ngIf="infoForm.get('name')?.hasError(item.type)  && infoForm.get('name')?.touched">
+        {{item.message}}
+      </span>
+    </div>
+    <div class=" margin-top d-flex align-items-center ">
+      <span class="fs-14 fw-700 label-code">{{ t('grade.gradeCode') }} </span>
+      <span class="fs-14 code-color"> {{this.dataModal.dataFromParent.code}}</span>
+    </div>
+    <div class=" margin-top d-flex align-items-center ">
+      <span class="fs-14 fw-700 label-input">{{ t('grade.educationalStagesApply') }} <span
+          class="text-danger">*</span></span>
+      <select class="fs-14 fw-500 input-custom form-select form-select-solid form-select-lg" name="btn-subject"
+        formControlName="educationalStages">
+        <option value="5">{{ t('grade.primarySchool') }}</option>
+        <option value="4">{{ t('grade.secondarySchool') }}</option>
+        <option value="3">{{ t('grade.highSchool') }}</option>
+      </select>
+    </div>
+    <div class=" margin-top d-flex align-items-center ">
+      <div class="status">
+        <span class="fs-14 fw-700 ">{{ t('status') }}</span>
+      </div>
+      <label class="fs-14 fw-700" nz-checkbox name="input-checkbox" formControlName="isActive">{{ t("activated")
+        }}</label>
+    </div>
+  </form>
+</div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

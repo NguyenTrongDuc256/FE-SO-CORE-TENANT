@@ -1,0 +1,35 @@
+:host {
+    height: 100%;
+    margin: 0;
+
+    .flex-root {
+      height: 100%;
+    }
+  }
+
+  .page-loaded {
+    app-layout {
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+  }
+
+
+  .header-custom-teacher {
+    left: 0 !important;
+  }
+
+.toolbar-custom{
+  left: 0 !important;
+  border: none !important;
+}
+
+.content-custom{
+  padding-left: 0!important;
+}
+
+.content-custom-teacher{
+  background: linear-gradient(90deg, rgba(204, 223, 255, 0.4) 0%, rgba(54, 153, 255, 0.4) 100%), url('../../../assets/images/jpg/backgroud/background_header.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 50%
+}

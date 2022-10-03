@@ -1,0 +1,495 @@
+<div class="style-student card" *transloco="let t; scope: 'school'">
+  <div class="col-xl-12 pt-3">
+    <span class="card-label fs-18 fw-700">{{t('school.schoolInformationSettings')}}</span>
+    <div class="separator mx-1 my-4"></div>
+  </div>
+  <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
+    <div class="col-xl-12 pb-8">
+      <span class="card-label fs-16 fw-700">I. {{t('school.infoSchool')}}</span>
+    </div>
+
+    <div class="row w-100 mt-5">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.moetName')}}</span>
+        </div>
+        <div class="col-md-6 input-custom d-flex align-items-center fs-13">
+          {{ infoBasicSchool?.MoetUnitName || '--' }}
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+          <div class="col-md-6 label-info d-flex align-items-center">
+              <img src="assets/images/svg/info.svg" alt="">
+              <span class="fw-700 text-label  fs-15">{{t('school.schoolName')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="name" id="name" placeholder="Tên trường" class="fs-13  form-control custom-tag-of-form "
+                   formControlName="name">
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: t('school.requiredName'),
+                        control: formSchool.controls['name']
+                        }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'maxLength',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['name']
+                        }">
+            </ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'notEmpty',
+                        message: t('school.requiredName'),
+                        control: formSchool.controls['name']
+                        }">
+            </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.codeMoet')}}</span>
+        </div>
+        <div class="col-md-6 input-custom d-flex align-items-center">
+          {{ infoBasicSchool?.MoetUnitCode || '--' }}
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('trainingLevel')}} <span class="text-danger">*</span></span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="trainingLevel" id="trainingLevel" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="trainingLevel">
+            <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
+            <ng-container *ngFor="let level of arrTrainingLevel">
+              <option [value]="level.code">{{level.name}}</option>
+            </ng-container>
+          </select>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: t('school.requiredTrainingLevel'),
+                      control: formSchool.controls['trainingLevel']
+                      }">
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('campus')}} <span class="text-danger">*</span></span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="campus" id="campus" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="campus">
+            <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
+            <ng-container *ngFor="let campus of arrCampus">
+              <option [value]="campus.id">{{campus.name}}</option>
+            </ng-container>
+          </select>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: t('school.requiredCampus'),
+                      control: formSchool.controls['campus']
+                      }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.loaiHinhTruong')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="loaiHinhTruong" id="loaiHinhTruong" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="loaiHinhTruong">
+            <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.chinhSachVung')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="chinhSachVung" id="chinhSachVung" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="chinhSachVung">
+            <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.loaiTruong')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="loaiTruong" id="loaiTruong" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="loaiTruong">
+            <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.khuVuc')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="khuVuc" id="khuVuc" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="khuVuc">
+            <option [value]="''">{{t('school.chonKhuVuc')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.KhuVuc">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">Email</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="email">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['email']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.sendFromEmail')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}" class="fs-13  form-control custom-tag-of-form "
+                 formControlName="sendFromEmail">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['sendFromEmail']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.SĐT')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="phone">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternPhone'),
+                        control: formSchool.controls['phone']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">Hotline</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="hotline">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternHotline'),
+                        control: formSchool.controls['hotline']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.fax')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="fax">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternFax'),
+                        control: formSchool.controls['fax']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.hieuTruong')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="tenHieuTruong">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['tenHieuTruong']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.emailHieuTruong')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}" class="fs-13  form-control custom-tag-of-form "
+                 formControlName="emailHieuTruong">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['emailHieuTruong']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.SDTHieuTruong')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="dienThoaiHieuTruong">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternPhone'),
+                        control: formSchool.controls['dienThoaiHieuTruong']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('indexOrder')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="number" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="indexOrder">
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.namThanhLap')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="number" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="namThanhLap">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['namThanhLap']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.loaiDuAn')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="tenMaDuAn" id="tenMaDuAn" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="maDuAn">
+            <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.MaDuAn">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.dienTich')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}" class=" fs-13 form-control custom-tag-of-form "
+                 formControlName="dienTich">
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['dienTich']
+                        }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.chuanQuocGia')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="mucChuanQuocGia">
+            <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+        <div class="col-md-6 label-info d-flex align-items-center">
+          <img src="assets/images/svg/info.svg" alt="">
+          <span class="fw-700 text-label  fs-15">{{t('school.maVungKhoKhan')}}</span>
+        </div>
+        <div class="col-md-6 input-custom">
+          <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="maVungKhoKhan">
+            <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
+            <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
+              <option [value]="item.MA">{{item.TEN}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+
+
+<!--      không dùng-->
+<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">-->
+<!--        <div class="col-md-6 label-info d-flex align-items-center">-->
+<!--          <img src="assets/images/svg/info.svg" alt="">-->
+<!--          <span class="fw-700 text-label  fs-15">{{t('school.provinceCity')}}</span>-->
+<!--        </div>-->
+<!--        <div class="col-md-6 input-custom">-->
+<!--          <select name="cityCode" id="cityCode" class=" form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="cityCode"-->
+<!--                  (change)="changeVerticalUnit('city')">-->
+<!--            <option [value]="''">{{t('school.chonProvinceCity')}}</option>-->
+<!--            <ng-container *ngFor="let item of arrCity">-->
+<!--              <option [value]="item.MA">{{item.TEN}}</option>-->
+<!--            </ng-container>-->
+<!--          </select>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
+<!--        <div class="row">-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
+<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
+<!--                                                                        alt="" class="box-icon" />&ensp;{{t('school.district')}}</span>-->
+<!--          </div>-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
+<!--            <select name="districtCode" id="districtCode" class="w-full" formControlName="districtCode"-->
+<!--                    (change)="changeVerticalUnit('district')">-->
+<!--              <option [value]="''">{{t('school.chonDistrict')}}</option>-->
+<!--              <ng-container *ngFor="let item of arrDistrict">-->
+<!--                <option [value]="item.MA">{{item.TEN}}</option>-->
+<!--              </ng-container>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
+<!--        <div class="row">-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
+<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
+<!--                                                                        alt="" class="box-icon" />&ensp;{{t('school.ward')}}</span>-->
+<!--          </div>-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
+<!--            <select name="wardCode" id="wardCode" class="w-full" formControlName="wardCode"-->
+<!--                    (change)="changeVerticalUnit('ward')">-->
+<!--              <option [value]="''">{{t('school.chonWard')}}</option>-->
+<!--              <ng-container *ngFor="let item of arrWard">-->
+<!--                <option [value]="item.MA">{{item.TEN}}</option>-->
+<!--              </ng-container>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
+<!--        <div class="row">-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
+<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
+<!--                                                                        alt="" class="box-icon" />&ensp;{{t('address')}}</span>-->
+<!--          </div>-->
+<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
+<!--            <input type="text" name="address" id="address" placeholder="{{t('enterAddress')}}" class="form-control"-->
+<!--                   formControlName="address">-->
+<!--            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{-->
+<!--                        validation: 'pattern',-->
+<!--                        message: t('school.validateMaxLengthName'),-->
+<!--                        control: formSchool.controls['address']-->
+<!--                        }">-->
+<!--            </ng-container>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+
+    <div class="col-xl-12 pb-8">
+      <span class="card-label fs-16 fw-700">II. {{t('school.infoAdvanced')}}</span>
+    </div>
+
+    <div class="row">
+      <ng-container *ngFor="let item of arrInfoAdvanced">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-9">
+          <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="{{item.key}}" ngDefaultControl
+                 formControlName="{{item.key}}">
+            <span class="fw-600">{{ t(item.label) }}</span>
+          </label>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="action d-flex justify-content-end mt-4">
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+              (click)="cancel()">{{t('btnAction.cancel')}}</button>
+      <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
+              (click)="submit(formSchool.value)" [disabled]="formSchool.invalid">{{t('btnAction.save')}}</button>
+    </div>
+  </form>
+</div>
+
+<!-- error -->
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        <div class="err-form text-danger">
+          <img src="assets/images/svg/icon-false.svg" alt="">
+          <span>&nbsp;{{ message }}</span>
+        </div>
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
+<!-- end err template -->
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

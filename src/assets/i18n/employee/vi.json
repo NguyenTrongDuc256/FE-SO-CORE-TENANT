@@ -1,0 +1,248 @@
+{
+  "titleDelete": "Xóa nhân viên",
+  "title": "Danh sách Nhân viên",
+  "create": "Thêm mới nhân viên",
+  "edit": "Chỉnh sửa nhân viên",
+  "school": "Trường",
+  "school1": "Trường học",
+  "noActive": "Đã khóa",
+  "avatar": "Ảnh đại diện",
+  "upload": "Tải lên",
+  "fullName": "Họ và tên",
+  "code": "Mã",
+  "codeMoet": "Mã Moet",
+  "assignRole": "Gán phân quyền",
+  "selectRole": "Chọn quyền",
+  "dob": "Ngày sinh",
+  "gender": "Giới tính",
+  "accessApp": "Truy cập App",
+  "active": "Kích hoạt",
+  "locked": "Khóa",
+  "generalInformation": "Thông tin chung",
+  "campus": "Campus",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "email": "Email",
+  "phone": "Số điện thoại",
+  "danToc": "Dân tộc",
+  "tonGiao": "Tôn giáo",
+  "nhomMau": "Nhóm máu",
+  "quocTich": "Quốc tịch",
+  "diaChi": "Địa chỉ",
+  "hktt": "HKTT",
+  "tinh": "Tỉnh/Thành phố",
+  "bhxh": "Số BHXH",
+  "huyen": "Quận/Huyện",
+  "trangThaiCB": "Trạng thái CB",
+  "xa": "Phường/Xã",
+  "laDoanVien": "Là Đoàn viên",
+  "cc": "CMND/CC",
+  "laDangVien": "Là Đảng viên",
+  "placeOfBirth": "Nơi sinh",
+  "select": "Chọn",
+  "nhap": "Nhập",
+  "notFoundContent": "Không có dữ liệu",
+
+  "1ViTriViecLam": "I. Vị trí việc làm, TCCD",
+  "2PhuCap": "II. Phụ cấp",
+  "3DaoTaoBoiDuong": "III. Đào tạo, Bồi dưỡng",
+  "4DanhGiaPhanLoai": "IV. Đánh giá, Phân loại",
+  "viTriViecLam": "Vị trí việc làm",
+  "nhiemVuKiemNhiem": "Nhiệm vụ kiêm nhiệm",
+  "nhomChucVu": "Nhóm chức vụ",
+  "soTietDayTrenTuan": "S.tiết dạy trên tuần",
+  "ngayBoNhiem": "Ngày bổ nhiệm",
+  "soTietKhongNhiemTrenTuan": "S.tiết k.nhiệm trên tuần",
+  "soLanBoNhiem": "Số lần bổ nhiệm nhiệm",
+  "ngach": "Ngạch/Hạng",
+  "hinhThucHopDong": "Hình thức hợp đồng",
+  "ngayTuyenDung": "Ngày tuyển dụng",
+  "coQuanTuyenDung": "Cơ quan tuyển dụng",
+  "namVaoTruong": "Năm vào trường",
+  "ngheNghiepKhiDuocTuyenDung": "N.nghiệp khi được t.dụng",
+  "maSoNgach": "Mã số Ngạch",
+  "danhHieuPhongTangCaoNhat": "D.hiệu phong tặng cao nhất",
+  "daTapHuanDayKiNangSong": "T.huấn dạy K.N sống",
+  "phoPhuTrach": "Phó phụ trách",
+  "dayHocSinhKienThucHoaNhap": "Dạy HSKT học hòa nhập",
+  "dayLopKhuyetTat": "Dạy lớp khuyết tật",
+  "tongPhuTrachDoi": "Tổng phụ trách đội",
+  "day1BuoiNgay": "Dạy 1 buổi/ ngày",
+  "TGCTBTTX": "T.gia CT b.dưỡng T.xuyên",
+  "day2BuoiNgay": "Dạy 2 buổi/ ngày",
+  "coCCBoiDuongTCCD": "Có CC b.dưỡng TCCD/ ngày",
+  "chuyenTrachDoanDoi": "Chuyên trách đoàn đội",
+  "phuCapThuHutNghe": "Mức p.cấp thu hút n.nghiệp",
+  "bacLuong": "Bậc lương",
+  "phuCapThamNien": "Mức phụ cấp thâm niên (%)",
+  "phanTramVuotKhung": "Phần trăm vượt khung",
+  "phuCapUuDaiNghe": "Mức p.cấp ưu đãi n.nghiệp",
+  "heSoLuong": "Hệ số lương",
+  "phuCapChucVuLanhDao": "Mức p.cấp c.vị lãnh đạo (%)",
+  "ngayHuongLuong": "Ngày hưởng lương",
+  "dienBienQuaTrinhLuong": "Diễn biến quá trình lương",
+  "chiTiet": "Chi tiết",
+  "dong": "Đóng",
+  "thoiGian": "Tháng năm",
+  "maBacLuong": "Mã bậc lương",
+  "ketQuaBoiDuongTX": "K.Q bồi dưỡng thường xuyên",
+  "loaiChungChiNgoaiNgu": "Loại C.Chỉ N.Ngữ",
+  "trinhDoCMNV": "T.độ chuyên môn nhiệm vụ",
+  "khungNangLucNgoaiNgu": "Khung N.Lực N.Ngữ",
+  "trinhDoLLCT": "Trình độ LLCT",
+  "trinhDoTinHoc": "Trình độ tin học",
+  "trinhDoQLGD": "T.độ quản lý giáo dục",
+  "chuyenNganhChinh": "Chuyên ngành chính",
+  "thamGiaBDNghiepVuQLGD": "T.gia BD n.vụ QLGD",
+  "trinhDoChinh": "Trình độ chính",
+  "thamGiaBDCBQLGVCotCan": "T.gia BD CBQL/GV cốt cán",
+  "coSoDaoTao": "Cơ sở đào tạo",
+  "thamGiaBDThaySach": "Tham gia BD thay sách",
+  "chuyenNganhKhac": "Chuyên ngành khác",
+  "ngoaiNguChinh": "Ngoại ngữ chính",
+  "trinhDoKhac": "Trình độ khác",
+  "trinhDoDaoTaoNgoaiNgu": "T.độ Đ.tạo N.Ngữ",
+  "chungChiDanTocTS": "G.V có c.chỉ d.tộc t.số",
+  "nhomChungChiNgoaiNgu": "Nhóm C.Chỉ N.Ngữ",
+  "tongPhuTrachDoiGioi": "Tổng phụ trách đội giỏi",
+  "diemNgoaiNgu": "Điểm ngoại ngữ",
+  "danhGiaVienChuc": "Đánh giá viên chức",
+  "gvDayGioi": "Giáo viên dạy giỏi",
+  "gvChuNhiemGioi": "Giáo viên CN giỏi",
+  "danhHieuPhongTang": "Danh hiệu phong  tặng",
+  "danhGiaChuanNgheNghiep": "Đ.giá chuẩn NN CBQL/GV",
+  "qhGiaDinh": "Quan hệ gia đình",
+  "khenThuong": "Khen thưởng",
+  "qhGiaDinhVoChong": "Quan hệ gia đình (Vợ/chồng)",
+  "kyLuat": "Kỷ luật",
+  "quaTrinhCongTac": "Quá trình công tác",
+  "quaTrinhDaoTaoBD": "Q.trình ĐT B.dưỡng",
+  "ngoaiNgu": "Ngoại ngữ",
+  "ngoaiNguKhac": "Ngoại ngữ khác",
+  "trinhDoNgoaiNgu": "Trình độ ngoại ngữ",
+  "ngayCap": "Ngày cấp",
+  "chuThich": "Chú thích",
+  "chuyenNganhDTBoiDuong": "Chuyên nghành ĐT, Bồi dưỡng",
+  "tuNgay": "Từ ngày",
+  "denNgay": "Đến ngày",
+  "hinhThucDT": "Hình thức ĐT",
+  "vanBangCCTrinhDo": "Văn bằng, CC, Trình độ",
+  "titleDanhGiaChuanNgheNghiep": "Đánh giá chuẩn nghề nghiệp CBNV",
+  "tieuChiDanhGia": "Tiêu chí đánh giá",
+  "noiDung": "Nội dung",
+  "tuDanhGia": "Tự đánh giá",
+  "capTrenDanhGia": "Cấp trên đánh giá",
+  "mucDatDuoc": "Mức đạt được",
+  "khenThuongGV": "Khen thưởng giáo viên",
+  "kyLuatGV": "Kỷ luật giáo viên",
+  "quanHeGiaDinh": "Quan hệ gia đình",
+  "quanHeGiaDinhVoChong": "Quan hệ gia đình vợ chồng",
+  "loaiKhenThuong": "Loại khen thưởng",
+  "capKhenThuong": "Cấp khen thưởng",
+  "soQuyetDinh": "Số quyết định",
+  "ngayKhenThuong": "Ngày khen thưởng",
+  "chucDanhChucVuDonViCongTac": "Chức danh, chức vụ, đơn vị công tác",
+  "loaiKyLuat": "Loại kỷ luật",
+  "capKyQuyetDinh": "Cấp ký quyết định",
+  "ngayKyLuat": "Ngày kỷ luật",
+  "quanHe": "Quan hệ",
+  "hoVaTen": "Họ và tên",
+  "namSinh": "Năm sinh",
+  "contentQhGiaDinh": "Quê quán, nghề nghiệp, chức danh, đơn vị công tác, học tập, nơi ở",
+  "khongTimThayTieuChiDanhgia": "Không tìm thấy tiêu chí đánh giá nào với Nhóm chức vụ: ",
+  "nhomChucVuRequired": "Bạn chưa chọn Nhóm chức vụ [32] ở mục I. Vị trí việc làm, TCCD",
+  "tieuChi": "Tiêu chí",
+  "modalEmployeeEdit": "Chọn trường để cập nhật Nhân viên tương ứng",
+
+
+  "btnAction": {
+    "send": "Gửi thông báo",
+    "changedPassword": "Đổi mật khẩu",
+    "luu": "Lưu",
+    "them": "Thêm",
+    "huy": "Hủy"
+  },
+  "validators": {
+    "fullName":{
+      "required":"Bạn chưa nhập họ và tên",
+      "maxlength":"Họ và tên của bạn không được vượt quá 255 ký tự"
+    },
+    "code":{
+      "required":"Bạn chưa nhập mã",
+      "pattern":"Mã chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength":"Mã của bạn không được vượt quá 50 ký tự"
+    },
+    "username":{
+      "required":"Bạn chưa nhập tên đăng nhập",
+      "pattern":"Tên đăng nhập chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength":"Tên đăng nhập của bạn không được vượt quá 50 ký tự"
+    },
+    "password":{
+      "required":"Bạn chưa nhập mật khẩu",
+      "pattern":"Mật khẩu chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự đặc biệt",
+      "maxlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50",
+      "minlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50"
+    },
+    "email":{
+      "required":"Bạn chưa nhập email",
+      "email":"Email không hợp lệ"
+    },
+    "phone":{
+      "required":"Bạn chưa nhập số điện thoại",
+      "pattern":"Số điện thoại không hợp lệ"
+    },
+    "codeMoet": {
+      "required":"Bạn chưa nhập mã Moet",
+      "pattern":"Mã Moet chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength":"Mã Moet của bạn không được vượt quá 50 ký tự"
+    },
+    "roleId": {
+      "required": "Bạn chưa chọn phân quyền"
+    },
+    "campusId": {
+      "required": "Bạn chưa nhập Campus"
+    },
+    "schoolId": {
+      "required": "Bạn chưa nhập trường"
+    },
+    "ngach": {
+      "required": "Bạn chưa chọn ngạch/hạng"
+    },
+    "bacLuong": {
+      "required": "Bạn chưa chọn bậc lương"
+    },
+    "heSoLuong": {
+      "required": "Bạn chưa chọn hệ số lương"
+    },
+    "ngoaiNgu": {
+      "required": "Bạn chưa chọn ngoại ngữ"
+    },
+    "truong": {
+      "required": "Bạn chưa chọn trường"
+    },
+    "chuyenNganhDaoTao": {
+      "required": "Bạn chưa chọn chuyên nghành ĐT, bồi dưỡng"
+    },
+    "hinhThucDaoTao": {
+      "required": "Bạn chưa chọn hình thức đào tạo"
+    },
+    "trinhDo": {
+      "required": "Bạn chưa chọn trình độ"
+    },
+    "tieuChi": {
+      "required": "Bạn chưa chọn tiêu chí"
+    },
+    "loai": {
+      "required": "Bạn chưa chọn loại khen thưởng"
+    },
+    "content": {
+      "required": "Bạn chưa nhập chức danh, chức vụ, đơn vị công tác"
+    },
+    "loaiKyLuat": {
+      "required": "Bạn chưa chọn loại kỷ luật"
+    },
+    "moiQuanHe": {
+      "required": "Bạn chưa chọn mối quan hệ"
+    }
+  }
+}

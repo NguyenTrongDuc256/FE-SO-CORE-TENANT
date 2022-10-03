@@ -1,0 +1,32 @@
+{
+    "gradeList": "Grade list",
+    "status": "Status",
+    "grade": "Grade",
+    "educationalStages": "Educational stages",
+    "order": "Order",
+    "gradeName": "Grade name",
+    "enterGradeName": "Enter grade name",
+    "enterGradeCode": "Enter grade code",
+    "gradeCode": "Grade code",
+    "educationalStagesApply": "Educational stages apply",
+    "activated": "Activated",
+    "notActivated": "Not activated",
+    "primarySchool": "Primary school",
+    "secondarySchool": "Secondary school",
+    "highSchool": "High school",
+    "deleteGrade": "Delete grade",
+    "updateGrade": "Update grade",
+    "createGrade": "Create grade",
+    "chooseApplicableSchoolLevel":"Choose applicable school level",
+    "validators": {
+        "name": {
+            "required": "Grade name is required",
+            "maxlength": "Grade name can't have more than 255 characters"
+        },
+        "code":{
+            "required":"Grade code is required",
+            "pattern":"Grade code invalid",
+            "maxlength": "Grade code can't have more than 50 characters"
+        }
+    }
+}

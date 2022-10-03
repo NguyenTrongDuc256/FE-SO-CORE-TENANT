@@ -1,0 +1,132 @@
+.style-module-manager {
+    width: 100%;
+    height: 100%;
+
+  .card-header-custom {
+      padding: 1rem !important;
+  }
+
+  .card-body-custom {
+      padding: 1rem;
+
+      .color-thhead {
+          color: #495057;
+      }
+
+      .color-td {
+          color: #2D3748;
+      }
+
+      .school-action {
+          color: #556EE6;
+          cursor: pointer;
+      }
+
+      .custom-status-1 {
+          background: #34C38F;
+          border-radius: 6px;
+          color: #FFFFFF;
+          width: 100px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .custom-status-0 {
+          background: #F46A6A;
+          border-radius: 6px;
+          color: #FFFFFF;
+          width: 100px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      .module-manager-name{
+          color: #50A5F1;
+          cursor: pointer;
+      }
+      .custom-module-code{
+        color: #000000;
+        opacity: 0.7;
+      }
+      .custom-module-permisson{
+        background: #50A5F1;
+        opacity: 0.88;
+        border-radius: 5px;
+        color: #FFFFFF;
+        padding: 5px 30px;
+        cursor: pointer;
+      }
+  }
+
+  .title-list {
+      flex-grow: 1;
+      color: #464E5F;
+  }
+
+  .custom-search {
+      flex-grow: 1;
+
+      .custom-select-status{
+          width: 20%;
+          height: 40px;
+          margin-right: 10px;
+      }
+
+      .search-input {
+          width: 40%;
+          position: relative;
+
+          input {
+              height: 40px;
+              padding-right: 40px;
+          }
+
+          .search-icon {
+              position: absolute;
+              right: 10px;
+              top: 10px;
+              width: 20px;
+              height: 20px;
+          }
+      }
+
+      .add-action {
+          .add-icon {
+              width: 10px;
+              height: 10px;
+              margin-right: 5px;
+          }
+
+          margin-left: 10px;
+          height: 40px;
+          background: #556EE6;
+          border-radius: 5px;
+          padding: 5px 10px;
+          font-weight: 500;
+          font-size: 1.1rem;
+          line-height: 18px;
+          color: #FFFFFF;
+          cursor: pointer;
+      }
+  }
+}
+
+.pdl-0 {
+  padding-left: 0;
+}
+
+.pdr-0 {
+  padding-right: 0;
+}
+
+.custom-select {
+  height: 40px;
+  padding: 0;
+}
+
+.text-left-th {
+  text-align: left !important;
+}

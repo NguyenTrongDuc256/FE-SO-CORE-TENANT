@@ -1,0 +1,90 @@
+:host {
+    height: inherit;
+    width: inherit;
+}
+
+.custom-switch-infomation-layout {
+    position: relative;
+
+    h3 {
+        color: #3F4254;
+        font-weight: 700;
+    }
+
+    span {
+        color: #556EE6;
+        font-weight: 600;
+    }
+
+    .icon-choose-infomation {
+        position: absolute;
+        right: -25px;
+        top: 0;
+        cursor: pointer;
+    }
+}
+
+::ng-deep .custom-form-select {
+    .hide-content{
+        display: none;
+    }
+    width: 400px !important;
+
+    .title-form-select {
+        margin-top: 0.5rem;
+        color: #464E5F;
+    }
+
+    .choose-moet {
+        .title-select {
+            display: block;
+            color: #464E5F;
+            margin-bottom: 0.5rem;
+        }
+
+        .ant-select {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .custom-btn {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: flex-end;
+
+        .btn-cancel {
+            color: #74788D;
+            background: #F4F5F9;
+            border-radius: 3px;
+            padding: 0.5rem 2rem;
+            width: 100px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .btn-apply {
+            opacity: 0.6;
+            background: #556EE6;
+            border-radius: 3px;
+            color: #F4F4F4;
+            padding: 0.5rem 2rem;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+        .btn-apply.active{
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+
+    nz-select-top-control.ant-select-selector{
+        padding: 5px 10px !important;
+    }
+}

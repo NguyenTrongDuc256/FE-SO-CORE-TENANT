@@ -1,0 +1,79 @@
+<div class="card-dialog" *transloco="let t; scope: 'subject'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="infoForm">
+      <div class=" d-flex align-items-center ">
+        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectName') }} <span class="text-danger">*</span></span>
+        <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('subject.enterSubjectName') }}"
+          name="input-name" type="text" formControlName="name">
+      </div>
+      <div *ngFor="let item of validation_messages.name">
+        <span class="warning " *ngIf="infoForm.get('name')?.hasError(item.type)  && infoForm.get('name')?.touched">
+          {{item.message}}
+        </span>
+      </div>
+  
+      <div class=" margin-top d-flex align-items-center ">
+        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectCode') }} <span class="text-danger">*</span></span>
+        <input class="fs-14 fw-500 input-custom  input-text" placeholder="{{ t('subject.enterSubjectCode') }}" type="text"
+          formControlName="code" name="input-code">
+      </div>
+      <div *ngFor="let item of validation_messages.code">
+        <span class="warning" *ngIf="infoForm.get('code')?.hasError(item.type)  && infoForm.get('code')?.touched">
+          {{item.message}}
+        </span>
+      </div>
+  
+      <div class=" margin-top d-flex align-items-center ">
+        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectType') }}</span>
+        <select class="w-100 fs-13 fw-700 form-select form-select-solid form-select-lg" name="btn-subject"
+          id="subjectType" formControlName="subjectType">
+          <!--  <option value="1">{{ t('subject.subjectMoet') }}</option> -->
+          <option value="2">{{ t('subject.subjectPrivate') }}</option>
+          <option value="3">{{ t('subject.subjectBilingual') }}</option>
+        </select>
+      </div>
+  
+      <div class=" margin-top d-flex align-items-center ">
+        <span class="fs-14 fw-700 label-input">{{ t('subject.applyFor') }} <span class="text-danger">*</span></span>
+        <nz-select formControlName="educationalStages" nzMode="tags" [nzTokenSeparators]="[',']"
+          nzPlaceHolder="{{ t('select') }}">
+          <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+        </nz-select>
+      </div>
+      <div *ngFor="let item of validation_messages.educationalStages">
+        <span class="warning"
+          *ngIf="infoForm.get('educationalStages')?.hasError(item.type)  && infoForm.get('educationalStages')?.touched">
+          {{item.message}}
+        </span>
+      </div>
+  
+      <div class=" margin-top d-flex align-items-center ">
+        <div class="status">
+          <span class="fs-14 fw-700 ">{{ t('status') }}</span>
+        </div>
+        <!--  <input class="form-check-input" name="input-checkbox" type="checkbox" formControlName="isActive" />
+        <span class="activated fs-14 fw-700">{{ t('subject.used') }}</span> -->
+        <label class=" fs-14 fw-700 text-primary" nz-checkbox name="input-checkbox" formControlName="isActive">{{
+          t("subject.used")
+          }}</label>
+      </div>
+      
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" [disabled]="infoForm.invalid"
+    (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

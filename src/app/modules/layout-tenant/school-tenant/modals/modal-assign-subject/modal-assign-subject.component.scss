@@ -1,0 +1,42 @@
+.box {
+  .so-checkbox {
+    flex-grow: 1;
+  }
+  .so-badge {
+    max-width: max-content;
+    min-width: 11rem;
+    font-size: 1.2rem;
+    cursor: default;
+  }
+}
+/*lẻ*/
+.box:nth-child(odd) {
+  padding-right: 25px;
+}
+/*chẵn*/
+.box:nth-child(even) {
+  padding-left: 25px;
+}
+
+hr {
+  background-color: #a19898;
+}
+
+.so-select {
+  height: auto;
+}
+
+.so-badge-status-1 {
+  background: rgba(132, 181, 255, 0.37) !important;
+  color: #50a5f1 !important;
+}
+
+.so-badge-status-2 {
+  background: rgba($color: #f69220, $alpha: 0.37) !important;
+  color: #F69220 !important;
+}
+
+.so-badge-status-3 {
+  background: rgba($color: #34c38f, $alpha: 0.37) !important;
+  color: #34c38f !important;
+}

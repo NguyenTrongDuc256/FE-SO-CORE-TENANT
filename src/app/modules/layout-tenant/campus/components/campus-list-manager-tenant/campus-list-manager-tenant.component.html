@@ -1,0 +1,111 @@
+<div class="card style-campus" *transloco="let t; scope: 'campus'">
+  <div class="card-header-custom border-0 p-5">
+    <div class="w-100 d-flex justify-content-between align-items-center">
+      <div class="title-content  mb-3">
+        <span class="fs-18 fw-700">{{ t('campus.campusList') }}</span>
+      </div>
+      <div class="d-flex justify-content-end align-items-center custom-search">
+        <select class="fs-13 fw-700 form-select form-select-solid form-select-lg custom-select-status"
+          name="select-filter-status-campus" (change)="changeFilterStatus($event)">
+          <option value="">{{ t('status') }}</option>
+          <option value="1">{{ t('campus.activated') }}</option>
+          <option value="0">{{ t('campus.locked') }}</option>
+        </select>
+        <div class="search-input">
+          <input name="input-search-campus" type="text" class="form-control custom-tag-of-form fs-14"
+            placeholder="{{ t('campus.enterCampusName') }}" (keyup)="checkChangeKeywordSerach($event)">
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="">
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.campus_manager }}">
+          <span class="add-action d-flex justify-content-center align-items-center fs-14"
+            (click)="openModalCampusForm()" name="btn-add-campus">
+            <img class="add-icon" src="assets/images/svg/plus.svg" alt="">
+            {{ t('btnAction.add') }}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body-custom pt-0 mt-6">
+    <table class="table align-middle table-global">
+      <thead>
+        <tr class="text-center">
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 5%;">
+            {{ t('campus.order') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%;">
+            {{ t('campus.campusName') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
+            {{ t('campus.campusInfomation') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
+            {{ t('campus.contact') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead" style="width: 15%;">
+            {{ t('status') }}
+          </th>
+          <th class="fs-14 fw-700 color-thhead" style="width: 10%;">
+            {{ t('action') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="fw-bold text-gray-600">
+        <tr *ngFor="let item of dataSource;let i = index">
+          <td class="color-td fs-13 fw-700">{{ i+1 }}</td>
+          <td class="color-td campus-name fs-13 fw-700">
+            {{ item.name }}
+          </td>
+          <td class="color-td">
+            <div class="detail-campus-infomation">
+              <h4 class="title-infomation fs-13 fw-700">{{ item.address }}</h4>
+              <span class="lb-info fs-12 fw-700">T: <b class="value-info fs-13 fw-500">{{ item.hotline }}</b></span>
+              <span class="lb-info fs-12 fw-700">E: <b class="value-info fs-13 fw-500">{{ item.email }}</b></span>
+            </div>
+          </td>
+          <td class="color-td">
+            <div class="detail-campus-contact">
+              <h4 class="title-contact fs-13 fw-700">{{ item.contactName }}</h4>
+              <span class="lb-contact fs-12 fw-700">T: <b class="value-contact fs-13 fw-500">{{ item.contactPhone }}</b></span>
+              <span class="lb-contact fs-12 fw-700">E: <b class="value-contact fs-13 fw-500">{{ item.contactEmail }}</b></span>
+            </div>
+          </td>
+          <td class="color-td fs-13 fw-600">
+            <span class="custom-status-{{item.isActive}} fs-11 fw-700">
+              {{ getTextStatus(item.isActive) }}
+            </span>
+          </td>
+          <td class="color-td fs-13 fw-600 text-center">
+            <ng-template ngxPermissionsOnly="{{ permission.campus_manager }}">
+              <span class="campus-action">
+                <img nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="action-icon"
+                  src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item class="fs-13 fw-600 custom-action-item" name="btn-update-campus"
+                      (click)="openModalUpdateCampus(item)">
+                      <img class="action-icon-campus" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update')
+                      }}
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 custom-action-item" name="btn-assign-role-campus"
+                      (click)="opendModalDeleteCampus(item)">
+                      <img class="action-icon-campus" src="assets/images/svg/icon-delete.svg" alt="">{{
+                      t('btnAction.delete') }}
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </span>
+            </ng-template>
+          </td>
+        </tr>
+        <tr *ngIf="dataSource?.length == 0 || !dataSource">
+          <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

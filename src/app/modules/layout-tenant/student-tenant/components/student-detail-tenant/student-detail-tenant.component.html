@@ -1,0 +1,44 @@
+<div class="d-flex bg-white h-100" *transloco="let t; scope: 'student'">
+  <!-- aside menu -->
+  <div class="aside-menu fs- 14 fw-700">
+    <a class="so-menu-item" [ngClass]="{'active': tab == 1}" (click)="changeTab(1)">
+      <span class="so-menu-item-icon">
+        <img src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
+      </span>
+      <span>{{ t('student.studentInfo') }}</span>
+    </a>
+
+    <a class="so-menu-item" [ngClass]="{'active': tab == 2}" (click)="changeTab(2)">
+      <span class="so-menu-item-icon">
+        <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+      </span>
+      <span>Gia đình học sinh</span>
+    </a>
+
+    <a class="so-menu-item" [ngClass]="{'active': tab == 3}" (click)="changeTab(3)">
+      <span class="so-menu-item-icon">
+        <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+      </span>
+      <span>Danh sách lớp học</span>
+    </a>
+  </div>
+  <!-- end aside menu -->
+
+  <!-- tab chi tiết học sinh -->
+  <div class="so-content">
+    <ng-container *ngIf="tab == 1">
+      <!-- Thông tin cá nhân học sinh -->
+      <app-tab-student-person-info-tenant [studentId]="studentId"></app-tab-student-person-info-tenant>
+    </ng-container>
+
+    <ng-container *ngIf="tab == 2">
+      <!-- Gia đình học sinh -->
+    </ng-container>
+
+    <ng-container *ngIf="tab == 3">
+      <!-- Danh sách lớp học -->
+    </ng-container>
+  </div>
+  <!-- hết tab chi tiết học sinh -->
+
+</div>

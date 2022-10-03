@@ -1,0 +1,195 @@
+::ng-deep.custom-detail-school-year {
+  height: 100%;
+  background-color: #FFFFFF;
+  padding: 2rem;
+
+  .header-detail-school-year {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 1rem;
+
+    .title-school-year{
+      display: flex;
+      align-items: center;
+      .title-detail{
+        margin-right: 2rem;
+        color: #2D3748;
+      }
+      .btn-update-school-year{
+        background: #556EE6;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 2rem;
+        color: #FFFFFF;
+        cursor: pointer;
+        .img-update{
+          width: 14px;
+          height: 14px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .tab-form {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .lab-tab {
+        color: #000000;
+        cursor: pointer;
+        padding: 2px 10px;
+        margin: 0 10px;
+        border-bottom: solid 2px #FFFFFF;
+      }
+
+      .lab-tab.active {
+        color: #50A5F1;
+        cursor: pointer;
+        border-bottom: solid 2px #50A5F1;
+        padding: 2px 10px;
+        margin: 0 10px;
+      }
+    }
+  }
+
+  .content-detail-school-year{
+    .tab-content{
+      margin-top: 1rem;
+      .custom-status{
+        .status-2{
+          background: #F69220;
+          border-radius: 8px;
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 150px;
+          height: 30px;
+        }
+        .status-1{
+          background: #34C38F;
+          border-radius: 8px;
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 150px;
+          height: 30px;
+        }
+        .status-0{
+          background: #A3A1A1;
+          border-radius: 8px;
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 150px;
+          height: 30px;
+        }
+      }
+      .lb-infomation{
+        color: #495057;
+        width: 110px;
+      }
+      .schoolyear-name{
+        color: #50A5F1;
+        margin-right: 3rem;
+      }
+      .schoo-year-code{
+        color: #50A5F1;
+      }
+      .text-right{
+        text-align: right;
+        margin-right: 10px;
+      }
+      .school-year-apply{
+        color: #979797;
+        span:first-child{
+          margin-right: 5px;
+        }
+        span{
+          margin-left: 5px;
+          color: #50A5F1;
+        }
+      }
+      .ant-checkbox-checked .ant-checkbox-inner{
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      .ant-checkbox-checked .ant-checkbox-inner::after{
+        left: 0.2rem;
+      }
+      .ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner::after{
+        border-color: #556EE6 !important;
+      }
+      .ant-checkbox-disabled .ant-checkbox-inner{
+        border-color: #556EE6 !important;
+      }
+      .list-term{
+        margin-top: 1rem;
+        .custom-term-name{
+          color: #34C38F;
+        }
+        .custom-term-time{
+          color: #979797;
+          span{
+            color: #50A5F1;
+            margin-left: 5px;
+            margin-right: 5px;
+          }
+        }
+        .custom-term-notification-0{
+          color: #A4A4A4;
+        }
+        .custom-term-notification-1{
+          color: #50A5F1;
+        }
+      }
+      .custom-order{
+        color: #000000;
+      }
+      .custom-circulars-name{
+        color: #50A5F1;
+      }
+      .custom-circulars-code{
+        color: #000000;
+        opacity: 0.7;
+      }
+      .custom-circulars-grade-apply{
+        color: #000000;
+        opacity: 0.7;
+      }
+      .custom-circulars-link{
+        color: #50A5F1;
+        word-break: break-word;
+      }
+      .custom-circulars-status-0{
+        background: #F46A6A;
+        border-radius: 5px;
+        color: #FFFFFF;
+        padding: 0.5rem 1rem;
+        text-align: center;
+      }
+      .custom-circulars-status-1{
+        background: #50A5F1;
+        border-radius: 5px;
+        color: #FFFFFF;
+        padding: 0.5rem 1rem;
+        text-align: center;
+      }
+    }
+    .hide-tab{
+      display: none;
+    }
+  }
+}
+
+.text-left-th {
+  text-align: left !important;
+}
+

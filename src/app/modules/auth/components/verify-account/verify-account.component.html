@@ -1,0 +1,127 @@
+<ng-container *transloco="let t; scope: 'auth'">
+  <!-- start buoc nhap email/phone de lay ma -->
+  <div *ngIf="!isVerifyAccount">
+    <form>
+      <h4 class="mb-6 text-medium-global fw-700 so-auth-text-primary pt-12 pb-6">
+        {{t('auth.requiredPhoneEmail')}}
+      </h4>
+      <!--begin::Form group-->
+      <div class="fv-row mb-10">
+        <input class="form-control form-control-lg form-control-solid" type="text" placeholder="{{t('auth.enterPhoneEmail')}}"
+          name="email" autocomplete="off" [(ngModel)]="userName" />
+      </div>
+      <!--end::Form group-->
+      <!--begin::Form group-->
+      <div class="d-flex flex-wrap justify-content-between pb-lg-0">
+        <a routerLink="/auth/forgot-password/send-code" id="kt_login_password_reset_form_has_code_button"
+          class="btn btn-lg btn-light-primary fw-bolder">
+          {{t('auth.hasCode')}}
+        </a>
+        <div class="d-flex flex-wrap justify-content-end">
+          <a routerLink="/auth/login" id="kt_login_password_reset_form_cancel_button"
+            class="btn btn-lg btn-light-primary fw-bolder me-4 btn-auth-cancel">
+            {{t('btnAction.cancel')}}
+          </a>
+          <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
+            (click)="checkAccount()" [disabled]="!userName" *ngIf="!(isLoading$ | async)">
+            <span class="indicator-label">{{t('auth.getCode')}}</span>
+          </button>
+          <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
+            disabled *ngIf="isLoading$ | async">
+            <span class="indicator-progress">
+              {{t('auth.processing')}}
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <!--end::Form group-->
+    </form>
+  </div>
+  <!-- end buoc nhap email/phone de lay ma -->
+
+  <!-- start buoc chon tai khoan dang ki de lay ma -->
+  <div *ngIf="isVerifyAccount">
+    <h4 class="text-medium-global fw-700 so-auth-text-primary pt-12 pb-6">
+      {{t('auth.confirmAccount')}}
+    </h4>
+    <p class="fw-600 mb-5">{{t('auth.requiredChooseAccount')}} </p>
+    <div class="fv-row mb-10">
+      <nz-radio-group [(ngModel)]="accountSelected" ngDefaultControl class="so-radio-group w-full">
+        <ng-container *ngFor="let acc of arrAccount">
+          <label nz-radio [nzValue]="acc?.id" class="w-full so-radio-group-item mb-3" name="accountId">
+            <div class="so-auth-text-primary">
+              <div class="d-flex align-items-center mb-2">
+                <img src="assets/images/png/img1.png" alt="" class="avatar">
+                <div>
+                  <span class="fw-700 text-normal-global d-block mb-2">{{acc?.fullname}}</span>
+                  <select name="select-method" id="select-method" class="so-select so-select-method"
+                  [(ngModel)]="acc.method"
+                    *ngIf="acc?.email != '' && acc?.phone != ''; else noPhoneOrEmail">
+                    <option [value]="METHOD_PHONE">
+                      <p class="so-auth-text-primary mb-0">{{t('auth.sendBy')}}
+                        <span>{{t('auth.phoneNumber')}} <strong style="color: #00a3ff;"
+                            class="so-auth-text-secondary">{{acc?.phone}}</strong></span>
+                      </p>
+                    </option>
+                    <option [value]="METHOD_EMAIL">
+                      <p class="so-auth-text-primary mb-0">{{t('auth.sendBy')}}
+                        <span>{{t('auth.email')}} <strong style="color: #00a3ff;"
+                            class="so-auth-text-secondary">{{acc?.email}}</strong></span>
+                      </p>
+                    </option>
+                  </select>
+                  <ng-template #noPhoneOrEmail>
+                    <p class="so-auth-text-primary mb-0"
+                      *ngIf="acc?.email == ''  && acc?.phone == '' else onlyPhoneEmail"></p>
+                  </ng-template>
+                  <ng-template #onlyPhoneEmail>
+                    <p class="so-auth-text-primary mb-0"
+                      *ngIf="acc?.email != '' else onlyPhone">{{t('auth.sendBy')}}
+                      <span>{{t('auth.email')}} <strong class="so-auth-text-secondary">{{acc?.email}}</strong></span>
+                    </p>
+                  </ng-template>
+                  <ng-template #onlyPhone>
+                    <p class="so-auth-text-primary mb-0">{{t('auth.sendBy')}}
+                      <span>{{t('auth.phoneNumber')}} <strong
+                          class="so-auth-text-secondary">{{acc?.phone}}</strong></span>
+                    </p>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </label>
+        </ng-container>
+
+      </nz-radio-group>
+    </div>
+    <!--begin::form action-->
+    <div class="d-flex flex-wrap justify-content-end pb-lg-0">
+      <div class="d-flex flex-wrap justify-content-end">
+        <a routerLink="/auth/forgot-password" id="kt_login_password_reset_form_cancel_button"
+          class="btn btn-lg btn-light-primary fw-bolder me-4 btn-auth-cancel" (click)="isVerifyAccount = false">
+          {{t('btnAction.cancel')}}
+        </a>
+        <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
+          (click)="continue()">
+          <ng-container *ngIf="!(isLoading$ | async)">
+            <span class="indicator-label">{{t('btnAction.next')}}</span>
+          </ng-container>
+          <ng-container *ngIf="isLoading$ | async">
+            <span class="indicator-progress">
+              {{t('auth.waite')}}
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </ng-container>
+        </button>
+      </div>
+    </div>
+    <!--end::form action-->
+  </div>
+  <!-- end buoc chon tai khoan dang ki de lay ma -->
+</ng-container>
+
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

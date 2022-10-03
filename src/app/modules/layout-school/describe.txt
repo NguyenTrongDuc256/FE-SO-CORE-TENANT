@@ -1,0 +1,1 @@
+Các module của layout school thì nằm trong thư mục này.

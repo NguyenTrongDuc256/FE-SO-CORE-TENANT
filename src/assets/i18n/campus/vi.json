@@ -1,0 +1,56 @@
+{
+    "order":"STT",
+    "campusName":"Tên campus",
+    "campusInfomation":"Thông tin campus",
+    "contact":"Liên hệ",
+    "enterCampusName":"Nhập tên campus",
+    "activated":"Kích hoạt",
+    "locked":"Đã khóa",
+    "campusList":"Danh sách Campus",
+    "addCampus":"Thêm Campus",
+    "updateCampus":"Cập nhật campus",
+    "campusPhone":"Số điện thoại campus",
+    "campusEmail":"Email Campus",
+    "campusAddress":"Địa chỉ Campus",
+    "contactPersonName":"Tên người liên hệ",
+    "phone":"SĐT",
+    "email":"Email",
+    "placeholderCampusName":"Nhập tên campus",
+    "placeholderCampusPhone":"Nhập số điện thoại campus",
+    "placeholderCampusEmail":"Nhập email campus",
+    "placeholderCampusAddress":"Nhập địa chỉ campus",
+    "placeholderContactPersonName":"Nhập tên người liên hệ",
+    "placeholderPhone":"Nhập SĐT",
+    "placeholderEmail":"Nhập email",
+    "deleteCampus":"Xóa campus",
+    "validators":{
+      "name":{
+        "required":"Bạn chưa nhập tên campus",
+        "maxlength":"Tên campus không vượt quá 255 kí tự"
+      },
+      "hotline":{
+        "pattern":"Số điện thoại không hợp lệ"
+      },
+      "email":{
+        "pattern":"Email không hợp lệ",
+        "required":"Bạn chưa nhập email"
+      },
+      "contactName":{
+        "required":"Bạn chưa nhập tên người liên hệ",
+        "maxlength":"Tên người liên hệ không vượt quá 255 kí tự"
+      },
+      "contactEmail":{
+        "pattern":"Email liên hệ không hợp lệ",
+        "required":"Bạn chưa nhập email liên hệ"
+      },
+      "contactPhone":{
+        "pattern":"Số điện thoại liên hệ không hợp lệ",
+        "required":"Bạn chưa nhập số điện thoại liên hệ"
+      },
+      "indexOrder":{
+        "required":"Bạn chưa nhập số thứ tự"
+      }
+    },
+    "indexOrder":"Số thứ tự",
+    "placeholderIndexOrder":"Nhập số thứ tự"
+}

@@ -1,0 +1,74 @@
+.box-img {
+  .symbol {
+    background: rgba(203, 203, 203, 0.2);
+    border: 1px solid rgba(203, 203, 203, 0.2);
+    border-radius: 1.5rem;
+    .avatar {
+      width: 125px;
+      height: 125px;
+    }
+    .delete-img {
+      position: absolute;
+      top: -12px;
+      right: -8px;
+      cursor: pointer;
+      img {
+
+      }
+    }
+    .upload-img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 3rem;
+      background-color: #556EE6;
+      border-bottom-left-radius: 0.6rem;
+      border-bottom-right-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      img {
+
+      }
+      span {
+        color: #FFFFFF;
+      }
+    }
+  }
+}
+.action {
+  a {
+    margin: 0 10px;
+  }
+}
+
+.pt-34 {
+  padding-top: 3.4rem;
+}
+
+.col-form-label {
+  div {
+    padding-left: 2rem !important;
+  }
+}
+
+.label-icon {
+  padding-top: 2px;
+  padding-right: 0.5rem !important;
+}
+
+.password {
+  position: relative;
+  span {
+    position: absolute;
+    top: 0.7rem;
+    right: 2rem;
+    img {
+      width: 1.7rem;
+      height: 1.7rem;
+    }
+  }
+}
+

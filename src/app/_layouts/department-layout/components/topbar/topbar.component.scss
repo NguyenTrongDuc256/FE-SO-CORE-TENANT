@@ -1,0 +1,29 @@
+.search {
+  background: #ECF0F3;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  min-width: 25rem;
+  margin-right: 4rem;
+  img {
+    width: 16px;
+    filter: brightness(0) saturate(100%) invert(30%) sepia(24%) saturate(213%) hue-rotate(169deg) brightness(92%) contrast(89%);
+    transition: all 0.2s ease-in;
+  }
+  input {
+    border: none;
+    background: none;
+    padding-left: 0.8rem;
+    outline: none;
+    color: #495057;
+  }
+}
+
+.search.active, .search:hover img {
+  filter: brightness(0) saturate(100%) invert(45%) sepia(88%) saturate(4163%) hue-rotate(219deg) brightness(98%) contrast(83%);
+}
+.symbol {
+  background: #50A5F1;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}

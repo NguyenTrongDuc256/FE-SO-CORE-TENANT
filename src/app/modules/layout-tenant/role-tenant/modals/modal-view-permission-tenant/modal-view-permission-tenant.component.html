@@ -1,0 +1,54 @@
+<ng-container *transloco="let t; scope: 'role'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex algin-items-center justify-content-end">
+      <div class="filter d-flex">
+        <div class="so-input-search mx-4">
+          <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input type="text" name="input-search" nz-input placeholder="{{t('role.search')}}" #searchInput
+              (keydown)="search($event, searchInput.value)" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <img src="assets/images/svg/search.svg" alt="" nzType="search">
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="mt-8">
+      <div class="row">
+        <ng-container *ngFor="let item of listPermission">
+          <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3" style="margin-bottom: 15px">
+            <div class="box">
+              <div class="box-header">
+                <span>{{item.name}}</span>
+                <span class="text-link">({{item.code}})</span>
+              </div>
+              <div class="box-body">
+                <div *ngFor="let permission of item.permissions">
+                  <img src="assets/images/svg/tich.svg" alt="">
+                  <span>{{permission.name}}&nbsp;</span>
+                  <span class="text-link">({{permission.code}})</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <p class="text-no-data" *ngIf="listPermission?.length == 0 || !listPermission">{{t('noData')}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+      (click)="closeModal(true)">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

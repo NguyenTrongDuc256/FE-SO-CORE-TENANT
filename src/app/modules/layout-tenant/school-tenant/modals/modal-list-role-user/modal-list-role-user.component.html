@@ -1,0 +1,75 @@
+<ng-container *transloco="let t; scope: 'school'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="!isLoading">
+      <div class="so-input-search mb-3">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input type="text" name="input-search" nz-input placeholder="{{t('school.search')}}" #searchInput
+            (keydown)="search($event, searchInput.value)" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <img src="assets/images/svg/search.svg" alt="" nzType="search">
+        </ng-template>
+      </div>
+
+      <div class="mt-8">
+        <table class="table-global w-full mt-5">
+          <caption></caption>
+          <thead>
+            <th style="width: 7%;" class="text-header-table text-center">{{t('STT')}}</th>
+            <th style="width: 25%;" class="text-header-table"> {{t('school.nameRole')}}</th>
+            <th style="width: 12%;" class="text-header-table"> {{t('code')}} </th>
+            <th style="width: 28%;" class="text-header-table">{{t('unit')}}</th>
+            <th style="width: 20%;" class="text-header-table">{{t('layout')}}</th>
+            <th style="width: 12%;" class="text-header-table text-center" *ngIf="dataFromParent.hasRemove">{{t('btnAction.remove')}}</th>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of listRole; let i=index">
+              <tr>
+                <td class="text-content-table text-center">
+                  {{i + 1}}
+                </td>
+                <td class="text-content-table">
+                  <span class="text-link fw-500">{{item.roleName}}</span>
+                </td>
+                <td>
+                  {{item.roleCode}}
+                </td>
+                <td>
+                  {{item.unitName}}
+                </td>
+                <td>
+                  {{mapNameLayout(item?.layout)}}
+                </td>
+                <td *ngIf="dataFromParent.hasRemove">
+                  <div class="d-flex justify-content-center">
+                    <button class="btn-remote" (click)="remove(item.roleId, item.roleName, item.userRoleId)" name="btn-remote">
+                      <img src="assets/images/svg/icon-delete.svg" alt="">
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="listRole?.length == 0 || !listRole">
+              <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" data-dismiss="modal" name="btn-accept"
+      (click)="closeModal(false)">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

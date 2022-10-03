@@ -1,0 +1,185 @@
+<div class="
+    p-10
+    d-flex
+    flex-column flex-column-fluid
+    bgi-position-y-bottom
+    position-x-center
+    bgi-no-repeat bgi-size-cover bgi-attachment-fixed h-full
+  " style="background-image: url('./assets/images/png/auth/bg-login-SO.png')" *transloco="let t; scope: 'auth'">
+  <!--begin::Content-->
+  <div class="d-flex flex-center flex-column flex-column-fluid pb-lg-20 position-relative">
+    <!--begin::Change language -->
+    <select name="change-language" id="change-language" class="so-select select-language" [(ngModel)]="lang"
+      (change)="changeLanguage()">
+      <ng-container *ngFor="let lang of arrLang">
+        <option [value]="lang.value">
+          <span>
+            <img [src]="lang.img" alt="">
+            {{t(lang.label)}}
+          </span>
+        </option>
+      </ng-container>
+    </select>
+    <!--end::Change language -->
+    <!--begin::Content body-->
+    <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+      <!--begin::Form-->
+      <form class="form w-100 form-login-SO" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+        (ngSubmit)="submit()">
+        <!--begin::Heading-->
+        <div class="text-center mb-10 d-flex algin-items-center mb-3 so-form-heading">
+          <div class="logo">
+            <img src="assets/images/png/auth/logo-SO.png" alt="">
+          </div>
+          <h1 class="form-title d-flex align-items-center flex-grow-1 mb-0 mx-3">{{t('auth.system')}} &nbsp;<a
+              routerLink="/auth/registration" class="link-primary fw-bolder">SchoolOnline</a></h1>
+        </div>
+        <!--end::Heading-->
+
+        <!-- begin::Alert info-->
+        <ng-container *ngIf="!hasError">
+          <div class="mb-8 mt-4">
+            <div class="text-danger err-login">
+              <span class="icon-warming">
+                <img src="assets/images/svg/icon-warming.svg" alt="">
+              </span>
+              <span>{{dataResponse?.msg}}</span>
+            </div>
+          </div>
+        </ng-container>
+        <!-- end::Alert info-->
+
+        <!--begin::Form group-->
+        <div class="fv-row mb-10">
+          <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.username')}}</label>
+          <input class="form-control form-control-lg form-control-solid" type="text" name="username"
+            formControlName="username" autocomplete="off" placeholder="{{t('auth.enterUsername')}}" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: t('auth.requiredUsername'),
+            control: loginForm.controls['username']
+          }"></ng-container>
+        </div>
+        <!--end::Form group-->
+
+        <!--begin::Form group-->
+        <div class="fv-row mb-10">
+          <div class="d-flex justify-content-between mt-n5">
+            <div class="d-flex flex-stack mb-2">
+              <label class="form-label fw-bolder text-dark fs-3 mb-0">{{t('auth.password')}}</label>
+            </div>
+          </div>
+
+          <div class="so-input-password">
+            <input class="form-control form-control-lg form-control-solid"
+              type="{{isShowPassword ? 'text' : 'password'}}" name="password" autocomplete="off"
+              formControlName="password" placeholder="{{t('auth.enterPassword')}}" />
+            <span (click)="showPassword()">
+              <img src="{{isShowPassword ? 'assets/images/svg/eye_show.svg': 'assets/images/svg/eye_hide.svg'}}" alt="">
+            </span>
+          </div>
+
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: t('auth.requiredPassword'),
+          control: loginForm.controls['password']
+        }"></ng-container>
+          <div class=" recaptcha-brand">
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+          </div>
+
+        </div>
+        <!--end::Form group-->
+        <!-- begin:: remember password -->
+        <div class="d-flex justify-content-between fv-row mb-12">
+          <div>
+            <nz-switch [(ngModel)]="rememberPassword" [ngModelOptions]="{standalone: true}"></nz-switch>
+            <span class="fs-4" [style.margin-left]="'5px'">{{t('auth.rememberLogin')}}</span>
+          </div>
+          <a routerLink="/auth/forgot-password" class="link-primary fs-4 fw-bolder" id="kt_login_forgot"
+            [style.margin-left]="'5px'">
+            {{t('auth.forgotPassword')}}
+          </a>
+        </div>
+        <!-- end:: remember password-->
+
+        <!--begin::Action-->
+        <div class="d-flex align-items-center justify-content-center fv-row mb-12 action">
+          <div class="auth-provider d-flex align-items-center d-none">
+            <span class="fs-3">{{t('auth.loginBy')}}:</span>
+            <div class="icon-auth">
+              <a href="login">
+                <img src="assets/images/png/auth/google-icon.png" alt="">
+              </a>
+            </div>
+            <div class="icon-auth">
+              <a href="login">
+                <img src="assets/images/png/auth/microsoft-icon.png" alt="">
+              </a>
+            </div>
+            <div class="icon-auth">
+              <a href="login">
+                <img src="assets/images/png/auth/ldap-icon.png" alt="">
+              </a>
+            </div>
+            <div class="icon-auth">
+              <a href="login">
+                <img src="assets/images/png/auth/qr-code-icon.png" alt="">
+              </a>
+            </div>
+          </div>
+          <button class="btn btn-primary so-btn-login" [disabled]="loginForm.invalid ">
+            {{t('auth.login')}}
+          </button>
+        </div>
+        <!--end::Action-->
+      </form>
+      <!--end::Form-->
+
+      <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+        <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+          <div class="fv-plugins-message-container">
+            <span role="alert">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+
+      <!-- begin:: download app -->
+      <div class="download fv-row mb-15 d-none">
+        <span class="fs-3 fw-bolder text-dark">{{t('auth.downloadAppOn')}} </span>
+        <div class="d-flex align-items-center mt-8 download-main">
+          <div class="box d-flex align-items-center mx-4 mb-3">
+            <img src="assets/images/png/auth/Google-Play-logo.png" alt="">
+            <div>
+              <span>{{t('auth.downloadAppForAndroid')}}</span>
+              <strong>Google Play</strong>
+            </div>
+          </div>
+          <div class="box d-flex align-items-center mx-4">
+            <img src="assets/images/png/auth/Apple-logo.png" alt="">
+            <div>
+              <span>{{t('auth.downloadAppForIphone')}}</span>
+              <strong>App Store</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end:: download app -->
+      <!-- begin:: copyright -->
+      <div class="fv-row mb-10 text-center text-black">
+        {{t('auth.copyright')}}
+      </div>
+      <!-- end:: copyright -->
+    </div>
+    <!--end::Content body-->
+  </div>
+  <!--end::Content-->
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}} <span class="total-permission fs-16 fw-600">({{ totalPermission }})</span></h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+    [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" *ngFor="let itemList of dataPermission; let index = index"
+    [ngClass]="{'border-bt': dataPermission.length - 1 != index}">
+    <div class="col-md-3 pb-3 pt-3" *ngFor="let item of itemList">
+      <span class="fs-16 fw-700 color-50A5F1">
+        {{ item.name }}
+        <span class="fw-500 permissin-code">({{ item.code }})</span>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+    (click)="closeModal('accept')">{{dataModal?.btnAccept}}</button>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

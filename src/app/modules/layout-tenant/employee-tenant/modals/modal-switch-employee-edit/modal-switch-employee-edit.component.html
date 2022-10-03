@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+          [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'employee'">
+  <div class="dien-bien-luong">
+    <div class="row fs-14 fw-700" *ngFor="let item of data">
+      <div class="col-md-12">
+        <span class="color-text cursor-pointer"
+              (click)="onClickeEdit(item.employeeId)"
+        >{{item.schoolName}}
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+          (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+</div>

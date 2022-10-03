@@ -1,0 +1,52 @@
+<div class="custom-switch-infomation-layout" *ngIf="currentMoet || currentStudent || currentSchoolYear">
+  <h3 class="fs-14">{{ dataCurrent.name }}</h3>
+  <span class="text-small-global"><span *ngIf="currentLayout != 'tenant'">{{ dataCurrent.termName }} |</span> {{ dataCurrent.schooYearName }}</span>
+  <img class="icon-choose-infomation" src="assets/images/svg/btn_down_icon.svg" alt="" nz-button nz-dropdown nzOverlayClassName="hide-content" nzTrigger="click" [nzDropdownMenu]="menu" [nzPlacement]="'bottomLeft'" [nzClickHide]="isCollapsed">
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu class="custom-form-select">
+    <h4 class="title-form-select fs-15 fw-600">Thiết lập hiển thị</h4>
+    <hr class="custom-hr">
+    <!-- chon moet -->
+    <div class="choose-moet" *ngIf="dataMoet && dataMoet.length > 0 && currentLayout != 'tenant'">
+      <span class="title-select fs-15 fw-600">Đơn vị</span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn đơn vị" [(ngModel)]="currentMoet">
+        <nz-option nzLabel="{{item.name}}" nzValue="{{item.id}}" *ngFor="let item of dataMoet"></nz-option>
+      </nz-select>
+    </div>
+    <!-- chon moet -->
+
+    <!-- chon student -->
+    <div class="choose-moet" *ngIf="dataStudent && dataStudent.length > 0">
+      <span class="title-select fs-15 fw-600">Học sinh</span>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Chọn học sinh" [(ngModel)]="currentStudent">
+        <nz-option nzLabel="{{item.name}}" nzValue="{{item.id}}" *ngFor="let item of dataStudent"></nz-option>
+      </nz-select>
+    </div>
+    <!-- chon student -->
+
+    <!-- chon shool year -->
+    <div class="choose-moet" *ngIf="dataSchoolYear && dataSchoolYear.length > 0">
+      <span class="title-select fs-15 fw-600">Năm học</span>
+      <nz-select nzPlaceHolder="Chọn năm học" [(ngModel)]="currentSchoolYear">
+        <nz-option nzValue="{{item.id}}" nzLabel="{{item.name}}" *ngFor="let item of dataSchoolYear"></nz-option>
+      </nz-select>
+    </div>
+    <!-- chon shool year -->
+
+    <!-- chon term -->
+    <div class="choose-moet" *ngIf="dataTerms && dataTerms.length > 0 && currentSchoolYear && currentLayout != 'tenant'">
+      <span class="title-select fs-15 fw-600">Học kỳ</span>
+      <nz-select nzPlaceHolder="Chọn học kỳ" [(ngModel)]="currentTerm">
+        <nz-option nzValue="{{item.index}}" nzLabel="{{item.name}}" *ngFor="let item of dataTerms"></nz-option>
+      </nz-select>
+    </div>
+    <!-- chon term -->
+
+    <div class="custom-btn">
+      <span class="btn-cancel fs-12 fw-700" (click)="closeChangeInfo()" nz-menu-item>Hủy</span>
+      <span class="btn-apply fs-12 fw-700 {{ currentSchoolYear && currentTerm ? 'active' : '' }}" (click)="clickApplyInfo()" nz-menu-item>Áp dụng</span>
+    </div>
+  </ul>
+</nz-dropdown-menu>

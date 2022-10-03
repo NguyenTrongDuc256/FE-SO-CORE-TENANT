@@ -1,0 +1,42 @@
+.so-badge {
+  font-size: 1.1rem;
+  padding: 6px 8px;
+  min-width: 3rem;
+}
+
+.so-badge-status-0 {
+  background: #F69220 !important;
+}
+
+.so-badge-status-1 {
+  background: #34C38F !important;
+}
+
+.so-badge-status-2 {
+  background: #F46A6A !important;
+}
+
+.so-badge-status {
+  font-size: 1.1rem;
+  min-width: 10rem;
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.info-user {
+  > img {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+  > div {
+    color: #828282;
+    h4 {
+      color: #3F4254;
+      font-size: 1.3rem;
+    }
+  }
+}

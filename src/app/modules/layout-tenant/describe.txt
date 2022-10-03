@@ -1,0 +1,1 @@
+Các module của layout tenant (core tenant -  Quản trị hệ thống) thì nằm trong thư mục này.

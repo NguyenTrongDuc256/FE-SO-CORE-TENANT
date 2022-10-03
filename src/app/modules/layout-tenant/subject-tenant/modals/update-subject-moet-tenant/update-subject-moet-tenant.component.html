@@ -1,0 +1,58 @@
+<div class="card-dialog" *transloco="let t; scope: 'subject'">
+  <form [formGroup]="infoForm">
+    <div class="card-title">
+      <span class="fs-18 fw-700">{{ t('subject.updateSujectMoet') }}</span>
+    </div>
+    <div class=" margin-top d-flex align-items-center ">
+      <span class="fs-14 fw-700 label-input">{{ t('subject.subjectName') }} <span class="text-danger">*</span></span>
+      <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('subject.enterSubjectName') }}"
+        name="input-name" type="text" formControlName="name">
+    </div>
+    <div *ngFor="let item of validation_messages.name">
+      <span class="warning " *ngIf="infoForm.get('name')?.hasError(item.type)  && infoForm.get('name')?.touched">
+        {{item.message}}
+      </span>
+    </div>
+
+    <div class=" margin-top d-flex align-items-center ">
+      <span class="fs-14 fw-700 subject-Code">{{ t('subject.subjectCode') }}</span>
+      <div class="d-flex align-items-center justify-content-between flex-grow-1">
+        <span class="fs-14 fw-500 code-color">{{this.dataModal.dataFromParent.code}}</span>
+        <div>
+          <span class="fs-14 fw-700 ">{{ t('subject.subjectType') }}</span>
+          <span class="fs-14 fw-500 subject-type">{{ t('subject.subjectMoet') }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class=" margin-top d-flex align-items-center ">
+      <span class="fs-14 fw-700 label-input">{{ t('subject.displayOrder') }} </span>
+      <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('subject.enterDisplayOrder') }}"
+        name="input-displayOrder" type="text" formControlName="displayOrder">
+    </div>
+    <div *ngFor="let item of validation_messages.displayOrder">
+      <span class="warning "
+        *ngIf="infoForm.get('displayOrder')?.hasError(item.type)  && infoForm.get('displayOrder')?.touched">
+        {{item.message}}
+      </span>
+    </div>
+
+    <div class=" margin-top d-flex align-items-center ">
+      <div class="status">
+        <span class="fs-14 fw-700 ">{{ t('status') }}</span>
+      </div>
+      <input class="form-check-input" name="input-checkbox" type="checkbox" formControlName="isActive" />
+      <span class="activated fs-14 fw-700">{{ t('subject.used') }}</span>
+    </div>
+
+
+    <div class=" footer  d-flex justify-content-end">
+      <button type="button" class="so-btn so-btn-cancel" name="btn-cancel" data-dismiss="modal"
+        (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+      <button type="button " class="so-btn so-btn-primary so-btn-primary--small save" name="btn-save"
+        [disabled]="infoForm.invalid" (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+    </div>
+
+  </form>
+
+</div>

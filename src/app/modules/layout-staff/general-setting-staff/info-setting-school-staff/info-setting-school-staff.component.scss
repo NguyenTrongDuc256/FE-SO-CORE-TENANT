@@ -1,0 +1,109 @@
+.style-student {
+  padding: 2rem;
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
+    border-right-width: 1px !important;
+    border: 1px;
+  }
+
+  .custom-avatar {
+    .symbol {
+      background: rgba(203, 203, 203, 0.2);
+      border: 1px solid rgba(203, 203, 203, 0.2);
+      border-radius: 1.5rem;
+
+      .avatar {
+        width: 13.5rem;
+        height: 13.5rem;
+      }
+
+      .delete-img {
+        position: absolute;
+        top: -12px;
+        right: -8px;
+        cursor: pointer;
+
+        img {}
+      }
+
+      .upload-img {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 3rem;
+        background-color: #556EE6;
+        border-bottom-left-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        img {}
+
+        span {
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+
+  .get-info {
+    padding-bottom: 2.5rem;
+
+    .label-info {
+      height: 40px;
+      width: auto;
+
+      img {
+        margin-right: 1rem;
+      }
+
+      .text-label {
+        width: 14.5rem;
+      }
+    }
+
+    .input-custom {
+      //flex-grow: 1;
+      padding-left: 2rem;
+    }
+
+    .gender {
+      flex-grow: 1;
+    }
+  }
+
+  .date-picker {
+    width: 100%;
+  }
+
+  .button-footer {
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+
+    .so-btn-cancel {
+      margin-right: 7px;
+    }
+
+    .so-btn-primary {
+      margin-left: 7px;
+    }
+  }
+}
+
+
+::ng-deep.ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  padding: 0 !important;
+}
+
+::ng-deep.ant-select-multiple .ant-select-selection-search {
+  margin-top: 0;
+  margin-bottom: 0;
+}

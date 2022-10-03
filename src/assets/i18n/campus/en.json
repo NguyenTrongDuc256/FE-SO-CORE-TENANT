@@ -1,0 +1,56 @@
+{
+    "order":"Order",
+    "campusName":"Campus name",
+    "campusInfomation":"Campus infomation",
+    "contact":"Contact",
+    "enterCampusName":"Enter campus name",
+    "activated":"Activated",
+    "locked":"Locked",
+    "campusList":"Campus list",
+    "addCampus":"Add campus",
+    "updateCampus":"Update campus",
+    "campusPhone":"Campus phone",
+    "campusEmail":"Campus email",
+    "campusAddress":"Campus address",
+    "contactPersonName":"Contact person name",
+    "phone":"Phone",
+    "email":"Email",
+    "placeholderCampusName":"Enter campus name",
+    "placeholderCampusPhone":"Enter campus phone",
+    "placeholderCampusEmail":"Enter campus email",
+    "placeholderCampusAddress":"Enter campus address",
+    "placeholderContactPersonName":"Enter contact person name",
+    "placeholderPhone":"Enter phone",
+    "placeholderEmail":"Enter email",
+    "deleteCampus":"Delete campus",
+    "validators":{
+      "name":{
+        "required":"name is required",
+        "maxlength":"Campus name should not exceed 255 characters"
+      },
+      "hotline":{
+        "pattern":"hotline invalid"
+      },
+      "email":{
+        "pattern":"email invalid",
+        "required":"email is required"
+      },
+      "contactName":{
+        "required":"contact name is required",
+        "maxlength":"Contact name should not exceed 255 characters"
+      },
+      "contactEmail":{
+        "pattern":"contact email invalid",
+        "required":"contact email is required"
+      },
+      "contactPhone":{
+        "pattern":"contact phone invalid",
+        "required":"contact phone is required"
+      },
+      "indexOrder":{
+        "required":"Index order is required"
+      }
+    },
+    "indexOrder":"Index order",
+    "placeholderIndexOrder":"Enter index order"
+}

@@ -1,0 +1,171 @@
+<div class="card mb-5 mb-xxl-8" *transloco="let t; scope: 'user'">
+  <div class="card-body pt-9 pb-0" *ngIf="userInfo">
+    <div class="d-flex flex-wrap flex-sm-nowrap">
+      <div class="me-15 mb-5">
+        <div class="symbol symbol-fixed position-relative avatar">
+          <img src="{{userInfo.avatar}}" alt="image">
+        </div>
+      </div>
+      <div class="flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start flex-wrap mb-5">
+          <div class="d-flex flex-column">
+            <div class="d-flex align-items-center mb-2">
+              <span class="text-gray-900 fs-20 fw-700">{{ userInfo.fullname }}</span>
+            </div>
+            <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2"></div>
+          </div>
+          <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+            <div class="d-flex action-edit">
+              <a [routerLink]="['/tenant/user/edit', userInfo.id]" class="btn fs-14">
+                <img class="action-icon pe-3" src="assets/images/svg/write1.svg" alt="">
+                <span>{{ t('btnAction.update') }}</span>
+              </a>
+            </div>
+          </ng-template>
+        </div>
+        <div class="d-flex flex-wrap flex-stack user-info fs-14">
+          <div class="d-flex flex-column flex-grow-1 pe-8">
+            <div class="d-flex flex-wrap">
+              <div class="d-flex justify-content-start align-items-center me-20">
+                <img class="action-icon pe-3" src="assets/images/svg/user-3.svg" alt="">
+                <span>{{t('user.code')}}: {{userInfo.code}}</span>
+              </div>
+              <div class="d-flex justify-content-start align-items-center me-20">
+                <img class="action-icon pe-3" src="assets/images/svg/gender1.svg" alt="">
+                <div class="d-flex align-items-center">
+                  <span class="pe-2">{{ t('gender') }}:</span>
+                  <span class="gender-{{ userInfo.gender }}">
+                    {{ userInfo.gender == 1 ? t('genderName.male') : (userInfo.gender == 2 ? t('genderName.female') : t('user.khac')) }}
+                  </span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-start align-items-center me-20">
+                <img *ngIf="userInfo.isAccessApp == 1" class="action-icon pe-3" src="assets/images/svg/tick1.svg"
+                     alt="icon">
+                <img *ngIf="userInfo.isAccessApp == 0" class="action-icon pe-3" src="assets/images/svg/lock11.svg"
+                     alt="icon">
+                <span>{{userInfo.isAccessApp == 1 ? t('user.accessApp') : t('user.noAccessApp')}}</span>
+              </div>
+              <div class="d-flex justify-content-start align-items-center me-20">
+                <img *ngIf="userInfo.isActive == 1" class="action-icon pe-3" src="assets/images/svg/tick1.svg"
+                     alt="icon">
+                <img *ngIf="userInfo.isActive == 0" class="action-icon pe-3" src="assets/images/svg/lock11.svg"
+                     alt="icon">
+                <span>{{userInfo.isActive == 1 ? t('user.active') : t('user.noActive')}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="user-info1">
+      <div class="row fs-14 mb-6 mt-5">
+        <div class="col-md-4 row">
+          <div class="col-md-6">
+            <span class="text-color fw-700">{{t('user.username')}}:</span>
+          </div>
+          <div class="col-md-6">
+            <span class="text-color-blue">{{userInfo.username}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 row">
+          <div class="col-md-6">
+            <span class="text-color fw-700">{{t('email')}}:</span>
+          </div>
+          <div class="col-md-6">
+            <span class="text-color-blue">{{userInfo.email}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row fs-14">
+        <div class="col-md-4 row">
+          <div class="col-md-6">
+            <span class="text-color fw-700">{{t('user.dob')}}:</span>
+          </div>
+          <div class="col-md-6">
+            <span class="text-color-blue">{{userInfo.birthday | formatTime}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 row">
+          <div class="col-md-6">
+            <span class="text-color fw-700">{{t('user.phone')}}:</span>
+          </div>
+          <div class="col-md-6">
+            <span class="text-color-blue">{{userInfo.phone}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="role mt-10">
+      <div class="d-flex algin-items-center justify-content-between flex-wrap">
+        <h3 class="title-compo-global mb-3">{{t('user.roleList')}}</h3>
+        <div class="filter d-flex flex-wrap algin-items-center">
+          <!--          cmt do thay doi thiet ke-->
+          <!--          <div class="so-input-search mx-4 mb-3">-->
+          <!--            <div class="search-input">-->
+          <!--              <input type="text" name="keyword" class="form-control custom-tag-of-form fs-14" #searchInput-->
+          <!--                     placeholder="{{ t('search') }}" (keyup.enter)="onEventKeyupEnter(searchInput.value)">-->
+          <!--              <img class="search-icon" src="assets/images/svg/search.svg" alt=""-->
+          <!--                   (click)="onClickSearch(searchInput.value)">-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+            <button class="so-btn so-btn-primary mb-3" name="btn-create" (click)="onOpenModalAssignRoleToUser()">
+              <img src="assets/images/svg/add.svg" alt="">
+              {{t('btnAction.add')}}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+      <div class="mt-12">
+        <table class="table-global w-full">
+          <caption></caption>
+          <thead>
+          <th style="width: 5%;" class="text-header-table"> {{t('STT')}}</th>
+          <th style="width: 20%;" class="text-header-table"> {{t('user.roleName')}}</th>
+          <th style="width: 20%;" class="text-header-table"> {{t('user.roleCode')}} </th>
+          <th style="width: 20%;" class="text-header-table"> {{t('user.layout')}} </th>
+          <th style="width: 25%;" class="text-header-table"> {{t('user.donVi')}} </th>
+          <th style="width: 10%;" class="text-header-table"> {{t('action')}} </th>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let item of roleList; let i = index">
+            <tr>
+              <td>
+                {{i + 1}}
+              </td>
+              <td>
+                {{item.roleName}}
+              </td>
+              <td>
+                {{item.roleCode}}
+              </td>
+              <td>
+                {{getLayoutName(item.layout)}}
+              </td>
+              <td>
+                {{item.unitName}}
+              </td>
+              <td>
+                <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+                  <div class="d-flex justify-content-start align-items-center role-delete"
+                       (click)="removeRole(item.userRoleId, item.roleId)">
+                    <img src="assets/images/svg/delete.svg" alt="" class="pe-2">
+                    <span> {{t('btnAction.delete')}}</span>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="roleList?.length == 0 || !roleList">
+            <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

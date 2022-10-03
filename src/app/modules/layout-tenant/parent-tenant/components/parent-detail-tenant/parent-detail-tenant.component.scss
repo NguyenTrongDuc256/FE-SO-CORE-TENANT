@@ -1,0 +1,230 @@
+.text-color {
+  color: #495057;
+}
+.text-color-blue {
+  color: #50A5F1;
+  font-weight: 700;
+}
+.avatar {
+  img {
+    width: 13.5rem;
+    height: 13.5rem;
+  }
+}
+.action-edit {
+  a {
+    background-color: #556EE6;
+    color: #FFFFFF;
+  }
+
+  a:hover {
+    background-color: #556EE6;
+    color: #FFFFFF;
+  }
+
+}
+
+.user-info {
+  .gender-1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff8dd;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #f1bc00;
+  }
+
+  .gender-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1faff;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #50a5f1;
+  }
+
+  .gender-3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6e1f1;
+    border-radius: 8px;
+    width: 80px;
+    height: 30px;
+    font-weight: 700;
+    color: #7239ea;
+  }
+}
+.user-info1 {
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(203, 203, 203, 0.5);
+}
+
+.table-responsive {
+  padding-bottom: 15px;
+
+  thead {
+    tr {
+      th {
+        color: #495057;
+      }
+
+      th:nth-child(1) {
+        min-width: 25rem;
+      }
+
+      th:nth-child(2) {
+        min-width: 9rem;
+      }
+
+      th:nth-child(3) {
+        min-width: 10rem;
+      }
+
+      th:nth-child(4) {
+        min-width: 16rem;
+      }
+
+      th:nth-child(5) {
+        min-width: 16rem;
+      }
+
+      th:nth-child(6) {
+        min-width: 16rem;
+      }
+      th:nth-child(9) {
+        min-width: 12rem;
+      }
+
+      th:nth-child(10) {
+        min-width: 3rem;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        .symbol {
+          img {
+            border-radius: 1.5rem;
+          }
+        }
+
+        .gender-1 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #fff8dd;
+          border-radius: 8px;
+          width: 80px;
+          height: 30px;
+          font-weight: 700;
+          color: #f1bc00;
+        }
+
+        .gender-2 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #f1faff;
+          border-radius: 8px;
+          width: 80px;
+          height: 30px;
+          font-weight: 700;
+          color: #50a5f1;
+        }
+
+        .gender-3 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #e6e1f1;
+          border-radius: 8px;
+          width: 80px;
+          height: 30px;
+          font-weight: 700;
+          color: #7239ea;
+        }
+
+        .status-01,
+        .status-02,
+        .status-03,
+        .status-06,
+        .status-07,
+        .status-10 {
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
+          // padding-right: 10px;
+          // padding-left: 10px;
+          // background: #50a5f1;
+          // border-radius: 8px;
+          // height: 30px;
+          // font-weight: 700;
+          // color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #50a5f1;
+          border-radius: 8px;
+          font-weight: 700;
+          width: fit-content;
+          padding: 0.4rem 2.5rem;
+          color: #ffffff;
+        }
+
+        .status-04,
+        .status-05,
+        .status-08,
+        .status-09,
+        .status-11,
+        .status-12 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-right: 10px;
+          padding-left: 10px;
+          background: #f46a6a;
+          border-radius: 8px;
+          height: 30px;
+          font-weight: 700;
+          color: #ffffff;
+        }
+
+        .roles {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #50a5f1;
+          border-radius: 8px;
+          width: 50px;
+          height: 30px;
+          font-weight: 700;
+          color: #ffffff;
+        }
+
+        .login-true {
+          color: #50a5f1;
+          font-weight: 700;
+        }
+      }
+
+      .user-action {
+        color: #556ee6;
+        cursor: pointer;
+
+        .action-icon {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}

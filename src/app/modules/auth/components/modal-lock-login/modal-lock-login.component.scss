@@ -1,0 +1,36 @@
+@import url('../../helper-auth.scss');
+
+.logo {
+  width: 35%;
+  img {
+    width: 100%;
+  }
+}
+
+.img-lock {
+  max-width: 100%;
+    max-height: 22rem;
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    margin-top: 1rem;
+}
+.timeLeft{
+  color: #50A5F1;
+}
+
+.err-login {
+  span.icon-warming {
+    width: 26px;
+    height: 26px;
+  }
+  img {
+    width: 20px;
+    height: 14px;
+  }
+  span {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+ }

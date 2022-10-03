@@ -1,0 +1,305 @@
+<div *transloco="let t; scope: 'school'">
+  <div class="d-flex justify-content-end">
+    <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+      <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="update()" name="btn-create">
+        <img src="assets/images/svg/icon-pen-white.svg" alt="">
+        {{t('btnAction.update')}}
+      </button>
+    </ng-template>
+  </div>
+  <div class="box collapse-info-basic">
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="t('school.infoSchoolI')" [nzActive]="true">
+        <div class="collapse-main box-main">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-logo-user-blue.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.logo')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">
+                  <a [href]="infoBasicSchool?.Logo" class="text-underline" target="_blank" *ngIf="infoBasicSchool?.Logo && infoBasicSchool?.Logo !=''">{{infoBasicSchool?.Logo}}</a>
+                  <span class="text-underline" *ngIf="!infoBasicSchool?.Logo || infoBasicSchool?.Logo ==''">{{infoBasicSchool?.Logo}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.nameSchool')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Name}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.codeMoet')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.MoetUnitCode}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('campus')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.CampusId}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('trainingLevel')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.EducationalStages}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.loaiHinhTruong')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenMaLoaiHinhTruong}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.loaiTruong')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenMaLoaiTruong}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.chonChinhSachVung')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenChinhSachVung}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.provinceCity')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.CityName}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.khuVuc')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenKhuVuc}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.district')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.DistrictName}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.ward')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.WardName}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;Email</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Email}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.sendFromEmail')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.SendFromEmail}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.SĐT')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Phone}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;Hotline</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Hotline}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.fax')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Fax}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.hieuTruong')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenHieuTruong}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.emailHieuTruong')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.EmailHieuTruong}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.SDTHieuTruong')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.DienThoaiHieuTruong}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('indexOrder')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.IndexOrder}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.namThanhLap')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.NamThanhLap}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.loaiDuAn')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenMaDuAn}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.dienTich')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.DienTich}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.chuanQuocGia')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenMucChuanQuocGia}}</div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('school.maVungKhoKhan')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.TenMaVungKhoKhan}}</div>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                  <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                      class="box-icon">&ensp;{{t('address')}}</span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 text-link fw-600">{{infoBasicSchool?.Address}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+
+  <div class="box collapse-info-basic mt-5">
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="t('school.infoAdvancedII')" [nzActive]="true">
+        <div class="collapse-main box-main">
+          <div class="row">
+            <ng-container *ngFor="let item of arrInfoAdvanced">
+              <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+                <label nz-checkbox class="so-checkbox checkbox-info-advanced"
+                name="checkbox-info-advanced" ngModel="{{item.value == '1' ? true : false}}"
+                [nzDisabled]="true" [nzValue]="item.value == '1' ? true : false">
+                <span class="fw-600">{{t(item.label)}}</span>
+              </label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+  <p class="text-no-data" *ngIf="!infoBasicSchool">{{t('noData')}}</p>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

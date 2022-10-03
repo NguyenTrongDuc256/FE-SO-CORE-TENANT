@@ -1,0 +1,154 @@
+@import url('../../helper-auth.scss');
+
+:host {
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.recaptcha-brand{
+  color: #a7a8bb;
+  margin-top: 0.5rem;
+}
+
+.text-black {
+  color: #000;
+}
+
+.logo {
+  width: 35%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.form-login-SO {
+  h1.form-title {
+    color: #a7a8bb;
+    font-size: 1.6rem;
+
+    a {
+      color: #3699ff;
+    }
+  }
+}
+
+.text-dark {
+  color: #181c32;
+}
+
+.auth-provider {
+  background: #f1faff;
+  border-radius: 6px;
+  padding: 0.8rem 1.1rem;
+
+  span {
+    line-height: 1.5;
+    color: #00a3ff;
+    font-weight: 500;
+  }
+
+  div.icon-auth {
+    width: 24px;
+    height: 24px;
+    margin: 0 4px;
+    padding: 2px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.so-btn-login {
+  background: #00a3ff;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  padding: 0.8rem 1.5rem;
+  outline: none;
+  border: none;
+  color: #fff;
+}
+
+.so-btn-login:disabled {
+  opacity: 0.8;
+}
+
+.download {
+  .box {
+    max-width: 50%;
+    padding: 1rem 1.5rem;
+    background: #ffffff;
+    box-shadow: 0px 33px 51px rgba(0, 0, 0, 0.08),
+      0px 9.94853px 15.375px rgba(0, 0, 0, 0.0582218),
+      0px 4.13211px 6.38599px rgba(0, 0, 0, 0.0399899),
+      0px 1.4945px 2.30969px rgba(0, 0, 0, 0.0268173);
+    border-radius: 4px;
+    color: #282828;
+
+    img {
+      max-width: 30px;
+      max-height: 30px;
+      margin-right: 10px;
+    }
+
+    span {
+      display: inline-block;
+      width: 100%;
+    }
+
+    strong {
+      font-weight: 700;
+    }
+  }
+}
+
+.fv-plugins-message-container span {
+  color: #F1416C !important;
+}
+
+@media (max-width: 576px) {
+  .so-form-heading {
+    flex-direction: column;
+    align-items: center;
+
+    .logo {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .action {
+    flex-direction: column-reverse;
+
+    .auth-provider {
+      margin-bottom: 1rem;
+    }
+
+    .so-btn-login {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .download {
+    div.download-main {
+      flex-direction: column;
+      align-items: inherit !important;
+
+      .box {
+        max-width: 100%;
+      }
+    }
+  }
+}

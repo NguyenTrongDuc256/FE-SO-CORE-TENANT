@@ -1,0 +1,13 @@
+<div class="custom-layout" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'">
+  {{ getGameLayout() }}
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <ng-container *ngFor="let item of getInfoLayoutAssigned()">
+      <li nz-menu-item class="fs-14 fw-600 custom-item-layout {{ currentLayoutCode == item.code ? 'active' : '' }}" name="btn-update-campus" (click)="switchLayout(item)">
+        {{ item.name }}
+      </li>
+    </ng-container>
+  </ul>
+</nz-dropdown-menu>

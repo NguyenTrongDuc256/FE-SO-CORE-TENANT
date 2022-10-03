@@ -1,0 +1,16 @@
+{
+  "order":"STT",
+  "moduleName":"Tên module",
+  "moduleCode":"Mã module",
+  "pemission":"Quyền thao tác",
+  "moduleList":"Danh sách tính năng",
+  "activated":"Đang hoạt động",
+  "locked":"Đã khóa",
+  "enterNameCodeModule":"Nhập tên, mã module",
+  "enterNameCodePermission":"Nhập tên, mã quyền thao tác",
+  "permissionList":"Danh sách quyền thao tác",
+  "moduleInfomation":"Thông tin module",
+  "permissionName":"Tên quyền thao tác",
+  "permissionCode":"Mã quyền thao tác",
+  "description":"Mô tả"
+}

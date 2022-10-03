@@ -1,0 +1,85 @@
+.symbol.so-symbol {
+  width: 100%;
+  height: 10rem;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+  }
+}
+
+.symbol img {
+  object-fit: cover;
+}
+
+.text-grey {
+  color: #2E2E48;
+}
+
+.text-grey--style2 {
+  color: #495057;
+}
+
+.contact {
+  padding-left: 0;
+  li {
+    list-style: none;
+    span.contact-icon {
+      background-color: #E2E6EE;
+      border-radius: 50%;
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      img {
+        width: 22px;
+        height: 17px
+      }
+    }
+    div {
+      color: #79819A
+    }
+  }
+}
+
+.icon {
+  background-color: #556EE6;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  img {
+    width: 15px;
+    height: 15px
+  }
+}
+
+.icon-arrow {
+  margin-left: 10px;
+  img {
+    width: 15px;
+    height: 8px;
+  }
+}
+
+.icon-arrow.active {
+  img {
+    transform: rotate(180deg);
+  }
+}
+
+.language {
+  li {
+    padding: 7px;
+    border-radius: 4px;
+  }
+  li.active, li:hover {
+    background: #e1e1e1ed;
+  }
+}

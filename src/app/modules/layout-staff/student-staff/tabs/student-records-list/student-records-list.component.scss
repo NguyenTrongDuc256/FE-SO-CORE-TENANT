@@ -1,0 +1,35 @@
+.so-badge {
+  font-size: 1.1rem;
+  padding: 6px 8px;
+  min-width: 3rem;
+}
+
+.so-badge-status-0 {
+  background: #F69220;
+}
+
+.so-badge-status-1 {
+  background: #34C38F;
+}
+
+.so-badge-status-2 {
+  background: #F46A6A;
+}
+
+.so-badge-status {
+  font-size: 1.1rem;
+  min-width: 10rem;
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.icon-mark {
+  display: inline-block;
+  margin-left: 4px;
+  img {
+    width: 11px;
+    height: 14px;
+  }
+}

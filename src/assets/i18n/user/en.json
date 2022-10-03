@@ -1,0 +1,100 @@
+{
+  "create": "Add user",
+  "edit": "Edit user",
+  "title": "User list",
+  "studentList": "Student list",
+  "fullName": "Full name",
+  "username": "Username",
+  "code": "Code",
+  "phone": "Phone",
+  "login": "Login",
+  "loginTrue": "Logged",
+  "loginFalse": "Not logged",
+  "password": "Password",
+  "passwordTrue": "Changed",
+  "passwordFalse": "Haven't changed",
+  "active": "Actived",
+  "noActive": "locked",
+  "school": "School",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
+  "deleteUser": "Delete user",
+  "btnAction": {
+    "send": "Send notifications",
+    "changedPassword": "Change Password"
+  },
+
+  "validators":{
+    "fullName":{
+      "required":"Your first and last name is required",
+      "maxlength":"Your first and last name cannot exceed 255 characters"
+    },
+    "code":{
+      "required":"Code is required",
+      "pattern":"Code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength":"Your code cannot exceed 50 characters"
+    },
+    "username":{
+      "required":"You have not entered your username",
+      "pattern":"Username can only use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength":"Your username cannot exceed 50 characters"
+    },
+    "password":{
+      "required":"You have not entered your password",
+      "pattern":"Passwords can only use letters (a-z), (A-Z), numbers (0-9), and special character",
+      "maxlength":"Your password must be between 6 and 50 in character length",
+      "minlength":"Your password must be between 6 and 50 in character length"
+    },
+
+    "email":{
+      "required":"You have not entered your email",
+      "email":"Invalid email"
+    },
+    "phone":{
+      "required":"You did not enter a phone number",
+      "pattern":"invalid phone number"
+    },
+    "roleId": {
+      "required":"You haven't selected a role yet"
+    },
+    "schoolId": {
+      "required":"You haven't selected a school yet"
+    },
+    "campusId": {
+      "required":"You have not selected Campus"
+    }
+  },
+
+  "avatar": "Avatar",
+  "upload": "Upload image",
+  "dob": "Date of birth",
+  "class": "Class",
+  "grade": "Grade",
+  "school1": "School",
+  "father": "Father",
+  "mother": "Mother",
+  "assignRole": "Assign permissions",
+  "selectRole": "Choose permission",
+  "roleList": "Role List",
+  "roleName": "Role name",
+  "roleCode": "Role code",
+  "layout": "Layout",
+  "role": "Decentralization",
+  "donVi": "Unit",
+  "assignRoleToUser": "Assign role to user",
+  "accessApp": "App access allowed",
+  "noAccessApp": "App Access Key",
+  "selectSchool": "Select School",
+  "selectCampus": "Select Campus",
+  "deleteRole": "Delete role",
+  "updateStatus": "Cập nhật trạng thái",
+  "locked": "Locked",
+  "confirmUpdateStatus": "Are you sure you want to do this?",
+  "userLocked":  "User account will be locked",
+  "userActive": "User account will be activated",
+  "close": "Close",
+  "select": "Select",
+  "truyCapAp": "Access the app",
+  "access": "Allow",
+  "khac": "Other"
+}

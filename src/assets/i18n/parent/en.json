@@ -1,0 +1,74 @@
+{
+  "children": "Child",
+  "create": "Add Parent",
+  "edit": "Edit Parent",
+  "title": "Parent list",
+  "detail": "Parent info",
+  "listChild": "Childrens list",
+  "fullName": "Fullname",
+  "username": "Username",
+  "code": "Code",
+  "phone": "Phone",
+  "students": "Students",
+  "school": "School",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
+  "deleteUser": "Delete Parent",
+  "lockedApp": "App Lock",
+  "openApp": "App Open",
+  "lockedContent":  "Parent account will be locked app",
+  "openContent": "Parent account will be open app",
+  "dob": "Date of birth",
+  "class": "Class",
+  "grade": "Grade",
+  "school1": "School",
+  "confirmUpdateStatus": "Are you sure you want to do this?",
+  "accessApp": "Allowed to access the app",
+  "noAccessApp": " Not allowed to access the app",
+  "active": "Actived",
+  "noActive": "locked",
+  "password": "Password",
+  "btnAction": {
+    "send": "Send Notifications",
+    "changedPassword": "Change Password",
+    "lockedAccount": "App Access Lock",
+    "unlockAppAccess": "Unlock app access"
+  },
+  "validators":{
+    "fullName":{
+      "required":"fullName is required",
+      "maxLength": "fullName can't have more than 50 characters"
+    },
+    "code":{
+      "required":"code is required",
+      "pattern":"code invalid",
+      "maxlength":"Your code cannot exceed 50 characters"
+    },
+    "username": {
+      "required": "username is required",
+      "minLength": "username contain at least 6 characters",
+      "maxLength": "username can't have more than 50 characters",
+      "pattern": "username invalid"
+    },
+    "password":{
+      "required":"password is required",
+      "pattern":"password invalid"
+    },
+    "students":{
+      "required":"select one value"
+    },
+    "confirmPassword":{
+      "required":"Confirm password is required",
+      "mustMatch":"Confirm password invalid"
+    },
+    "email":{
+      "pattern":"email invalid"
+    },
+    "phone":{
+      "pattern":"phone invalid"
+    }
+  },
+  "avatar": "Avatar",
+  "upload": "Upload image",
+  "close": "Close"
+}

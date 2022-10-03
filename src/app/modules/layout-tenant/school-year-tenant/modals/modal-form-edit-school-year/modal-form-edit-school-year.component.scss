@@ -1,0 +1,76 @@
+.color-50a5f1 {
+  color: #50a5f1;
+}
+
+.color-text {
+  color: rgba(0,0,0,.85);
+}
+
+.color-3F4254 {
+  color: #D5D5D5;
+}
+
+.pl-24 {
+  padding-left: 24px;
+}
+
+.form-school-year {
+  .custom-form-school-year {
+
+  }
+
+  nz-radio-group {
+    width: 100%;
+  }
+  .box-input {
+    .card-custom {
+      padding: 0 !important;
+      .card-header {
+        padding: 0 !important;
+        min-height: 50px !important;
+        .nav-item {
+          cursor: pointer;
+        }
+      }
+      .card-body {
+        padding: 2rem 0 !important;
+      }
+    }
+  }
+
+  ::ng-deep.custom-form-school-year {
+    .lb-is-current {
+      color: #D5D5D5;
+    }
+
+    .lb-is-current.active {
+      color: #34C38F;
+    }
+
+    .lb-report {
+      color: #D5D5D5;
+    }
+
+    .lb-report.active {
+      color: #50A5F1;
+    }
+
+    .ant-radio-checked .ant-radio-inner {
+      border-color: #34C38F;
+    }
+
+    .ant-radio-inner::after {
+      background-color: #34C38F;
+    }
+
+  }
+}
+
+.form-label-custom {
+  padding-top: calc(2.75rem + 1px) !important;
+}
+.pd-0 {
+  padding: 0 !important;
+}
+
+

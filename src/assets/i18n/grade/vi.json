@@ -1,0 +1,32 @@
+{
+    "gradeList": "Danh sách khối",
+    "status": "Trạng thái",
+    "grade": "Khối",
+    "educationalStages": "Cấp học",
+    "order": "STT",
+    "gradeName": "Tên khối",
+    "enterGradeName": "Nhập tên khối",
+    "enterGradeCode": "Nhập mã khối",
+    "gradeCode": "Mã khối",
+    "educationalStagesApply": "Cấp học áp dụng",
+    "activated": "Đã kích hoạt",
+    "notActivated": "Chưa kích hoạt",
+    "primarySchool": "Tiểu học",
+    "secondarySchool": "Trung học cơ sở",
+    "highSchool": "Trung học phổ thông",
+    "deleteGrade": "Xóa khối",
+    "updateGrade": "Chỉnh sửa khối",
+    "createGrade": "Thêm mới khối",
+    "chooseApplicableSchoolLevel":"Chọn cấp học áp dụng",
+    "validators": {
+        "name": {
+            "required": "Bạn chưa nhập tên khối",
+            "maxlength": "Tên khối không được có nhiều hơn 255 kí tự"
+        },
+        "code":{
+            "required":"Bạn chưa nhập mã khối",
+            "maxlength": "Mã khối không được có nhiều hơn 50 kí tự",
+            "pattern":"Mã khối không hợp lệ"
+        }
+    }
+}

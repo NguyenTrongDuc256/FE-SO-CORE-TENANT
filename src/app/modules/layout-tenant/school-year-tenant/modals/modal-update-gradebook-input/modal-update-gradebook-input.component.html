@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+  <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+    [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'school-year'">
+  <p class="fs-16 fw-700 text-danger">{{ t('schoolYear.confirmUpdateGradebookInput') }}</p>
+  <p class="fs-14 fw-500">{{ t('schoolYear.gradebookInput') }}
+    {{ dataModal.dataFromParent.dataInput ? t('schoolYear.gradebookInputFalse') : t('schoolYear.gradebookInputTrue') }}
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+    (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+    (click)="closeModal('accept')">{{dataModal?.btnAccept}}</button>
+</div>

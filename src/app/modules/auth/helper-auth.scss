@@ -1,0 +1,112 @@
+.so-auth-text-primary {
+  color: #495057;
+}
+
+.so-auth-text-secondary {
+  color: #00a3ff;
+}
+
+.so-auth-text-danger {
+  color: #f46a6a;
+}
+
+.err-login {
+  display: inline-flex;
+}
+
+.err-login span.icon-warming {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  padding: 2px 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffd7d7;
+  margin-right: 5px;
+}
+
+.err-login img {
+  width: 12px;
+  height: 11px;
+}
+
+.h-full {
+  height: 100%;
+  &-vh {
+    height: 100vh;
+  }
+}
+
+.w-full {
+  width: 100%;
+}
+
+.btn-auth-cancel {
+  background: none;
+}
+.btn-auth-cancel:hover, .btn.btn-light-primary.btn-auth-cancel:hover {
+  background-color: #F1FAFF !important;
+  color:#009EF7;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-decoration-underline, .text-decoration-underline:hover {
+  text-decoration: underline !important;
+  text-decoration-line: line-through;
+}
+
+.so-input-password {
+  position: relative;
+}
+
+.so-input-password > span {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  padding: 3px;
+  cursor: pointer;
+}
+
+.so-input-password img {
+  width: 17px;
+  height: 14px;
+}
+
+.btn-lg {
+  font-size: 1.3rem;
+}
+
+/* ============ start style so-select ============== */
+.so-select {
+  min-width: 12rem;
+  max-height: 3.6rem;
+  height: 100%;
+  border-radius: 6px;
+  border: none;
+  padding: 0 10px;
+  outline: none;
+}
+
+.so-select:focus {
+  outline: none;
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+  border-right-width: 1px !important;
+}
+/* ============ end style so-select ============ */
+
+.select-language {
+  border: 1px solid #556ee6;
+  border-radius: 6px;
+  width: 148px;
+  height: 44px;
+  position: absolute;
+  top: 0;
+  right: 20%;
+}
+

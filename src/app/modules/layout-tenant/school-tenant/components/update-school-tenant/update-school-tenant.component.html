@@ -1,0 +1,555 @@
+<div *transloco="let t; scope: 'school'">
+  <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
+    <div class="box collapse-info-basic">
+      <nz-collapse>
+        <nz-collapse-panel [nzHeader]="t('school.infoSchoolI')" [nzActive]="true">
+          <div class="collapse-main box-main">
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-logo-user-blue.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.logo')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <div class="so-input-upload-img postion-relative">
+                      <a target="_blank" [href]="logo" *ngIf="fileName && fileName !=''">
+                        <input type="text" readonly class="form-control" [value]="fileName" [ngStyle]="{'cursor' : fileName && fileName !='' ? 'pointer': ''}">
+                      </a>
+                      <input type="text" *ngIf="!fileName || fileName ==''" readonly class="form-control" [value]="fileName">
+                      <span name="btn-change-logo" class="btn-click-change-logo fs-11 fw-500" (click)="fileInputAvatar.click()"
+                        *ngIf="!fileName || fileName ==''">
+                        <img class="logo-change-avatar" src="assets/images/svg/bx_cloud-upload.svg" alt="">
+                      </span>
+                      <span name="btn-remove-logo" class="btn-click-change-logo btn-click-remove-logo fs-11 fw-500" *ngIf="fileName && fileName !=''" (click)="removeLogo()">
+                        <img src="assets/images/svg/icon-false.svg" alt="">
+                      </span>
+                      <input #fileInputAvatar type="file" name="logo" id="logo" class="d-none" accept="image/png, image/jpeg image/jpg"
+                      (change)="onChangeFileInputLogo($event)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.nameSchool')}} <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="name" id="name" placeholder="{{t('school.enterNameSchool')}}" class="form-control"
+                      formControlName="name">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: t('school.requiredName'),
+                        control: formSchool.controls['name']
+                        }">
+                      </ng-container>
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'maxLength',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['name']
+                        }">
+                      </ng-container>
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'notEmpty',
+                        message: t('school.requiredName'),
+                        control: formSchool.controls['name']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.codeMoet')}} <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600">
+                    {{ infoBasicSchool?.MoetUnitCode || '--' }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('campus')}} <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="campus" id="campus" class="w-full" formControlName="campus">
+                      <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
+                      <ng-container *ngFor="let campus of arrCampus">
+                        <option [value]="campus.id">{{campus.name}}</option>
+                      </ng-container>
+                    </select>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: t('school.requiredCampus'),
+                      control: formSchool.controls['campus']
+                      }">
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('trainingLevel')}} <span class="text-danger">*</span></span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 fw-600 form-group so-form-group">
+                    <select name="trainingLevel" id="trainingLevel" class="w-full" formControlName="trainingLevel">
+                      <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
+                      <ng-container *ngFor="let level of arrTrainingLevel">
+                        <option [value]="level.code">{{level.name}}</option>
+                      </ng-container>
+                    </select>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: t('school.requiredTrainingLevel'),
+                      control: formSchool.controls['trainingLevel']
+                      }">
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.loaiHinhTruong')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="loaiHinhTruong" id="loaiHinhTruong" class="w-full" formControlName="loaiHinhTruong">
+                      <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.loaiTruong')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="loaiTruong" id="loaiTruong" class="w-full" formControlName="loaiTruong">
+                      <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.chinhSachVung')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="chinhSachVung" id="chinhSachVung" class="w-full" formControlName="chinhSachVung">
+                      <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.provinceCity')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="cityCode" id="cityCode" class="w-full" formControlName="cityCode"
+                      (change)="changeVerticalUnit('city')">
+                      <option [value]="''">{{t('school.chonProvinceCity')}}</option>
+                      <ng-container *ngFor="let item of arrCity">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.khuVuc')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="khuVuc" id="khuVuc" class="w-full" formControlName="khuVuc">
+                      <option [value]="''">{{t('school.chonKhuVuc')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.KhuVuc">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.district')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="districtCode" id="districtCode" class="w-full" formControlName="districtCode"
+                      (change)="changeVerticalUnit('district')">
+                      <option [value]="''">{{t('school.chonDistrict')}}</option>
+                      <ng-container *ngFor="let item of arrDistrict">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.ward')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="wardCode" id="wardCode" class="w-full" formControlName="wardCode"
+                      (change)="changeVerticalUnit('ward')">
+                      <option [value]="''">{{t('school.chonWard')}}</option>
+                      <ng-container *ngFor="let item of arrWard">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;Email</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class="form-control"
+                      formControlName="email">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['email']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.sendFromEmail')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}" class="form-control"
+                      formControlName="sendFromEmail">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['sendFromEmail']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.SĐT')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}" class="form-control"
+                      formControlName="phone">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternPhone'),
+                        control: formSchool.controls['phone']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;Hotline</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" class="form-control"
+                      formControlName="hotline">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternHotline'),
+                        control: formSchool.controls['hotline']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.fax')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}" class="form-control"
+                      formControlName="fax">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternFax'),
+                        control: formSchool.controls['fax']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.hieuTruong')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}" class="form-control"
+                      formControlName="tenHieuTruong">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['tenHieuTruong']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.emailHieuTruong')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}" class="form-control"
+                      formControlName="emailHieuTruong">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'email',
+                        message: t('school.patternEmail'),
+                        control: formSchool.controls['emailHieuTruong']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.SDTHieuTruong')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}" class="form-control"
+                      formControlName="dienThoaiHieuTruong">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.patternPhone'),
+                        control: formSchool.controls['dienThoaiHieuTruong']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('indexOrder')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="number" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}" class="form-control"
+                      formControlName="indexOrder">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.namThanhLap')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="number" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}" class="form-control"
+                      formControlName="namThanhLap">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['namThanhLap']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.loaiDuAn')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="tenMaDuAn" id="tenMaDuAn" class="w-full" formControlName="maDuAn">
+                      <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.MaDuAn">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.dienTich')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}" class="form-control"
+                      formControlName="dienTich">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['dienTich']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.chuanQuocGia')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="w-full" formControlName="mucChuanQuocGia">
+                      <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
+                      <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
+                        <option [value]="item.MA">{{item.TEN}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('school.maVungKhoKhan')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="w-full" formControlName="maVungKhoKhan">
+                        <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                        alt="" class="box-icon" />&ensp;{{t('address')}}</span>
+                  </div>
+                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                    <input type="text" name="address" id="address" placeholder="{{t('enterAddress')}}" class="form-control"
+                      formControlName="address">
+                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: t('school.validateMaxLengthName'),
+                        control: formSchool.controls['address']
+                        }">
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </div>
+
+    <div class="box collapse-info-basic mt-5">
+      <nz-collapse>
+        <nz-collapse-panel [nzHeader]="t('school.infoAdvancedII')" [nzActive]="true">
+          <div class="collapse-main box-main">
+            <div class="row">
+              <ng-container *ngFor="let item of arrInfoAdvanced">
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+                  <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="{{item.key}}"
+                   formControlName="{{item.key}}">
+                    <span class="fw-600">{{ t(item.label) }}</span>
+                  </label>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </div>
+
+    <div class="action d-flex justify-content-end mt-4">
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="cancel()">{{t('btnAction.cancel')}}</button>
+      <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
+        (click)="submit(formSchool.value)" [disabled]="formSchool.invalid">{{t('btnAction.save')}}</button>
+    </div>
+  </form>
+</div>
+
+<!-- error -->
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        <div class="err-form text-danger">
+          <img src="assets/images/svg/icon-false.svg" alt="">
+          <span>&nbsp;{{ message }}</span>
+        </div>
+      </span>
+    </div>
+  </ng-container>
+</ng-template>
+<!-- end err template -->
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

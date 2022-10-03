@@ -1,0 +1,33 @@
+.box {
+  &-icon {
+    width: 16px;
+    height: 15px;
+  }
+  &-main {
+    padding: 0px 15px;
+  }
+  &-field {
+    padding: 6px 0 ;
+  }
+}
+
+::ng-deep .ant-checkbox-disabled+span {
+  color: rgba(0,0,0,.85);
+}
+
+::ng-deep .ant-checkbox-disabled, ::ng-deep .ant-checkbox-disabled .ant-checkbox-input, ::ng-deep .ant-checkbox-disabled+span {
+  cursor: auto;
+}
+
+.ant-checkbox-wrapper {
+  cursor: auto;
+
+}
+
+.ant-collapse {
+  border-radius: 6px;
+}
+
+::ng-deep .ant-collapse>.ant-collapse-item>.ant-collapse-header {
+  font-weight: 600;
+}
