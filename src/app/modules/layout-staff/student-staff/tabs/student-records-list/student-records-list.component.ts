@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { translate } from '@ngneat/transloco';
+import { GeneralService } from 'src/app/_services/general.service';
 import { CategoryStudentRecordsStaffService } from 'src/app/_services/layout-staff/category-student-records-staff/category-student-records-staff.service';
 import { StudentRecordsStaffService } from 'src/app/_services/layout-staff/student-records-staff/student-records-staff.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import {
   ARR_STATUS_STUDENT_RECORDS,
-  DATA_PERMISSION,
-  MESSAGE_ERROR_CALL_API,
-  PAGE_INDEX_DEFAULT,
+  DATA_PERMISSION, PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
   STATUS_STUDENT_RECORDS,
-  TYPE_CATE_STUDENT_RECORDS,
+  TYPE_CATE_STUDENT_RECORDS
 } from 'src/app/_shared/utils/constant';
 import { ModalFormRecordsStaffComponent } from '../../modals/modal-form-records-staff/modal-form-records-staff.component';
 import { ModalRefuseRecordsComponent } from '../../modals/modal-refuse-records/modal-refuse-records.component';
@@ -34,23 +33,31 @@ export class StudentRecordsListComponent implements OnInit {
   isLoading = false;
   permission = DATA_PERMISSION;
   arrCategories = [];
-  cateId: string = '';
+  cateId = '';
   arrStatus = ARR_STATUS_STUDENT_RECORDS;
-  statusRecords: string = '';
-  studentId: string = '37c0b567-b44f-4496-916f-09cf4c9cd0ce';
-  studentUserId: string = '886A74F2-2656-43EA-B378-B4442B47AD57';
+  statusRecords = '';
+  @Input() studentId = '';
+  @Input() studentUserId = '';
   constStatusRecords = STATUS_STUDENT_RECORDS;
   oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
     private studentRecordsStaffService: StudentRecordsStaffService,
-    private showMessage: ShowMessageService,
-    private categoryStudentRecordsStaffService: CategoryStudentRecordsStaffService
+    private categoryStudentRecordsStaffService: CategoryStudentRecordsStaffService,
+    private activatedRouter: ActivatedRoute,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
-    this.getList();
+    this.activatedRouter.params.subscribe(res => {
+      this.studentId = res.id;
+    })
+    this.activatedRouter.queryParams.subscribe(res => {
+      this.studentUserId = res.userId;
+      this.getList();
+    })
+
     this.getListCateRecords();
   }
 
@@ -67,22 +74,20 @@ export class StudentRecordsListComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data.fileUsers.data;
-            this.collectionSize = res.data?.fileUsers?.totalItems;
-            this.arrList.forEach((element: any) => {
-              element['approveStatusName'] =
-                this.arrStatus.find(
-                  (status) => status.value == element.approveStatus
-                )?.label || '--';
-            });
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data.fileUsers.data;
+          this.collectionSize = res.data?.fileUsers?.totalItems;
+          this.arrList.forEach((element: any) => {
+            element['approveStatusName'] =
+              this.arrStatus.find(
+                (status) => status.value == element.approveStatus
+              )?.label || '--';
+          });
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -109,8 +114,7 @@ export class StudentRecordsListComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
-          this.oldPageIndex = this.pageIndex;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
           this.getList();
         }
       },
@@ -141,8 +145,6 @@ export class StudentRecordsListComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
-          this.oldPageIndex = this.pageIndex;
           this.getList();
         }
       },
@@ -196,8 +198,6 @@ export class StudentRecordsListComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
-          this.oldPageIndex = this.pageIndex;
           this.getList();
         }
       },
@@ -244,8 +244,7 @@ export class StudentRecordsListComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
-          this.oldPageIndex = this.pageIndex;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
           this.getList();
         }
       },
@@ -280,8 +279,7 @@ export class StudentRecordsListComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
-          this.oldPageIndex = this.pageIndex;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
           this.getList();
         }
       },
@@ -290,17 +288,18 @@ export class StudentRecordsListComponent implements OnInit {
   }
 
   getListCateRecords() {
+    this.isLoading = true;
     this.categoryStudentRecordsStaffService
       .getList('', 9999999, 1, TYPE_CATE_STUDENT_RECORDS.STUDENT, null)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrCategories = res.data.data;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrCategories = res.data.data;
+          this.isLoading = false;
         },
-        (err: any) => this.showMessage.error(MESSAGE_ERROR_CALL_API)
+        (err: any) => {
+          this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
+        }
       );
   }
 
@@ -335,17 +334,26 @@ export class StudentRecordsListComponent implements OnInit {
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.oldPageIndex = this.pageIndex;
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList();
+  }
+
   filter() {
-    this.pageIndex = 1;
-    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getList();
   }
 

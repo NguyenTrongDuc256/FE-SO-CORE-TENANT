@@ -35,5 +35,19 @@
   "recordsCompleted": "Hồ sơ đã hoàn thiện",
   "records": "hồ sơ",
   "complete": "Hoàn thành",
-  "recordsDone": "Hồ sơ học sinh đã nộp cho nhà trường"
+  "recordsDone": "Hồ sơ học sinh đã nộp cho nhà trường",
+  "class": "Lớp học",
+  "profileIsComplete": "Hồ sơ đã hoàn thiện",
+  "studentRecordsSubmitted": "Hồ sơ học sinh đã nộp cho nhà trường",
+  "approveAcademicRecords": "Phê duyệt hồ sơ học tập đã nộp cho nhà trường",
+  "note1": "Chức năng này chỉ cho phép import đường dẫn theo danh sách học sinh",
+  "note2": "Cột \"Mã học sinh\", \"Mã danh mục\", \"Tên hồ sơ\", \"Đường dẫn\" là những cột bắt buộc phải nhập",
+  "note3": "Cột \"Mã danh mục\": Vui lòng điền mã danh mục (xem tại đây)",
+  "downloadSampleFileWithCode": "Tải file mẫu có mã HS",
+  "downloadSampleFiles": "Tải file mẫu",
+  "codeCategoryRecords": "categoryRecords",
+  "nameLink": "Tên đường dẫn",
+  "link": "Đường dẫn",
+  "of": "của",
+  "validData": "Đơn vị hợp lệ"
 }

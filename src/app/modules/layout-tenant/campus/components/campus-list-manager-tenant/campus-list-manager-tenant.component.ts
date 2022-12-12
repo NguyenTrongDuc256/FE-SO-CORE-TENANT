@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { DATA_PERMISSION } from 'src/app/_shared/utils/constant';
+import { DATA_PERMISSION, MESSAGE_ERROR_CALL_API, TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
 import { translate } from "@ngneat/transloco";
 import { CampusService } from 'src/app/_services/layout-tenant/campus/campus.service';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import { ModalFormCampusTenantComponent } from '../../modals/modal-form-campus-tenant/modal-form-campus-tenant.component';
+import { GeneralService } from 'src/app/_services/general.service';
 
 @Component({
   selector: 'app-campus-list-manager-tenant',
@@ -23,7 +24,8 @@ export class CampusListManagerTenantComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private campusService: CampusService,
-    private showMessageService: ShowMessageService
+    private showMessageService: ShowMessageService,
+    private generalService: GeneralService
   ) { }
 
   ngOnInit(): void {
@@ -32,23 +34,25 @@ export class CampusListManagerTenantComponent implements OnInit {
 
   getDataSource() {
     this.isLoading = true;
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
+        this.isLoading = false;
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
     this.campusService.getListCampus(this.keyWord,this.isActive).subscribe((res: any) => {
       this.isLoading = false;
-      if (res.status == 1) {
-        this.dataSource = res.data;
-      } else {
-        this.showMessageService.error(res.msg);
-      }
+      this.dataSource = res.data;
     }, (_err: any) => {
+      clearTimeout(timeoutCallAPI);
+      this.generalService.showToastMessageError400(_err);
       this.isLoading = false;
     })
   }
 
-  checkChangeKeywordSerach(event: any) {
-    this.keyWord = event.target.value;
-    if (event.keyCode == 13) {
-      this.getDataSource();
-    }
+  checkChangeKeywordSerach(value: string) {
+    this.keyWord = value;
+    this.getDataSource();
   }
 
   dataTimeOutput(event: any) {
@@ -78,7 +82,7 @@ export class CampusListManagerTenantComponent implements OnInit {
       titleModal: translate('campus.addCampus'),
       btnCancel: translate('btnAction.cancel'),
       btnAccept: translate('btnAction.save'),
-      isHiddenBtnClose: false,
+      isHiddenBtnClose: true,
       dataFromParent: null
     }
 

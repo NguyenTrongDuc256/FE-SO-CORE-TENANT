@@ -1,0 +1,66 @@
+.so-body {
+    padding: 1rem 2rem 0 2rem;
+}
+
+.so-icon {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) saturate(100%) invert(55%) sepia(73%) saturate(1077%) hue-rotate(183deg) brightness(99%) contrast(91%);
+    ;
+}
+
+.so-item {
+    border-bottom: 1px var(--bs-white-smoke) solid;
+
+    .coll-margin {
+        margin-left: -15px;
+    }
+}
+
+.upload-file {
+    cursor: pointer;
+    width: auto;
+    background: var(--bs-white-smoke);
+    border: 1px dashed #00A3FF;
+    box-shadow: 0px 0px 20px rgb(76 87 125 / 2%);
+    border-radius: 5px;
+    padding: 0px 2rem;
+
+    p {
+        text-align: center;
+        margin: 0;
+    }
+
+    img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+.input-import-units-custom {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 4rem;
+    cursor: auto;
+}
+
+.image-upload-import-custom {
+    position: absolute;
+    top: 7px;
+    left: 14px;
+    z-index: 5;
+    height: 22px;
+}
+
+.form-control-custom {
+    padding-left: 50px;
+    padding-right: 140px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: var(--bs-white-smoke);
+    border-color: var(--bs-white-smoke);
+    color: var(--bs-azure);
+    transition: color 0.2s ease, background-color 0.2s ease;
+    height: 4rem;
+}

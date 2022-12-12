@@ -1,51 +1,62 @@
 <div class="modal-header">
   <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
   <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
-  [hidden]="!dataModal?.isHiddenBtnClose">
-      <span aria-hidden="true">&times;</span>
+    [hidden]="!dataModal?.isHiddenBtnClose">
+    <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   <div class="card-dialog " *transloco="let t; scope: 'grade'">
-  <form [formGroup]="infoForm">
-    <div class=" d-flex align-items-center ">
-      <span class="fs-14 fw-700 label-input">{{ t('grade.gradeName') }} <span class="text-danger">*</span></span>
-      <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('grade.enterGradeName') }}"
-        name="input-name" type="text" formControlName="name">
-    </div>
-    <div *ngFor="let item of validation_messages.name">
-      <span class="warning " *ngIf="infoForm.get('name')?.hasError(item.type)  && infoForm.get('name')?.touched">
-        {{item.message}}
-      </span>
-    </div>
-    <div class=" margin-top d-flex align-items-center ">
-      <span class="fs-14 fw-700 label-code">{{ t('grade.gradeCode') }} </span>
-      <span class="fs-14 code-color"> {{this.dataModal.dataFromParent.code}}</span>
-    </div>
-    <div class=" margin-top d-flex align-items-center ">
-      <span class="fs-14 fw-700 label-input">{{ t('grade.educationalStagesApply') }} <span
-          class="text-danger">*</span></span>
-      <select class="fs-14 fw-500 input-custom form-select form-select-solid form-select-lg" name="btn-subject"
-        formControlName="educationalStages">
-        <option value="5">{{ t('grade.primarySchool') }}</option>
-        <option value="4">{{ t('grade.secondarySchool') }}</option>
-        <option value="3">{{ t('grade.highSchool') }}</option>
-      </select>
-    </div>
-    <div class=" margin-top d-flex align-items-center ">
-      <div class="status">
-        <span class="fs-14 fw-700 ">{{ t('status') }}</span>
+    <form [formGroup]="formGroup" class="text-color-river-bed">
+      <div class="mb-6">
+        <div class="d-flex align-items-center">
+          <span class="fs-13 fw-700 label-input">{{ t("grade.gradeName") }} <span
+              class="text-danger me-2">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('grade.enterGradeName') }}"
+            name="input-grade-name" type="text" formControlName="name"
+            [class.is-invalid]="formGroup.get('name').invalid && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formGroup.get('name').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validationMessages.name">
+          <app-field-error-display
+            [displayError]="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.name"
+            [displayErrorServer]="!(formGroup.get('name').dirty || formGroup.get('name').touched)">
+          </app-field-error-display>
+        </div>
       </div>
-      <label class="fs-14 fw-700" nz-checkbox name="input-checkbox" formControlName="isActive">{{ t("activated")
-        }}</label>
-    </div>
-  </form>
-</div>
+      <div class="mb-6 d-flex align-items-center ">
+        <span class="fs-13 fw-700 label-input">{{ t('grade.gradeCode') }} </span>
+        <span class="fs-13 fw-700 input-text text-color-picton-blue"> {{this.dataModal.dataFromParent.code}}</span>
+      </div>
+      <div class="mb-6 d-flex align-items-center">
+        <span class="fs-13 fw-700 label-input">{{t("grade.educationalStagesApply")}} <span
+            class="text-danger me-2">*</span></span>
+        <select class="so-form-control so-select input-text" name="educational-stages"
+          formControlName="educationalStages">
+          <option value="5">{{ t("grade.primarySchool") }}</option>
+          <option value="4">{{ t("grade.secondarySchool") }}</option>
+          <option value="3">{{ t("grade.highSchool") }}</option>
+        </select>
+      </div>
+      <div class="d-flex align-items-center">
+        <span class="fs-13 fw-700 label-input">{{ t("status") }}</span>
+        <label class="input-text" nz-checkbox name="grade-status" formControlName="isActive">{{ t("activated")
+          }}</label>
+      </div>
+    </form>
+  </div>
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
-  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+  <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+    (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+    (click)="onSubmit(formGroup.value)">{{dataModal?.btnAccept}}</button>
 </div>
 <div class="spinner" *ngIf="isLoading">
   <app-loading></app-loading>

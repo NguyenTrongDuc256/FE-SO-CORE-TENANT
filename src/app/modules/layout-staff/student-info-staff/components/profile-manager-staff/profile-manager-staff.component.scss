@@ -1,0 +1,21 @@
+.color-495057 {
+  color: var(--bs-river-bed);
+}
+
+.color-50a5f1 {
+  color: var(--bs-picton-blue);
+}
+
+.border-radius-50 {
+  border-radius: 50%!important;
+}
+
+.img-color-50a5f1{
+  filter: brightness(0) saturate(100%) invert(48%) sepia(52%) saturate(4828%) hue-rotate(177deg) brightness(102%) contrast(100%);
+}
+
+.so-table-th-custom--white thead > tr {
+  background: var(--bs-picton-blue);
+  color: var(--bs-white);
+}
+

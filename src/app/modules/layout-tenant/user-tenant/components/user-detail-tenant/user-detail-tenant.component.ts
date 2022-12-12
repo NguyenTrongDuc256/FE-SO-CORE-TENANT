@@ -1,18 +1,16 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {RoleService} from "src/app/_services/layout-tenant/role/role.service";
-import {ShowMessageService} from "src/app/_services/show-message.service";
-import {FormBuilder} from "@angular/forms";
-import {ListenFirebaseService} from "src/app/_services/listen-firebase.service";
-import {UserService} from "src/app/_services/layout-tenant/user/user.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {RoleList, RoleToAssignList, UserInfo} from "src/app/_models/layout-tenant/user/user.model";
-import {translate} from "@ngneat/transloco";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ShowMessageService } from "src/app/_services/show-message.service";
+import { UserService } from "src/app/_services/layout-tenant/user/user.service";
+import { ActivatedRoute } from "@angular/router";
+import { RoleList, RoleToAssignList, UserInfo } from "src/app/_models/layout-tenant/user/user.model";
+import { translate } from "@ngneat/transloco";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import {
   ModalAssignToUserTenantComponent
 } from "../../modals/modal-assign-to-user-tenant/modal-assign-to-user-tenant.component";
-import {DATA_PERMISSION, LAYOUTS_TENANT} from "../../../../../_shared/utils/constant";
-import {ModalDeleteComponent} from "../../../../../_shared/modals/modal-delete/modal-delete.component";
+import { DATA_PERMISSION, LAYOUTS_TENANT, MESSAGE_ERROR_CALL_API, TIME_OUT_LISTEN_FIREBASE } from "../../../../../_shared/utils/constant";
+import { ModalDeleteComponent } from "../../../../../_shared/modals/modal-delete/modal-delete.component";
+import { GeneralService } from 'src/app/_services/general.service';
 
 @Component({
   selector: 'app-user-detail-tenant',
@@ -31,14 +29,11 @@ export class UserDetailTenantComponent implements OnInit {
   layouts: any = LAYOUTS_TENANT;
 
   constructor(
-    private roleService: RoleService,
     private showMessageService: ShowMessageService,
-    private fb: FormBuilder,
-    private listenFirebaseService: ListenFirebaseService,
     private userService: UserService,
-    private router: Router,
     private activeRouter: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private generalService: GeneralService
   ) {
   }
 
@@ -55,15 +50,19 @@ export class UserDetailTenantComponent implements OnInit {
 
   getUserDetail(id: string): void {
     this.isLoading = true;
-    this.userService.show(id).subscribe((res: any): void => {
-        if (res.status == 1 && res.status != undefined) {
-          this.userInfo = res.data;
-        } else {
-          this.showMessageService.error(res.msg);
-        }
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
-      },
-      (err: any) => {
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.userService.show(id).subscribe((res: any): void => {
+      this.userInfo = res.data;
+      this.isLoading = false;
+    },
+      (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       }
     );
@@ -71,14 +70,18 @@ export class UserDetailTenantComponent implements OnInit {
 
   getRoleList(id: string): void {
     this.isLoading = true;
-    this.userService.getRoleList(id).subscribe((res: any): void => {
-      if (res.status != undefined && res.status == 1) {
-        this.roleList = res.data;
-      } else {
-        this.showMessageService.error(res.msg);
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
+        this.isLoading = false;
       }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.userService.getRoleList(id).subscribe((res: any): void => {
+      this.roleList = res.data;
       this.isLoading = false;
-    }, (err: any) => {
+    }, (_err: any) => {
+      clearTimeout(timeoutCallAPI);
+      this.generalService.showToastMessageError400(_err);
       this.isLoading = false;
     });
   }
@@ -95,12 +98,8 @@ export class UserDetailTenantComponent implements OnInit {
 
   getRolesToAssignList(userId: string): void {
     this.userService.getRolesToAssignList(userId).subscribe((res: any): void => {
-        if (res.status == 1) {
-          this.roleToAssignList = res.data;
-        } else {
-          this.showMessageService.error(res.msg);
-        }
-      },
+      this.roleToAssignList = res.data;
+    },
       (err: any) => {
       }
     );

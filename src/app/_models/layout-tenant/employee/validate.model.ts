@@ -6,7 +6,7 @@ interface item {
 export interface Validate {
   fullName?: item[],
   code?: item[],
-  codeMoet?: item[],
+  moetCode?: item[],
   roleId?: item[],
   campusId?: item[],
   schoolId?: item[],
@@ -26,5 +26,7 @@ export interface Validate {
   loai?: item[],
   content?: item[],
   moiQuanHe?: item[],
+  socialInsuranceNumber?: item[],
+  idNumber?: item[],
 }
 

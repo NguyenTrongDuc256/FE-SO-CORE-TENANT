@@ -8,6 +8,8 @@ import {LAYOUTS_TENANT} from "../../../../../_shared/utils/constant";
   templateUrl: './modal-role-list-tenant.component.html',
   styleUrls: ['./modal-role-list-tenant.component.scss']
 })
+
+// component này đang dùng chung vs màn hình nhân viên
 export class ModalRoleListTenantComponent implements OnInit {
 
   @Input() dataModal: any;

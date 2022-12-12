@@ -8,7 +8,7 @@ import * as moments from "moment";
 })
 export class RangeDatePickerComponent implements OnInit {
   options: any = {
-    autoApply: false,
+    autoApply: true,
     alwaysShowCalendars: false,
     showCancel: false,
     showClearButton: false,
@@ -30,8 +30,13 @@ export class RangeDatePickerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.selected.startDate = moments(Number(this.startDate)*1000);
-    this.selected.endDate = moments(Number(this.endDate)*1000);
+    if(this.startDate && this.endDate){
+      this.selected = { startDate: null, endDate: null };
+      this.selected.startDate = moments(Number(this.startDate)*1000);
+      this.selected.endDate = moments(Number(this.endDate)*1000);
+    }else {
+      this.selected = null;
+    }
     this.options.timePicker = this.timePicker;
     if(this.timePicker){
       this.options.locale.format = 'hh:mm A DD/MM/YYYY'
@@ -40,9 +45,11 @@ export class RangeDatePickerComponent implements OnInit {
 
   ngModelChange(event:any){
     let dataOutput:any = { startDate: null, endDate: null };
-    dataOutput.startDate = moments(event.startDate.$d).format('X');
-    dataOutput.endDate = moments(event.endDate.$d).format('X');
-    this.dataTimeOutput.emit(dataOutput);
+    if(event.startDate){
+      event.startDate._d ? dataOutput.startDate = moments(event.startDate._d).format('X') : dataOutput.startDate = moments(event.startDate.$d).format('X');
+      event.endDate._d ? dataOutput.endDate = moments(event.endDate._d).format('X') : dataOutput.endDate = moments(event.endDate.$d).format('X');
+      this.dataTimeOutput.emit(dataOutput);
+    }
   }
 
 }

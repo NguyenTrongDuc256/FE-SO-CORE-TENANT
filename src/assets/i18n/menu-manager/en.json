@@ -1,0 +1,60 @@
+{
+    "managerCustomerMenu":"Manager customer menu",
+    "menuList":"Menu list",
+    "menuPackage":"Menu package",
+    "menuCode":"Menu code",
+    "layoutApply":"Layout apply",
+    "activity":"Activity",
+    "enterNameCodeMenuPackage":"Enter name, code menu package",
+    "enterNameCodeMenu":"Enter name, code menu",
+    "addMenu":"Add menu",
+    "updateMenu": "Update menu",
+    "menuName":"Menu name",
+    "link":"Link",
+    "icon":"Icon",
+    "category":"Category",
+    "enterMenuName":"Enter menu name",
+    "enterMenuCode":"Enter menu code",
+    "enterMenuLink":"Enter menu link",
+    "enterPermissionCode":"Enter permission code",
+    "menuType": "Menu type",
+    "activated": "Activated",
+    "notActivated": "Not activated",
+    "subRoute":"Sub route",
+    "permissionCode":"Permission code",
+    "addMenuPackage":"Add menu package",
+    "updateMenuPackage":"Update menu package",
+    "deleteMenuPackage":"Delete menu package",
+    "menuPackageName":"Menu package name",
+    "menuPackageCode":"Menu package cdoe",
+    "enterMenuPackageName":"Enter menu package name",
+    "enterMenuPackageCode":"Enter menu package code",
+    "menuIsCategory":"Menu is category",
+    "selectLayoutApply":"Select layout apply",
+    "dragDropMenuAddMenu":"Drag & Drop To Add New Menu",
+    "validateMenupackageName":"Menu package name is required",
+    "validateMenupackageCode":"Menu package code is required",
+    "validateMenupackageLayout":"You have not selected the applicable layout",
+    "validateTitleMenuInpackage":"You have not entered the menu title",
+    "validators":{
+        "name":{
+            "required":"Menu name is required"
+        },
+        "code":{
+            "required":"Menu code is required",
+            "pattern":"Menu code invalid"
+        },
+        "permissionCode":{
+            "required":"Permission code is required",
+            "pattern":"Permission code invalid"
+        },
+        "url":{
+            "required":"Menu url is required"
+        },
+        "icon":{
+            "required":"Menu icon is required"
+        }
+    },
+    "assignMenuToSchool":"Assign menu to school",
+    "school":"School"
+}

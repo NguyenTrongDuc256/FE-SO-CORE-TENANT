@@ -1,12 +1,11 @@
-import {
-  MESSAGE_ERROR_CALL_API,
-  TIME_OUT_LISTEN_FIREBASE,
-} from './../../utils/constant';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
+import { GeneralService } from 'src/app/_services/general.service';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
+import {
+  TIME_OUT_LISTEN_FIREBASE
+} from './../../utils/constant';
 
 @Component({
   selector: 'app-modal-delete',
@@ -20,8 +19,8 @@ export class ModalDeleteComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private showMessage: ShowMessageService,
-    private listenFirebaseService: ListenFirebaseService
+    private listenFirebaseService: ListenFirebaseService,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -37,17 +36,12 @@ export class ModalDeleteComponent implements OnInit {
       this.dataFromParent.keyFirebaseAction,
       this.dataFromParent.keyFirebaseModule
     );
-
+    this.isLoading = true;
     this.dataFromParent.apiSubmit(this.dataFromParent.dataInput).subscribe(
-      (res: any) => {
-        if (res.status == 0) {
-          this.isLoading = false;
-          this.showMessage.error(res.msg);
-        }
-      },
+      (res: any) => {},
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(MESSAGE_ERROR_CALL_API);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -65,6 +59,7 @@ export class ModalDeleteComponent implements OnInit {
         this.isLoading = false;
         this.activeModal.close(true);
       } else {
+        // this.activeModal.close(true);
         this.isLoading = false;
       }
     });

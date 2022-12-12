@@ -1,0 +1,136 @@
+<ng-container *transloco="let t; scope: 'training'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body so-body">
+    <div class="row pt-6">
+      <div class="col-md-2  d-flex align-items-center">
+        <label for="" class="fs-14 fw-600">{{t('training.title')}}:</label>
+      </div>
+      <div class="col-md-10 d-flex align-items-center justify-content-between">
+        <span class="fs-15 fw-700">{{t('training.absentDate')}} {{ fromDate | formatTime }} {{ toDate && toDate !=
+          fromDate ? '-' : '' }} {{ toDate && toDate != fromDate ? (toDate | formatTime) : '' }}</span>
+        <ng-template ngxPermissionsOnly="{{ permission.absent_manager }}">
+          <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+            (click)="onSubmit()">{{t('training.edit')}}</button>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="row pt-6 pb-6">
+      <div class="col-md-2 d-flex align-items-center">
+        <label for="" class="fs-14 fw-600">{{t('training.student')}}:</label>
+      </div>
+      <div class="col-md-10">
+        <span
+          class="fs-15 fw-600 text-color-picton-blue">{{this.dataModal.dataFromParent.dataDetail.studentName}}</span>
+      </div>
+    </div>
+
+    <div class="row pt-6 pb-6">
+      <div class="col-md-2 d-flex align-items-center">
+        <img class="so-icon me-3" src="assets/images/svg/calendar.svg" alt="">
+        <label for="" class="fs-14 fw-600">{{t('training.since')}}:</label>
+      </div>
+      <div class="col-md-10 d-flex align-items-center">
+        <div class="me-10">
+          <span class="fs-14 fw-600 text-color-picton-blue">{{t('training.dayUppercase')}} {{ fromDate | formatTime
+            }}</span>
+        </div>
+        <div class="d-flex align-items-center ms-20">
+          <img class="so-icon me-3" src="assets/images/svg/calendar.svg" alt="">
+          <label class="pe-5 fs-14 fw-600" for="">{{t('training.toDay')}}:</label>
+          <div class="">
+            <span class="fs-14 fw-600 text-color-picton-blue pe-10">{{t('training.dayUppercase')}} {{toDate | formatTime
+              }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fs-14 fw-600">
+      <div class="so-item" *ngFor="let item of this.dataModal.dataFromParent.dataDetail.data; let i = index;">
+        <div class="coll-margin fs-14 fw-700">
+          <nz-collapse nzGhost nzExpandIconPosition="left">
+            <nz-collapse-panel [nzHeader]="'Ngày tháng: ' + t('training.dayUppercase') + (item.date | formatTime)"
+              [nzActive]="true" [nzDisabled]="false">
+              <div class="fs-14 fw-600">
+                <div class="row ">
+                  <div class="col-md-2 d-flex align-items-center">
+                    <img class="me-3 so-icon" src="assets/images/svg/duotone.svg" alt="">
+                    <label>{{t('training.lesson')}}</label>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="d-flex align-items-center ">
+                      <div class="d-flex align-items-center">
+                        <span *ngFor="let period of item.period; let i= index"><span *ngIf="i!=0">,
+                          </span>{{period.periodName}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row pt-6 d-none">
+                  <div class="col-md-2 d-flex align-items-center">
+                    <img class="me-3 so-icon" src="assets/images/svg/bus.svg" alt="">
+                    <label>{{t('training.busBreak')}}:</label>
+                  </div>
+                  <div class="col-md-10">
+                    <span>{{item.busName}}</span>
+                  </div>
+                </div>
+                <div class="row pt-6 d-none">
+                  <div class="col-md-2 d-flex align-items-center">
+                    <img class="me-3 so-icon" src="assets/images/svg/food_menu.svg" alt="">
+                    <label>{{t('training.absentMeal')}}:</label>
+                  </div>
+                  <div class="col-md-10 d-flex ">
+                    <span *ngFor="let meal of item.meal; let i= index"><span *ngIf="i!=0">,
+                      </span>{{meal.mealName}}</span>
+                  </div>
+                </div>
+              </div>
+            </nz-collapse-panel>
+          </nz-collapse>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-6">
+      <div class="col-md-2 d-flex ">
+        <img class="me-3 so-icon" src="assets/images/svg/document5.svg" alt="">
+        <label class="fs-14 fw-600">{{t('training.reason')}}:</label>
+      </div>
+      <div class="col-md-10  ">
+        <span class="fs-14 fw-600">{{ this.dataModal.dataFromParent.dataDetail.reason}}</span>
+      </div>
+    </div>
+
+    <div class="row pt-6 pb-6">
+      <div class="col-md-2 d-flex align-items-center">
+        <label class="fs-14 fw-600">{{t('training.attachments')}}:</label>
+      </div>
+      <div class="col-md-10 d-flex align-items-center justify-content-between">
+        <div class=" px-0 input-import-units-custom">
+          <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden
+            id="input-file-upload-hoc-sinh">
+          <img src="assets/images/svg/icon-word.svg" class="image-upload-import-custom ">
+          <div class="input-group pe-none">
+            <input readonly type="text" class="form-control form-control-custom "
+              placeholder="{{this.dataModal.dataFromParent.dataDetail.attachedFile}}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+  </div>
+</ng-container>

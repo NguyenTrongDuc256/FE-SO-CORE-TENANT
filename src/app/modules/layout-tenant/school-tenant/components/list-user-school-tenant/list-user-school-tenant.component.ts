@@ -1,25 +1,29 @@
-import { GeneralService } from 'src/app/_services/general.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {translate} from '@ngneat/transloco';
+import {GeneralService} from 'src/app/_services/general.service';
+import {UserService} from 'src/app/_services/layout-tenant/user/user.service';
+import {ShowMessageService} from 'src/app/_services/show-message.service';
+import {
+  ModalChangePasswordComponent
+} from 'src/app/_shared/modals/modal-change-password/modal-change-password.component';
+import {ModalDeleteComponent} from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import {
   DATA_PERMISSION,
   LAYOUTS_TENANT,
   PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
-  STATUS_USERS,
+  STATUS_ACTIVE,
+  STATUS_USERS
 } from 'src/app/_shared/utils/constant';
-import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { UserService } from 'src/app/_services/layout-tenant/user/user.service';
-import { ModalUpdateUserSchoolTenantComponent } from '../../modals/modal-update-user-school-tenant/modal-update-user-school-tenant.component';
-import { AssignRoleUserComponent } from '../../modals/assign-role-user/assign-role-user.component';
-import { forkJoin } from 'rxjs';
-import { ModalListRoleUserComponent } from '../../modals/modal-list-role-user/modal-list-role-user.component';
-import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
-import { translate } from '@ngneat/transloco';
-import { ModalChangePasswordComponent } from 'src/app/_shared/modals/modal-change-password/modal-change-password.component';
+import {AssignRoleUserComponent} from '../../modals/assign-role-user/assign-role-user.component';
+import {ModalListRoleUserComponent} from '../../modals/modal-list-role-user/modal-list-role-user.component';
+import {
+  ModalUpdateUserSchoolTenantComponent
+} from '../../modals/modal-update-user-school-tenant/modal-update-user-school-tenant.component';
+
 @Component({
   selector: 'app-list-user-school-tenant',
   templateUrl: './list-user-school-tenant.component.html',
@@ -39,15 +43,16 @@ export class ListUserSchoolTenantComponent implements OnInit {
   arrStatusUser = STATUS_USERS;
   layoutCode: string = '';
   arrLayouts = LAYOUTS_TENANT;
+  oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
-    private schoolService: SchoolService,
     private showMessage: ShowMessageService,
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private generalService: GeneralService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((res) => {
@@ -59,7 +64,7 @@ export class ListUserSchoolTenantComponent implements OnInit {
         this.isActive,
         this.keyword
       );
-    });
+    })
   }
 
   getList(
@@ -75,16 +80,14 @@ export class ListUserSchoolTenantComponent implements OnInit {
       .getUserList(pageIndex, pageSize, schoolId, isActive, keyword, layout)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data.data;
+          this.collectionSize = res.data?.totalItems;
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -101,35 +104,31 @@ export class ListUserSchoolTenantComponent implements OnInit {
     this.isLoading = true;
     this.userService.getRoleList(id).subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          let dataFromParent = {
-            userId: id,
-            fullNameUser: name,
-            schoolId: this.schoolId,
-            arrList: res.data,
-            hasRemove: hasRemove
-          };
-          if(hasRemove) {
-            dataFromParent['apiSubmit'] = (dataInput: any) => this.userService.removeRole(dataInput);
-            dataFromParent['keyFirebaseAction'] = 'remove-role-from-user';
-            dataFromParent['keyFirebaseModule'] = 'user';
-          }
-          this.openModal(
-            ModalListRoleUserComponent,
-            'school.listRole',
-            'btnAction.cancel',
-            'btnAction.close',
-            dataFromParent,
-            'xl',
-            'static'
-          );
-        } else {
-          this.showMessage.error(res.msg);
+        let dataFromParent = {
+          userId: id,
+          fullNameUser: name,
+          schoolId: this.schoolId,
+          arrList: res.data,
+          hasRemove: hasRemove
+        };
+        if (hasRemove) {
+          dataFromParent['apiSubmit'] = (dataInput: any) => this.userService.removeRole(dataInput);
+          dataFromParent['keyFirebaseAction'] = 'remove-role-from-user';
+          dataFromParent['keyFirebaseModule'] = 'user';
         }
+        this.openModal(
+          ModalListRoleUserComponent,
+          'school.listRole',
+          'btnAction.cancel',
+          'btnAction.close',
+          dataFromParent,
+          'xl',
+        );
         this.isLoading = false;
       },
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -151,19 +150,19 @@ export class ListUserSchoolTenantComponent implements OnInit {
       'btnAction.cancel',
       'btnAction.save',
       dataFromParent,
-      'lg',
+      'xl',
       'static'
     );
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
           this.getList(
             this.pageIndex,
             this.pageSize,
             this.schoolId,
             this.isActive,
-            this.keyword
+            this.keyword,
+            this.layoutCode
           );
         }
       },
@@ -173,19 +172,16 @@ export class ListUserSchoolTenantComponent implements OnInit {
     );
   }
 
-  assignRole1(id: string) {
+  assignRole(id: string) {
     this.isLoading = true;
-    const APIAllRoleToAssign = this.userService.getRolesToAssignList(id);
-    const APIListRoleUser = this.userService.getRoleList(id);
-    forkJoin([APIAllRoleToAssign, APIListRoleUser]).subscribe(
-      (results: any) => {
+    this.userService.getListSchoolRoleToAssign(id).subscribe(
+      (res: any) => {
         this.isLoading = false;
         let dataFromParent = {
           userId: id,
           schoolId: this.schoolId,
           service: this.userService,
-          arrListToAssign: results[0].data,
-          arrList: results[1].data,
+          arrListToAssign: res.data,
           apiSubmit: (dataInput: any) =>
             this.userService.assignRoles(dataInput),
           keyFirebaseAction: 'assign-role-to-user',
@@ -193,108 +189,33 @@ export class ListUserSchoolTenantComponent implements OnInit {
         };
         const modalRef = this.openModal(
           AssignRoleUserComponent,
-          'school.updateUser',
+          'school.assignRole',
           'btnAction.cancel',
           'btnAction.save',
           dataFromParent,
-          'xl'
+          'lg',
+          'static'
         );
         modalRef.result.then(
           (result: boolean) => {
             if (result) {
-              this.pageIndex = 1;
               this.getList(
                 this.pageIndex,
                 this.pageSize,
                 this.schoolId,
                 this.isActive,
-                this.keyword
+                this.keyword,
+                this.layoutCode
               );
             }
           },
-          (reason) => {}
+          (reason) => {
+          }
         );
-      }
-    );
-    // this.userService
-    //   .getRoleList(id)
-    //   .subscribe(
-    //     (res: any) => {
-    //       if (res.status == 1) {
-    //         arrList = res.data;
-    //         let dataFromParent = {
-    //           service: this.userService,
-    //           arrList: arrList,
-    //           apiSubmit: (dataInput: any) => this.userService.getRolesToAssignList(dataInput),
-    //           keyFirebaseAction: 'assign-role-to-user',
-    //           keyFirebaseModule: 'user'
-    //         };
-    //         const modalRef = this.openModal(AssignRoleUserComponent, 'school.updateUser', 'btnAction.cancel', 'btnAction.save', dataFromParent, 'xl')
-    //         modalRef.result.then(
-    //           (result: boolean) => {
-    //             if (result) {
-    //               this.pageIndex = 1;
-    //               this.getList(this.pageIndex, this.pageSize, this.schoolId, this.isActive, this.keyword);
-    //             }
-    //           },
-    //           (reason) => {}
-    //         );
-    //       } else {
-    //         this.showMessage.error(res.msg);
-    //       }
-    //       this.isLoading = false;
-    //     },
-    //     (err: any) => {
-    //       this.isLoading = false;
-    //     }
-    //   );
-  }
-
-  assignRole(id: string) {
-    this.isLoading = true;
-    this.userService.getListSchoolRoleToAssign(id).subscribe(
-      (res: any) => {
-        if (res.status == 1) {
-          this.isLoading = false;
-          let dataFromParent = {
-            userId: id,
-            schoolId: this.schoolId,
-            service: this.userService,
-            arrListToAssign: res.data,
-            apiSubmit: (dataInput: any) =>
-              this.userService.assignRoles(dataInput),
-            keyFirebaseAction: 'assign-role-to-user',
-            keyFirebaseModule: 'user',
-          };
-          const modalRef = this.openModal(
-            AssignRoleUserComponent,
-            'school.updateUser',
-            'btnAction.cancel',
-            'btnAction.save',
-            dataFromParent,
-            'lg',
-            'static'
-          );
-          modalRef.result.then(
-            (result: boolean) => {
-              if (result) {
-                this.pageIndex = 1;
-                this.getList(
-                  this.pageIndex,
-                  this.pageSize,
-                  this.schoolId,
-                  this.isActive,
-                  this.keyword
-                );
-              }
-            },
-            (reason) => {}
-          );
-        }
       },
       (err) => {
         this.isLoading = false;
-        this.showMessage.error(err.msg);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -318,18 +239,18 @@ export class ListUserSchoolTenantComponent implements OnInit {
       'btnAction.cancel',
       'btnAction.save',
       dataFromParent,
-      'modal-md-plus'
+      'lg'
     );
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
           this.getList(
             this.pageIndex,
             this.pageSize,
             this.schoolId,
             this.isActive,
-            this.keyword
+            this.keyword,
+            this.layoutCode
           );
         }
       },
@@ -376,8 +297,8 @@ export class ListUserSchoolTenantComponent implements OnInit {
           name +
           ' ' +
           translate('school.textConfirmUnlockUser2');
-        titleModal = 'school.unLockUser';
-        btnAccept = 'btnAction.unlLock';
+        titleModal = 'school.unlockUser';
+        btnAccept = 'btnAction.unlock';
         break;
       case 'delete':
         dataFromParent['apiSubmit'] = (dataInput: any) =>
@@ -404,13 +325,16 @@ export class ListUserSchoolTenantComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
+          if(action == 'delete') {
+            this.pageIndex = PAGE_INDEX_DEFAULT;
+          }
           this.getList(
             this.pageIndex,
             this.pageSize,
             this.schoolId,
             this.isActive,
-            this.keyword
+            this.keyword,
+            this.layoutCode
           );
         }
       },
@@ -454,21 +378,34 @@ export class ListUserSchoolTenantComponent implements OnInit {
     return STATUS_USERS.find((status) => status.value == value)?.label || '--';
   }
 
-  search(event: any, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getList(
-        this.pageIndex,
-        this.pageSize,
-        this.schoolId,
-        this.isActive,
-        this.keyword
-      );
+  search(event, value: string) {
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList(
+      this.pageIndex,
+      this.pageSize,
+      this.schoolId,
+      this.isActive,
+      this.keyword,
+      this.layoutCode
+    );
+  }
+
   filter() {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getList(
       this.pageIndex,
       this.pageSize,
@@ -480,6 +417,7 @@ export class ListUserSchoolTenantComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getList(
@@ -489,5 +427,11 @@ export class ListUserSchoolTenantComponent implements OnInit {
       this.isActive,
       this.keyword
     );
+  }
+
+  resetFilter() {
+    this.keyword = '';
+    this.isActive = '';
+    this.layoutCode = '';
   }
 }

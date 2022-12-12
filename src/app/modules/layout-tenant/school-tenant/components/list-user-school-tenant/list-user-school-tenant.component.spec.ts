@@ -79,10 +79,16 @@ describe('ListUserSchoolComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should map true name status of user', () => {
+  it('should map true name status of user-status 1', () => {
     component.isLoading = false;
     fixture.detectChanges();
-    expect(component.mapNameStatus(1)).toEqual('Kích hoạt');
+    expect(component.mapNameStatus(1)).toEqual('activated');
+  });
+
+  it('should map true name status of user-status 0', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(0)).toEqual('locked');
   });
 
   it('should map false name status of user', () => {

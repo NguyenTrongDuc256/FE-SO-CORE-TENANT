@@ -48,7 +48,8 @@
 
     "email":{
       "required":"You have not entered your email",
-      "email":"Invalid email"
+      "email":"Invalid email",
+      "pattern":"Invalid email"
     },
     "phone":{
       "required":"You did not enter a phone number",
@@ -96,5 +97,12 @@
   "select": "Select",
   "truyCapAp": "Access the app",
   "access": "Allow",
-  "khac": "Other"
+  "khac": "Other",
+  "enterFullname":"Enter fullname",
+  "enterCode":"Enter code",
+  "enterUsername":"Enter username",
+  "enterPassword":"Enter password",
+  "enterPhone":"Enter phone",
+  "enterEmail":"Enter email",
+  "order":"No."
 }

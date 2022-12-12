@@ -1,0 +1,203 @@
+<script
+  src="../../../modules/layout-tenant/school-tenant/modals/modal-form-diem-truong/modal-form-diem-truong.component.ts"></script>
+<div class="card h-100 p-5" *transloco="let t; scope: 'campus'">
+  <form [formGroup]="formGroup">
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusName') }} <span class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control so-form-control fs-14" name="input-campus-name"
+          placeholder="{{ t('campus.placeholderCampusName') }}" formControlName="name"
+          [class.is-invalid]="formGroup.get('name').invalid && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formGroup.get('name').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+          <app-field-error-display
+            [displayError]="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.name"
+            [displayErrorServer]="!(formGroup.get('name').dirty || formGroup.get('name').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusPhone') }}</span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control so-form-control fs-14" name="input-campus-phone"
+          placeholder="{{ t('campus.placeholderCampusPhone') }}" formControlName="hotline"
+          [class.is-invalid]="formGroup.get('hotline').invalid && (formGroup.get('hotline').dirty || formGroup.get('hotline').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.hotline.hasOwnProperty('message') && formGroup.get('hotline').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.hotline">
+          <app-field-error-display
+            [displayError]="formGroup.get('hotline').hasError(err.type) && (formGroup.get('hotline').dirty || formGroup.get('hotline').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.hotline">
+          <app-field-error-display [errorServer]="validationMessagesServer?.hotline"
+            [displayErrorServer]="!(formGroup.get('hotline').dirty || formGroup.get('hotline').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusEmail') }} <span
+            class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control so-form-control fs-14" name="input-campus-email"
+          placeholder="{{ t('campus.placeholderCampusEmail') }}" formControlName="email"
+          [class.is-invalid]="formGroup.get('email').invalid && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.email.hasOwnProperty('message') && formGroup.get('email').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+          <app-field-error-display
+            [displayError]="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.email">
+          <app-field-error-display [errorServer]="validationMessagesServer?.email"
+            [displayErrorServer]="!(formGroup.get('email').dirty || formGroup.get('email').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.campusAddress') }}</span>
+      </div>
+      <div class="col-md-10">
+        <input type="text" class="form-control so-form-control fs-14" name="input-campus-address"
+          placeholder="{{ t('campus.placeholderCampusAddress') }}" formControlName="address" />
+      </div>
+    </div>
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.phone') }} <span class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control so-form-control fs-14" name="input-phone"
+          placeholder="{{ t('campus.placeholderPhone') }}" formControlName="contactPhone"
+          [class.is-invalid]="formGroup.get('contactPhone').invalid && (formGroup.get('contactPhone').dirty || formGroup.get('contactPhone').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.contactPhone.hasOwnProperty('message') && formGroup.get('contactPhone').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactPhone">
+          <app-field-error-display
+            [displayError]="formGroup.get('contactPhone').hasError(err.type) && (formGroup.get('contactPhone').dirty || formGroup.get('contactPhone').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.contactPhone">
+          <app-field-error-display [errorServer]="validationMessagesServer?.contactPhone"
+            [displayErrorServer]="!(formGroup.get('contactPhone').dirty || formGroup.get('contactPhone').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.email') }} <span class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control so-form-control fs-14" name="input-email"
+          placeholder="{{ t('campus.placeholderEmail') }}" formControlName="contactEmail"
+          [class.is-invalid]="formGroup.get('contactEmail').invalid && (formGroup.get('contactEmail').dirty || formGroup.get('contactEmail').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.contactEmail.hasOwnProperty('message') && formGroup.get('contactEmail').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactEmail">
+          <app-field-error-display
+            [displayError]="formGroup.get('contactEmail').hasError(err.type) && (formGroup.get('contactEmail').dirty || formGroup.get('contactEmail').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.contactEmail">
+          <app-field-error-display [errorServer]="validationMessagesServer?.contactEmail"
+            [displayErrorServer]="!(formGroup.get('contactEmail').dirty || formGroup.get('contactEmail').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.contactPersonName') }} <span
+            class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control so-form-control fs-14" name="input-campus-contact"
+          placeholder="{{ t('campus.placeholderContactPersonName') }}" formControlName="contactName"
+          [class.is-invalid]="formGroup.get('contactName').invalid && (formGroup.get('contactName').dirty || formGroup.get('contactName').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.contactName.hasOwnProperty('message') && formGroup.get('contactName').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.contactName">
+          <app-field-error-display
+            [displayError]="formGroup.get('contactName').hasError(err.type) && (formGroup.get('contactName').dirty || formGroup.get('contactName').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.contactName">
+          <app-field-error-display [errorServer]="validationMessagesServer?.contactName"
+            [displayErrorServer]="!(formGroup.get('contactName').dirty || formGroup.get('contactName').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 row mb-5">
+      <div class="col-md-2">
+        <span class="lb-form-campus fs-14 fw-700">{{ t('campus.indexOrder') }} <span class="text-danger">*</span></span>
+      </div>
+      <div class="col-md-4">
+        <input onlyNumber type="number" min="0" class="form-control so-form-control fs-14" name="input-campus-contact"
+          placeholder="{{ t('campus.placeholderIndexOrder') }}" formControlName="indexOrder"
+          [class.is-invalid]="formGroup.get('indexOrder').invalid && (formGroup.get('indexOrder').dirty || formGroup.get('indexOrder').touched)"
+          [class.is-invalid-server]="validationMessagesServer?.indexOrder.hasOwnProperty('message') && formGroup.get('indexOrder').invalid" />
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.indexOrder">
+          <app-field-error-display
+            [displayError]="formGroup.get('indexOrder').hasError(err.type) && (formGroup.get('indexOrder').dirty || formGroup.get('indexOrder').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.indexOrder">
+          <app-field-error-display [errorServer]="validationMessagesServer?.indexOrder"
+            [displayErrorServer]="!(formGroup.get('indexOrder').dirty || formGroup.get('indexOrder').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+    <!-- form arr -->
+    <div formArrayName="dataArray">
+      <div *ngFor="let item of formGroup.get('dataArray')['controls']; let i = index;">
+        <div class="col-md-12 row margin-top d-flex align-items-center" [formGroupName]="i">
+          <div class="col-md-12 row mb-5">
+            <div class="col-md-2">
+              <span class="lb-form-campus fs-14 fw-700">Name <span class="text-danger">*</span></span>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control so-form-control fs-14" name="input-campus-contact"
+                placeholder="{{ t('campus.placeholderContactPersonName') }}" formControlName="arrName"
+                [class.is-invalid]="getFormGroupOfFormArray(i).get('arrName').invalid && (getFormGroupOfFormArray(i).get('arrName').dirty || getFormGroupOfFormArray(i).get('arrName').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.arrName.hasOwnProperty('message') && getFormGroupOfFormArray(i).get('arrName').invalid" />
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.arrName">
+                <app-field-error-display
+                  [displayError]="getFormGroupOfFormArray(i).get('arrName').hasError(err.type) && (getFormGroupOfFormArray(i).get('arrName').dirty || getFormGroupOfFormArray(i).get('arrName').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.arrName">
+                <app-field-error-display [errorServer]="getMessageServer('arrName',i)"
+                  [displayErrorServer]="!(getFormGroupOfFormArray(i).get('arrName').dirty || getFormGroupOfFormArray(i).get('arrName').touched)">
+                </app-field-error-display>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- form arr -->
+  </form>
+  <div class="d-flex flex-row justify-content-center mt-5">
+    <button type="button" class="so-btn so-btn-cancel me-2" data-dismiss="modal" (click)="cancelForm()">{{
+      t('btnAction.cancel') }}</button>
+    <button type="button" class="so-btn so-btn-primary ms-2 so-btn-primary--small"
+      (click)="submitForm(formGroup.value)">{{ t('btnAction.save') }}</button>
+  </div>
+</div>

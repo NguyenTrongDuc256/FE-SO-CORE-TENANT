@@ -1,0 +1,29 @@
+.gen-initial-point {
+    .gen-point-item {
+        border-top: 1px solid #E4E6EF;
+        padding-top: 2rem;
+    }
+
+    .btn-new-point {
+        background-color: var(--bs-greenish-teal);
+    }
+
+    .btn-new-point:hover {
+        background-color: #18cf8c;
+    }
+
+    .initialized-point {
+        width: 13rem;
+    }
+
+    .gen-point {
+        // width: 15rem;
+        min-width: 15rem;
+
+        .point {
+            width: 12rem;
+        }
+
+    }
+
+}

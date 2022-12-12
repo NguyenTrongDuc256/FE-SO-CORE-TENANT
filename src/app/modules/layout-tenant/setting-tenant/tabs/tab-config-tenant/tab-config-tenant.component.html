@@ -1,0 +1,57 @@
+<div class="card so-tab-horizontal p-0 h-100" *transloco="let t; scope: 'setting'">
+  <div class="card-header card-header-stretch p-0">
+    <h3 class="card-title fs-18 fw-700"></h3>
+    <div class="card-toolbar">
+      <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabConfigActive == 'login' ? 'active' : '' }}" data-bs-toggle="tab" (click)="onChangeTabConfig('login')">
+            <img class="tab-icon" src="assets/images/svg/book.svg" alt="">
+            <span class="ps-2">{{ t('setting.cauHinhLogin') }}</span>
+          </a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link fs-14 fw-600 {{ tabConfigActive == 'studyTime' ? 'active' : '' }}" data-bs-toggle="tab" (click)="onChangeTabConfig('studyTime')">
+              <img class="tab-icon" src="assets/images/svg/bookmark_in_book.svg" alt="">
+              <span class="ps-2">{{ t('setting.cauHinhThoiGianHoc') }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fs-14 fw-600 {{ tabConfigActive == 'sendNotification' ? 'active' : '' }}" data-bs-toggle="tab" (click)="onChangeTabConfig('sendNotification')">
+              <img class="tab-icon" src="assets/images/svg/book_1.svg" alt="">
+              <span class="ps-2">{{ t('setting.cauHinhPhamViGuiThongBao') }}</span>
+            </a>
+          </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body ps-0 pe-0">
+    <div class="tab-content" id="myTabContent">
+      <ng-container *ngIf="tabConfigActive == 'login'">
+        <div class="tab-pane fade {{ tabConfigActive == 'login' ? 'show active' : '' }}" role="tabpanel">
+          <app-tab-config-login-tenant *ngIf="tabConfigActive === 'login'" id="login">
+          </app-tab-config-login-tenant>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="tabConfigActive == 'studyTime'">
+        <div class="tab-pane fade {{ tabConfigActive == 'studyTime' ? 'show active' : '' }}" role="tabpanel">
+          <app-tab-config-study-time-tenant *ngIf="tabConfigActive === 'studyTime'" id="studyTime">
+          </app-tab-config-study-time-tenant>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="tabConfigActive == 'sendNotification' && isUpdateSendNotification == 0" >
+        <div class="tab-pane fade {{ tabConfigActive == 'sendNotification' ? 'show active' : '' }}" role="tabpanel">
+          <app-tab-config-notification-send-tenant id="sendNotification"
+            *ngIf="tabConfigActive === 'sendNotification' && isUpdateSendNotification == 0" >
+          </app-tab-config-notification-send-tenant>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="tabConfigActive == 'sendNotification' && isUpdateSendNotification == 1" >
+        <div class="tab-pane fade {{ tabConfigActive == 'sendNotification' ? 'show active' : '' }}" role="tabpanel">
+          <app-tab-update-config-send-notification-tenant
+            *ngIf="tabConfigActive === 'sendNotification' && isUpdateSendNotification == 1">
+          </app-tab-update-config-send-notification-tenant>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

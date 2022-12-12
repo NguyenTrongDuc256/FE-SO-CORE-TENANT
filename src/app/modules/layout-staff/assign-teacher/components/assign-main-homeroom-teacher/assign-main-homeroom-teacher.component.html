@@ -1,0 +1,79 @@
+
+<div *transloco="let t; scope: 'assign-teacher'">
+  <div class="d-flex align-items-center justify-content-between">
+    <h3 class="fs-18 fw-700">{{t('assignTeacher.assignMainHomeroomTeacher')}}</h3>
+    <div class="filter d-flex flex-wrap align-items-center text-color-river-bed">
+      <button class="so-btn so-btn-light so-btn-light--small me-4 mb-3 fw-600 text-color-blue-lotus" name="btn-export">
+        <img src="assets/images/svg/export.svg" alt="" />
+        {{ t("btnAction.export") }}
+      </button>
+      <select name="gradeId" id="gradeId" [(ngModel)]="gradeId" class="so-select mb-3 me-4 fw-600"
+        (ngModelChange)="filter()">
+        <option [value]="''">{{ t("chooseGrade") }}</option>
+        <ng-container *ngFor="let grade of arrGrades">
+          <option [value]="grade.id">{{ grade.name }}</option>
+        </ng-container>
+      </select>
+      <select name="isAssign" id="isAssign" [(ngModel)]="isAssigned" class="so-select mb-3 me-4 fw-600"
+        (ngModelChange)="filter()">
+        <option [value]="assignmentStatus.ALL_STATUS">{{ t("assignTeacher.chooseAssignStatus") }}</option>
+        <option [value]="assignmentStatus.ASSIGNED">{{ t('assignTeacher.assigned') }}</option>
+        <option [value]="assignmentStatus.UNASSIGNED">{{ t('assignTeacher.unassigned') }}</option>
+      </select>
+      <div class="so-input-search mb-3 fw-600">
+        <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+        <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)" />
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 so-table so-table-style-border">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed color-3F4254">
+            <th style="width: 5%" class="text-center">{{t('STT')}}</th>
+            <th class="px-5">{{t('class')}}</th>
+            <th class="px-5">{{t('grade')}}</th>
+            <th class="px-5">{{t('assignTeacher.teacherTeaching')}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fs-13 fw-700 text-color-river-bed" *ngFor="let item of arrClasses; let i=index">
+            <td class="text-center" style="width: 5%">
+              {{i+1}}
+            </td>
+            <td class="px-5">
+              {{item?.name}}
+            </td>
+            <td class="px-5">
+              {{item?.gradeName}}
+            </td>
+            <td class="px-5">
+              <nz-select nzShowSearch nzAllowClear
+              [nzPlaceHolder]="t('chooseOption')"
+              [(ngModel)]="item.homeroomTeacherId" (ngModelChange)="chooseUser($event, item, i)"
+              class="form-control so-form-control">
+                <ng-container *ngFor="let user of arrUsers">
+                  <nz-option
+                  [nzLabel]="user?.name + ' (' + user?.code + ')'"
+                  [nzValue]="user?.id"
+                  ></nz-option>
+                </ng-container>
+              </nz-select>
+            </td>
+          </tr>
+          <tr *ngIf="arrClasses?.length == 0 && !isLoading">
+            <td colSpan="4" class="text-no-data">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

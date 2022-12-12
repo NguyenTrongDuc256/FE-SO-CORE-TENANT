@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ILayout } from './default-layout.config';
 import { LayoutService } from './layout.service';
-import {GeneralService} from "../../../_services/general.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutInitService {
-  constructor(private layout: LayoutService, private generalService: GeneralService) {}
+  constructor(private layout: LayoutService) {}
 
   init() {
     this.layout.initConfig();
@@ -187,23 +186,9 @@ export class LayoutInitService {
     }
 
     const minimized = this.layout.getProp('aside.minimized') as boolean;
-    // localStorage.getItem('open')
     if (minimized) {
       document.body.setAttribute('data-kt-aside-minimize', 'on');
     }
-
-
-    this.generalService.checkChange.subscribe((ref) => {
-      if (ref === 1){
-        document.body.setAttribute('data-kt-aside-minimize', 'on');
-        // abc.unsubscribe()
-      }
-      else {
-        document.body.setAttribute('data-kt-aside-minimize', 'off');
-      }
-    })
-
-
 
     // Hoverable on minimize
     const hoverable = this.layout.getProp('aside.hoverable') as boolean;

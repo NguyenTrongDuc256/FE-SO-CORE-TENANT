@@ -1,0 +1,92 @@
+.color-495057 {
+  color: var(--bs-river-bed);
+}
+
+.color-50a5f1 {
+  color: var(--bs-picton-blue);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.color-3F4254 {
+  color: #3F4254;
+}
+
+
+.color-828282 {
+  color: #828282;
+}
+
+.color-464E5F {
+  color: #464E5F;
+}
+
+.so-badge-status-0 {
+  background: var(--bs-carrot-orange);
+}
+
+.so-badge-status-1 {
+  background: var(--bs-greenish-teal);
+}
+
+.so-badge-status-2 {
+  background: var(--bs-bittersweet);
+}
+
+.icon-mark {
+  display: inline-block;
+  margin-left: 4px;
+  img {
+    width: 11px;
+    height: 14px;
+  }
+}
+
+
+.btn-accept-profile-staff{
+  cursor: pointer;
+  background: var(--bs-blue-lotus);
+}
+
+.btn-cancel-accept-profile-staff{
+  cursor: pointer;
+  background: var(--bs-butterscotch);
+}
+
+.user-action {
+  color: var(--bs-blue-lotus);
+  cursor: pointer;
+
+  .action-icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.so-table-th-custom--grey thead > tr {
+  background: var(--bs-white-smoke);
+  color: var(--bs-river-bed);
+}
+
+.so-badge-action {
+  color: #fff;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem 1.2rem;
+  img {
+    width: 13px;
+    height: 13px;
+    margin-right: 3px;
+  }
+  &--approve {
+    background: var(--bs-blue-lotus);
+  }
+
+  &--refuse {
+    background: var(--bs-butterscotch);
+  }
+}

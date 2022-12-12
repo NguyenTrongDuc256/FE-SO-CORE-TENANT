@@ -4,7 +4,7 @@
     [showDropdowns]="true" [locale]="options.locale" [(ngModel)]="selected" [showWeekNumbers]="options.showWeekNumbers"
     [showCancel]="options.showCancel" [showClearButton]="options.showClearButton"
     [showISOWeekNumbers]="options.showISOWeekNumbers" [customRangeDirection]="options.customRangeDirection"
-    [lockStartDate]="options.lockStartDate" [timePicker]="options.timePicker"
+    [lockStartDate]="options.lockStartDate" [disabled]="disabled ? disabled : false" [timePicker]="options.timePicker"
     [closeOnAutoApply]="options.closeOnAutoApply" firstMonthDayClass="first-day" lastMonthDayClass="last-day"
     emptyWeekRowClass="empty-week" lastDayOfPrevi ousMonthClass="last-previous-day"
     firstDayOfNextMonthClass="first-next-day" name="start_date" class="form-control fs-14"

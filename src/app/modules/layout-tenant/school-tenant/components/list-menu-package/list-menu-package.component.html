@@ -1,0 +1,49 @@
+<div class="card card-flush p-0 h-full" *transloco="let t; scope: 'menu-manager'">
+  <div class="card-header p-0">
+    <h3 class="card-title fs-18 fw-700"></h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">  
+        <div class="so-input-search mb-3">
+            <input #searchInput type="text" class="fw-600 text-color-river-bed" name="input-search" placeholder="{{ t('menuManager.enterNameCodeMenuPackage') }}"
+                   (keyup.enter)="searchMenuPackage(searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer" (click)="searchMenuPackage(searchInput.value)"/>
+        </div>    
+    </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0 p-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-center text-color-river-bed">
+            <th class="fs-14 fw-700 {{ item.className }}" [ngStyle]="{'width': item.width}" *ngFor="let item of columns">{{ t(item.name) }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="dataMenuPackageSchow && dataMenuPackageSchow.length > 0">
+            <tr *ngFor="let item of dataMenuPackageSchow;let i = index;" class="fs-13 fw-600 text-color-river-bed">
+              <td class="w-5 text-center">{{ i+1 }}</td>
+              <td class="w-20"><span class="custom-name-package-menu fw-700 text-color-picton-blue so-pointer"
+                  (click)="getDataDetailMenuPackageManager(item)" name="btn-view-detail-menu-package">{{ item.name }}</span></td>
+              <td class="w-20 fw-600">{{ item.code }}</td>
+              <td class="link-menu color-layout-apply w-45">{{
+                getLayoutAppply(item.layouts) }}</td>
+              <td class="text-center custom-action-update w-10 so-pointer" name="btn-remove-menu-package" (click)="removeMenuPackage(item)">
+                <img class="custom-action-menu" src="assets/images/svg/icon-delete.svg" alt=""> Gỡ
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="dataMenuPackageSchow?.length == 0 || !dataMenuPackageSchow">
+            <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

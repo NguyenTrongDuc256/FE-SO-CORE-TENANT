@@ -18,6 +18,11 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { StudentDetailStaffComponent } from './components/student-detail-staff/student-detail-staff.component';
 import { ModalRefuseRecordsComponent } from './modals/modal-refuse-records/modal-refuse-records.component';
 import { ModalFormRecordsStaffComponent } from './modals/modal-form-records-staff/modal-form-records-staff.component';
+import { CreateStudentStaffComponent } from './components/create-student-staff/create-student-staff.component';
+import { UpdateStudentStaffComponent } from './components/update-student-staff/update-student-staff.component';
+import { ModalImportStudentStaffComponent } from './modals/modal-import-student-staff/modal-import-student-staff.component';
+import { ResultImportFileStudentStaffComponent } from './components/result-import-file-student-staff/result-import-file-student-staff.component';
+import { UpdateUsernameCodeTenantComponent } from './modals/update-username-code-tenant/update-username-code-tenant.component';
 
 
 @NgModule({
@@ -27,7 +32,12 @@ import { ModalFormRecordsStaffComponent } from './modals/modal-form-records-staf
     TabStudentPersonInfoStaffComponent,
     StudentRecordsListComponent,
     ModalRefuseRecordsComponent,
-    ModalFormRecordsStaffComponent
+    ModalFormRecordsStaffComponent,
+    CreateStudentStaffComponent,
+    UpdateStudentStaffComponent,
+    ModalImportStudentStaffComponent,
+    ResultImportFileStudentStaffComponent,
+    UpdateUsernameCodeTenantComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +54,7 @@ import { ModalFormRecordsStaffComponent } from './modals/modal-form-records-staf
     NzInputModule
 
   ],
-  providers: [{provide: TRANSLOCO_SCOPE, useValue: ["student", 'student-records']}],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: ["student", 'student-records'] }],
 
 })
 export class StudentStaffModule { }

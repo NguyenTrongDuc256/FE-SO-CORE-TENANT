@@ -1,3 +1,5 @@
+import { translate } from '@ngneat/transloco';
+import { ValidatorNotEmptyString } from 'src/app/_services/validator-custom.service';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { TIME_OUT_LISTEN_FIREBASE } from './../../../../_shared/utils/constant';
 import { ListenFirebaseService } from './../../../../_services/listen-firebase.service';
@@ -7,6 +9,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable, Subscriber } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
+import { GeneralService } from 'src/app/_services/general.service';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
@@ -28,7 +31,8 @@ export class ResetPasswordComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private listenFirebaseService: ListenFirebaseService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private generalService: GeneralService,
     ) {}
 
   ngOnInit(): void {
@@ -46,6 +50,7 @@ export class ResetPasswordComponent implements OnInit {
           Validators.required,
           Validators.minLength(6),
           Validators.maxLength(50),
+          ValidatorNotEmptyString
         ]),
       ],
       confirmPassword: ['', Validators.compose([Validators.required])],
@@ -59,18 +64,20 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   submit() {
+    let valueChange = this.resetPassword.value;
     if (this.resetPassword.invalid) {
-      return;
+      return this.showMessage.warning(translate('warmingValidateForm'))
     }
+    if(valueChange.password.trim() != valueChange.confirmPassword.trim())
+    return this.showMessage.warning(translate('auth.matchConfirmNewPassword'))
     const start = window.location.href.indexOf('//') + 2;
     const end = window.location.href.indexOf('.vn') + 3;
     const domain = window.location.href.substring(start, end);
-    let valueChange = this.resetPassword.value;
     let inputChangePassword = {
       domain: domain,
       requestUserId: this.userId,
-      password: valueChange.password,
-      confirmedPassword: valueChange.confirmPassword,
+      password: valueChange.password.trim(),
+      confirmedPassword: valueChange.confirmPassword.trim(),
     };
     const md5 = new Md5();
     let userId = md5.appendStr(this.userId).end();
@@ -78,12 +85,11 @@ export class ResetPasswordComponent implements OnInit {
     this.listenFireBase('change-password','forgot-password');
     this.authService
       .changePassword(inputChangePassword)
-      .subscribe((res: any) => {
-        if(res.status == 0) {
-          this.isLoading = false;
-          this.showMessage.error(res.msg);
-        }
-      });
+      .subscribe((res: any) => {},
+      (err) => {
+        this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
+      })
   }
 
   listenFireBase(action: string, module: string) {

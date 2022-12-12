@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {translate} from '@ngneat/transloco';
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, FormControl, FormArray} from "@angular/forms";
 import {ResizeImageService} from "src/app/_services/resize-image.service";
 import * as moment from 'moment';
 import {GeneralService} from "src/app/_services/general.service";
@@ -9,11 +9,10 @@ import {
   AVATAR_DEFAULT,
   GENDER,
   MAX_LENGTH_FULL_NAME,
-  MESSAGE_ERROR_CALL_API,
+  MESSAGE_ERROR_CALL_API, REGEX_EMAIL,
   REGEX_PHONE,
   TIME_OUT_LISTEN_FIREBASE
 } from "../../../../../_shared/utils/constant";
-import {RoleService} from "src/app/_services/layout-tenant/role/role.service";
 import {ShowMessageService} from "src/app/_services/show-message.service";
 import {ListenFirebaseService} from "src/app/_services/listen-firebase.service";
 import {UserService} from "src/app/_services/layout-tenant/user/user.service";
@@ -40,6 +39,7 @@ export class UserEditTenantComponent implements OnInit {
   timePicker: boolean = false; // có hiển thị giờ phút hay không
   isSubmitForm: boolean = false;
   isShowPassword = false;
+  dateCurrent: string = moment().format('X');
 
   validationMessages: ValidateUser = {
     fullName: [
@@ -54,8 +54,8 @@ export class UserEditTenantComponent implements OnInit {
     ],
     email: [
       {
-        type: "email",
-        message: 'user.validators.email.email',
+        type: "pattern",
+        message: 'user.validators.email.pattern',
       }
     ],
     phone: [
@@ -66,9 +66,14 @@ export class UserEditTenantComponent implements OnInit {
     ],
   };
 
+  validationMessagesServer = {
+    fullName: {},
+    email: {},
+    phone: {}
+  }
+
   constructor(
     private resizeImageService: ResizeImageService,
-    private roleService: RoleService,
     private generalService: GeneralService,
     private showMessageService: ShowMessageService,
     private fb: FormBuilder,
@@ -97,6 +102,15 @@ export class UserEditTenantComponent implements OnInit {
       this.isSubmitForm = true;
       this.isLoading = true;
       const file = (event.target as HTMLInputElement).files[0];
+
+      if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+        this.showMessageService.error(translate('msgCheckImg'));
+        this.fileInputAvatar.nativeElement.value = '';
+        this.isSubmitForm = false;
+        this.isLoading = false;
+        return;
+      }
+
       let dataReadFile = new Observable((subscriber: Subscriber<any>) => {
         this.resizeImageService.readFile(file, subscriber);
       })
@@ -124,27 +138,29 @@ export class UserEditTenantComponent implements OnInit {
   initForm(userInfo): void {
     this.formGroup = this.fb.group({
       avatar: [userInfo.avatar],
-      fullName: [userInfo.fullname, [
-        Validators.required,
-        Validators.maxLength(MAX_LENGTH_FULL_NAME),
-      ]],
+      fullName: [userInfo.fullname, [Validators.required, Validators.maxLength(MAX_LENGTH_FULL_NAME)]],
       code: [userInfo.code, []],
       username: [userInfo.username, []],
       gender: [userInfo.gender],
       birthday: [userInfo.birthday],
-      email: [userInfo.email, [
-        Validators.email
-      ]],
-      phone: [userInfo.phone, [
-        Validators.pattern(REGEX_PHONE)
-      ]],
+      email: [userInfo.email, [Validators.pattern(REGEX_EMAIL)]],
+      phone: [userInfo.phone, [Validators.pattern(REGEX_PHONE)]],
       isActive: [!!userInfo.isActive],
       isAccessApp: [!!userInfo.isAccessApp],
     });
   }
 
-  onSubmit(formValue): void {
+  onSubmit(formValue:any): void {
     this.isLoading = true;
+    if (this.formGroup.valid) {
+      this.updateUser(formValue);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
+  }
+
+  updateUser(formValue:any){
     this.isSubmitForm = true;
     let dataInput: UserEdit = {
       userId: this.userId,
@@ -168,6 +184,9 @@ export class UserEditTenantComponent implements OnInit {
     }, (_err: any) => {
       this.isSubmitForm = false;
       this.isLoading = false;
+      if (_err.status == 400) {
+        this.validateAllFormFieldsErrorServer(_err.errors);
+      }
     })
   }
 
@@ -193,22 +212,54 @@ export class UserEditTenantComponent implements OnInit {
 
   getUserDetail(id: string) {
     this.isLoading = true;
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
+        this.isLoading = false;
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
     this.userService
       .show(id)
       .subscribe(
         (res: any) => {
-          if (res.status == 1 && res.status != undefined) {
-            this.currentDate = res.data?.birthday;
-            this.avatarUser = res.data?.avatar;
-            this.initForm(res.data);
-          } else {
-            this.showMessageService.error(res.msg);
-          }
+          this.currentDate = res.data?.birthday;
+          this.avatarUser = res.data?.avatar;
+          this.initForm(res.data);
           this.isLoading = false;
         },
-        (err: any) => {
+        (_err: any) => {
+          clearTimeout(timeoutCallAPI);
+          this.generalService.showToastMessageError400(_err);
           this.isLoading = false;
         }
       );
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      Object.keys(this.validationMessages).forEach(itemMessage => {
+        if (key == itemMessage || (key[0].toLowerCase() + key.substring(1)) == itemMessage) {
+          this.validationMessagesServer[itemMessage] = {
+            type: "errorServer",
+            message: error[key]
+          }
+        }
+      });
+    });
   }
 }

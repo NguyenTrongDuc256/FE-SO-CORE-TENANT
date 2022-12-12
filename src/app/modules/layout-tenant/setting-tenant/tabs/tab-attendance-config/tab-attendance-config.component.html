@@ -1,0 +1,64 @@
+<div class="card shadow-none card-flush p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-header p-0">
+    <h3 class="card-title fs-18 fw-700">{{ t('setting.attendanceConfig.attendanceStatusConfig') }}</h3>
+    <div class="card-toolbar">
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="custom-tab-attendance-config-form" *ngIf="formGroup">
+      <form class="form-attendance-config" [formGroup]="formGroup">
+        <div class="data-attendance-config">
+          <div formArrayName="dataAttendanceConfig">
+            <div *ngFor="let item of formGroup.get('dataAttendanceConfig')['controls']; let i = index;"
+                 class="mt-3 mb-3">
+              <div class="col-md-12 row margin-top d-flex align-items-center" [formGroupName]="i">
+                <div class="col-md-2 d-flex align-items-center">
+                  <label nz-radio formControlName="isDefault" (click)="checkChangeIsDefault(item)"></label>
+                  <span
+                    class="fs-14 fw-600 lb-is-current {{item.value.isDefault ? 'active' : ''}}">{{ t('setting.attendanceConfig.default') }}</span>
+                </div>
+                <div class="col-md-8 d-flex align-items-center">
+                  <span
+                    class="status-attendance-config col-md-3 fs-14 fw-600">{{ t('setting.attendanceConfig.attendanceStatus') }}</span>
+                  <span
+                    class="custom-tag-of-form form-control d-flex align-items-center name-attendance-config fs-13 fw-600">{{ t(getNameStatusAttendance(item.value.code)) }}</span>
+                </div>
+                <div class="col-md-2 row d-flex align-items-center justify-content-end data-attendance-config-status">
+                  <nz-switch class="col-md-2" formControlName="isActive"></nz-switch>
+                  <span
+                    class="col-md-10 lb-status-attendance fs-14 fw-600 {{item.value.isActive ? 'active' : ''}}">{{ t('setting.attendanceConfig.active') }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center mt-5">
+        <span class="status-attendance-config fs-14 fw-600 w-33">{{ t('setting.attendanceConfig.attendanceStatus') }}
+          <span
+            class="text-danger">*</span></span>
+          <div class="w-40">
+            <input type="text" onlyNumber class="custom-tag-of-form form-control fs-14 fw-600"
+                   formControlName="timeAllowUpdateAttendance"
+                   placeholder="{{ t('setting.attendanceConfig.enterTimeAllowUpdateAttendance') }}">
+            <div *ngFor="let item of validation_messages.timeAllowUpdateAttendance">
+            <span class="text-danger"
+                  *ngIf="formGroup.get('timeAllowUpdateAttendance').hasError(item.type) && (formGroup.get('timeAllowUpdateAttendance').dirty || formGroup.get('timeAllowUpdateAttendance').touched)">
+              {{ t(item.message) }}
+            </span>
+            </div>
+          </div>
+          <span
+            class="status-attendance-config fs-14 fw-600 w-5 text-center">{{ t('setting.attendanceConfig.day') }}</span>
+        </div>
+        <div class="btn-action d-flex align-items-center justify-content-end">
+          <button class="custom-btn-save" name="btn-save-form-setting-attendance" (click)="saveFormSettingAttendance()"
+                  [disabled]="formGroup.invalid">{{ t('btnAction.save') }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

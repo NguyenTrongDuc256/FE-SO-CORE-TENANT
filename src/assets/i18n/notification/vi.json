@@ -1,0 +1,65 @@
+{
+  "notificationSent": "Thông báo gửi",
+  "scope": "Phạm vi",
+  "recipientGroup": "Nhóm người nhận",
+  "sender": "Người gửi",
+  "status": "Trạng thái",
+  "create": "Gửi thông báo",
+  "edit": "Cập nhật",
+  "likes": "Lượt thích",
+  "feedback": "Phản hồi",
+  "read": "Đã đọc",
+  "sentBy": "Gửi lúc",
+  "previewContent": "Xem trước nội dung",
+  "insertPhotos": "Chèn ảnh",
+  "title": "Tiêu đề",
+  "description": "Mô tả ngắn",
+  "content": "Nội dung",
+  "uploadFiles": "Tải lên file",
+  "selectMachineComputer": "Chọn máy từ máy tính cá nhân",
+  "selectGroupRecipients": "Chọn ít nhất một nhóm người nhận",
+  "sendNow": "Gửi ngay",
+  "scheduleSending": "Đặt lịch gửi",
+  "allowFeedback": "Cho phép phản hồi",
+  "validators": {
+    "title":{
+      "required":"Bạn chưa nhập tiêu đề thông báo",
+      "maxLength":"Tiêu đề không được có nhiều hơn 255 kí tự"
+    },
+    "recipientGroups":{
+      "required":"Vui lòng chọn ít nhất nhóm người nhận"
+    },
+    "content":{
+      "required":"Bạn chưa nhập nội dung thông báo"
+    },
+    "avatar":{
+      "validate":"Vui lòng chọn file ảnh"
+    },
+    "files":{
+      "validate":"Vui lòng chọn file word, excel, pdf, ppt, txt, mp3, mp4, zip, zar"
+    },
+    "scope":{
+      "required":"Vui lòng chọn phạm vi"
+    },
+    "object":{
+      "required":"Vui lòng chọn ít nhất 1 đối tượng"
+    }
+  },
+  "uploadFileFalse": "Tải file không thành công!",
+  "update": "Cập nhật thông báo",
+  "notificationDetails": "Chi tiết thông báo",
+  "receiver": "Người nhận",
+  "people": "người",
+  "sent": "Đã gửi",
+  "listOfNotificationRecipients": "Danh sách người nhận thông báo",
+  "date": "Ngày tháng",
+  "deleteRecipient": "Xóa người nhận",
+  "notificationOfReceipt": "Thông báo nhận",
+  "previewTheOutputData": "Xem trước dữ liệu đầu ra",
+  "createBy": "Người gửi",
+  "listNotiInSchool": "Danh sách thông báo toàn trường",
+  "titleDialogDeleteNoti": "Xóa thông báo",
+  "textConfirmDeleteNoti1": "Bạn có chắc chắn muốn xóa thông báo",
+  "textConfirmDeleteNoti2": "không?",
+  "enterDescription": "Nhập mô tả ngắn"
+}

@@ -1,0 +1,60 @@
+<ng-container action="" *transloco="let t; scope: 'assign-teacher'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}} {{dataFromParent?.classInfo?.name}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-normal-global">
+    <div class="fs-14" *ngIf="dataFromParent?.classInfo?.oldTeacherId">
+      <p class="fw-500 mb-6">{{t('assignTeacher.hasMainHomeroomTeacher')}}</p>
+      <div class="row fw-700 text-color-river-bed">
+        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4 mb-6">
+          {{t('assignTeacher.currentMainHomeroomTeacher')}} {{dataFromParent?.classInfo?.name}}:
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 mb-6 ps-5">
+          {{dataFromParent?.oldUser}}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4 mb-6">
+          {{t('assignTeacher.subsTituteMainHomeroomTeacher')}}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 text-color-picton-blue mb-6 ps-5">
+          {{dataFromParent?.userInfo?.name}}
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+          {{t('assignTeacher.alternativeChoice')}} <span class="text-danger">*</span>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 ps-5">
+          <div>
+            <nz-radio-group [(ngModel)]="moveOutStatus" class="fw-500">
+              <label nz-radio [nzValue]="moveOutStatusEnum.ASSIGN_MAIN_HOMEROOM_TEACHER" class="mb-4">{{t('assignTeacher.option1ConfirmAssign')}}</label>
+              <label nz-radio [nzValue]="moveOutStatusEnum.MOVE_OUT_CLASS">{{t('assignTeacher.option2ConfirmAssign')}}</label>
+            </nz-radio-group>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fs-14" *ngIf="!dataFromParent?.classInfo?.oldTeacherId">
+      <p class="fw-500 mb-6">{{t('assignTeacher.notHasMainHomeroomTeacher')}}</p>
+      <div class="row fw-700 text-color-river-bed">
+        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4 mb-6">
+          {{t('assignTeacher.mainHomeroomTeacher')}}:
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 text-color-picton-blue mb-6 ps-5">
+          {{dataFromParent?.userInfo?.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+    (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

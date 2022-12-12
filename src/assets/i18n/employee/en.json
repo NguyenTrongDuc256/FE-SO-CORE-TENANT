@@ -42,7 +42,6 @@
   "select": "Choose",
   "nhap": "Enter",
   "notFoundContent": "No data",
-
   "1ViTriViecLam": "I. Job position, title criteria",
   "2PhuCap": "II. Allowance",
   "3DaoTaoBoiDuong": "III. Training, Nurturing",
@@ -150,10 +149,16 @@
   "namSinh": "Year of birth",
   "contentQhGiaDinh": "Hometown, occupation, title, unit of work, study, place of residence",
   "khongTimThayTieuChiDanhgia": "No evaluation criteria were found for the Position group:",
-  "nhomChucVuRequired": "You have not selected Position group [32] in Section I. Job position, title criteria",
+  "nhomChucVuRequired": "You have not selected Position group [31] in Section I. Job position, title criteria",
   "tieuChi": "Criteria",
-  "modalEmployeeEdit": "Select the field to update the corresponding Employee",
-
+  "modalEmployeeEdit": "Select the field to update the corresponding employee",
+  "vaQuyenKhac": "other rights",
+  "and": "and",
+  "roleName": "Role name",
+  "roleCode": "Role code",
+  "layout": "Layout",
+  "role": "Decentralization",
+  "donVi": "Unit",
   "btnAction": {
     "send": "Send notifications",
     "changedPassword": "Change Password",
@@ -162,39 +167,39 @@
     "huy": "Cancel"
   },
   "validators": {
-    "fullName":{
-      "required":"Your first and last name is required",
-      "maxlength":"Your first and last name cannot exceed 255 characters"
+    "fullName": {
+      "required": "Your first and last name is required",
+      "maxlength": "Your first and last name cannot exceed 255 characters"
     },
-    "code":{
-      "required":"Code is required",
-      "pattern":"Code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
-      "maxlength":"Your code cannot exceed 50 characters"
+    "code": {
+      "required": "Code is required",
+      "pattern": "Code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength": "Your code cannot exceed 50 characters"
     },
-    "username":{
-      "required":"You have not entered your username",
-      "pattern":"Username can only use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
-      "maxlength":"Your username cannot exceed 50 characters"
+    "username": {
+      "required": "You have not entered your username",
+      "pattern": "Username can only use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength": "Your username cannot exceed 50 characters"
     },
-    "password":{
-      "required":"You have not entered your password",
-      "pattern":"Passwords can only use letters (a-z), (A-Z), numbers (0-9), and special character",
-      "maxlength":"Your password must be between 6 and 50 in character length",
-      "minlength":"Your password must be between 6 and 50 in character length"
+    "password": {
+      "required": "You have not entered your password",
+      "pattern": "Passwords can only use letters (a-z), (A-Z), numbers (0-9), and special character",
+      "maxlength": "Your password must be between 6 and 50 in character length",
+      "minlength": "Your password must be between 6 and 50 in character length"
     },
-
-    "email":{
-      "required":"You have not entered your email",
-      "email":"Invalid email"
+    "email": {
+      "required": "You have not entered your email",
+      "email": "Invalid email",
+      "pattern":"Invalid email"
     },
-    "phone":{
-      "required":"You did not enter a phone number",
-      "pattern":"invalid phone number"
+    "phone": {
+      "required": "You did not enter a phone number",
+      "pattern": "invalid phone number"
     },
     "codeMoet": {
-      "required":"Moet code is required",
-      "pattern":"Moet code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
-      "maxlength":"Moet code cannot exceed 50 characters"
+      "required": "Moet code is required",
+      "pattern": "Moet code is only allowed to use letters (a-z), (A-Z), numbers (0-9), and characters (-, _)",
+      "maxlength": "Moet code cannot exceed 50 characters"
     },
     "roleId": {
       "required": "You haven't selected a role yet"
@@ -243,6 +248,61 @@
     },
     "moiQuanHe": {
       "required": "You have not selected a relationship"
+    },
+    "socialInsuranceNumber": {
+      "pattern": "Social insurance numbers are only allowed to use letters (a-z), (A-Z), numbers (0-9)"
+    },
+    "idNumber": {
+      "pattern": "ID/CC is only allowed to use letters (a-z), (A-Z), numbers (0-9)"
     }
-  }
+  },
+  "locNangCao": "Advanced Filter",
+  "hopDong": "Contract form",
+  "gioiTinh": "Gender",
+  "trangThaiDangNhap": "Login Status",
+  "daDangNhap": "Logged",
+  "chuaDangNhap": "Not logged in yet",
+  "import": "Import",
+  "export": "Export",
+  "note1": "By importing employee data from file, the system will do the following:",
+  "note2": "1. Create account for employee with login user name is username, default password is username.",
+  "note3": "2. Assign employee access to the system with permission to import data in the upload file (role column).",
+  "search": "Enter your first and last name or code to search",
+  "fullNamePlaceholder": "Enter your first and last name",
+  "codePlaceholder": "Enter code",
+  "codeMoetPlaceholder": "Enter code Moet",
+  "usernamePlaceholder": "Enter username",
+  "passwordPlaceholder": "Enter password",
+  "emailPlaceholder": "Enter email",
+  "phonePlaceholder": "Enter your phone number",
+  "bhxhPlaceholder": "Enter your social insurance number",
+  "diaChiPlaceholder": "Enter address",
+  "hkttPlaceholder": "Enter HKTT",
+  "ccPlaceholder": "Enter CMND/CC",
+  "placeOfBirthPlaceholder": "Enter place of birth",
+  "soTietDayTrenTuanPlaceholder": "Enter the number of lessons per week",
+  "soTietKhongNhiemTrenTuanPlaceholder": "Enter the number of non-working periods per week",
+  "soLanBoNhiemPlaceholder": "Enter number of appointments",
+  "coQuanTuyenDungPlaceholder": "Enter recruitment agency",
+  "namVaoTruongPlaceholder": "Enter in the school",
+  "ngheNghiepKhiDuocTuyenDungPlaceholder": "Enter your occupation when you are hired",
+  "danhHieuPhongTangCaoNhatPlaceholder": "Enter the highest conferred title",
+  "phuCapThuHutNghePlaceholder": "Enter the level of career attraction allowance",
+  "bacLuongPlaceholder": "Enter Salary Level",
+  "phuCapThamNienPlaceholder": "Enter seniority allowance (%)",
+  "phanTramVuotKhungPlaceholder": "Enter",
+  "phuCapUuDaiNghePlaceholder": "Enter the level of career incentive allowance",
+  "heSoLuongPlaceholder": "Enter salary coefficient",
+  "phuCapChucVuLanhDaoPlaceholder": "Enter leadership Allowance (%)",
+  "diemNgoaiNguPlaceholder": "Enter foreign language score",
+  "danhHieuPhongTangPlaceholder": "Enter conferred title",
+  "chuThichPlaceholder": "Enter comment",
+  "truongPlaceholder": "Enter school",
+  "nhapChuyenNganhDTBDPlaceholder": "Enter the major of Training and Retraining",
+  "capKhenThuongPlaceholder": "Enter reward level",
+  "soQuyetDinhPlaceholder": "Enter the decision number",
+  "noiDungPlaceholder": "Enter content",
+  "capKyQuyetDinhPlaceholder": "Enter decision signing level",
+  "chucDanhChucVuDonViCongTacPlaceholder": "Enter your title, position, and work unit",
+  "contentQhGiaDinhPlaceholder": "Enter"
 }

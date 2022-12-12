@@ -63,14 +63,14 @@ describe('CreateGradeTenantComponent', () => {
   });
 
   it('init form', () => {
-    expect(component.infoForm.contains('name')).toBeTruthy();
-    expect(component.infoForm.contains('code')).toBeTruthy();
-    expect(component.infoForm.contains('educationalStages')).toBeTruthy();
-    expect(component.infoForm.contains('isActive')).toBeTruthy();
+    expect(component.formGroup.contains('name')).toBeTruthy();
+    expect(component.formGroup.contains('code')).toBeTruthy();
+    expect(component.formGroup.contains('educationalStages')).toBeTruthy();
+    expect(component.formGroup.contains('isActive')).toBeTruthy();
   });
 
   it('Should name invalid empty', () => {
-    const control = component.infoForm.controls['name'];
+    const control = component.formGroup.controls['name'];
     control.setValue('');
     expect(control.invalid).toBeTruthy();
   });

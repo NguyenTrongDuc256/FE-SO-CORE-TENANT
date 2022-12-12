@@ -1,0 +1,21 @@
+.text-link2 {
+  color: #27AAE1;
+}
+
+.text-underline,
+.text-underline:hover {
+  text-decoration: underline !important;
+}
+
+.icon-feedback {
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
+  }
+}
+
+.so-table-th-custom--grey thead > tr {
+  background: var(--bs-white-smoke);
+  color: var(--bs-river-bed);
+}

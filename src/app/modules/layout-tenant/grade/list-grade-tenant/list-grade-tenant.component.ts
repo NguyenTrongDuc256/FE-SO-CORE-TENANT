@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { translate } from '@ngneat/transloco';
 import { GradeList } from 'src/app/_models/layout-tenant/grade/grade.model';
+import { GeneralService } from 'src/app/_services/general.service';
 import { GradeService } from 'src/app/_services/layout-tenant/grade/grade.service';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
@@ -20,10 +21,11 @@ export class ListGradeTenantComponent implements OnInit {
   gradeType: string = '';
   educationalStages: number | string = '';
   keyWord: string = '';
-  pageIndex = PAGE_INDEX_DEFAULT;
-  pageSize = PAGE_SIZE_DEFAULT;
-  collectionSize = 0;
-  sizeOption = PAGE_SIZE_OPTIONS_DEFAULT;
+  pageIndex = PAGE_INDEX_DEFAULT; // Trang hiện tại
+  pageSize = PAGE_SIZE_DEFAULT; // Số bản ghi trong 1 trang
+  collectionSize = 20; // Tổng số lượng bản ghi
+  sizeOption = PAGE_SIZE_OPTIONS_DEFAULT; // Thay đổi pageSize
+  oldPageIndex = this.pageIndex;
   isLoading = false;
   permission = DATA_PERMISSION;
 
@@ -31,6 +33,7 @@ export class ListGradeTenantComponent implements OnInit {
     private gradeService: GradeService,
     private showMessage: ShowMessageService,
     private modalService: NgbModal,
+    private generalService: GeneralService,
 
   ) { }
 
@@ -48,19 +51,18 @@ export class ListGradeTenantComponent implements OnInit {
       pageIndex: this.pageIndex
     }
     this.gradeService.getListGrade(dataFilter).subscribe((res: any) => {
-      if (res.status == 1) {
-        this.listGrade = res.data;
-        this.collectionSize = res?.data?.totalItems;
-      } else {
-        this.showMessage.error(res.msg);
-      }
+      this.listGrade = res.data;
+      this.collectionSize = res?.data?.totalItems;
       this.isLoading = false;
     }, (_err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(_err);
+
     });
   }
 
   changeIsActie() {
+    this.oldPageIndex = this.pageIndex;
     this.getListGrade();
   }
 
@@ -150,6 +152,7 @@ export class ListGradeTenantComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getListGrade();

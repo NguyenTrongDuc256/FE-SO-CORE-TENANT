@@ -5,8 +5,10 @@ import {NgxPermissionsGuard} from "ngx-permissions";
 import {DATA_PERMISSION} from "../../../_shared/utils/constant";
 import {ParentCreateTenantComponent} from "./components/parent-create-tenant/parent-create-tenant.component";
 import {ParentEditTenantComponent} from "./components/parent-edit-tenant/parent-edit-tenant.component";
-import {UserDetailTenantComponent} from "../user-tenant/components/user-detail-tenant/user-detail-tenant.component";
 import {ParentDetailTenantComponent} from "./components/parent-detail-tenant/parent-detail-tenant.component";
+import {
+  ResultImportParentTenantComponent
+} from "./components/result-import-parent-tenant/result-import-parent-tenant.component";
 
 const routes: Routes = [
   {
@@ -48,6 +50,17 @@ const routes: Routes = [
     data: {
       permissions: {
         only: [DATA_PERMISSION.parent_view],
+        redirectTo: "/access-denied"
+      },
+    },
+  },
+  {
+    path: 'result-import-file/:id/:schoolId',
+    component: ResultImportParentTenantComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        only: [DATA_PERMISSION.parent_modify],
         redirectTo: "/access-denied"
       },
     },

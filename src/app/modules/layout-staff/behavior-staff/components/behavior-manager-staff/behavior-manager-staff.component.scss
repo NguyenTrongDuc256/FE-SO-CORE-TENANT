@@ -1,0 +1,63 @@
+.behavior-manager {
+    .tab-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .behavior-category {
+
+        .aside-item {
+            color: var(--bs-river-bed);
+
+            .avatar {
+                min-width: 30px;
+                height: 30px;
+            }
+
+            .behavior-name {
+                text-align: left;
+            }
+
+            .behavior-number {
+                min-width: 30px;
+                height: 30px;
+                background-color: var(--bs-picton-blue)
+            }
+
+            .action-btn {
+                right: 0;
+                top: 0;
+            }
+        }
+
+        .aside-item:hover {
+            background-color: var(--bs-picton-blue);
+            color: var(--bs-white);
+
+            .behavior-number {
+                color: var(--bs-blue-lotus);
+                background-color: var(--bs-white)
+            }
+        }
+
+        .active-tab {
+            background-color: var(--bs-picton-blue);
+            color: var(--bs-white);
+
+
+            .behavior-number {
+                color: var(--bs-blue-lotus);
+                background-color: var(--bs-white)
+            }
+        }
+
+    }
+
+    .behavior {
+        .behavior-item {
+            box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+        }
+    }
+
+}

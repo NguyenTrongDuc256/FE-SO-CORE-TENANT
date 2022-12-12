@@ -1,0 +1,57 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-body p-0">
+    <form [formGroup]="formGroup" *ngIf="formGroup">
+      <div class="row mb-6 mt-10">
+        <div class="col-md-6">
+          <div class="d-flex">
+            <label nz-checkbox class="so-checkbox check-all fs-13" name="check-all" [ngModelOptions]="{standalone: true}"
+                   [ngModel]="allCheckedSat" (ngModelChange)="onChangeCheckAll($event, 'sat')"></label>
+            <span class="fs-16 fw-700 ps-5">{{t('setting.thu7')}}</span>
+          </div>
+          <ng-container formArrayName="configSaturday">
+            <ng-container *ngFor="let itemForm of formGroup.get('configSaturday')['controls']; let index = index">
+              <div class="d-flex pt-5 ps-13" [formGroupName]="index">
+                <label nz-checkbox class="so-checkbox fs-13" name="check-item" formControlName="isConfig"
+                       (ngModelChange)="updateSingleChecked($event, index, 'sat')">
+                </label>
+                <span class="ps-5">{{itemForm.value.name}}</span>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+
+
+        <div class="col-md-6">
+          <div class="d-flex">
+            <label nz-checkbox class="so-checkbox check-all fs-13" name="check-all" [ngModelOptions]="{standalone: true}"
+                   [ngModel]="allCheckedSun" (ngModelChange)="onChangeCheckAll($event, 'sun')"></label>
+            <span class="fs-16 fw-700 ps-5">{{t('setting.chuNhat')}}</span>
+          </div>
+          <ng-container formArrayName="configSunday">
+            <ng-container *ngFor="let itemForm of formGroup.get('configSunday')['controls']; let index = index">
+              <div class="d-flex pt-5 ps-13" [formGroupName]="index">
+                <label nz-checkbox class="so-checkbox fs-13" name="check-item" formControlName="isConfig"
+                       (ngModelChange)="updateSingleChecked($event, index, 'sun')">
+                </label>
+                <span class="ps-5">{{itemForm.value.name}}</span>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row mb-6 mt-10">
+        <div class="col-md-12 action d-flex justify-content-end">
+          <button type="button" id="btnSubmit"
+                  class="so-btn so-btn-primary so-btn-primary--small"
+                  (click)="onSubmit(formGroup.value)"
+          >{{t('btnAction.save')}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

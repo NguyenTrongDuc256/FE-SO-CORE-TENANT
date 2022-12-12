@@ -68,7 +68,8 @@ export class AuthHTTPService {
     return this.http.post(`${environment.apiIdentityService}/api/authentication/logout`, {});
   }
 
-  getDataConfig(){
-    return this.http.get(`${environment.apiUrl2}/api/data-login`);
+  getDataConfig(layout: string){
+    let headers = new HttpHeaders().set('Layout', layout);
+    return this.http.get(`${environment.apiUrl2}/api/data-login`, {headers: headers});
   }
 }

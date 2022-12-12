@@ -1,0 +1,14 @@
+::ng-deep .noti-custom-date-ranger .custom-range-date-picker {
+  input {
+    height: auto !important;
+    min-height: 3.6rem;
+    padding: 5px 30px 5px 10px;
+    cursor: pointer;
+    font-size: 1.3rem !important;
+  }
+
+  .icon-date-picker {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

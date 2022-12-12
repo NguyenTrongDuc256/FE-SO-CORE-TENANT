@@ -1,0 +1,89 @@
+@mixin avatar-comment ($width,$height) {
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    border: solid 1px #dddddd;
+    object-fit: cover;
+}
+.custom-comment{
+    .container-comment{
+        .content-comment{
+            .content-comment-left{
+                .avatar-comment-custom{
+                    @include avatar-comment(70px,70px);
+                }
+            }
+            .content-comment-right{
+                .comment-header{
+                    .comment-author{
+                        color: #50A5F1;
+                        max-width: 50%;
+                    }
+                    .comment-time{
+                        color: #464E5F;
+                        margin-left: 1rem;
+                    }
+                    .comment-action{
+                        cursor: pointer;
+                        margin-left: 2rem;
+                        color: #495057;
+                        &-icon{
+                            width: 13px;
+                            height: 13px;
+                            object-fit: cover;
+                        }
+                    }
+                }
+                .comment-body{
+                    &-text{
+                        color: #3F4254;
+                        line-height: 2.2rem;
+                    }
+                }
+            }
+        }
+        .child-content-comment{
+            padding-left: 80px;
+            .avatar-comment-custom-child{
+                @include avatar-comment(35px,35px);
+            }
+            .comment-author-child{
+                color: #979DAE;
+            }
+            .comment-time-child{
+                color: #74788D;
+                margin-left: 1rem;
+            }
+            .comment-body-text-child{
+                color: #979DAE;
+            }
+        }
+        .reply-comment-child{
+            position: relative;
+            padding-left: 80px;
+            .reply-icon{
+                position: absolute;
+                right: 15px;
+                top: 12px;
+                cursor: pointer;
+            }
+        }
+    }
+    .reply-comment{
+        position: relative;
+        &-avatar{
+            &-custom{
+                @include avatar-comment(70px,70px);
+            }
+        }
+        .content-reply{
+            height: 70px;
+        }
+        .reply-icon{
+            position: absolute;
+            right: 15px;
+            top: 25px;
+            cursor: pointer;
+        }
+    }
+}

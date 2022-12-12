@@ -1,0 +1,50 @@
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 1rem;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info-item .avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.info-item {
+  display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    img.icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 3px;
+    }
+}
+
+.table-global tbody td {
+  padding-top: 1px;
+  padding-bottom: 4px;
+}
+
+
+hr.course-hr-custom {
+  width: 97% !important;
+  margin: 0 auto !important;
+}
+
+.so-badge--primary {
+  color: var(--bs-picton-blue);
+  background: var(--bs-zircon);
+}
+
+.color-tertiary {
+  color: #B5B5C3;
+}

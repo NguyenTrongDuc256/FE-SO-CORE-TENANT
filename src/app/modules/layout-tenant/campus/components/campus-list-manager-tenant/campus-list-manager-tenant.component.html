@@ -1,108 +1,108 @@
-<div class="card style-campus" *transloco="let t; scope: 'campus'">
-  <div class="card-header-custom border-0 p-5">
-    <div class="w-100 d-flex justify-content-between align-items-center">
-      <div class="title-content  mb-3">
-        <span class="fs-18 fw-700">{{ t('campus.campusList') }}</span>
-      </div>
-      <div class="d-flex justify-content-end align-items-center custom-search">
-        <select class="fs-13 fw-700 form-select form-select-solid form-select-lg custom-select-status"
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'campus'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('campus.campusList') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">  
+        <select class="so-form-control so-select me-4 mb-3"
           name="select-filter-status-campus" (change)="changeFilterStatus($event)">
           <option value="">{{ t('status') }}</option>
           <option value="1">{{ t('campus.activated') }}</option>
           <option value="0">{{ t('campus.locked') }}</option>
         </select>
-        <div class="search-input">
-          <input name="input-search-campus" type="text" class="form-control custom-tag-of-form fs-14"
-            placeholder="{{ t('campus.enterCampusName') }}" (keyup)="checkChangeKeywordSerach($event)">
-          <img class="search-icon" src="assets/images/svg/search.svg" alt="">
-        </div>
+        <div class="so-input-search me-4 mb-3">
+          <input #searchInput type="text" name="input-search" placeholder="{{ t('campus.enterCampusName') }}"
+                 (keyup.enter)="checkChangeKeywordSerach(searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer" (click)="checkChangeKeywordSerach(searchInput.value)"/>
+        </div> 
         <ng-template ngxPermissionsOnly="{{ permission.campus_manager }}">
-          <span class="add-action d-flex justify-content-center align-items-center fs-14"
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3"
             (click)="openModalCampusForm()" name="btn-add-campus">
-            <img class="add-icon" src="assets/images/svg/plus.svg" alt="">
+            <img class="add-icon" src="assets/images/svg/add.svg" alt="">
             {{ t('btnAction.add') }}
-          </span>
+          </button>
         </ng-template>
-      </div>
+    </div>
     </div>
   </div>
-  <div class="card-body-custom pt-0 mt-6">
-    <table class="table align-middle table-global">
-      <thead>
-        <tr class="text-center">
-          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 5%;">
-            {{ t('campus.order') }}
-          </th>
-          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 30%;">
-            {{ t('campus.campusName') }}
-          </th>
-          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
-            {{ t('campus.campusInfomation') }}
-          </th>
-          <th class="fs-14 fw-700 color-thhead text-left-th" style="width: 20%;">
-            {{ t('campus.contact') }}
-          </th>
-          <th class="fs-14 fw-700 color-thhead" style="width: 15%;">
-            {{ t('status') }}
-          </th>
-          <th class="fs-14 fw-700 color-thhead" style="width: 10%;">
-            {{ t('action') }}
-          </th>
-        </tr>
-      </thead>
-      <tbody class="fw-bold text-gray-600">
-        <tr *ngFor="let item of dataSource;let i = index">
-          <td class="color-td fs-13 fw-700">{{ i+1 }}</td>
-          <td class="color-td campus-name fs-13 fw-700">
-            {{ item.name }}
-          </td>
-          <td class="color-td">
-            <div class="detail-campus-infomation">
-              <h4 class="title-infomation fs-13 fw-700">{{ item.address }}</h4>
-              <span class="lb-info fs-12 fw-700">T: <b class="value-info fs-13 fw-500">{{ item.hotline }}</b></span>
-              <span class="lb-info fs-12 fw-700">E: <b class="value-info fs-13 fw-500">{{ item.email }}</b></span>
-            </div>
-          </td>
-          <td class="color-td">
-            <div class="detail-campus-contact">
-              <h4 class="title-contact fs-13 fw-700">{{ item.contactName }}</h4>
-              <span class="lb-contact fs-12 fw-700">T: <b class="value-contact fs-13 fw-500">{{ item.contactPhone }}</b></span>
-              <span class="lb-contact fs-12 fw-700">E: <b class="value-contact fs-13 fw-500">{{ item.contactEmail }}</b></span>
-            </div>
-          </td>
-          <td class="color-td fs-13 fw-600">
-            <span class="custom-status-{{item.isActive}} fs-11 fw-700">
-              {{ getTextStatus(item.isActive) }}
-            </span>
-          </td>
-          <td class="color-td fs-13 fw-600 text-center">
-            <ng-template ngxPermissionsOnly="{{ permission.campus_manager }}">
-              <span class="campus-action">
-                <img nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="action-icon"
-                  src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
-                <nz-dropdown-menu #menu="nzDropdownMenu">
-                  <ul nz-menu>
-                    <li nz-menu-item class="fs-13 fw-600 custom-action-item" name="btn-update-campus"
-                      (click)="openModalUpdateCampus(item)">
-                      <img class="action-icon-campus" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update')
-                      }}
-                    </li>
-                    <li nz-menu-item class="fs-13 fw-600 custom-action-item" name="btn-assign-role-campus"
-                      (click)="opendModalDeleteCampus(item)">
-                      <img class="action-icon-campus" src="assets/images/svg/icon-delete.svg" alt="">{{
-                      t('btnAction.delete') }}
-                    </li>
-                  </ul>
-                </nz-dropdown-menu>
-              </span>
-            </ng-template>
-          </td>
-        </tr>
-        <tr *ngIf="dataSource?.length == 0 || !dataSource">
-          <td class="text-no-data" colspan="6">{{t('noData')}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-5">
+              {{ t('campus.order') }}
+            </th>
+            <th class="text-left-th w-30">
+              {{ t('campus.campusName') }}
+            </th>
+            <th class="text-left-th w-20">
+              {{ t('campus.campusInfomation') }}
+            </th>
+            <th class="text-left-th w-20">
+              {{ t('campus.contact') }}
+            </th>
+            <th class="text-center w-15">
+              {{ t('status') }}
+            </th>
+            <th class="text-center w-10">
+              {{ t('action') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataSource;let i = index">
+            <td class="fs-13 fw-600 text-center">{{ i+1 }}</td>
+            <td class="text-color-river-bed fs-13 fw-700">
+              {{ item.name }}
+            </td>
+            <td>
+              <div class="detail-campus-infomation">
+                <h4 class="title-infomation fs-13 fw-700">{{ item.address }}</h4>
+                <div class="d-flex flex-row align-items-center">
+                  <span class="lb-info fs-12 fw-700 me-4">T: <b class="value-info fs-12 fw-500">{{ item.hotline }}</b></span>
+                  <span class="lb-info fs-12 fw-700">E: <b class="value-info fs-12 fw-500">{{ item.email }}</b></span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="detail-campus-contact">
+                <h4 class="title-contact fs-13 fw-700">{{ item.contactName }}</h4>
+                <div class="d-flex flex-row align-items-center">
+                  <span class="lb-contact fs-12 fw-700 me-4">T: <b class="value-contact fs-12 fw-500">{{ item.contactPhone }}</b></span>
+                  <span class="lb-contact fs-12 fw-700">E: <b class="value-contact fs-11 fw-500">{{ item.contactEmail }}</b></span>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="badge so-badge {{ item.isActive == 1 ? 'badge-success so-badge--success' : 'badge-danger so-badge--danger' }}">{{ getTextStatus(item.isActive) }}</span>
+            </td>
+            <td class="fs-13 fw-600 text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.campus_manager }}">
+                <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                        (click)="openModalUpdateCampus(item)"><img class="so-action--icon" src="assets/images/svg/write.svg"
+                          alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-assign-role-user"
+                        (click)="opendModalDeleteCampus(item)"><img class="so-action--icon" src="assets/images/svg/icon-delete.svg"
+                          alt="">{{ t('btnAction.delete') }}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="dataSource?.length == 0 || !dataSource">
+            <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

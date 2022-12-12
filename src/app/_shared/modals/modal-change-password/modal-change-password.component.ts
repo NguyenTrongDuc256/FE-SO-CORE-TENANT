@@ -21,7 +21,6 @@ export class ModalChangePasswordComponent implements OnInit {
   changePassword: FormGroup;
   isShowPassword = false;
   isShowConfirmPassword = false;
-  hasError = false;
 
   constructor(
     public activeModal: NgbActiveModal,

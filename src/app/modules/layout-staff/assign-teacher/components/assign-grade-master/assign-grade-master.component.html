@@ -1,0 +1,61 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'assign-teacher'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('assignTeacher.assignGradeMaster')}}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center text-color-river-bed">
+        <div class="so-input-search mb-3">
+          <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="">
+      <div class="table-responsive">
+        <table class="table table-row-bordered table-row-gray-300 so-table">
+          <caption></caption>
+          <thead>
+            <tr class="fs-13 fw-700 text-color-river-bed color-3F4254">
+              <th>{{t('assignTeacher.fullNameStaff')}}</th>
+              <th *ngFor="let th of arrGrades" class="text-center">{{th.name}}</th>
+              <th *ngIf="arrGrades?.length == 0" class="td-no-data"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of dataConvert; let i = index" class="fs-13 fw-700 text-color-river-bed">
+              <td>
+                <div>
+                  <div class="fw-600 mb-1 text-break">
+                    {{row.userName}}
+                    <span class="text-color-picton-blue">({{row.code}})</span>
+                  </div>
+                  <div class="fw-600 fs-12 d-flex flex-wrap" *ngIf="(row.phone && row.phone != '') || (row.email && row.email != '')">
+                    <span class="color-B5B5C3 me-5" *ngIf="row.phone && row.phone != ''">P: <span
+                        class="text-color-picton-blue">{{row.phone}}</span></span>
+                    <span class="color-B5B5C3" *ngIf="row.email && row.email != ''">E: <span
+                        class="text-color-picton-blue">{{row.email}}</span></span>
+                  </div>
+                </div>
+              </td>
+              <td *ngFor="let td of row.arrGrades; let j= index" class="text-center">
+                <label nz-checkbox class="so-checkbox d-inline-flex" name="checkbox-all" [(ngModel)]="td.isChecked"
+                  (ngModelChange)="submit($event, td, i, j)">
+                </label>
+              </td>
+              <td *ngIf="row.arrClasses?.length == 0" class="td-no-data"></td>
+            </tr>
+            <tr *ngIf="dataConvert?.length == 0 || arrUsers?.length == 0 ">
+              <td [colSpan]="arrGrades?.length" class="text-no-data">{{t('noData')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

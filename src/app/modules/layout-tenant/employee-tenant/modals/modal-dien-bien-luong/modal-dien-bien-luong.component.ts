@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -21,23 +21,23 @@ export class ModalDienBienLuongComponent implements OnInit {
   currentDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     ngach: [
       {
         type: "required",
-        message: translate('employee.validators.ngach.required'),
+        message: 'employee.validators.ngach.required',
       },
     ],
     bacLuong: [
       {
         type: "required",
-        message: translate('employee.validators.bacLuong.required'),
+        message: 'employee.validators.bacLuong.required',
       },
     ],
     heSoLuong: [
       {
         type: "required",
-        message: translate('employee.validators.heSoLuong.required'),
+        message: 'employee.validators.heSoLuong.required',
       },
     ],
   };
@@ -105,8 +105,8 @@ export class ModalDienBienLuongComponent implements OnInit {
       bacLuong: [data ? data.bacLuong : '', [Validators.required]],
       phanTramVuotKhung: [data ? data.phanTramVuotKhung : ''],
       heSoLuong: [data ? data.heSoLuong : 1, [Validators.required]],
-      isInput: [data ? data.isInput : 1],
-      isUpdate: [data ? data.isUpdate : 0],
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.dienBienQuaTrinhLuong.push(itemForm);
   }
@@ -115,12 +115,36 @@ export class ModalDienBienLuongComponent implements OnInit {
     this.dienBienQuaTrinhLuong.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.dienBienQuaTrinhLuong.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -130,14 +154,19 @@ export class ModalDienBienLuongComponent implements OnInit {
     ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.date);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('ngach').patchValue(dataForm.ngach);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('bacLuong').patchValue(dataForm.bacLuong);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('phanTramVuotKhung').patchValue(dataForm.phanTramVuotKhung);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('heSoLuong').patchValue(dataForm.heSoLuong);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.value.date);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('ngach').patchValue(dataForm.value.ngach);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('bacLuong').patchValue(dataForm.value.bacLuong);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('phanTramVuotKhung').patchValue(dataForm.value.phanTramVuotKhung);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('heSoLuong').patchValue(dataForm.value.heSoLuong);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('dienBienQuaTrinhLuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {

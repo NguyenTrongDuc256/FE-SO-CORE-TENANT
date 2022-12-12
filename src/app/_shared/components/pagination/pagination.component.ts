@@ -1,3 +1,4 @@
+import { PAGE_INDEX_DEFAULT } from 'src/app/_shared/utils/constant';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-pagination',
@@ -17,7 +18,7 @@ export class PaginationComponent implements OnInit {
   refreshPageSize(event:any) {
     this.pageSize = event;
     this.paginationChange.emit({
-      pageIndex:this.pageIndex,
+      pageIndex: PAGE_INDEX_DEFAULT,
       pageSize:this.pageSize
     });
   }

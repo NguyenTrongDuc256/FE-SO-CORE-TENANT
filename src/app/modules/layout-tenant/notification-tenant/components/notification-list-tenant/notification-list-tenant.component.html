@@ -1,0 +1,259 @@
+<ng-container *transloco="let t; scope: 'notification'">
+  <div class="card card-flush shadow-sm p-0 h-full">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700">{{t('notification.notificationSent')}}</h3>
+      <div class="card-toolbar">
+        <div class="filter d-flex flex-wrap algin-items-center">
+          <select [(ngModel)]="valueSendingScope" (change)="onChangeSelect('scope')" name="select-scope"
+            class="so-select mb-3">
+            <option [value]="''" selected>{{t('notification.scope')}}  </option>
+            <option [value]="item?.value" *ngFor="let item of dataSendingScope">{{t(item?.label)}}</option>
+          </select>
+          <select [(ngModel)]="valueRecipientGroup" (change)="onChangeSelect()" name="select-group"
+            class="so-select ms-4 mb-3">
+            <option [value]="''" selected>{{t('notification.recipientGroup')}}</option>
+            <option [value]="item?.value" *ngFor="let item of dataRecipientGroup">{{ t(item.label) }}</option>
+          </select>
+          <select [(ngModel)]="valueCreatedBy" (change)="onChangeSelect()" name="select-sender"
+            class="so-select ms-4 mb-3">
+            <option [value]="''" selected>{{t('notification.sender')}}</option>
+            <option [value]="item?.id" *ngFor="let item of dataCreatedBy">{{ t(item.fullName) }}</option>
+          </select>
+          <select [(ngModel)]="valueStatus" (change)="onChangeSelect()" name="select-status"
+            class="so-select ms-4 mb-3">
+            <option [value]="''" selected>{{t('notification.status')}}</option>
+            <option [value]="item?.value" *ngFor="let item of dataValueStatus">{{ t(item.label) }}</option>
+          </select>
+          <div class="search-select-date ms-4 mb-3">
+            <app-range-date-picker [startDate]="valueFromTime"
+            [endDate]="valueToTime"
+            [timePicker]="false"
+            (dataTimeOutput)="onDataTimeOutput($event)"
+            class="noti-custom-date-ranger cursor-pointer" id="noti-sent-layout-tenant"></app-range-date-picker>
+          </div>
+          <div class="so-input-search ms-4 mb-3">
+            <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+            (keyup.enter)="onEventKeyupEnter(searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="onClickSearch(searchInput.value)"/>
+          </div>
+          <ng-template ngxPermissionsOnly="{{ permission.announcement_modify }}">
+            <button class="so-btn so-btn-primary so-btn-primary--small ms-4 mb-3"
+              id="add-notification" [routerLink]="['/tenant/notification/create']">
+              <img src="assets/images/svg/icon-email-noti-white.svg" alt="" />
+              {{ t("notification.create") }}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="card-body py-5">
+      <div>
+        <ng-container *ngFor="let item of dataSource">
+          <div class="box py-6 px-7 mb-4">
+            <div class="box__header d-flex algin-items-center justify-content-between pb-3">
+              <p class="fs-16 fw-600 mb-0 cursor-pointer" [routerLink]="['/tenant/notification/detail', item.id]">
+                {{item?.title}}
+              </p>
+              <div class="d-flex justify-content-center">
+                <span
+                  class="badge so-badge {{item?.status == 1 ? 'so-badge--primary' : 'so-badge--warning'}} fs-11 me-4">{{item?.status
+                == statusNotiObj.SENT ? t('sent') : t('unsent')}}</span>
+                <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                      class="so-btn-open-drop-menu so-btn-open-drop-menu-no-border d-flex align-items-center justify-content-center"
+                      name="btn-open-menu">
+                  <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" />
+                </span>
+              </div>
+              <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">
+                <ul nz-menu>
+                  <li nz-menu-item class="d-flex align-items-center so-item-drop-menu" name="btn-update"
+                      [routerLink]="['/tenant/notification/edit', item.id]">
+                    <img src="assets/images/svg/write.svg" alt="" />
+                    {{ t("btnAction.update") }}
+                  </li>
+                  <li nz-menu-item (click)="openModalConfirmDelete(item)" *ngIf="item?.status == statusNotiObj.UNSENT"
+                      class="d-flex align-items-center so-item-drop-menu text-danger" name="btn-delete">
+                    <img src="assets/images/svg/icon-delete.svg" alt="" />
+                    {{ t("btnAction.delete") }}
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+            <div class="box_body mb-3 pt-6">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+                  <div class="d-flex">
+                    <div class="box__avatar me-8" *ngIf="item?.avatar && item?.avatar != ''">
+                      <img [src]="item?.avatar" alt="">
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="text-secondary mb-2 fw-600">
+                        <img src="assets/images/svg/bank.svg" alt="" class="me-3">
+                        <span>{{t('notification.scope')}}: <span class="fw-700">{{t(item?.sendingScopeName)}}</span></span>
+                      </div>
+                      <p class="text-desc" [innerHTML]="item.description"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-3 fw-600 pe-8">
+                      {{t('notification.recipientGroup')}}:
+                      <span class="fw-700">
+                        <ng-container *ngFor="let label of item?.recipientGroupsLabel; let i = index">
+                          <span>
+                            {{t(label)}}<span *ngIf="i < item?.recipientGroupsLabel?.length - 1">,</span>
+                          </span>
+                        </ng-container>
+                      </span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-3">
+                      <div class="mb-3">
+                        <span class="fw-600">{{t('notification.createBy')}}: </span> <span
+                        class="fw-500 text-desc">{{item?.createdBy}}</span>
+                      </div>
+                      <div>
+                        <span class="fw-600">{{t('notification.sentBy')}}: </span> <span
+                        class="fw-500 text-desc">{{item.sendAt | formatTime: 'HH:mm'}} - {{item.sendAt | formatTime:
+                        'dd/MM/YYYY'}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="box_footer">
+              <div class="d-flex fw-600">
+                <span class="me-6 group-icon text-color-river-bed">
+                  <img src="assets/images/svg/icon-like-blue.svg" alt="">&ensp;
+                  {{t('notification.likes')}}: <span class="fw-700">{{item?.likeNumber}}</span>
+                </span>
+                <span class="me-6 group-icon" *ngIf="item?.isAllowComment === 1">
+                  <img src="assets/images/svg/icon-comment-noti-blue.svg" alt="">&ensp;
+                  {{t('notification.feedback')}}: <span class="fw-700">{{item?.commentNumber}}</span>
+                </span>
+                <span class="me-6 group-icon">
+                  <img src="assets/images/svg/icon-sent-noti-blue.svg" alt="">&ensp;
+                  {{t('sent')}}: <span class="fw-700">{{item?.receivedUserNumber}}</span>
+                </span>
+                <span class="group-icon">
+                  <img src="assets/images/svg/icon-read-noti-blue.svg" alt="">&ensp;
+                  {{t('notification.read')}}: <span class="fw-700">{{item?.readUserNumber}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <p class="text-no-data py-3" *ngIf="(!dataSource || dataSource?.length == 0) && !isLoading">{{t('noData')}}</p>
+
+        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                        *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!--<div class="box py-6 px-7 mb-4">-->
+<!--  <div class="box__header d-flex algin-items-center justify-content-between pb-3">-->
+<!--    <p class="fs-16 fw-600 mb-0 cursor-pointer" [routerLink]="['/tenant/notification/detail', item.id]">-->
+<!--      {{item?.title}}-->
+<!--    </p>-->
+<!--    <ng-template ngxPermissionsOnly="{{ permission.announcement_modify }}">-->
+<!--      <div class="d-flex justify-content-center">-->
+<!--                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"-->
+<!--                        class="so-btn-open-drop-menu so-btn-open-drop-menu-no-border d-flex align-items-center justify-content-center"-->
+<!--                        name="btn-open-menu">-->
+<!--                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" />-->
+<!--                  </span>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--    <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">-->
+<!--      <ul nz-menu>-->
+<!--        <li nz-menu-item class="d-flex align-items-center so-item-drop-menu"-->
+<!--            name="btn-update"-->
+<!--            [routerLink]="['/tenant/notification/edit', item.id]">-->
+<!--          <img src="assets/images/svg/write.svg" alt="" />-->
+<!--          {{ t("btnAction.update") }}-->
+<!--        </li>-->
+<!--        <li nz-menu-item (click)="openModalConfirmDelete(item)" *ngIf="item.status === statusNotiObj.UNSENT"-->
+<!--            class="d-flex align-items-center so-item-drop-menu text-danger" name="btn-delete">-->
+<!--          <img src="assets/images/svg/icon-delete.svg" alt="" />-->
+<!--          {{ t("btnAction.delete") }}-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </nz-dropdown-menu>-->
+<!--  </div>-->
+<!--  <div class="box_body d-flex mb-6 pt-6">-->
+<!--    <div class="box__avatar me-8">-->
+<!--      <img [src]="item?.avatar || avatarDefault" alt="">-->
+<!--    </div>-->
+<!--    <div class="flex-grow-1">-->
+<!--      <div class="d-flex align-items-center justify-content-between">-->
+<!--        <div class="text-secondary mb-2 fw-600">-->
+<!--          <img src="assets/images/svg/bank.svg" alt="" class="me-3">-->
+<!--          <span>{{t('notification.scope')}}: <span class="fw-700">{{t(item?.sendingScopeName)}}</span></span>-->
+<!--        </div>-->
+<!--        <span class="badge so-badge {{item?.status == 1 ? 'so-badge&#45;&#45;primary' : 'so-badge&#45;&#45;warning'}} mb-2 fs-11">{{ t(item.statusLabel) }}</span>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">-->
+<!--          <p class="text-desc color-6E798C fw-500" [innerHTML]="item.description">-->
+<!--          </p>-->
+<!--        </div>-->
+<!--        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">-->
+<!--          <div class="row">-->
+<!--            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-2 fw-600 pe-8">-->
+<!--              {{t('notification.recipientGroup')}}:-->
+<!--              <span class="fw-700">-->
+<!--                          <ng-container *ngFor="let label of item.recipientGroupsLabel, let i = index">-->
+<!--                            <span>-->
+<!--                              {{t(label)}}<span *ngIf="i < item?.recipientGroups?.length - 1">,</span>-->
+<!--                            </span>-->
+<!--                          </ng-container>-->
+<!--                        </span>-->
+<!--            </div>-->
+<!--            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-2">-->
+<!--              <div class="mb-2">-->
+<!--                <span class="fw-600">{{t('notification.sender')}}: </span> <span class="fw-500 text-desc">{{item.createdBy}}</span>-->
+<!--              </div>-->
+<!--              <div>-->
+<!--                <span class="fw-600">{{t('notification.sentBy')}}: </span> <span class="fw-500 text-desc">{{item.sendAt | formatTime: 'HH:mm'}} - {{item.sendAt | formatTime: 'dd/MM/YYYY'}}</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="box_footer">-->
+<!--    <div class="d-flex fw-600">-->
+<!--                <span class="me-6 group-icon text-color-river-bed">-->
+<!--                  <img src="assets/images/svg/like.svg" alt="">&ensp;-->
+<!--                  {{t('notification.likes')}}: <span class="fw-700">{{item?.likeNumber}}</span>-->
+<!--                </span>-->
+<!--      <span class="me-6 group-icon">-->
+<!--                  <img src="assets/images/svg/icon-comment-noti-blue.svg" alt="">&ensp;-->
+<!--        {{t('notification.feedback')}}: <span class="fw-700">{{item?.commentNumber}}</span>-->
+<!--                </span>-->
+<!--      <span class="me-6 group-icon">-->
+<!--                  <img src="assets/images/svg/icon-sent-noti-blue.svg" alt="">&ensp;-->
+<!--        {{t('sent')}}: <span class="fw-700">{{item?.receivedUserNumber}}</span>-->
+<!--                </span>-->
+<!--      <span class="group-icon">-->
+<!--                  <img src="assets/images/svg/icon-read-noti-blue.svg" alt="">&ensp;-->
+<!--        {{t('notification.read')}}: <span class="fw-700">{{item?.readUserNumber}}</span>-->
+<!--                </span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
+
+
+
+
+

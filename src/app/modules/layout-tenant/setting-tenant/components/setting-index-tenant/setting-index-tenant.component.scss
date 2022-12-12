@@ -1,0 +1,22 @@
+.created-at-info{
+  margin-top: 15px;
+  border-top: 1px solid #cecbcb;
+  padding: 15px 5px 15px 5px;
+  .created-at-info{
+    display: flex;
+    align-items: center;
+    .created-at-icon{
+      width: 12px;
+      height: 12px;
+      filter: brightness(0) saturate(100%) invert(44%) sepia(45%) saturate(4523%) hue-rotate(216deg) brightness(95%) contrast(90%);
+      margin-right: 7px;
+    }
+    .created-at-value{
+      color: #000000;
+    }
+  }
+}
+.max-width-tenant-status {
+  max-width: 16rem;
+  margin: auto;
+}

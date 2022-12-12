@@ -1,19 +1,19 @@
-import { ModalAddUserToRoleTenantComponent } from './../../modals/modal-add-user-to-role-tenant/modal-add-user-to-role-tenant.component';
-import { translate } from '@ngneat/transloco';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { translate } from '@ngneat/transloco';
+import { forkJoin } from 'rxjs';
 import { UserRole } from 'src/app/_models/layout-tenant/role/role.model';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import {
   DATA_PERMISSION,
   PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
-  STATUS_USERS,
+  STATUS_ACTIVE
 } from 'src/app/_shared/utils/constant';
-import { forkJoin } from 'rxjs';
+import { ModalAddUserToRoleTenantComponent } from './../../modals/modal-add-user-to-role-tenant/modal-add-user-to-role-tenant.component';
 
 @Component({
   selector: 'app-tab-user-role-tenant',
@@ -37,8 +37,8 @@ export class TabUserRoleTenantComponent implements OnInit {
 
   constructor(
     private roleService: RoleService,
-    private showMessage: ShowMessageService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -51,16 +51,14 @@ export class TabUserRoleTenantComponent implements OnInit {
       .getListUserRole(this.roleId, this.keyword, this.pageSize, this.pageIndex)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.listUsers = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.listUsers = res.data.data;
+          this.collectionSize = res.data?.totalItems;
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -114,6 +112,7 @@ export class TabUserRoleTenantComponent implements OnInit {
     switch (this.layout) {
       case 'teacher':
       case 'staff':
+      case 'student':
         forkJoin([APIGetSchools, APIGetListUsers]).subscribe(
           (results) => {
             this.isLoading = false;
@@ -122,10 +121,10 @@ export class TabUserRoleTenantComponent implements OnInit {
             ).data;
             dataInputModal.dataFromParent.listUsers = (
               results[1] as any
-            ).data.data;
+            ).data?.data;
             dataInputModal.dataFromParent.collectionSize = (
               results[1] as any
-            ).data?.totalItems;
+            ).data?.totalItems || 0;
             this.openModal(
               ModalAddUserToRoleTenantComponent,
               optionModal,
@@ -134,7 +133,7 @@ export class TabUserRoleTenantComponent implements OnInit {
           },
           (err) => {
             this.isLoading = false;
-            this.showMessage.error(err.msg);
+            this.generalService.showToastMessageError400(err);
           }
         );
         break;
@@ -145,10 +144,10 @@ export class TabUserRoleTenantComponent implements OnInit {
             dataInputModal.dataFromParent.listCampus = (results[0] as any).data;
             dataInputModal.dataFromParent.listUsers = (
               results[1] as any
-            ).data.data;
+            ).data?.data;
             dataInputModal.dataFromParent.collectionSize = (
               results[1] as any
-            ).data?.totalItems;
+            ).data?.totalItems || 0;
             this.openModal(
               ModalAddUserToRoleTenantComponent,
               optionModal,
@@ -157,7 +156,7 @@ export class TabUserRoleTenantComponent implements OnInit {
           },
           (err) => {
             this.isLoading = false;
-            this.showMessage.error(err.msg);
+            this.generalService.showToastMessageError400(err);
           }
         );
         break;
@@ -171,21 +170,19 @@ export class TabUserRoleTenantComponent implements OnInit {
           )
           .subscribe(
             (res: any) => {
-              if (res.status == 1) {
-                this.isLoading = false;
-                dataInputModal.dataFromParent.listUsers = res.data.data;
-                dataInputModal.dataFromParent.collectionSize =
-                  res.data.totalItems;
-                this.openModal(
-                  ModalAddUserToRoleTenantComponent,
-                  optionModal,
-                  dataInputModal
-                );
-              }
+              this.isLoading = false;
+              dataInputModal.dataFromParent.listUsers = res.data?.data;
+              dataInputModal.dataFromParent.collectionSize =
+                res.data?.totalItems || 0;
+              this.openModal(
+                ModalAddUserToRoleTenantComponent,
+                optionModal,
+                dataInputModal
+              );
             },
             (err) => {
               this.isLoading = false;
-              this.showMessage.error(err.msg);
+              this.generalService.showToastMessageError400(err);
             }
           );
     }
@@ -257,16 +254,26 @@ export class TabUserRoleTenantComponent implements OnInit {
   }
 
   mapNameStatus(value: number) {
-    return STATUS_USERS.find((status) => status.value == value)?.label || '--';
+    return STATUS_ACTIVE.find((status) => status.value == value)?.label || '--';
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.oldPageIndex = this.pageIndex;
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList();
   }
 
   paginationChange(event: any) {

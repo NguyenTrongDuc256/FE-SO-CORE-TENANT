@@ -26,27 +26,38 @@ export class ModalViewPermissionTenantComponent implements OnInit {
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.keyword = value.trim();
-      this.listPermission = [];
-      this.isLoading = true;
-      this.listPermissionOriginal.forEach((item) => {
-        let arr = item.permissions.filter(
-          (per) =>
-            per.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-            per.code.toLowerCase().includes(this.keyword.toLowerCase())
-        );
-        if (arr.length > 0)
-          this.listPermission.push({
-            id: item.id,
-            code: item.code,
-            name: item.name,
-            indexOrder: item.indexOrder,
-            permissions: arr,
-          });
-      });
-      this.isLoading = false;
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.keyword = value.trim();
+    this.listPermission = [];
+    this.isLoading = true;
+    this.listPermissionOriginal.forEach((item) => {
+      let arr = item.permissions.filter(
+        (per) =>
+          per.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+          per.code.toLowerCase().includes(this.keyword.toLowerCase())
+      );
+      if (arr.length > 0)
+        this.listPermission.push({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          indexOrder: item.indexOrder,
+          permissions: arr,
+        });
+    });
+    this.isLoading = false;
   }
 
   closeModal(sendData: any) {

@@ -1,0 +1,45 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-body p-0">
+    <div class="row mb-6">
+      <div class="col-md-12">
+        <span class="fs-16 fw-700">{{t('setting.cauHinhPhamViGuiThongBao')}}</span>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <div class="col-md-12 d-flex justify-content-end">
+        <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-save" (click)="onOpenTabSendNotification(1)">
+          <img class="add-icon" src="assets/images/svg/edit11.svg" alt="">
+          {{t('btnAction.update')}}
+        </button>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <div class="table-responsive">
+        <table class="table table-rounded border gy-7 gs-7">
+          <thead>
+          <tr class="border-bottom border-right fs-14 fw-700">
+            <th class="w-200px">{{t('setting.phamViGui')}}</th>
+            <th class="text-center w-250px" *ngFor="let item of notificationRecipientGroup">
+              {{t(item.label)}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="border-bottom border-right fs-13 fw-600" *ngFor="let scopeItem of dataConfigSendNotification">
+            <td class="text-color-picton-blue">{{t(getNameScope(scopeItem.scope))}}</td>
+            <td class="text-center" *ngFor="let item of scopeItem.recipientGroupConfigs">
+              <div *ngIf="item.isRecipient">
+                <img src="assets/images/svg/icon-v.svg" alt="icon">
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

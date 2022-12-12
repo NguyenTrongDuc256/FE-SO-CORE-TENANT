@@ -5,7 +5,8 @@
 
 // Body
 body {
-	background-color: $page-bg;
+	//background-color: $page-bg;
+	background-color: #F3F6F9;
 }
 
 // Font color from Content background color
@@ -20,6 +21,7 @@ body {
 	.container-xxl,
 	.container-fluid {
 		padding: 0 get($content-spacing, desktop);
+    //padding: 0 14px 28px 0;
 	}
 
 	// Wrapper
@@ -40,7 +42,8 @@ body {
 
 		// Fixed header mode
 		.header-fixed & {
-			padding-top: get($header-config, fixed, height, desktop);
+			//padding-top: get($header-config, fixed, height, desktop);
+      padding-top: 75px;
 		}
 
 		// Fixed header & fixed toolbar modes

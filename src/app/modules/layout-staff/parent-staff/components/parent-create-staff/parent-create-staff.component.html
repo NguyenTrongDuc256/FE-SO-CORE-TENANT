@@ -1,231 +1,279 @@
-<div class="style-student card" *transloco="let t; scope: 'parent'">
-  <div class="col-xl-12 py-3">
-    <span class="card-label fs-18 fw-700">{{t('parent.create')}}</span>
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'parent'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('parent.create')}}</h3>
+    <div class="card-toolbar"></div>
   </div>
-  <form [formGroup]="infoForm">
-    <div class="header-info d-flex pt-5 text-normal-global">
-      <!-- ảnh -->
-      <div class="custom-avatar">
-        <div class="symbol symbol-lg-150px symbol-fixed position-relative">
-          <img [src]="avatarUser" alt="image" class="avatar">
-          <div class="delete-img" (click)="onDeleteFileInputAvatar()" name="btn-onDeleteFileInputAvatar">
-            <img src="assets/images/svg/close.svg" alt="img">
-          </div>
-          <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
-            <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
-            <span class="fs-11">Tải ảnh</span>
-          </div>
-          <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
-                 accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
-        </div>
-      </div>
-      <div class="w-100">
-        <div class="row w-100">
-          <div class="col-xl-6 d-flex get-info">
-            <!-- Họ và tên , học sinh-->
-            <div class=" label-info d-flex align-items-center">
-              <img src="assets/images/svg/info.svg" alt="">
-              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.fullName')}} <span class="text-danger">*</span></span>
-              <span class=" fw-700">[1]</span>
+  <div class="card-body py-5 pt-0">
+    <form [formGroup]="infoForm" class="text-color-river-bed">
+      <div class="header-info d-flex text-normal-global">
+        <!-- ảnh -->
+        <div class="custom-avatar d-flex flex-column">
+          <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+            <img [src]="avatarUser" alt="image" class="avatar">
+            <div class="delete-img" (click)="onDeleteFileInputAvatar()" name="btn-onDeleteFileInputAvatar">
+              <img src="assets/images/svg/close.svg" alt="img">
             </div>
+            <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+              <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+              <span class="fs-11">{{t('uploadImg')}}</span>
+            </div>
+            <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                   accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
+          </div>
+          <span class="fw-600 fs-13  text-center">{{t('parent.avatar')}}</span>
 
-            <div class=" input-custom ">
-              <input placeholder="{{t('parent.fullName')}}" type="text" name="input-fullname"
-                     class=" fs-13 form-control custom-tag-of-form " formControlName="fullName">
-              <div *ngFor="let item of validation_messages.fullName">
-                <span class="text-danger"
-                      *ngIf="infoForm.get('fullName')?.hasError(item.type)  && infoForm.get('fullName')?.touched">
-                  {{ t( item.message ) }}
-                </span>
+        </div>
+        <div class="w-100">
+          <div class="row w-100">
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Họ và tên , học sinh-->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 text-danger">{{t('parent.fullName')}} <span
+                  class="text-danger">*</span></span>
               </div>
-            </div>
-          </div>
-          <div class="col-xl-6 d-flex get-info">
-            <!-- Mã học sinh -->
-            <div class=" label-info d-flex align-items-center">
-              <img src="assets/images/svg/info.svg" alt="">
-              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.code')}}  <span class="text-danger">*</span></span>
-              <span class=" fw-700">[2]</span>
-            </div>
-
-            <div class=" input-custom ">
-              <input placeholder="{{t('parent.code')}}" type="text" name="input-code"
-                     class=" fs-13  form-control custom-tag-of-form " formControlName="code">
-              <div *ngFor="let item of validation_messages.code">
-                <span class="text-danger"
-                      *ngIf="infoForm.get('code')?.hasError(item.type)  && infoForm.get('code')?.touched">
-                  {{ t( item.message )}}
-                </span>
+              <div class=" input-custom ">
+                <input placeholder="{{t('parent.fullName')}}" type="text" name="input-fullname"
+                       class="so-form-control form-control" formControlName="fullName"
+                       [class.is-invalid]="infoForm.get('fullName').invalid && (infoForm.get('fullName').dirty || infoForm.get('fullName').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.fullName.hasOwnProperty('message') && infoForm.get('fullName').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.fullName">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('fullName').hasError(err.type) && (infoForm.get('fullName').dirty || infoForm.get('fullName').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fullName">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.fullName"
+                                           [displayErrorServer]="!(infoForm.get('fullName').dirty || infoForm.get('fullName').touched)">
+                  </app-field-error-display>
+                </div>
               </div>
+              <span class=" fw-700 mt-3 ms-3">[1]</span>
             </div>
-          </div>
-        </div>
-        <div class="row w-100">
-          <div class="col-xl-6 d-flex get-info">
-            <!-- Giới tính -->
-            <div class=" label-info d-flex align-items-center">
-              <img src="assets/images/svg/info.svg" alt="">
-              <span class="fw-700 text-label fs-15 text-danger">{{t('parent.students')}} <span class="text-danger">*</span></span>
-              <span class=" fw-700">[3]</span>
-            </div>
-
-            <div class=" input-custom ">
-              <nz-select class="select-search fs-13" name="select-cityCode" nzPlaceHolder="{{t('parent.students')}}" nzMode="multiple" formControlName="childrens">
-                <nz-option *ngFor="let option of studentDataRelate" [nzLabel]="option.fullName" [nzValue]="option.studentUserId"></nz-option>
-              </nz-select>
-              <div >
-                <span class="text-danger" *ngIf="infoForm.get('childrens').value.length === 0 && infoForm.get('childrens')?.touched">
-                  {{t('parent.validators.students.required')}}
-                </span>
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Mã học sinh -->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 text-danger">{{t('parent.code')}} <span
+                  class="text-danger">*</span></span>
               </div>
+
+              <div class=" input-custom ">
+                <input placeholder="{{t('parent.code')}}" type="text" name="input-code"
+                       class="so-form-control form-control" formControlName="code"
+                       [class.is-invalid]="infoForm.get('code').invalid && (infoForm.get('code').dirty || infoForm.get('code').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.code.hasOwnProperty('message') && infoForm.get('code').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.code">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('code').hasError(err.type) && (infoForm.get('code').dirty || infoForm.get('code').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.code">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.code"
+                                           [displayErrorServer]="!(infoForm.get('code').dirty || infoForm.get('code').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[2]</span>
+            </div>
+          </div>
+          <div class="row w-100">
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Con -->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 text-danger">{{t('parent.students')}} <span
+                  class="text-danger">*</span></span>
+              </div>
+
+              <div class=" input-custom ">
+                <nz-select class="select-search fs-13 so-form-control so-select" name="select-student" nzPlaceHolder="{{t('parent.students')}}"
+                           nzMode="multiple" formControlName="studentsUserId"
+                           [class.is-invalid]="infoForm.get('studentsUserId').value.length === 0 && infoForm.get('studentsUserId')?.touched"
+                           [class.is-invalid-server]="validationMessagesServer?.studentsUserId.hasOwnProperty('message') && infoForm.get('studentsUserId').invalid">
+                  <nz-option *ngFor="let option of studentDataRelate" [nzLabel]="option.fullName" [nzValue]="option.studentUserId"></nz-option>
+                </nz-select>
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.studentsUserId">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('studentsUserId').hasError(err.type) && (infoForm.get('studentsUserId').dirty || infoForm.get('studentsUserId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.studentsUserId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.studentsUserId"
+                                           [displayErrorServer]="!(infoForm.get('studentsUserId').dirty || infoForm.get('studentsUserId').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[3]</span>
+            </div>
+
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Giới tính -->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13">{{ t('gender') }}</span>
+              </div>
+              <div class=" input-custom ">
+                <select name="select-isFemale" id="gender" formControlName="gender"
+                        class="gender form-select form-select-solid form-select-lg ant-select-selection-search-input fs-13 ">
+                  <ng-container *ngFor="let item of gender">
+                    <option [value]="item.id">{{ t( item.name )}}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[4]</span>
+
+            </div>
+          </div>
+          <div class="row w-100 mb-5">
+            <div class="col-xl-4 d-flex get-info ps-20 mb-6 justify-content-between">
+              <label class="text-color-river-bed" nz-checkbox formControlName="isAccessApp" name="is-AccessApp">
+                <span class="fw-700 text-label fs-13">{{ t('parent.accessApp') }}</span>
+              </label>
+              <label class="text-color-river-bed" nz-checkbox formControlName="isActive" name="is-Active">
+                <span class="fw-700 text-label fs-13">{{ t('activated') }}</span>
+              </label>
+              <span class="fw-700 ms-3">[5]</span>
+            </div>
+          </div>
+          <div class="row w-100 mt-5">
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Họ và tên , học sinh-->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 text-danger">{{ t('username') }} <span
+                  class="text-danger">*</span></span>
+              </div>
+              <div class=" input-custom ">
+                <input placeholder="{{ t('username') }}" type="text" name="input-username"
+                       class="so-form-control form-control" formControlName="username"
+                       [class.is-invalid]="infoForm.get('username').invalid && (infoForm.get('username').dirty || infoForm.get('username').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.username.hasOwnProperty('message') && infoForm.get('username').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.username">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('username').hasError(err.type) && (infoForm.get('username').dirty || infoForm.get('username').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.username">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.username"
+                                           [displayErrorServer]="!(infoForm.get('username').dirty || infoForm.get('username').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[06]</span>
+            </div>
+
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Mã học sinh -->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 text-danger">{{ t('parent.password') }} <span
+                  class="text-danger">*</span></span>
+              </div>
+              <div class=" input-custom ">
+                <input placeholder="{{ t('parent.password') }}" type="password" name="input-password"
+                       class="so-form-control form-control" formControlName="password"
+                       [class.is-invalid]="infoForm.get('password').invalid && (infoForm.get('password').dirty || infoForm.get('password').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.password.hasOwnProperty('message') && infoForm.get('password').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.password">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('password').hasError(err.type) && (infoForm.get('password').dirty || infoForm.get('password').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.password">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.password"
+                                           [displayErrorServer]="!(infoForm.get('password').dirty || infoForm.get('password').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[07]</span>
             </div>
           </div>
 
-          <div class="col-xl-6 d-flex get-info">
-            <!-- Giới tính -->
-            <div class=" label-info d-flex align-items-center">
-              <img src="assets/images/svg/info.svg" alt="">
-              <span class="fw-700 text-label fs-15">{{ t('gender') }}</span>
-              <span class=" fw-700">[4]</span>
+          <div class="row w-100">
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Họ và tên , học sinh-->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 ">{{ t('parent.phone') }}</span>
+              </div>
+              <div class=" input-custom ">
+                <input placeholder="{{ t('parent.phone') }}" type="text" name="input-phone"
+                       class="so-form-control form-control" formControlName="phone"
+                       [class.is-invalid]="infoForm.get('phone').invalid && (infoForm.get('phone').dirty || infoForm.get('phone').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.phone.hasOwnProperty('message') && infoForm.get('phone').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.phone">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('phone').hasError(err.type) && (infoForm.get('phone').dirty || infoForm.get('phone').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.phone">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.phone"
+                                           [displayErrorServer]="!(infoForm.get('phone').dirty || infoForm.get('phone').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[08]</span>
             </div>
 
-            <div class=" input-custom ">
-              <select name="select-isFemale" id="gender" formControlName="gender"
-                      class="gender form-select form-select-solid form-select-lg ant-select-selection-search-input fs-13 ">
-                <ng-container *ngFor="let item of gender">
-                  <option [value]="item.id">{{ t( item.name )}}</option>
-                </ng-container>
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Mã học sinh -->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 ">{{ t('email') }} </span>
+              </div>
+              <div class=" input-custom ">
+                <input placeholder="{{ t('email') }}" type="text" name="email" class="so-form-control form-control"
+                       formControlName="email"
+                       [class.is-invalid]="infoForm.get('email').invalid && (infoForm.get('email').dirty || infoForm.get('email').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.email.hasOwnProperty('message') && infoForm.get('email').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+                  <app-field-error-display
+                    [displayError]="infoForm.get('email').hasError(err.type) && (infoForm.get('email').dirty || infoForm.get('email').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.email">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.email"
+                                           [displayErrorServer]="!(infoForm.get('email').dirty || infoForm.get('email').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[09]</span>
+            </div>
+          </div>
 
-              </select>
-              <!-- <span class="text-danger">fefweiofwe</span> -->
+          <div class="row w-100">
+            <div class="col-xl-6 d-flex get-info ps-20 mb-6">
+              <!-- Họ và tên , học sinh-->
+              <div class=" label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label fs-13 ">{{ t('birthday') }}</span>
+              </div>
+              <div class=" input-custom ">
+                <app-single-date-picker class="date-picker" [currentDate]="this.infoForm.get('birthday').value"
+                                        [timePicker]="timePicker" [maxDate]="maxDate" (dataTimeOutput)="dataTimeBirthday($event)">
+                </app-single-date-picker>
+              </div>
+              <span class=" fw-700 mt-3 ms-3">[10]</span>
             </div>
           </div>
         </div>
-        <div class="row w-100">
-          <div class="col-xl-4 d-flex get-info justify-content-between">
-            <label class="" nz-checkbox formControlName="isAccessApp" name="is-AccessApp">
-              <span class="fw-700 text-label fs-15">{{ t('parent.accessApp') }}</span>
-            </label>
-            <label class="" nz-checkbox formControlName="isActive" name="is-Active">
-              <span class="fw-700 text-label fs-15">{{ t('activated') }}</span>
-            </label>
-
-            <span class=" fw-700">[5]</span>
-          </div>
-        </div>
       </div>
-    </div>
-    <!--    <div class="general-info">-->
-    <div class="row w-100 mt-5">
-      <div class="col-xl-6 row get-info">
-        <!-- Tên đăng nhập  -->
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label text-danger fs-15">{{ t('username') }} <span class="text-danger">*</span></span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <div class="d-flex align-items-center">
-            <input placeholder="{{ t('username') }}" type="text" name="input-username"
-                   class=" fs-13  form-control custom-tag-of-form " formControlName="username">
-            <span class="fw-700"> [06]</span>
-          </div>
-          <div *ngFor="let item of validation_messages.username">
-                <span class="text-danger"
-                      *ngIf="infoForm.get('username')?.hasError(item.type)  && infoForm.get('username')?.touched">
-                  {{ t( item.message )}}
-                </span>
-          </div>
-        </div>
+      <div class="button-footer d-flex justify-content-end">
+        <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+                (click)="clickCancel()">{{ t('btnAction.cancel') }}</button>
+        <button type="button" class="ms-4 so-btn so-btn-primary so-btn-primary--small" name="btn-submit"
+                (click)="onSubmit(infoForm)">{{ t('btnAction.save') }}</button>
       </div>
-
-      <div class="col-xl-6 row get-info">
-        <!-- Mật khẩu -->
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label text-danger fs-15">{{ t('parent.password') }} <span class="text-danger">*</span></span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <div class="d-flex align-items-center">
-            <input placeholder="{{ t('parent.password') }}" type="password" name="input-passowrd"
-                   class=" fs-13  form-control custom-tag-of-form " formControlName="password">
-            <span class="fw-700"> [07]</span>
-          </div>
-          <div *ngFor="let item of validation_messages.password">
-                <span class="text-danger"
-                      *ngIf="infoForm.get('password')?.hasError(item.type)  && infoForm.get('password')?.touched">
-                  {{ t( item.message )}}
-                </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row w-100">
-      <div class="col-xl-6 row get-info">
-        <!-- Mã Moet -->
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label fs-15">{{ t('parent.phone') }}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <div class="d-flex align-items-center">
-            <input placeholder="{{ t('parent.phone') }}" type="text" name="input-phone"
-                   class=" fs-13  form-control custom-tag-of-form " formControlName="phone">
-            <span class="fw-700">[08]</span>
-          </div>
-          <div *ngFor="let item of validation_messages.phone">
-                <span class="text-danger"
-                      *ngIf="infoForm.get('phone')?.hasError(item.type)  && infoForm.get('phone')?.touched">
-                  {{ t( item.message )}}
-                </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xl-6 row get-info">
-        <!-- Email -->
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label fs-15">{{ t('email') }}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <div class="d-flex align-items-center">
-            <input placeholder="{{ t('email') }}" type="text" name="email"
-                   class=" fs-13  form-control custom-tag-of-form " formControlName="email">
-            <span class="fw-700">[09]</span>
-          </div>
-          <div *ngFor="let item of validation_messages.email">
-              <span class="text-danger"
-                    *ngIf="infoForm.get('email')?.hasError(item.type)  && infoForm.get('email')?.touched">
-               {{ t( item.message )}}
-              </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row w-100">
-      <div class="col-xl-6 row get-info">
-        <!-- Ngày cấp -->
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label fs-15">{{ t('birthday') }}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <div class="d-flex align-items-center">
-            <app-single-date-picker class="date-picker" [currentDate]="this.infoForm.get('birthday').value" [timePicker]="timePicker" [maxDate]="maxDate"
-                                    (dataTimeOutput)="dataTimeBirthday($event)" ></app-single-date-picker>
-            <span class="fw-700">[10]</span>
-          </div>
-          <!-- <span class="text-danger">fefweiofwe</span> -->
-        </div>
-      </div>
-    </div>
-    <!--    </div>-->
-    <div class="button-footer d-flex justify-content-end">
-      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel" (click)="clickCancel()">{{ t('btnAction.cancel') }}</button>
-      <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-submit" [disabled]="infoForm.invalid"
-              (click)="onSubmit(infoForm)">{{ t('btnAction.save') }}</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 <div class="spinner" *ngIf="isLoading">
   <app-loading></app-loading>

@@ -9,12 +9,13 @@
     </div>
     <div class="modal-body">
       <div class="row mb-6">
-        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1">
-          <label for="name">{{t('studentRecords.nameRecord')}} <span class="text-danger">*</span> </label>
+        <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2">
+          <label for="name" class="fw-700 mt-3">{{t('studentRecords.nameRecord')}} <span class="text-danger">*</span> </label>
         </div>
-        <div class="col-sm-12 col-md-10 col-lg-10 col-xl-11">
+        <div class="col-sm-12 col-md-9 col-lg-10 col-xl-10">
           <div class="so-form-group">
-            <input type="text" id="name" name="name" placeholder="{{t('studentRecords.enterNameRecords')}}" formControlName="name">
+            <input type="text" id="name" name="name" placeholder="{{t('studentRecords.enterNameRecords')}}" formControlName="name"
+            class="so-form-control form-control">
             <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
               validation: 'required',
               message: t('requiredName'),
@@ -38,14 +39,14 @@
       </div>
 
       <div class="row mb-6">
-        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1">
-          <label for="cate">{{t('studentRecords.categoryRecords')}} <span class="text-danger">*</span> </label>
+        <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2">
+          <label for="cate" class="fw-700 mt-3">{{t('studentRecords.categoryRecords')}} <span class="text-danger">*</span> </label>
         </div>
-        <div class="col-sm-12 col-md-10 col-lg-10 col-xl-11">
+        <div class="col-sm-12 col-md-9 col-lg-10 col-xl-10">
           <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <div class="so-form-group">
-                <select name="cate" id="cate" class="so-select select-cate" formControlName="categoryId">
+              <div class="so-form-group w-90">
+                <select name="cate" id="cate" class="so-select select-cate so-form-control form-control" formControlName="categoryId">
                   <option [value]="''">{{t('studentRecords.categoryRecords')}}</option>
                   <ng-container *ngFor="let cate of arrCategories">
                     <option [value]="cate.id">{{cate.name}}</option>
@@ -60,7 +61,7 @@
               </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <label nz-checkbox class="so-checkbox" name="checkbox-send-noti" [nzValue]="null"
+              <label nz-checkbox class="so-checkbox fw-700" name="checkbox-send-noti" [nzValue]="null"
                 formControlName="isSendNoti">
                 {{t('studentRecords.sendNoti')}}
               </label>
@@ -73,15 +74,15 @@
       <div class="mt-6" formArrayName="fileAttachs">
         <ng-container *ngFor="let item of getFormArray.controls; let i = index;">
           <div class="row mb-6" [formGroupName]="i">
-            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1">
-              <label for="select-type-file">{{t('studentRecords.fileAttachs')}} <span class="text-danger">*</span> </label>
+            <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2">
+              <label for="select-type-file" class="fw-700 mt-3">{{t('studentRecords.fileAttachs')}} <span class="text-danger">*</span> </label>
             </div>
-            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-11">
+            <div class="col-sm-12 col-md-9 col-lg-10 col-xl-10">
               <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                   <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <select name="select-type-file" id="select-type-file" class="so-select w-full"
+                      <select name="select-type-file" id="select-type-file" class="so-select w-full so-form-control form-control"
                         formControlName="fileType" (ngModelChange)="changeTypeFile($event, i)">
                         <option [value]="typesFile.FILE">{{t('studentRecords.uploadFile')}}</option>
                         <option [value]="typesFile.LINK">{{t('studentRecords.uploadUrl')}}</option>
@@ -90,7 +91,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="so-form-group">
                         <input type="text" id="name-file" name="name-file" placeholder="{{t('studentRecords.enterNameFile')}}"
-                        formControlName="nameFile">
+                        formControlName="nameFile" class="so-form-control form-control">
                         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                           validation: 'required',
                           message: t('studentRecords.requiredNameFile'),
@@ -129,14 +130,15 @@
                       <input #uploadFile type="file" name="file" class="d-none" value=""
                         (change)="onChangeFile($event, i)">
                     </div>
-                    <button class="btn-remote" (click)="remove(i)" name="btn-remote" [hidden]="isHiddenElement && i==0">
-                      <img src="assets/images/svg/icon-delete.svg" alt="">
+                    <button class="btn-remove" (click)="remove(i)" name="btn-remove" [hidden]="isHiddenElement && i==0">
+                      <img src="assets/images/svg/icon-delete2.svg" alt="">
                     </button>
                   </div>
                   <div class="d-flex align-items-center justify-content-end"
                     *ngIf="item.get('fileType').value == typesFile.LINK">
                     <div class="so-form-group flex-grow-1">
-                      <input type="text" id="url" name="url" placeholder="{{t('studentRecords.enterUrl')}}" formControlName="url">
+                      <input type="text" id="url" name="url" placeholder="{{t('studentRecords.enterUrl')}}" formControlName="url"
+                      class="so-form-control form-control">
                       <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
                         validation: 'required',
                         message: t('studentRecords.requiredUrl'),
@@ -156,15 +158,14 @@
                         }">
                       </ng-container>
                     </div>
-                    <button class="btn-remote ms-6" (click)="remove(i)" name="btn-remote" [hidden]="isHiddenElement && i==0">
-                      <img src="assets/images/svg/icon-delete.svg" alt="">
+                    <button class="btn-remove ms-6" (click)="remove(i)" name="btn-remove" [hidden]="isHiddenElement && i==0">
+                      <img src="assets/images/svg/icon-delete2.svg" alt="">
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <hr class="so-hr">
         </ng-container>
       </div>
 
@@ -174,7 +175,6 @@
         <div class="fv-plugins-message-container">
           <span role="alert">
             <div class="err-form text-danger">
-              <img src="assets/images/svg/icon-false.svg" alt="">
               <span>&nbsp;{{ message }}</span>
             </div>
           </span>
@@ -182,15 +182,19 @@
       </ng-container>
     </ng-template>
 
-      <button class="so-btn so-btn-primary so-btn-primary--small mt-6" (click)="create(null)" name="btn-create">
-        {{t('btnAction.add')}}
-      </button>
     </div>
     <div class="modal-footer">
-      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
-        (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
-      <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
-        (click)="submit(formSubmit.value)" [disabled]="!formSubmit.valid">{{t(dataModal?.btnAccept)}}</button>
+      <div class="d-flex justify-content-between align-items-center w-full">
+        <button class="so-btn so-btn-primary so-btn-primary--small" (click)="create(null)" name="btn-create">
+          {{t('btnAction.add')}}
+        </button>
+        <div class="d-flex justify-content-end align-items-center">
+          <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+            (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+          <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+            (click)="submit(formSubmit.value)" [disabled]="!formSubmit.valid">{{t(dataModal?.btnAccept)}}</button>
+        </div>
+      </div>
     </div>
   </form>
 </ng-container>

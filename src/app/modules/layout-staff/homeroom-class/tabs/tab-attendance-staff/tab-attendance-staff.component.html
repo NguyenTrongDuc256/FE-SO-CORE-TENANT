@@ -1,0 +1,216 @@
+<ng-container *transloco="let t; scope: 'training'">
+  <div class="card card-flush shadow-sm p-0 h-full" *ngIf="studentAndDataAttendance && configAttendance">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700">{{studentAndDataAttendance?.name}}</h3>
+      <div class="card-toolbar">
+      </div>
+    </div>
+    <div class="card-body py-5">
+      <div class="d-flex flex-wrap flex-sm-nowrap">
+        <div class="me-7 mb-4">
+          <div class="symbol symbol-fixed homeroom-class-img">
+            <img src="{{studentAndDataAttendance.logo}}" alt="image" *ngIf="studentAndDataAttendance.logo">
+          </div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+            <div class="d-flex flex-column">
+              <div class="d-flex align-items-center mb-2">
+                <span class="fs-16 fw-700">
+                  {{t('training.attendance')}} {{studentAndDataAttendance.name}}
+                </span>
+                <span class="badge so-badge fw-700 ms-4 pt-pb bg-color-champagne">
+                    <img src="assets/images/svg/icon-star.svg" alt="icon" class="icon"/>
+                </span>
+                <span class="badge so-badge fw-700 ms-4 bg-color-zircon text-color-picton-blue"
+                      *ngIf="studentAndDataAttendance.status">{{t('training.daDiemDanh')}}
+                </span>
+                <span class="badge so-badge fw-700 ms-4 bg-color-cosmos text-color-bittersweet"
+                      *ngIf="!studentAndDataAttendance.status">{{t('training.chuaDiemDanh')}}
+                </span>
+              </div>
+              <div class="d-flex flex-wrap mb-4 pe-2">
+                <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                  <img src="assets/images/svg/user-light.svg" alt="icon" class="icon"/>
+                  {{t('training.GVCN')}}: {{studentAndDataAttendance.teacherName}}
+                </span>
+                <span class="d-flex align-items-center text-gray-400 me-5 mb-2">
+                    <img src="assets/images/svg/user-light.svg" alt="icon"
+                         class="icon"/>{{t('training.attendanceTime')}}:
+                    <span class="fw-700 ps-2"
+                          *ngIf="studentAndDataAttendance.dateAttendance">
+                      {{studentAndDataAttendance.dateAttendance | formatTime}}
+                    </span>
+                    <span class="fw-700 ps-2" *ngIf="!studentAndDataAttendance.dateAttendance">
+                    </span>
+                </span>
+              </div>
+            </div>
+            <div class="filter d-flex flex-wrap align-items-center">
+              <div class="me-4 mb-3">
+                <app-single-date-picker id="date"
+                                        [currentDate]="attendanceDate" [timePicker]="timePicker"
+                                        (dataTimeOutput)="dataTimeOutputDate($event)"
+                                        [minDate]="checkAttendanceDate - (configAttendance?.numberOfDatesAllowForReAttendance * 86400)"
+                                        [maxDate]="maxDate">
+                </app-single-date-picker>
+              </div>
+              <div class="so-input-search me-4 mb-3">
+                <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+                       (keyup.enter)="search(searchInput.value)">
+                <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+                     (click)="search(searchInput.value)"/>
+              </div>
+              <ng-template ngxPermissionsOnly="{{ permission.absent_manager }}">
+                <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-create">
+                  <img src="assets/images/svg/add.svg" alt="icon">
+                  {{t('training.addAbsent')}}
+                </button>
+              </ng-template>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap flex-stack" *ngIf="studentAndDataAttendance?.students?.length > 0">
+            <div class="d-flex flex-column flex-grow-1 pe-8">
+              <div class="d-flex flex-wrap">
+                <div class="border border-50A5F1 rounded min-w-125px py-3 px-4 me-6 mb-3"
+                     *ngFor="let item of numberAttendanceByStatus">
+                  <div class="d-flex align-items-center">
+                    <div class="fs-20 fw-800 counted pe-2" [style]="item.color">{{item.total}}</div>
+                    <span class="fw-600">{{t('training.student')}} <span
+                      class="text-lowercase">{{item.name}}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="formGroup" *ngIf="formGroup">
+        <div class="table-responsive">
+          <table class="table table-row-bordered table-row-gray-300">
+            <caption></caption>
+            <thead>
+            <tr class="fs-14 fw-700">
+              <th *ngIf="configAttendance.isUseHanet">{{ t('training.anhDiemDanh') }}</th>
+              <th style="min-width: 260px">{{ t('training.taiKhoan') }}</th>
+              <th style="min-width: 165px">{{ t('training.trangThai') }}</th>
+              <th style="min-width: 170px">{{ t('training.diemDanh') }}</th>
+              <th style="min-width: 100px">{{ t('training.ghiChu') }}</th>
+              <th style="min-width: 100px">{{ t('training.ghiChuSuatAn') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container formArrayName="students">
+              <ng-container *ngFor="let itemForm of formGroup.get('students')['controls']; let index = index">
+                <tr class="fs-13 fw-600" [formGroupName]="index" *ngIf="itemForm.value.isDisplay">
+                  <td *ngIf="configAttendance.isUseHanet">
+                    <div class="img-hanet">
+                      <img src="{{itemForm.value.avatarHanet}}" alt="img" *ngIf="itemForm.value.avatarHanet">
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <div class="img-avatar">
+                        <img src="{{itemForm.value.avatar}}" alt="img" *ngIf="itemForm.value.avatar">
+                        <img src="{{avatar}}" alt="img" *ngIf="!itemForm.value.avatar">
+                        <span class="fs-14 fw-700 ps-2">{{itemForm.value.name}}</span>
+                      </div>
+                      <div class="d-flex mt-3">
+                        <div class="d-flex me-3">
+                          <img class="action-icon pe-1" src="assets/images/svg/code6.svg" alt="">
+                          <span class="text-color-picton-blue fw-700">{{t('code')}}
+                            : <span>{{itemForm.value.code}}</span></span>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center mt-4">
+                        <img class="action-icon pe-1" src="assets/images/svg/gender6.svg" alt="">
+                        <span class="pe-2 fw-700">
+                            {{ t('gender') }}:
+                          </span>
+                        <span class="gender-male" *ngIf="itemForm.value.gender == 1">
+                            {{ t('genderName.male') }}
+                          </span>
+                        <span class="gender-fmale" *ngIf="itemForm.value.gender == 2">
+                            {{ t('genderName.female') }}
+                          </span>
+                        <span class="gender-other" *ngIf="itemForm.value.gender == 3">
+                            {{ t('genderName.other') }}
+                          </span>
+                      </div>
+                      <div class="mt-3 d-flex align-items-center mt-4" *ngIf="itemForm.value.attachedFiles">
+                        <img class="action-icon pe-1" src="assets/images/svg/file6.svg" alt="">
+                        <span class="fw-700">{{t('training.absent')}}:
+                          <a target="_blank" href="{{itemForm.value.attachedFiles}}"
+                             class="text-color-picton-blue text-decoration">
+                            {{itemForm.value.attachedFiles | substring : 20}}
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <nz-radio-group formControlName="status">
+                        <label class="d-flex fs-13 pb-5" nz-radio
+                               *ngFor="let item of configAttendance.attendanceConfigurations"
+                               [nzValue]="item.code">{{item.name}}</label>
+                      </nz-radio-group>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <div class="mt-1">
+                        <img class="action-icon pe-1" src="assets/images/svg/user-3.svg" alt="">
+                        <span>
+                          <span class="text-gray-400 pe-1">{{t('training.attendanceBy')}}:</span>
+                          <span class="text-color-picton-blue fw-700">{{itemForm.value.attendanceBy}}</span>
+                        </span>
+                      </div>
+                      <div class="mt-6">
+                        <img class="action-icon pe-1" src="assets/images/svg/bx_time.svg" alt="">
+                        <span>
+                          <span class="text-gray-400">{{t("training.time")}}:</span>
+                          <span class="text-color-picton-blue fw-700" *ngIf="!itemForm.value.time">
+                            {{itemForm.value.time | formatTime : 'hh:mm - dd/MM/yyyy' }}
+                          </span>
+                          </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="mt-2">
+                      <textarea class="form-control so-form-control fw-600" formControlName="note" name="note"
+                                rows="5"></textarea>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="me-1 mt-2">
+                      <textarea class="form-control so-form-control fw-600" formControlName="mealNote" name="mealNote"
+                                rows="5"></textarea>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="studentAndDataAttendance?.students?.length == 0 || !studentAndDataAttendance?.students">
+                  <td class="text-no-data" colspan="7">{{t('noData')}}</td>
+                </tr>
+              </ng-container>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+    <div class="button-save-bottom w-100 d-flex justify-content-center align-items-center" *ngIf="formGroup && studentAndDataAttendance?.students?.length > 0">
+      <button type="button"
+              class="so-btn so-btn-primary so-btn-primary--small btn-accept"
+              (click)="onSubmit(formGroup.value)">
+        {{t('btnAction.save')}}
+      </button>
+    </div>
+  </div>
+
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -1,3 +1,4 @@
+import { TAB_SCHOOL } from './../../constant';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SUB_TAB_CONFIG_SCHOOL } from '../../constant';
@@ -10,6 +11,9 @@ import { SUB_TAB_CONFIG_SCHOOL } from '../../constant';
 export class TabControlConfigComponent implements OnInit {
 
   tabActive = Number(SUB_TAB_CONFIG_SCHOOL.SUBJECT);
+  listTab = SUB_TAB_CONFIG_SCHOOL;
+  parentTabActive: string;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -17,19 +21,21 @@ export class TabControlConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(res => {
+      this.parentTabActive = res.tab || TAB_SCHOOL.TAB_CONFIG;
       this.tabActive = Number(res.sub_tab) ? Number(res.sub_tab) : Number(SUB_TAB_CONFIG_SCHOOL.SUBJECT);
     })
   }
 
-  changeTab(tab: number) {
-    switch(tab.toString()) {
-      case '0':
-        this.router.navigate([], {queryParams: {sub_tab: tab}, queryParamsHandling: 'merge'})
-      break;
-      case '1':
-        this.router.navigate([], {queryParams: {sub_tab: tab}, queryParamsHandling: 'merge'})
-      break;
-    }
+  activeTab(value: string){
+    this.tabActive = +value;
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        tab: this.parentTabActive,
+        sub_tab: this.tabActive
+      },
+      queryParamsHandling: 'merge'
+    })
   }
 
 }

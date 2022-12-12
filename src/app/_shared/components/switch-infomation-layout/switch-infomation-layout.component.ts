@@ -19,17 +19,17 @@ export class SwitchInfomationLayoutComponent implements OnInit {
   dataSchoolYear: any[] = [1, 2, 3];
   dataTerms: any[] = [];
   dataLogin: any;
-  dataConfigSystem:any;
+  dataConfigSystem: any;
   currentLayout: any = localStorage.getItem("currentLayout");
   isCollapsed: boolean = true;
-  dataCurrent:any = {
-    name:'',
-    schooYearName:'',
-    termName:''
+  dataCurrent: any = {
+    name: '',
+    schooYearName: '',
+    termName: ''
   }
   constructor(
-    private authHTTPService:AuthHTTPService,
-    private showMessageService:ShowMessageService
+    private authHTTPService: AuthHTTPService,
+    private showMessageService: ShowMessageService
   ) { }
 
   ngOnInit() {
@@ -38,23 +38,19 @@ export class SwitchInfomationLayoutComponent implements OnInit {
     this.dataMoet = [];
     this.dataStudent = [];
     this.dataTerms = [];
-    if(!localStorage.getItem("dataConfigSystem")){
+    if (!localStorage.getItem("dataConfigSystem")) {
       this.getDataConfigSystem();
-    }else{
+    } else {
       this.convertDataConfigSystem();
     }
     this.getInfomationData();
   }
 
-  getDataConfigSystem(){
-    this.authHTTPService.getDataConfig().subscribe((res:any)=>{
-      if(res.status == 1){
-        localStorage.setItem("dataConfigSystem",JSON.stringify(res.data));
-        this.convertDataConfigSystem();
-      }else{
-        this.showMessageService.error(res.msg);
-      }
-    },(_err)=>{
+  getDataConfigSystem() {
+    this.authHTTPService.getDataConfig(this.currentLayout).subscribe((res: any) => {
+      localStorage.setItem("dataConfigSystem", JSON.stringify(res.data));
+      this.convertDataConfigSystem();
+    }, (_err) => {
       this.showMessageService.error(MESSAGE_ERROR_CALL_API);
     })
   }
@@ -64,20 +60,43 @@ export class SwitchInfomationLayoutComponent implements OnInit {
     if(this.dataConfigSystem){
       this.dataSchoolYear = this.dataConfigSystem.schoolYears;
       if(this.dataSchoolYear && this.dataSchoolYear.length > 0){
-        this.currentSchoolYear = localStorage.getItem("currentSchoolYear") ? localStorage.getItem("currentSchoolYear") :  this.dataSchoolYear.find(el=>el.status == 1)?.id;
+        this.currentSchoolYear = localStorage.getItem("currentSchoolYear") ? localStorage.getItem("currentSchoolYear") :  this.dataSchoolYear.find(el=>el.status == 1) ? this.dataSchoolYear.find(el=>el.status == 1)?.id : this.dataSchoolYear[0].id;
         if(this.currentSchoolYear){
           this.dataTerms = this.dataSchoolYear.find(el=>el.id == this.currentSchoolYear)?.terms;
-          this.currentTerm = localStorage.getItem("currentTerm") ? localStorage.getItem("currentTerm") : this.dataTerms?.find(sub=>sub.isCurrent == 1) ? String(this.dataTerms?.find(sub=>sub.isCurrent == 1)?.index) : String(this.dataTerms[0].index);
+          this.currentTerm = localStorage.getItem("currentTerm") ? localStorage.getItem("currentTerm") : this.dataTerms?.find(sub=>sub.isCurrent == 1) ? String(this.dataTerms?.find(sub=>sub.isCurrent == 1)?.index) : String(this.dataTerms[0]?.index);
           localStorage.setItem("currentSchoolYear",this.currentSchoolYear);
           localStorage.setItem("currentTerm",this.currentTerm);
           // lay thong tin hien thi
           this.dataCurrent.name = JSON.parse(localStorage.getItem("currentUnit")).name;
-          this.dataCurrent.schooYearName = this.dataSchoolYear.find(el=>el.status == 1)?.name;
-          this.dataCurrent.termName = this.currentTerm ? this.dataTerms.find(el=>el.index == this.currentTerm).name : this.dataTerms[0].name;
+          this.dataCurrent.schooYearName = this.dataSchoolYear.find(el=>el.status == 1) ? this.dataSchoolYear.find(el=>el.status == 1)?.name : this.dataSchoolYear[0]?.name;
+          localStorage.setItem("currentNameSchoolYear", this.dataCurrent.schooYearName);
+          this.dataCurrent.termName = this.currentTerm ? this.dataTerms.find(el=>el.index == this.currentTerm)?.name : this.dataTerms[0]?.name;
         }
       }
     }
   }
+
+  // convertDataConfigSystem(){
+  //   this.dataConfigSystem = JSON.parse(localStorage.getItem("dataConfigSystem"));
+  //   if(this.dataConfigSystem){
+  //     this.dataSchoolYear = this.dataConfigSystem.schoolYears;
+  //     if(this.dataSchoolYear && this.dataSchoolYear.length > 0){
+  //       this.currentSchoolYear = localStorage.getItem("currentSchoolYear") ? localStorage.getItem("currentSchoolYear") :  this.dataSchoolYear.find(el=>el.status == 1)?.id;
+  //       if(this.currentSchoolYear){
+  //         this.dataTerms = this.dataSchoolYear.find(el=>el.id == this.currentSchoolYear)?.terms;
+  //         // this.currentTerm = localStorage.getItem("currentTerm") ? localStorage.getItem("currentTerm") : this.dataTerms?.find(sub=>sub.isCurrent == 1) ? String(this.dataTerms?.find(sub=>sub.isCurrent == 1)?.index) : String(this.dataTerms[0].index);
+  //         this.currentTerm = '988e1ff5-05b1-4f89-9233-a3e72572f26b';
+  //         localStorage.setItem("currentSchoolYear",this.currentSchoolYear);
+  //         localStorage.setItem("currentTerm",this.currentTerm);
+  //         // lay thong tin hien thi
+  //         this.dataCurrent.name = JSON.parse(localStorage.getItem("currentUnit")).name;
+  //         this.dataCurrent.schooYearName = this.dataSchoolYear.find(el=>el.status == 1)?.name;
+  //         localStorage.setItem("currentNameSchoolYear", this.dataCurrent.schooYearName);
+  //         this.dataCurrent.termName = this.currentTerm ? this.dataTerms.find(el=>el.index == this.currentTerm).name : this.dataTerms[0].name;
+  //       }
+  //     }
+  //   }
+  // }
 
   getInfomationData() {
     if (localStorage.getItem('Token')) {
@@ -205,12 +224,12 @@ export class SwitchInfomationLayoutComponent implements OnInit {
   }
 
   clickApplyInfo() {
-    if(this.currentSchoolYear && this.currentTerm){
+    if (this.currentSchoolYear && this.currentTerm) {
       this.isCollapsed = true;
-      localStorage.setItem("currentSchoolYear",this.currentSchoolYear);
-      localStorage.setItem("currentTerm",this.currentTerm);
-      this.dataCurrent.schooYearName = this.dataConfigSystem.schoolYears.find(el=>el.id == this.currentSchoolYear)?.name;
-      this.dataCurrent.termName = this.dataConfigSystem.schoolYears.find(el=>el.id == this.currentSchoolYear)?.terms?.find(sub=>sub.index == this.currentTerm).name;
+      localStorage.setItem("currentSchoolYear", this.currentSchoolYear);
+      localStorage.setItem("currentTerm", this.currentTerm);
+      this.dataCurrent.schooYearName = this.dataConfigSystem.schoolYears.find(el => el.id == this.currentSchoolYear)?.name;
+      this.dataCurrent.termName = this.dataConfigSystem.schoolYears.find(el => el.id == this.currentSchoolYear)?.terms?.find(sub => sub.index == this.currentTerm).name;
       if (this.currentLayout == "parent") {
         let currentUnit = this.dataStudent.find((item) => item.id == this.currentStudent);
         this.dataCurrent.name = currentUnit.name;
@@ -225,7 +244,7 @@ export class SwitchInfomationLayoutComponent implements OnInit {
         localStorage.setItem('currentUnit', JSON.stringify(currentUnit));
       }
       window.location.reload();
-    }else{
+    } else {
       this.isCollapsed = false;
     }
   }

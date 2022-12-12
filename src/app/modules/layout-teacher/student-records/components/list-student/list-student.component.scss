@@ -6,19 +6,6 @@
   margin-right: 10px;
 }
 
-.so-badge-status {
-  border-radius: 7px !important;
-  padding: 6px 12px !important;
-}
-
-.so-badge-status-1 {
-  background: #fff8dd !important;
-
-  color: #f1bc00;
-}
-
-.so-badge-status-2 {
-  background: #f1faff !important;
-  border-radius: 7px;
-  color: #50a5f1;
+.img-color-50a5f1{
+  filter: brightness(0) saturate(100%) invert(48%) sepia(52%) saturate(4828%) hue-rotate(177deg) brightness(102%) contrast(100%);
 }

@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-modal-quan-he-gia-dinh-vo-chong',
@@ -21,17 +22,18 @@ export class ModalQuanHeGiaDinhVoChongComponent implements OnInit {
   currentDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  dateCurrent: string = moment().format('X');
+  validationMessages: Validate = {
     moiQuanHe: [
       {
         type: "required",
-        message: translate('employee.validators.moiQuanHe.required'),
+        message: 'employee.validators.moiQuanHe.required',
       },
     ],
     fullName: [
       {
         type: "required",
-        message: translate('employee.validators.fullName.required'),
+        message: 'employee.validators.fullName.required',
       },
     ],
   };
@@ -97,8 +99,8 @@ export class ModalQuanHeGiaDinhVoChongComponent implements OnInit {
       fullName: [data ? data.fullName : '', [Validators.required]],
       dateOfBirth: [data ? data.dateOfBirth : this.currentDate],
       content: [data ? data.content : ''],
-      isInput: [data ? data.isInput : 1],
-      isUpdate: [data ? data.isUpdate : 0],
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.qhGiaDinhVoChong.push(itemForm);
   }
@@ -107,12 +109,36 @@ export class ModalQuanHeGiaDinhVoChongComponent implements OnInit {
     this.qhGiaDinhVoChong.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.qhGiaDinhVoChong.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm;
+      } else {
+        this.dataTemporary.push(dataForm);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -122,13 +148,18 @@ export class ModalQuanHeGiaDinhVoChongComponent implements OnInit {
     ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('moiQuanHe').patchValue(dataForm.moiQuanHe);
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('fullName').patchValue(dataForm.fullName);
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('dateOfBirth').patchValue(dataForm.dateOfBirth);
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('content').patchValue(dataForm.content);
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('moiQuanHe').patchValue(dataForm.value.moiQuanHe);
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('fullName').patchValue(dataForm.value.fullName);
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('dateOfBirth').patchValue(dataForm.value.dateOfBirth);
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('content').patchValue(dataForm.value.content);
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('qhGiaDinhVoChong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {

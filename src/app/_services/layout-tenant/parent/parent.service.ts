@@ -44,4 +44,19 @@ export class ParentService {
     return this.http.patch(`${environment.apiIdentityService}/api/admin-user/update-access-app-status`, data);
   }
 
+  // 8. upload file danh sách hồ sơ học sinh
+  uploadFileImportParent(file) {
+    return this.http.post(`${environment.apiIdentityService}/api/admin-parents/upload-parent`, file);
+  }
+  // 9. Danh sách dữ liệu result
+  getListResultImportFile(keyImport: string, schoolId: string) {
+    return this.http.get(`${environment.apiIdentityService}/api/admin-parents/get-upload-temp?keyImport=${keyImport}&schoolId=${schoolId}`);
+  }
+
+  // 10. Lưu dữ liệu import
+  saveDataImport(data) {
+    return this.http.post(`${environment.apiIdentityService}/api/admin-parents/confirm-upload`, data);
+  }
+
+
 }

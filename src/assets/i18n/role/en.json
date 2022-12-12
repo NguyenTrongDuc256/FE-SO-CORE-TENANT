@@ -30,6 +30,7 @@
   "textConfirmDeleteRole2": "permission?",
   "textConfirmRemoveUserRole1": "Do you want to remove this",
   "textConfirmRemoveUserRole2": "from this permission?",
-  "warmingSelectSchool": "Haven't selected a school!",
-  "warmingSelectCampus": "Haven't selected a campus"
+  "warmingSelectSchool": "Please select a school!",
+  "warmingSelectCampus": "Please select a campus!",
+  "warmingSelectUser": "Please select a user!"
 }

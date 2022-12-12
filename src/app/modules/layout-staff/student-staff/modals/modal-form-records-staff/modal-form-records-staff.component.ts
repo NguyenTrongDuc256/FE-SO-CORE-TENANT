@@ -1,20 +1,19 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { REGEX_LINK } from './../../../../../_shared/utils/constant';
 import { Component, Input, OnInit } from '@angular/core';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
-import {
-  FILE_ATTACHS_TYPE,
-  MESSAGE_ERROR_CALL_API,
-  TIME_OUT_LISTEN_FIREBASE,
-} from 'src/app/_shared/utils/constant';
-import { Observable, Subscriber } from 'rxjs';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ValidatorNotEmptyString, ValidatorNotNull } from 'src/app/_services/validator-custom.service';
-import { GeneralService } from 'src/app/_services/general.service';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { translate } from '@ngneat/transloco';
+import { Observable, Subscriber } from 'rxjs';
+import { GeneralService } from 'src/app/_services/general.service';
+import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
+import { ShowMessageService } from 'src/app/_services/show-message.service';
+import { ValidatorNotEmptyString, ValidatorNotNull } from 'src/app/_services/validator-custom.service';
+import {
+  FILE_ATTACHS_TYPE, TIME_OUT_LISTEN_FIREBASE
+} from 'src/app/_shared/utils/constant';
 
 @Component({
-  selector: 'app-modal-form-records-staff',
+  selector: 'app-modal-form-records-staff-in-student',
   templateUrl: './modal-form-records-staff.component.html',
   styleUrls: ['./modal-form-records-staff.component.scss', '../../helper.scss'],
 })
@@ -62,11 +61,11 @@ export class ModalFormRecordsStaffComponent implements OnInit {
           nameFile:
             [this.dataFromParent.nameForm == 'update'
             ? valueForm.fileAttachs[0].name
-            : '', [Validators.required, ValidatorNotEmptyString]],
+            : '', [Validators.required, Validators.maxLength(255), ValidatorNotEmptyString]],
           url:
             [this.dataFromParent.nameForm == 'update'
             ? valueForm.fileAttachs[0].url
-            : '', [Validators.required, ValidatorNotEmptyString]],
+            : '', [Validators.required, ValidatorNotEmptyString, Validators.pattern(REGEX_LINK)]],
           fileType:
             this.dataFromParent.nameForm == 'update'
               ? valueForm.fileAttachs[0].fileType
@@ -125,6 +124,7 @@ export class ModalFormRecordsStaffComponent implements OnInit {
   submit(valueForm: any) {
     if(this.formSubmit.invalid) return this.showMessage.warning(translate('warmingValidateForm'));
     if(valueForm.fileAttachs.length == 0) return this.showMessage.warning('studentRecords.warmingWithoutFileAttachs');
+    this.isLoading = true;
     this.listenFireBase(
       this.dataFromParent.keyFirebaseAction,
       this.dataFromParent.keyFirebaseModule
@@ -157,7 +157,6 @@ export class ModalFormRecordsStaffComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(MESSAGE_ERROR_CALL_API);
       }
     );
   }

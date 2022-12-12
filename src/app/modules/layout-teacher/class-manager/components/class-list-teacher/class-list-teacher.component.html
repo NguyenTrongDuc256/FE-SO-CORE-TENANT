@@ -1,0 +1,165 @@
+<div class="" *transloco="let t; scope: 'classlist'">
+  <div class="card card-flush shadow-sm p-0 h-full">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700">{{t('classlist.classList')}}</h3>
+      <div class="card-toolbar">
+        <div class="filter d-flex flex-wrap algin-items-center">
+          <select name="select-classType" (change)="changeIsActie()" [(ngModel)]="type" class="so-select text-color-river-bed fs-13 fw-600 me-4 mb-3">
+            <option value="" class="">{{t('classlist.classList')}} </option>
+            <ng-container *ngFor="let itemType of classType">
+              <option value="{{itemType.key}}" class="">{{t(itemType.title)}} </option>
+            </ng-container>
+          </select>
+          <select name="select-Status" (change)="changeIsActie()" [(ngModel)]="status" class="so-select text-color-river-bed fs-13 fw-600 me-4 mb-3">
+            <option selected="" value="">{{t('classlist.status')}}</option>
+            <ng-container *ngFor="let itemStatus of classStatus">
+              <option value="{{ itemStatus.value }}" class="ng-star-inserted">{{ t(itemStatus.label) }}</option>
+            </ng-container>
+          </select>
+          <select name="select-grade" (change)="changeIsActie()" [(ngModel)]="gradeId" class="so-select text-color-river-bed fs-13 fw-600 me-4 mb-3">
+            <option selected="" value="">{{t('classlist.grade')}}</option>
+            <ng-container *ngFor="let itemGrade of gradeList">
+              <option value="{{ itemGrade.id }}" class="ng-star-inserted">{{ itemGrade.name }}</option>
+            </ng-container>
+          </select>
+
+          <div class="so-input-search mb-3">
+            <input type="text" class="text-color-river-bed fs-13 fw-600" name="keyword" placeholder="{{t('search')}}" [(ngModel)]="keyWord"
+              (keyup.enter)="changeIsActie()" class="">
+            <img src="assets/images/svg/search.svg" alt="" class="search-icon" (change)="changeIsActie()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body py-5 pt-0">
+      <ng-container *ngFor="let item of classList">
+        <div class="class_item d-flex mb-6">
+          <div class="class_item-left overflow-hidden">
+            <img class="item-avatar img-cover"
+              src="{{ (item.avatar) ? item.avatar : 'assets/images/png/auth/logo-SO.png' }}" alt="">
+          </div>
+          <div class="class_item-right">
+            <div class="item-top d-flex flex-space-between">
+              <div class="item-top--left d-flex ">
+                <ng-container *ngFor="let itemType of classType">
+                  <span class="item-icon" *ngIf="itemType.key == item.type"><img src="{{itemType.urlIcon}}"
+                      alt=""></span>
+                </ng-container>
+                <h4 class="fs-16 fw-700 so-pointer text-color-picton-blue" (click)="viewDetailClass(item)">{{ item.name }}</h4>
+              </div>
+              <div class="item-top--right">
+                <div class="card-button d-flex">
+                  <ng-container *ngFor="let itemRecorded of attendanceRecorded">
+                    <div class="d-flex align-items-center justify-content-center"
+                      *ngIf="itemRecorded.key == item.attendanceRecorded">
+                      <span
+                        class="fs-12 fw-600 {{(item.attendanceRecorded == 1) ? 'status-bg-color-blue' :'status-bg-color-orange'}}">{{
+                        t(itemRecorded.label) }}</span>
+                    </div>
+                  </ng-container>
+                  <ng-template ngxPermissionsOnly="">
+                    <div class="">
+                      <div class="d-flex justify-content-center activate">
+                        <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                          class="fs-12 d-flex align-items-center justify-content-center btn-open-menu so-pointer" name="btn-open-menu">
+                          {{t('action')}}
+                          <img class="custom-icon-three-vertical-arrow" src="assets/images/svg/action_down.svg"
+                            alt="">
+                        </span>
+                      </div>
+                      <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                          <ng-template ngxPermissionsOnly="{{ permission.course_manager }}">
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/write.svg" alt="">
+                              {{t('classlist.attendance')}}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/icon-thoi-khoa-bieu.svg" alt="">
+                              {{t('classlist.schedule')}}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/icon-document-blue.svg" alt="">
+                              {{t('classlist.listOfTeachers')}}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/icon-document-blue.svg" alt="">
+                              {{t('classlist.studentList')}}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/icon-email-noti-blue.svg" alt="">
+                              {{t('classlist.sendNotifications')}}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 custom-action-item">
+                              <img class="action-icon m-r-10" src="assets/images/svg/edit.svg" alt="">
+                              {{t('classlist.studentComments')}}
+                            </li>
+                          </ng-template>
+                        </ul>
+                      </nz-dropdown-menu>
+                    </div>
+                  </ng-template>
+                </div>
+
+              </div>
+            </div>
+            <div class="item-bottom">
+              <div class="list-box d-flex m-t-10">
+                <div class="list-box-item d-flex align-items-center">
+                  <span class="icon flex-center"><img src="assets/images/svg/Icon_ba_lo.svg" alt=""></span>
+                  <p class="fs-14 fw-500 m-b-0 lh-18 color-title">{{ t('classlist.homeroomClass') }}: <span
+                      class="text-color-river-bed">{{ item.name }}</span></p>
+                </div>
+                <div class="list-box-item d-flex align-items-center">
+                  <span class="icon flex-center"><img src="assets/images/svg/icon-khoi.svg" alt=""></span>
+                  <p class="fs-14 fw-500 m-b-0 lh-18 color-title">{{ t('classlist.grade') }}:
+                    <ng-container *ngFor="let itemGrade of gradeList">
+                      <span class="text-color-river-bed" *ngIf="itemGrade.id == item.gradeId">{{ itemGrade.name }}</span>
+                    </ng-container>
+                  </p>
+                </div>
+                <div class="list-box-item d-flex align-items-center">
+                  <span class="icon flex-center"><img src="assets/images/svg/people-fill.svg" alt=""></span>
+                  <p class="fs-14 fw-500 m-b-0 lh-18 color-title">{{ t('classlist.numberOfStudents') }}: <span
+                      class="text-color-river-bed">{{ item.numberStudent }}</span></p>
+                </div>
+              </div>
+              <div class="list-box  m-t-10 float-left ">
+                <div class="list-box--left float-left width-left-option">
+                  <ng-container *ngFor="let itemType of classType">
+                    <div class="d-flex align-items-center" *ngIf="itemType.key == item.type">
+                      <span class="icon flex-center"><img src="assets/images/svg/people-fill.svg" alt=""></span>
+                      <p class="fs-14 fw-500 m-b-0 lh-18 color-title">{{ t(itemType.label) }}:</p>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class=" list-box--right float-right width-right-option">
+                  <div class="w-100 float-left" #ChildDirective>
+                    <ng-container *ngFor="let itemTeacher of item.teachers">
+                      <div class="item-box d-flex align-items-center float-left">
+                        <div class="item-box-img">
+                          <img class="img-cover"
+                            src="{{ (itemTeacher.avatar) ? itemTeacher.avatar : 'assets/media/avatars/blank.png' }}"
+                            alt="">
+                        </div>
+                        <span class="text-color-river-bed">{{itemTeacher.fullName}}</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="footer-card">
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize >= sizeOption[0]">
+    </app-pagination>
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

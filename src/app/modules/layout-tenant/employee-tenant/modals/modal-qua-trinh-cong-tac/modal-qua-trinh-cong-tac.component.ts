@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -22,11 +22,11 @@ export class ModalQuaTrinhCongTacComponent implements OnInit {
   toDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     content: [
       {
         type: "required",
-        message: translate('employee.validators.content.required')
+        message: 'employee.validators.content.required'
       }
     ]
   };
@@ -96,8 +96,8 @@ export class ModalQuaTrinhCongTacComponent implements OnInit {
       fromDate: data ? data.fromDate : this.formDate,
       toDate: data ? data.toDate : this.toDate,
       content: [data ? data.content : '', [Validators.required]],
-      isInput: data ? data.isInput : 1,
-      isUpdate: data ? data.isUpdate : 0,
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.quaTrinhCongTac.push(itemForm);
   }
@@ -106,12 +106,36 @@ export class ModalQuaTrinhCongTacComponent implements OnInit {
     this.quaTrinhCongTac.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.quaTrinhCongTac.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -122,12 +146,17 @@ export class ModalQuaTrinhCongTacComponent implements OnInit {
     ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('fromDate').patchValue(dataForm.fromDate);
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('toDate').patchValue(dataForm.toDate);
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('content').patchValue(dataForm.content);
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('fromDate').patchValue(dataForm.value.fromDate);
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('toDate').patchValue(dataForm.value.toDate);
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('content').patchValue(dataForm.value.content);
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('quaTrinhCongTac') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {

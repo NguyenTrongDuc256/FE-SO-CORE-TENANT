@@ -1,0 +1,60 @@
+$widthTitle : 25%;
+$marginLeft : 0px;
+
+.card-dialog {
+  .input-text {
+    width: calc(100% - $widthTitle);
+  }
+
+  .label-input {
+    width: $widthTitle;
+  }
+
+  .footer {
+    padding-top: 1.8rem;
+
+  }
+
+  .save {
+    margin-left: 1.3rem;
+  }
+
+  .status {
+    width: 18%;
+  }
+
+  .pl-error {
+    color: red;
+    padding-left: calc($widthTitle + $marginLeft );
+  }
+
+}
+
+.icon-arrow-right {
+  margin-left: 10px;
+  margin-top: -2px;
+}
+
+:host ::ng-deep .ant-select-selector {
+  height: 1rem;
+}
+
+.m-right-20 {
+  margin-right: 20px;
+}
+
+.p-left-15 {
+  padding-left: 15px;
+}
+
+.p-right-15 {
+  padding-right: 15px;
+}
+
+:host ::ng-deep .ant-select-selector {
+  height: 1rem;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}

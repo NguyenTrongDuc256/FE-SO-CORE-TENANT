@@ -1,14 +1,11 @@
 .style-student {
-    padding: 2rem;
+    img {
+        width: 16px;
+        height: 16px;
+    }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
-        outline: none;
-        border-color: #40a9ff;
-        box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
-        border-right-width: 1px !important;
-        border: 1px;
+    .set-height {
+        height: 36px;
     }
 
     .p-left {
@@ -17,13 +14,13 @@
 
     .custom-avatar {
         .symbol {
-            background: rgba(203, 203, 203, 0.2);
+            background-color: var(--bs-white-smoke);
             border: 1px solid rgba(203, 203, 203, 0.2);
             border-radius: 1.5rem;
 
             .avatar {
-                width: 13.5rem;
-                height: 13.5rem;
+                width: 12.5rem;
+                height: 12.5rem;
             }
 
             .delete-img {
@@ -32,7 +29,6 @@
                 right: -8px;
                 cursor: pointer;
 
-                img {}
             }
 
             .upload-img {
@@ -42,41 +38,30 @@
                 left: 0;
                 height: 3rem;
                 background-color: #556EE6;
-                border-bottom-left-radius: 1.5rem;
-                border-bottom-right-radius: 1.5rem;
+                border-bottom-left-radius: 0.6rem;
+                border-bottom-right-radius: 0.6rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
 
-                img {}
-
                 span {
-                    color: #FFFFFF;
+                    color: var(--bs-white-smoke);
                 }
             }
         }
     }
 
 
-    @media (min-width: 700px) {
-
-        .header-info,
-        .flex-media {
-            display: flex !important;
-        }
-    }
 
     .header-info {
-        padding-top: 2rem;
         border-bottom: 1px solid #EFF2F5;
 
         .get-info {
+            padding-top: 0.8rem;
             padding-left: 5rem;
-            padding-bottom: 2.5rem;
 
             .label-info {
-                height: 40px;
                 width: auto;
 
                 img {
@@ -91,10 +76,6 @@
             .input-custom {
                 flex-grow: 1;
                 padding-left: 2rem;
-            }
-
-            .gender {
-                flex-grow: 1;
             }
         }
     }
@@ -130,11 +111,10 @@
         }
 
         .get-info {
-            padding-left: 5rem;
-            padding-bottom: 2.5rem;
+            // padding-left: 5rem;
 
             .label-info {
-                height: 40px;
+                padding-top: 0.8rem;
                 width: auto;
 
                 img {
@@ -154,14 +134,8 @@
                     margin-right: 1rem;
                 }
 
-                .label-checkbox {
-                    height: 40px;
-                }
             }
 
-            .gender {
-                flex-grow: 1;
-            }
         }
 
     }
@@ -190,19 +164,16 @@
             margin-right: 1rem;
         }
 
-        padding-top: 1rem;
-
         .date-picker {
             width: 100%;
             margin-right: 1rem;
         }
 
         .get-info {
-            padding-left: 5rem;
-            padding-bottom: 2.5rem;
+            // padding-left: 5rem;
 
             .label-info {
-                height: 40px;
+                padding-top: 0.8rem;
                 width: auto;
 
                 img {
@@ -221,24 +192,12 @@
                 select {
                     margin-right: 1rem;
                 }
-
-                .label-checkbox {
-                    height: 40px;
-                }
             }
 
-            .gender {
-                flex-grow: 1;
-            }
-
-            .label-checkbox {
-                margin-right: 0.5rem;
-            }
         }
     }
 
     .parents-info {
-        padding-top: 1rem;
 
         .date-picker {
             width: 100%;
@@ -253,11 +212,10 @@
         }
 
         .get-info {
-            padding-left: 5rem;
-            padding-bottom: 2.5rem;
+            // padding-left: 5rem;
 
             .label-info {
-                height: 40px;
+                padding-top: 0.8rem;
                 width: auto;
 
                 img {
@@ -273,23 +231,6 @@
                 flex-grow: 1;
                 padding-left: 2rem;
             }
-
-            .gender {
-                flex-grow: 1;
-            }
-        }
-    }
-
-    .button-footer {
-        padding-top: 3rem;
-        padding-bottom: 1rem;
-
-        .so-btn-cancel {
-            margin-right: 7px;
-        }
-
-        .so-btn-primary {
-            margin-left: 7px;
         }
     }
 }

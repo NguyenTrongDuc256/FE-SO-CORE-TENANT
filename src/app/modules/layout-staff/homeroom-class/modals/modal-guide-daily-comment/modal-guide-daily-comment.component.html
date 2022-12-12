@@ -1,0 +1,14 @@
+<ng-container *transloco="let t; scope: 'daily-comment'">
+  <div class="modal-body custom-body-guide-comment d-flex flex-column">
+    <div class="header-guide w-100 d-flex align-items-center justify-content-center">
+      <img class="icon-close-guide" src="assets/images/svg/close_icon.svg" alt="" name="btn-close-modal" (click)="closeModal()">
+      <img class="image-guide" src="assets/images/png/image-guide-comment.png" alt="">
+    </div>
+    <div class="content-guide w-100">
+      <h4 class="title-guide fs-18 fw-700">{{ t('dailyComment.guide') }}</h4>
+      <p class="item-guide fs-14 fw-700">{{ t('dailyComment.guide1') }} <span class="icon-item-guide fs-11 fw-500">{{ t('btnAction.save') }}</span> {{ t('dailyComment.guide2') }}</p>
+      <p class="item-guide fs-14 fw-700">{{ t('dailyComment.guide3') }}</p>
+      <p class="item-guide fs-14 fw-700">{{ t('dailyComment.guide4') }} <span class="icon-item-guide fs-11 fw-500"><img class="icon-quick-comment" src="assets/images/svg/icon-pen-white.svg" alt=""> {{ t('dailyComment.quickComment') }}</span> {{ t('dailyComment.guide5') }}</p>
+    </div>
+  </div>
+</ng-container>

@@ -60,7 +60,7 @@
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.layout')}} <span
               class="text-danger">*</span></label>
           <select name="layoutCode" id="layoutCode" [(ngModel)]="layoutCode" (ngModelChange)="selectLayout()"
-            [ngModelOptions]="{standalone: true}" class="so-select form-control form-control-lg form-control-solid">
+            [ngModelOptions]="{standalone: true}" class="so-select so-form-control form-control form-control-solid">
             <option value="" disabled>{{t('auth.selectLayout')}}</option>
             <ng-container *ngFor="let layout of arrLayouts">
               <option [value]="layout.code">{{layout.name}}</option>
@@ -75,7 +75,7 @@
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.unit')}} <span
               class="text-danger">*</span></label>
           <select name="unitId" id="unitId" [(ngModel)]="unitId" (ngModelChange)="selectUnit(layoutCode)"
-            [ngModelOptions]="{standalone: true}" class="so-select form-control form-control-lg form-control-solid">
+            [ngModelOptions]="{standalone: true}" class="so-select so-form-control form-control form-control-solid">
             <option value="" disabled>{{t('auth.selectUnit')}}</option>
             <ng-container *ngFor="let unit of arrUnits">
               <option [value]="unit.id">{{unit.name}}</option>
@@ -89,7 +89,7 @@
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.school')}} <span
               class="text-danger">*</span></label>
           <select name="schoolId" id="schoolId" [(ngModel)]="unitId" (ngModelChange)="selectUnit(layoutCode)"
-            [ngModelOptions]="{standalone: true}" class="so-select form-control form-control-lg form-control-solid">
+            [ngModelOptions]="{standalone: true}" class="so-select so-form-control form-control form-control-solid">
             <option value="" disabled>{{t('auth.selectSchool')}}</option>
             <ng-container *ngFor="let unit of arrUnits">
               <option [value]="unit.id">{{unit.name}}</option>
@@ -103,7 +103,7 @@
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.campus')}} <span
               class="text-danger">*</span></label>
           <select name="campusId" id="campusId" [(ngModel)]="unitId" (ngModelChange)="selectUnit(layoutCode)"
-            [ngModelOptions]="{standalone: true}" class="so-select form-control form-control-lg form-control-solid">
+            [ngModelOptions]="{standalone: true}" class="so-select so-form-control form-control form-control-solid">
             <option value="" disabled>{{t('auth.selectCampus')}}</option>
             <ng-container *ngFor="let unit of arrUnits">
               <option [value]="unit.id">{{unit.name}}</option>
@@ -117,7 +117,7 @@
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.student')}} <span
               class="text-danger">*</span></label>
           <select name="studentId" id="studentId" [(ngModel)]="unitId" (ngModelChange)="selectUnit(layoutCode)"
-            [ngModelOptions]="{standalone: true}" class="so-select form-control form-control-lg form-control-solid">
+            [ngModelOptions]="{standalone: true}" class="so-select so-form-control form-control form-control-solid">
             <option value="" disabled>{{t('auth.selectStudent')}}</option>
             <ng-container *ngFor="let unit of arrUnits">
               <option [value]="unit.id">{{unit.name}}</option>
@@ -139,7 +139,7 @@
       </ng-template>
       <!--begin::Action-->
       <div class="d-flex align-items-center justify-content-center fv-row mb-12 action">
-        <button class="btn btn-primary so-btn-submit" [disabled]="layoutCode == '' || hasError " (click)="submit()">
+        <button class="btn btn-primary so-btn-submit" name="btn-access"[disabled]="layoutCode == '' || hasError " (click)="submit()">
           {{t('btnAction.next')}}
         </button>
       </div>

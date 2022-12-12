@@ -1,18 +1,11 @@
-.card-custom {
-    padding-left: 3rem;
-}
-
-.custom-title {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    button {
-        margin-right: 2rem
-    }
-}
-
 .top {
     display: block;
     padding-bottom: 1rem;
+    .avatar{
+        width: 13.5rem;
+        height: 13.5rem;
+        border-radius: 12px;
+    }
 }
 
 @media (min-width: 630px) {
@@ -21,7 +14,15 @@
     }
 }
 
-.card-body {
+.student-body {
+
+    .set-icon {
+        filter: brightness(0) saturate(100%) invert(70%) sepia(39%) saturate(5637%) hue-rotate(184deg) brightness(101%) contrast(89%);
+        width: 15px;
+        height: 15px;
+        margin-right: 0.5rem;
+    }
+
     .top-info {
         display: block;
     }
@@ -37,14 +38,6 @@
         .process-label {
             flex-grow: 1;
         }
-    }
-
-    .gender {
-        margin-left: 1rem;
-        background-color: #C6EFFF;
-        border-radius: 5px;
-        padding: 3px 24px;
-        color: #50A5F1;
     }
 
     @media (min-width: 1150px) {
@@ -65,13 +58,7 @@
         margin-bottom: 2rem;
     }
 
-    img {
-        filter: brightness(0) saturate(100%) invert(70%) sepia(39%) saturate(5637%) hue-rotate(184deg) brightness(101%) contrast(89%);
-        width: 15px;
-        height: 15px;
-        margin-right: 0.5rem;
-    }
-
+    
     .label {
         margin-bottom: 2rem;
         margin-right: 4rem;
@@ -79,25 +66,13 @@
 }
 
 .general-info {
-    img {
-        filter: brightness(0) saturate(100%) invert(70%) sepia(39%) saturate(5637%) hue-rotate(184deg) brightness(101%) contrast(89%);
-        width: 15px;
-        height: 15px;
-        margin-right: 0.5rem;
-    }
-
     .label-info {
         padding-top: 2rem;
         padding-bottom: 2rem;
         border-top: 1px solid #EFF2F5;
     }
 
-    .group {
-        padding-bottom: 2rem;
-    }
-
     .address {
         min-width: 120px;
     }
-
 }

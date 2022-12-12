@@ -1,0 +1,16 @@
+{
+  "classList": "Danh sách lớp",
+  "subjectClass": "Lớp bộ môn",
+  "status": "Trạng thái",
+  "grade": "Khối",
+  "homeroomClass": "Lớp chủ nhiệm",
+  "numberOfStudents": "Sĩ số",
+  "homeroomTeacher": "GVCN",
+  "subjectTeacher": "GVBM",
+  "attendance": "Điểm danh",
+  "schedule": "Thời khóa biểu",
+  "listOfTeachers": "Danh sách giáo viên",
+  "studentList": "Danh sách học sinh",
+  "sendNotifications": "Gửi thông báo",
+  "studentComments": "Nhận xét học sinh"
+}

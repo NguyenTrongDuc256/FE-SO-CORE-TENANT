@@ -1,0 +1,88 @@
+{
+  "chiSuaThongTin": "Chỉnh sửa thông tin",
+  "dangHoatDong": "Đang hoạt động",
+  "daKhoa": "Đã khóa",
+  "thongTin": "Thông tin",
+  "cauHinhChung": "Cấu hình chung",
+  "cauHinhDiemDanh": "Cấu hình điểm danh",
+  "cauHinhThietBiDiemDanh": "Cấu hình thiết bị điểm danh",
+  "ngayTao": "Ngày tạo",
+  "logo": "Logo khách hàng",
+  "background": "Background login",
+  "favicon": "Favicon khách hàng",
+  "tenKH": "Tên khách hàng",
+  "duongDan": "Đường dẫn",
+  "trangThai": "Trạng thái",
+  "soDienThoai": "Số điện thoại",
+  "email": "Email",
+  "diaChi": "Địa chỉ",
+  "maKhuVuc": "Mã khu vực",
+  "muiGio": "Múi giờ",
+  "ngonNgu": "Ngôn ngữ",
+  "donViTienTe": "Đơn vị tiền tệ",
+  "kichHoat": "Kích hoạt",
+  "taiLen": "Tải lên",
+  "cauHinhLogin": "Cấu hình login",
+  "cauHinhThoiGianHoc": "Cấu hình thời gian học",
+  "cauHinhPhamViGuiThongBao": "Cấu hình phạm vi gửi thông báo",
+  "cauHinhMatKhau": "Cấu hình mật khẩu",
+  "toiThieu6KyTu": "Tối thiểu 6 ký tự",
+  "toiDa50KyTu": "Tối đa 50 ký tự",
+  "macDinh": "Mặc định",
+  "regexPass": "Không chứa dấu cách, chỉ chứa ký tự từ a-z, A-Z, 0-9 và các ký tự đặc biệt",
+  "itNhat1So": "Chứa ít nhất 1 số",
+  "itNhat1KytuDacBiet": "Chứa ít nhất 1 ký tự đặc biệt",
+  "itNhat1KytuVietHoa": "Chứa ít nhất 1 ký tự chữ viết hoa",
+  "linkTaiAndroidIOS": "Cấu hình link tải app(Android, IOS)",
+  "linkAndroid": "Đường dẫn tải app Android",
+  "linkIOS": "Đường dẫn tải app IOS",
+  "thu7": "Bật /Tắt học thứ 7",
+  "chuNhat": "Bật /Tắt học chủ nhật",
+  "phamViGui": "Phạm vi gửi",
+  "validators": {
+    "name": {
+      "required": "Bạn chưa nhập tên khách hàng",
+      "maxlength": "Tên khách hàng của bạn bạn không được vượt quá 255 ký tự"
+    },
+    "email": {
+      "email": "Email không hợp lệ",
+      "pattern": "Email không hợp lệ"
+    },
+    "phone": {
+      "pattern": "Số điện thoại không hợp lệ"
+    },
+    "linkUrl": {
+      "pattern": "Đường dẫn không hợp lệ"
+    },
+    "address": {
+      "maxlength": "Địa chỉ của bạn bạn không được vượt quá 255 ký tự"
+    }
+  },
+  "attendanceConfig": {
+    "attendanceStatusConfig": "Cấu hình trạng thái điểm danh",
+    "timeAllowUpdateAttendance": "Thời gian có thể cập nhật điểm danh",
+    "day": "ngày",
+    "attendanceStatus": "Trạng thái điểm danh",
+    "default": "Mặc định",
+    "active": "Kích hoạt",
+    "enterTimeAllowUpdateAttendance": "Nhập thời gian có thể cập nhật điểm danh",
+    "timeAllowUpdateAttendanceRequired": "Bạn chưa nhập thời gian cho phép cập nhật điểm danh",
+    "hanetAttendanceConfig": "Cấu hình điểm danh hanet",
+    "schowColumnImageAttendance": "Hiển thị cột hình ảnh điểm danh",
+    "attendanceTimeFrame": "Khung giờ điểm danh",
+    "from": "Từ",
+    "to": "Đến",
+    "attendanceType": "Loại điểm danh",
+    "attendanceCome": "Điểm danh đến",
+    "attendanceCheckout": "Điểm danh về"
+  },
+  "nhapTenKhachHang": "Nhập tên khách hàng",
+  "nhapPhone": "Nhập số điện thoại",
+  "nhapEmail": "Nhập email",
+  "nhapAddress": "Nhập địa chỉ",
+  "nhaplinkAndroid": "Nhập đường dẫn tải app Android",
+  "nhaplinkIOS": "Nhập đường dẫn tải app IOS",
+  "chonAnhLogo": "Chọn ảnh logo",
+  "chonAnhFavicon": "Chọn ảnh favicon",
+  "chonAnhLogin": "Chọn ảnh background login"
+}

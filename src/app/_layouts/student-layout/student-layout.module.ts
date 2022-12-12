@@ -1,25 +1,25 @@
-import {RouterModule} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   NgbDropdownModule,
   NgbProgressbarModule,
-  NgbTooltipModule,
+  NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
-import {TranslateModule} from '@ngx-translate/core';
-import {AsideComponent} from './components/aside/aside.component';
-import {HeaderComponent} from './components/header/header.component';
-import {ContentComponent} from './components/content/content.component';
-import {FooterComponent} from './components/footer/footer.component';
-import {ScriptsInitComponent} from './components/scripts-init/scripts-init.component';
-import {ToolbarComponent} from './components/toolbar/toolbar.component';
-import {AsideMenuComponent} from './components/aside/aside-menu/aside-menu.component';
-import {TopbarComponent} from './components/topbar/topbar.component';
-import {PageTitleComponent} from './components/header/page-title/page-title.component';
-import {HeaderMenuComponent} from './components/header/header-menu/header-menu.component';
-import {StudentLayoutComponent} from "./student-layout.component";
+import { TranslocoModule } from '@ngneat/transloco';
 import { CoreModule } from 'src/app/_core/core.module';
-import {BreadcrumbsComponent} from "./components/breadcrumbs/breadcrumbs.component";
+import { AsideMenuComponent } from './components/aside/aside-menu/aside-menu.component';
+import { AsideComponent } from './components/aside/aside.component';
+import { BreadcrumbsComponent } from "./components/breadcrumbs/breadcrumbs.component";
+import { ContentComponent } from './components/content/content.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
+import { HeaderComponent } from './components/header/header.component';
+import { PageTitleComponent } from './components/header/page-title/page-title.component';
+import { ScriptsInitComponent } from './components/scripts-init/scripts-init.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
+import { StudentLayoutComponent } from "./student-layout.component";
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import {BreadcrumbsComponent} from "./components/breadcrumbs/breadcrumbs.compone
     TopbarComponent,
     PageTitleComponent,
     HeaderMenuComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
   ],
   imports: [
     CoreModule,
@@ -42,8 +42,8 @@ import {BreadcrumbsComponent} from "./components/breadcrumbs/breadcrumbs.compone
     NgbDropdownModule,
     NgbProgressbarModule,
     NgbTooltipModule,
-    TranslateModule,
-    RouterModule
+    RouterModule,
+    TranslocoModule
   ],
   exports: [],
 })

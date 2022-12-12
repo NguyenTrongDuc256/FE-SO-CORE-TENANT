@@ -1,101 +1,68 @@
-.style-student {
-  padding: 2rem;
+.custom-avatar {
+  .symbol {
+    background: rgba(203, 203, 203, 0.2);
+    border: 1px solid rgba(203, 203, 203, 0.2);
+    border-radius: 1.5rem;
 
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border-color: #40a9ff;
-    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
-    border-right-width: 1px !important;
-    border: 1px;
-  }
+    .avatar {
+      width: 12.5rem;
+      height: 12.5rem;
+      object-fit: cover;
+    }
 
-  .custom-avatar {
-    .symbol {
-      background: rgba(203, 203, 203, 0.2);
-      border: 1px solid rgba(203, 203, 203, 0.2);
-      border-radius: 1.5rem;
+    .delete-img {
+      position: absolute;
+      top: -12px;
+      right: -8px;
+      cursor: pointer;
 
-      .avatar {
-        width: 13.5rem;
-        height: 13.5rem;
-      }
+      img {}
+    }
 
-      .delete-img {
-        position: absolute;
-        top: -12px;
-        right: -8px;
-        cursor: pointer;
+    .upload-img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 3rem;
+      background-color: #556EE6;
+      border-bottom-left-radius: 0.6rem;
+      border-bottom-right-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
 
-        img {}
-      }
+      img {}
 
-      .upload-img {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        height: 3rem;
-        background-color: #556EE6;
-        border-bottom-left-radius: 1.5rem;
-        border-bottom-right-radius: 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-
-        img {}
-
-        span {
-          color: #FFFFFF;
-        }
+      span {
+        color: #FFFFFF;
       }
     }
   }
+}
 
-  .get-info {
-    padding-left: 5rem;
-    padding-bottom: 2.5rem;
+.get-info {
+  .label-info {
+    height: 40px;
+    width: auto;
 
-    .label-info {
-      height: 40px;
-      width: auto;
-
-      img {
-        margin-right: 1rem;
-      }
-
-      .text-label {
-        width: 12.5rem;
-      }
+    img {
+      margin-right: 1rem;
     }
 
-    .input-custom {
-      flex-grow: 1;
-      padding-left: 2rem;
-    }
-
-    .gender {
-      flex-grow: 1;
+    .text-label {
+      width: 12.5rem;
     }
   }
 
-  .date-picker {
-    width: 100%;
+  .input-custom {
+    flex-grow: 1;
+    padding-left: 2rem;
   }
 
-  .button-footer {
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-
-    .so-btn-cancel {
-      margin-right: 7px;
-    }
-
-    .so-btn-primary {
-      margin-left: 7px;
-    }
+  .gender {
+    flex-grow: 1;
   }
 }
 

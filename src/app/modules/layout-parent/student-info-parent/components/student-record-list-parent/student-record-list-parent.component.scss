@@ -1,0 +1,56 @@
+.color-495057 {
+  color: var(--bs-river-bed);
+}
+
+.color-50a5f1 {
+  color: var(--bs-picton-blue);
+}
+
+.color-3F4254 {
+  color: #3F4254;
+}
+
+.color-828282 {
+  color: #828282;
+}
+
+.color-464E5F {
+  color: #464E5F;
+}
+
+.so-badge-status-0 {
+  background: var(--bs-carrot-orange);
+}
+
+.so-badge-status-1 {
+  background: var(--bs-greenish-teal);
+}
+
+.so-badge-status-2 {
+  background: var(--bs-bittersweet);
+}
+
+.icon-mark {
+  display: inline-block;
+  margin-left: 4px;
+  img {
+    width: 11px;
+    height: 14px;
+  }
+}
+
+.btn-accept-profile-staff{
+  cursor: pointer;
+  background: var(--bs-blue-lotus);
+}
+
+.btn-cancel-accept-profile-staff{
+  cursor: pointer;
+  background: var(--bs-butterscotch);
+}
+
+.so-table-th-custom--grey thead > tr {
+  background: var(--bs-white-smoke);
+  color: var(--bs-river-bed);
+}
+

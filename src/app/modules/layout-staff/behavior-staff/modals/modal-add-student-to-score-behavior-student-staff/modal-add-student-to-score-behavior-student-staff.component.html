@@ -1,0 +1,117 @@
+<div *transloco="let t; scope: 'behavior'">
+  <div class="modal-header">
+    <div class="d-flex align-items-baseline">
+      <h5 class="title-modal-global me-4">{{t(dataModal?.titleModal)}}</h5>
+    </div>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+            [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-flush shadow-none p-0 h-full">
+      <div class="card-header p-0 h-40 border-bottom">
+        <h3 class="card-title fs-16 fw-700">
+          {{t('behavior.label.selectStudent')}}
+          <span class="fs-13 ps-10">Đã chọn: <span class="text-color-picton-blue">{{totalStudentChecked}} học sinh</span></span>
+        </h3>
+        <div class="card-toolbar">
+          <div class="filter d-flex flex-wrap align-items-center">
+            <div class="w-200px me-4">
+              <nz-select id="selectGrade" nzShowSearch [(ngModel)]="gradeId" class="form-control so-form-control"
+                         nzNotFoundContent="{{t('behavior.label.notFoundContent')}}" (ngModelChange)="onChangeGrade()">
+                <nz-option nzValue="" nzLabel="{{ t('grade') }}"></nz-option>
+                <nz-option *ngFor="let item of gradeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="w-200px me-4">
+              <nz-select id="selectHomeroomClass" nzShowSearch [(ngModel)]="homeroomClassId"
+                         class="form-control so-form-control"
+                         nzNotFoundContent="{{t('behavior.label.notFoundContent')}}"
+                         (ngModelChange)="onChangeHomeroomClass()"
+                         [ngClass]="{'disabled': gradeId == '' ? true : false}"
+                         [nzDisabled]="gradeId == '' ? true : false">
+                <nz-option nzValue="" nzLabel="{{ t('class') }}"></nz-option>
+                <nz-option *ngFor="let item of homeroomClassList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="so-input-search me-4">
+              <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+                     (keyup.enter)="search(searchInput.value)">
+              <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+                   (click)="search(searchInput.value)"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="formGroup" *ngIf="formGroup">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-300">
+              <caption></caption>
+              <thead>
+              <tr class="fs-14 fw-700 text-color-river-bed">
+                <th style="width: 5%">
+                  <label nz-checkbox class="so-checkbox check-all" name="check-all"
+                         [ngModelOptions]="{standalone: true}"
+                         [ngModel]="allChecked" (ngModelChange)="onChangeCheckAll($event)"></label>
+                </th>
+                <th style="width: 5%">{{t('STT')}}</th>
+                <th style="width: 25%">{{t('behavior.label.studentName')}}</th>
+                <th style="width: 15%">{{t('behavior.title.maHS')}}</th>
+                <th style="width: 20%">{{t('behavior.label.username')}}</th>
+                <th style="width: 15%">{{t('gender')}}</th>
+                <th style="width: 15%">{{t('birthday')}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container formArrayName="students">
+                <ng-container *ngFor="let itemForm of formGroup.get('students')['controls']; let index = index">
+                  <tr class="fs-13 fw-600 text-color-river-bed" [formGroupName]="index">
+                    <td>
+                      <label nz-checkbox class="so-checkbox" name="check-item" formControlName="checked"
+                             (ngModelChange)="updateSingleChecked()"></label>
+                    </td>
+                    <td>{{isLoading ? (oldPageIndex-1)*pageSize + index + 1 : (pageIndex-1)*pageSize + index + 1}}</td>
+                    <td>{{itemForm.value.fullName}}</td>
+                    <td>{{itemForm.value.code}}</td>
+                    <td>{{itemForm.value.username}}</td>
+                    <td>
+                      <span *ngIf="itemForm.value.gender == 1">
+                        {{ t('genderName.male') }}
+                      </span>
+                      <span *ngIf="itemForm.value.gender == 2">
+                        {{ t('genderName.female') }}
+                      </span>
+                      <span *ngIf="itemForm.value.gender == 3">
+                        {{ t('genderName.other') }}
+                      </span>
+                    </td>
+                    <td>{{itemForm.value.birthday ? (itemForm.value.birthday | formatTime) : ''}}</td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+              <tr *ngIf="formGroup.get('students').value.length == 0">
+                <td class="text-no-data" colspan="7">{{t('noData')}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                          *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+          </app-pagination>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+            (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+            (click)="onSubmit()">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

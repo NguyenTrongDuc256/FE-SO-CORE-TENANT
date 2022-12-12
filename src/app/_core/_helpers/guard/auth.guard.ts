@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
-    const currentUser = this.authService.currentUserValue;
+    const currentUser = localStorage.getItem('User');
     if (!currentUser) {
       console.log('You are not allowed to view this page');
       return false;

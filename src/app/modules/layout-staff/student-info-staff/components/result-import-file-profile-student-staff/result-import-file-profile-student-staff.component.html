@@ -1,0 +1,156 @@
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'student-records'">
+  <div class="col-xl-12">
+    <div class="card card-flush h-md-100">
+      <div class="card-header ">
+        <h3 class="card-title d-flex align-items-start flex-column">
+          <span class="card-label fs-18 fw-700">{{t('confirmDataUpload')}}</span>
+        </h3>
+      </div>
+      <div class="card-header ">
+        <div class="card-title d-flex align-items-center ">
+          <label class="  fw-700 fs-14 d-flex align-items-center">{{t('fileFormat')}}</label>
+          <div class="  input-import-units-custom" >
+<!--            <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  hidden id="input-file-upload-hoc-sinh" (change)="onFileChange($event)">-->
+            <img src="assets/images/svg/icon-excel.svg" class="image-upload-import-custom cursor-pointer">
+            <div class="input-group cursor-pointer" (click)="import()" >
+              <input readonly type="text"  class="form-control form-control-custom cursor-pointer" [(ngModel)]="fileName" placeholder="{{t('warmingValidateFormImport')}}">
+            </div>
+            <span class="span-image-upload-import-custom d-flex justify-content-center align-items-center cursor-pointer" (click)="import()" name="btn-import">
+              <img src="/assets/images/svg/import6.svg"  >
+              {{t('clickUpload')}}
+            </span>
+          </div>
+        </div>
+        <div class="card-toolbar">
+          <div class="w-100 d-flex justify-content-between align-items-center">
+            <div class="w-100 d-flex justify-content-end align-items-center custom-search">
+              <div class="search-select-option-school">
+                <select [(ngModel)]="statusRecords" (change)="filter()" name="btn-status"
+                        class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
+                  <option value="{{status?.value}}" *ngFor="let status of arrStatus">{{t(status?.label)}}</option>
+                </select>
+              </div>
+              <div class="search-input">
+                <input type="text" name="keyword" class="form-control custom-tag-of-form fs-14" #searchInput
+                       placeholder="{{t('studentRecords.search')}}" (keyup.enter)="onEventKeyupEnter(searchInput.value)">
+                <img class="search-icon" src="assets/images/svg/search.svg" alt="" name="btn-click-search"
+                     (click)="onClickSearch(searchInput.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-header ">
+        <h3 class="card-title d-flex  ">
+          <span class="card-label fs-14 fw-600">{{t('record')}}:</span>
+          <span class="card-label fs-14 fw-600 color-50a5f1">{{numberError}} lỗi/{{collectionSize}}</span>
+        </h3>
+      </div>
+      <div class="card-body pt-1">
+        <div class="table-responsive">
+          <table class="table align-middle gs-0 gy-3 my-0 table-global">
+            <thead>
+            <tr class="fs-14 border-bottom border-gray-200">
+              <th class="pb-3 text-header-table ">
+                Check lỗi
+              </th>
+              <th class="pb-3 text-header-table">
+                STT
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('fullName') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('code') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('birthday') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('grade') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('class') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('studentRecords.categoryRecords') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('studentRecords.nameRecord') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('studentRecords.nameLink') }}
+              </th>
+              <th class="pb-3 text-header-table">
+                {{ t('studentRecords.link') }}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of dataSource; let i=index" [class]="item.status === 1 ? '' : 'class-error'">
+              <td class="text-start d-flex flex-column">
+                <ng-container *ngIf="item.status === 1">
+                  <div class="fw-600 fs-14" >
+                    <img src="assets/images/svg/icon-true.svg" class="img-tick">
+                    {{t('studentRecords.validData')}}
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="item.status === 0">
+                  <div class="fw-600 fs-14" *ngFor="let error of item.errors">
+                    <img src="assets/images/svg/icon-false.svg" class="img-cancel">
+                    {{error}}
+                  </div>
+                </ng-container>
+              </td>
+              <td class="text-start fs-14 fw-600">
+                {{(pageIndex-1)*pageSize + i + 1}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.studentName}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                  {{item?.studentCode}}
+              </td>
+              <td class="text-start fs-13 color-50a5f1 fs-14 fw-700 ms-2">
+                  {{item?.studentBirthday | formatTime}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                  {{item?.gradeName}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.className}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.codeFileCategory}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.nameFileUser}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.nameFileAttach}}
+              </td>
+              <td class="text-start color-495057 fs-14 fw-700 ">
+                {{item?.fileUrl}}
+              </td>
+            </tr>
+            <tr *ngIf="dataSource?.length == 0 || !dataSource">
+              <td class="text-no-data" colspan="10">{{t('noData')}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                        *ngIf="collectionSize > pageSize" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+        </app-pagination>
+      </div>
+      <div class="card-body button-footer d-flex justify-content-center">
+          <button type="button" class="so-btn so-btn-cancel mx-2" data-dismiss="modal" name="btn-cancel" (click)="clickCancel()">{{ t('btnAction.cancel') }}</button>
+          <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-submit" [disabled]="numberError > 0"
+                  (click)="onSubmit()">{{ t('btnAction.save') }}</button>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

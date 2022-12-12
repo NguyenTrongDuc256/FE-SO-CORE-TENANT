@@ -9,8 +9,9 @@ import { DATA_PERMISSION } from 'src/app/_shared/utils/constant';
 })
 export class StudentDetailStaffComponent implements OnInit {
 
-  studentId: string ='e98c5a2f-84d0-43fb-beeb-39f5f758b610';
-  tab: number;
+  studentId = '';
+  studentUserId = '';
+  tabActive: string = 'student-detail';
   permission = DATA_PERMISSION;
 
   constructor(
@@ -21,27 +22,34 @@ export class StudentDetailStaffComponent implements OnInit {
 
   ngOnInit() {
     this.studentId = this.activatedRoute.snapshot.params.studentId;
-    this.activatedRoute.queryParams.subscribe(res => {
-      if (res.tab) {
-        this.tab = res.tab;
+    this.studentUserId = this.activatedRoute.snapshot.queryParams.userId;
+    this.activatedRoute.queryParams.subscribe(el => {
+      if (el.tab) {
+        this.tabActive = el.tab;
       } else {
-        this.tab == 1;
+        this.tabActive = 'student-detail';
         this.router.navigate([], {
           relativeTo: this.activatedRoute,
           queryParams: {
-            tab: 1
+            tab: 'student-detail',
+            userId: this.studentUserId
           },
+          queryParamsHandling: 'merge'
         });
       }
     })
   }
 
-  changeTab(event: number) {
+  activeTab(value: string) {
+    this.tabActive = value;
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        tab: event
+        tab: value,
+        userId: this.studentUserId
       },
+      queryParamsHandling: 'merge'
     });
   }
+
 }

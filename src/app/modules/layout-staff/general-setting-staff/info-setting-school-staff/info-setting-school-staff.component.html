@@ -1,478 +1,503 @@
-<div class="style-student card" *transloco="let t; scope: 'school'">
-  <div class="col-xl-12 pt-3">
-    <span class="card-label fs-18 fw-700">{{t('school.schoolInformationSettings')}}</span>
-    <div class="separator mx-1 my-4"></div>
-  </div>
-  <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
-    <div class="col-xl-12 pb-8">
-      <span class="card-label fs-16 fw-700">I. {{t('school.infoSchool')}}</span>
-    </div>
 
-    <div class="row w-100 mt-5">
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.moetName')}}</span>
-        </div>
-        <div class="col-md-6 input-custom d-flex align-items-center fs-13">
-          {{ infoBasicSchool?.MoetUnitName || '--' }}
-        </div>
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'school'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('school.schoolInformationSettings')}}</h3>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
+      <div class="col-xl-12 pb-3">
+        <span class="card-label fw-700 fs-14">I. {{t('school.infoSchool')}}</span>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
+
+      <div class="row w-100 mb-10">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
           <div class="col-md-6 label-info d-flex align-items-center">
-              <img src="assets/images/svg/info.svg" alt="">
-              <span class="fw-700 text-label  fs-15">{{t('school.schoolName')}} <span class="text-danger">*</span></span>
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.moetName')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-6 input-custom d-flex align-items-center fw-600">
+            <span class="form-control so-form-control disabled d-flex align-items-center">
+              {{ infoBasicSchool?.MoetUnitName || '--' }}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+            <div class="col-md-6 label-info d-flex align-items-center">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-600 text-label">{{t('school.schoolName')}} <span class="text-danger">*</span></span>
+            </div>
+            <div class="col-md-6 input-custom">
+              <input type="text" name="name" id="name" placeholder="{{t('school.enterNameSchool')}}" class="form-control so-form-control"
+                     formControlName="Name"
+                     [class.is-invalid]="formSchool.get('Name').invalid && (formSchool.get('Name').dirty || formSchool.get('Name').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.Name.hasOwnProperty('message') && formSchool.get('Name').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.Name">
+                <app-field-error-display
+                  [displayError]="formSchool.get('Name').hasError(err.type) && (formSchool.get('Name').dirty || formSchool.get('Name').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Name">
+                <app-field-error-display [errorServer]="validationMessagesServer?.Name"
+                                         [displayErrorServer]="!(formSchool.get('Name').dirty || formSchool.get('Name').touched)">
+                </app-field-error-display>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.codeMoet')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-6 input-custom d-flex align-items-center fw-600">
+            <span class="form-control so-form-control disabled d-flex align-items-center">
+              {{ infoBasicSchool?.MoetUnitCode || '--' }}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('trainingLevel')}} <span class="text-danger">*</span></span>
           </div>
           <div class="col-md-6 input-custom">
-            <input type="text" name="name" id="name" placeholder="Tên trường" class="fs-13  form-control custom-tag-of-form "
-                   formControlName="name">
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: t('school.requiredName'),
-                        control: formSchool.controls['name']
-                        }">
-            </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'maxLength',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['name']
-                        }">
-            </ng-container>
-            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'notEmpty',
-                        message: t('school.requiredName'),
-                        control: formSchool.controls['name']
-                        }">
-            </ng-container>
+            <select name="trainingLevel" id="trainingLevel" class="form-control so-form-control" formControlName="TrainingLevel"
+                    [class.is-invalid]="formSchool.get('TrainingLevel').invalid && (formSchool.get('TrainingLevel').dirty || formSchool.get('TrainingLevel').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.TrainingLevel.hasOwnProperty('message') && formSchool.get('TrainingLevel').invalid">
+              <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
+              <ng-container *ngFor="let level of arrTrainingLevel">
+                <option [value]="level.code">{{t(level.name)}}</option>
+              </ng-container>
+            </select>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.TrainingLevel">
+              <app-field-error-display
+                [displayError]="formSchool.get('TrainingLevel').hasError(err.type) && (formSchool.get('TrainingLevel').dirty || formSchool.get('TrainingLevel').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.TrainingLevel">
+              <app-field-error-display [errorServer]="validationMessagesServer?.TrainingLevel"
+                                       [displayErrorServer]="!(formSchool.get('TrainingLevel').dirty || formSchool.get('TrainingLevel').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('campus')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="campus" id="campus" class="form-control so-form-control" formControlName="Campus"
+                    [class.is-invalid]="formSchool.get('Campus').invalid && (formSchool.get('Campus').dirty || formSchool.get('Campus').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.Campus.hasOwnProperty('message') && formSchool.get('Campus').invalid">
+              <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
+              <ng-container *ngFor="let campus of arrCampus">
+                <option [value]="campus.id">{{campus.name}}</option>
+              </ng-container>
+            </select>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.Campus">
+              <app-field-error-display
+                [displayError]="formSchool.get('Campus').hasError(err.type) && (formSchool.get('Campus').dirty || formSchool.get('Campus').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Campus">
+              <app-field-error-display [errorServer]="validationMessagesServer?.Campus"
+                                       [displayErrorServer]="!(formSchool.get('Campus').dirty || formSchool.get('Campus').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.loaiHinhTruong')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="loaiHinhTruong" id="loaiHinhTruong" class="form-control so-form-control" formControlName="LoaiHinhTruong">
+              <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.chinhSachVung')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="chinhSachVung" id="chinhSachVung" class="form-control so-form-control" formControlName="ChinhSachVung">
+              <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.loaiTruong')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="loaiTruong" id="loaiTruong" class="form-control so-form-control" formControlName="LoaiTruong">
+              <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.khuVuc')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="khuVuc" id="khuVuc" class="form-control so-form-control" formControlName="KhuVuc">
+              <option [value]="''">{{t('school.chonKhuVuc')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.KhuVuc">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">Email</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class="form-control so-form-control"
+                   formControlName="Email"
+                   [class.is-invalid]="formSchool.get('Email').invalid && (formSchool.get('Email').dirty || formSchool.get('Email').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.Email.hasOwnProperty('message') && formSchool.get('Email').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.Email">
+              <app-field-error-display
+                [displayError]="formSchool.get('Email').hasError(err.type) && (formSchool.get('Email').dirty || formSchool.get('Email').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" >
+              <app-field-error-display [errorServer]="validationMessagesServer?.Email"
+                                       [displayErrorServer]="!(formSchool.get('Email').dirty || formSchool.get('Email').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.sendFromEmail')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}" class="form-control so-form-control"
+                   formControlName="SendFromEmail"
+                   [class.is-invalid]="formSchool.get('SendFromEmail').invalid && (formSchool.get('SendFromEmail').dirty || formSchool.get('SendFromEmail').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.SendFromEmail.hasOwnProperty('message') && formSchool.get('SendFromEmail').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.SendFromEmail">
+              <app-field-error-display
+                [displayError]="formSchool.get('SendFromEmail').hasError(err.type) && (formSchool.get('SendFromEmail').dirty || formSchool.get('SendFromEmail').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.SendFromEmail">
+              <app-field-error-display [errorServer]="validationMessagesServer?.SendFromEmail"
+                                       [displayErrorServer]="!(formSchool.get('SendFromEmail').dirty || formSchool.get('SendFromEmail').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.SĐT')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}" class="form-control so-form-control"
+                   formControlName="Phone"
+                   [class.is-invalid]="formSchool.get('Phone').invalid && (formSchool.get('Phone').dirty || formSchool.get('Phone').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.Phone.hasOwnProperty('message') && formSchool.get('Phone').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.Phone">
+              <app-field-error-display
+                [displayError]="formSchool.get('Phone').hasError(err.type) && (formSchool.get('Phone').dirty || formSchool.get('Phone').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Phone">
+              <app-field-error-display [errorServer]="validationMessagesServer?.Phone"
+                                       [displayErrorServer]="!(formSchool.get('Phone').dirty || formSchool.get('Phone').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">Hotline</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" class="form-control so-form-control"
+                   formControlName="Hotline"
+                   [class.is-invalid]="formSchool.get('Hotline').invalid && (formSchool.get('Hotline').dirty || formSchool.get('Hotline').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.Hotline.hasOwnProperty('message') && formSchool.get('Hotline').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.Hotline">
+              <app-field-error-display
+                [displayError]="formSchool.get('Hotline').hasError(err.type) && (formSchool.get('Hotline').dirty || formSchool.get('Hotline').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Hotline">
+              <app-field-error-display [errorServer]="validationMessagesServer?.Hotline"
+                                       [displayErrorServer]="!(formSchool.get('Hotline').dirty || formSchool.get('Hotline').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.fax')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}" class="form-control so-form-control"
+                   formControlName="Fax"
+                   [class.is-invalid]="formSchool.get('Fax').invalid && (formSchool.get('Fax').dirty || formSchool.get('Fax').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.Fax.hasOwnProperty('message') && formSchool.get('Fax').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.Fax">
+              <app-field-error-display
+                [displayError]="formSchool.get('Fax').hasError(err.type) && (formSchool.get('Fax').dirty || formSchool.get('Fax').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Fax">
+              <app-field-error-display [errorServer]="validationMessagesServer?.Fax"
+                                       [displayErrorServer]="!(formSchool.get('Fax').dirty || formSchool.get('Fax').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.hieuTruong')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}" class="form-control so-form-control"
+                   formControlName="TenHieuTruong"
+                   [class.is-invalid]="formSchool.get('TenHieuTruong').invalid && (formSchool.get('TenHieuTruong').dirty || formSchool.get('TenHieuTruong').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.TenHieuTruong.hasOwnProperty('message') && formSchool.get('TenHieuTruong').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.TenHieuTruong">
+              <app-field-error-display
+                [displayError]="formSchool.get('TenHieuTruong').hasError(err.type) && (formSchool.get('TenHieuTruong').dirty || formSchool.get('TenHieuTruong').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.TenHieuTruong">
+              <app-field-error-display [errorServer]="validationMessagesServer?.TenHieuTruong"
+                                       [displayErrorServer]="!(formSchool.get('TenHieuTruong').dirty || formSchool.get('TenHieuTruong').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.emailHieuTruong')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}" class="form-control so-form-control"
+                   formControlName="EmailHieuTruong"
+                   [class.is-invalid]="formSchool.get('EmailHieuTruong').invalid && (formSchool.get('EmailHieuTruong').dirty || formSchool.get('EmailHieuTruong').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.EmailHieuTruong.hasOwnProperty('message') && formSchool.get('EmailHieuTruong').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.EmailHieuTruong">
+              <app-field-error-display
+                [displayError]="formSchool.get('EmailHieuTruong').hasError(err.type) && (formSchool.get('EmailHieuTruong').dirty || formSchool.get('EmailHieuTruong').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.EmailHieuTruong">
+              <app-field-error-display [errorServer]="validationMessagesServer?.EmailHieuTruong"
+                                       [displayErrorServer]="!(formSchool.get('EmailHieuTruong').dirty || formSchool.get('EmailHieuTruong').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.SDTHieuTruong')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}" class="form-control so-form-control"
+                   formControlName="DienThoaiHieuTruong"
+                   [class.is-invalid]="formSchool.get('DienThoaiHieuTruong').invalid && (formSchool.get('DienThoaiHieuTruong').dirty || formSchool.get('DienThoaiHieuTruong').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.DienThoaiHieuTruong.hasOwnProperty('message') && formSchool.get('DienThoaiHieuTruong').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.DienThoaiHieuTruong">
+              <app-field-error-display
+                [displayError]="formSchool.get('DienThoaiHieuTruong').hasError(err.type) && (formSchool.get('DienThoaiHieuTruong').dirty || formSchool.get('DienThoaiHieuTruong').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.DienThoaiHieuTruong">
+              <app-field-error-display [errorServer]="validationMessagesServer?.DienThoaiHieuTruong"
+                                       [displayErrorServer]="!(formSchool.get('DienThoaiHieuTruong').dirty || formSchool.get('DienThoaiHieuTruong').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('indexOrder')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}" class="form-control so-form-control"
+              formControlName="IndexOrder"
+                   [class.is-invalid]="formSchool.get('IndexOrder').invalid && (formSchool.get('IndexOrder').dirty || formSchool.get('IndexOrder').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.IndexOrder.hasOwnProperty('message') && formSchool.get('IndexOrder').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.IndexOrder">
+              <app-field-error-display
+                [displayError]="formSchool.get('IndexOrder').hasError(err.type) && (formSchool.get('IndexOrder').dirty || formSchool.get('IndexOrder').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.IndexOrder">
+              <app-field-error-display [errorServer]="validationMessagesServer?.IndexOrder"
+                                       [displayErrorServer]="!(formSchool.get('IndexOrder').dirty || formSchool.get('IndexOrder').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.namThanhLap')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}" class="form-control so-form-control"
+                   formControlName="NamThanhLap"
+                   [class.is-invalid]="formSchool.get('NamThanhLap').invalid && (formSchool.get('NamThanhLap').dirty || formSchool.get('NamThanhLap').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.NamThanhLap.hasOwnProperty('message') && formSchool.get('NamThanhLap').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.NamThanhLap">
+              <app-field-error-display
+                [displayError]="formSchool.get('NamThanhLap').hasError(err.type) && (formSchool.get('NamThanhLap').dirty || formSchool.get('NamThanhLap').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.NamThanhLap">
+              <app-field-error-display [errorServer]="validationMessagesServer?.NamThanhLap"
+                                       [displayErrorServer]="!(formSchool.get('NamThanhLap').dirty || formSchool.get('NamThanhLap').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.loaiDuAn')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="tenMaDuAn" id="tenMaDuAn" class="form-control so-form-control" formControlName="MaDuAn">
+              <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.MaDuAn">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.dienTich')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}" class="form-control so-form-control"
+                   formControlName="DienTich"
+                   [class.is-invalid]="formSchool.get('DienTich').invalid && (formSchool.get('DienTich').dirty || formSchool.get('DienTich').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.DienTich.hasOwnProperty('message') && formSchool.get('DienTich').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.DienTich">
+              <app-field-error-display
+                [displayError]="formSchool.get('DienTich').hasError(err.type) && (formSchool.get('DienTich').dirty || formSchool.get('DienTich').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.DienTich">
+              <app-field-error-display [errorServer]="validationMessagesServer?.DienTich"
+                                       [displayErrorServer]="!(formSchool.get('DienTich').dirty || formSchool.get('DienTich').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.chuanQuocGia')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="form-control so-form-control" formControlName="MucChuanQuocGia">
+              <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row p-0 me-0 ms-0">
+          <div class="col-md-6 label-info d-flex align-items-center">
+            <img src="assets/images/svg/info.svg" alt="">
+            <span class="fw-600 text-label">{{t('school.maVungKhoKhan')}}</span>
+          </div>
+          <div class="col-md-6 input-custom">
+            <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="form-control so-form-control" formControlName="MaVungKhoKhan">
+              <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
+              <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
+                <option [value]="item.MA">{{item.TEN}}</option>
+              </ng-container>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.codeMoet')}}</span>
-        </div>
-        <div class="col-md-6 input-custom d-flex align-items-center">
-          {{ infoBasicSchool?.MoetUnitCode || '--' }}
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-
+      <div class="col-xl-12 pb-6">
+        <span class="card-label fw-600 fs-14">II. {{t('school.infoAdvanced')}}</span>
       </div>
 
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('trainingLevel')}} <span class="text-danger">*</span></span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="trainingLevel" id="trainingLevel" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="trainingLevel">
-            <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
-            <ng-container *ngFor="let level of arrTrainingLevel">
-              <option [value]="level.code">{{level.name}}</option>
-            </ng-container>
-          </select>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                      validation: 'required',
-                      message: t('school.requiredTrainingLevel'),
-                      control: formSchool.controls['trainingLevel']
-                      }">
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('campus')}} <span class="text-danger">*</span></span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="campus" id="campus" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="campus">
-            <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
-            <ng-container *ngFor="let campus of arrCampus">
-              <option [value]="campus.id">{{campus.name}}</option>
-            </ng-container>
-          </select>
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                      validation: 'required',
-                      message: t('school.requiredCampus'),
-                      control: formSchool.controls['campus']
-                      }">
-          </ng-container>
-        </div>
+      <div class="row">
+        <ng-container *ngFor="let item of arrInfoAdvanced">
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+            <label nz-checkbox class="so-checkbox checkbox-info-advanced fs-13" id="{{item.key}}" ngDefaultControl
+                   formControlName="{{item.key}}">
+              <span class="fw-600">{{ t(item.label) }}</span>
+            </label>
+          </div>
+        </ng-container>
       </div>
 
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.loaiHinhTruong')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="loaiHinhTruong" id="loaiHinhTruong" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="loaiHinhTruong">
-            <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
+      <div class="action d-flex justify-content-end mt-4 mb-3">
+        <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+                (click)="cancel()">{{t('btnAction.cancel')}}</button>
+        <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
+                (click)="submit(formSchool.value)" [disabled]="formSchool.invalid">{{t('btnAction.save')}}</button>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.chinhSachVung')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="chinhSachVung" id="chinhSachVung" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="chinhSachVung">
-            <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.loaiTruong')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="loaiTruong" id="loaiTruong" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="loaiTruong">
-            <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.khuVuc')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="khuVuc" id="khuVuc" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="khuVuc">
-            <option [value]="''">{{t('school.chonKhuVuc')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.KhuVuc">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">Email</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="email">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['email']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.sendFromEmail')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}" class="fs-13  form-control custom-tag-of-form "
-                 formControlName="sendFromEmail">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['sendFromEmail']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.SĐT')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="phone">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternPhone'),
-                        control: formSchool.controls['phone']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">Hotline</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="hotline">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternHotline'),
-                        control: formSchool.controls['hotline']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.fax')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="fax">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternFax'),
-                        control: formSchool.controls['fax']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.hieuTruong')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="tenHieuTruong">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['tenHieuTruong']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.emailHieuTruong')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}" class="fs-13  form-control custom-tag-of-form "
-                 formControlName="emailHieuTruong">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['emailHieuTruong']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.SDTHieuTruong')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="dienThoaiHieuTruong">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternPhone'),
-                        control: formSchool.controls['dienThoaiHieuTruong']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('indexOrder')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="number" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="indexOrder">
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.namThanhLap')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="number" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="namThanhLap">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['namThanhLap']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.loaiDuAn')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="tenMaDuAn" id="tenMaDuAn" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="maDuAn">
-            <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.MaDuAn">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.dienTich')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}" class=" fs-13 form-control custom-tag-of-form "
-                 formControlName="dienTich">
-          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['dienTich']
-                        }">
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.chuanQuocGia')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="mucChuanQuocGia">
-            <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">
-        <div class="col-md-6 label-info d-flex align-items-center">
-          <img src="assets/images/svg/info.svg" alt="">
-          <span class="fw-700 text-label  fs-15">{{t('school.maVungKhoKhan')}}</span>
-        </div>
-        <div class="col-md-6 input-custom">
-          <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="fs-13 form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="maVungKhoKhan">
-            <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
-            <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
-              <option [value]="item.MA">{{item.TEN}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-
-
-<!--      không dùng-->
-<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 get-info row">-->
-<!--        <div class="col-md-6 label-info d-flex align-items-center">-->
-<!--          <img src="assets/images/svg/info.svg" alt="">-->
-<!--          <span class="fw-700 text-label  fs-15">{{t('school.provinceCity')}}</span>-->
-<!--        </div>-->
-<!--        <div class="col-md-6 input-custom">-->
-<!--          <select name="cityCode" id="cityCode" class=" form-select form-select-solid form-select-lg ant-select-selection-search-input  " formControlName="cityCode"-->
-<!--                  (change)="changeVerticalUnit('city')">-->
-<!--            <option [value]="''">{{t('school.chonProvinceCity')}}</option>-->
-<!--            <ng-container *ngFor="let item of arrCity">-->
-<!--              <option [value]="item.MA">{{item.TEN}}</option>-->
-<!--            </ng-container>-->
-<!--          </select>-->
-<!--        </div>-->
-<!--      </div>-->
-
-
-<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
-<!--        <div class="row">-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
-<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
-<!--                                                                        alt="" class="box-icon" />&ensp;{{t('school.district')}}</span>-->
-<!--          </div>-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
-<!--            <select name="districtCode" id="districtCode" class="w-full" formControlName="districtCode"-->
-<!--                    (change)="changeVerticalUnit('district')">-->
-<!--              <option [value]="''">{{t('school.chonDistrict')}}</option>-->
-<!--              <ng-container *ngFor="let item of arrDistrict">-->
-<!--                <option [value]="item.MA">{{item.TEN}}</option>-->
-<!--              </ng-container>-->
-<!--            </select>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
-<!--        <div class="row">-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
-<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
-<!--                                                                        alt="" class="box-icon" />&ensp;{{t('school.ward')}}</span>-->
-<!--          </div>-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
-<!--            <select name="wardCode" id="wardCode" class="w-full" formControlName="wardCode"-->
-<!--                    (change)="changeVerticalUnit('ward')">-->
-<!--              <option [value]="''">{{t('school.chonWard')}}</option>-->
-<!--              <ng-container *ngFor="let item of arrWard">-->
-<!--                <option [value]="item.MA">{{item.TEN}}</option>-->
-<!--              </ng-container>-->
-<!--            </select>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">-->
-<!--        <div class="row">-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">-->
-<!--                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"-->
-<!--                                                                        alt="" class="box-icon" />&ensp;{{t('address')}}</span>-->
-<!--          </div>-->
-<!--          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">-->
-<!--            <input type="text" name="address" id="address" placeholder="{{t('enterAddress')}}" class="form-control"-->
-<!--                   formControlName="address">-->
-<!--            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{-->
-<!--                        validation: 'pattern',-->
-<!--                        message: t('school.validateMaxLengthName'),-->
-<!--                        control: formSchool.controls['address']-->
-<!--                        }">-->
-<!--            </ng-container>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-    </div>
-
-    <div class="col-xl-12 pb-8">
-      <span class="card-label fs-16 fw-700">II. {{t('school.infoAdvanced')}}</span>
-    </div>
-
-    <div class="row">
-      <ng-container *ngFor="let item of arrInfoAdvanced">
-        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-9">
-          <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="{{item.key}}" ngDefaultControl
-                 formControlName="{{item.key}}">
-            <span class="fw-600">{{ t(item.label) }}</span>
-          </label>
-        </div>
-      </ng-container>
-    </div>
-
-    <div class="action d-flex justify-content-end mt-4">
-      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
-              (click)="cancel()">{{t('btnAction.cancel')}}</button>
-      <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
-              (click)="submit(formSchool.value)" [disabled]="formSchool.invalid">{{t('btnAction.save')}}</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <!-- error -->
@@ -481,7 +506,6 @@
     <div class="fv-plugins-message-container">
       <span role="alert">
         <div class="err-form text-danger">
-          <img src="assets/images/svg/icon-false.svg" alt="">
           <span>&nbsp;{{ message }}</span>
         </div>
       </span>

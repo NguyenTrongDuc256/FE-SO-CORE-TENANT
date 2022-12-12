@@ -1,18 +1,18 @@
-import { translate } from '@ngneat/transloco';
-import { Subscriber, Observable } from 'rxjs';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  LAYOUTS_TENANT,
-  MESSAGE_ERROR_CALL_API,
-  PAGE_INDEX_DEFAULT,
-  PAGE_SIZE_DEFAULT,
-  PAGE_SIZE_OPTIONS_DEFAULT,
-  TIME_OUT_LISTEN_FIREBASE,
-} from 'src/app/_shared/utils/constant';
+import { translate } from '@ngneat/transloco';
+import { Observable, Subscriber } from 'rxjs';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
+import {
+  LAYOUTS_TENANT, PAGE_INDEX_DEFAULT,
+  PAGE_SIZE_DEFAULT,
+  PAGE_SIZE_OPTIONS_DEFAULT,
+  STATUS_ACTIVE,
+  TIME_OUT_LISTEN_FIREBASE
+} from 'src/app/_shared/utils/constant';
 @Component({
   selector: 'app-modal-add-user-to-role-tenant',
   templateUrl: './modal-add-user-to-role-tenant.component.html',
@@ -44,7 +44,8 @@ export class ModalAddUserToRoleTenantComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private roleService: RoleService,
     private showMessage: ShowMessageService,
-    private listenFirebaseService: ListenFirebaseService
+    private listenFirebaseService: ListenFirebaseService,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -66,30 +67,28 @@ export class ModalAddUserToRoleTenantComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.listUsers = res.data.data;
-            this.listUsers.forEach((item) => {
-              item['isChecked'] = false;
-              this.listUserIdSubmit.findIndex((el) => el == item.id) != -1
-                ? (item.isChecked = true)
-                : (item.isChecked = false);
-            });
-            this.isCheckAll =
-              this.listUsers.length > 0 &&
-              this.listUsers.every((t) => t.isChecked);
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.listUsers = res.data.data;
+          this.listUsers.forEach((item) => {
+            item['isChecked'] = false;
+            this.listUserIdSubmit.findIndex((el) => el == item.id) != -1
+              ? (item.isChecked = true)
+              : (item.isChecked = false);
+          });
+          this.isCheckAll =
+            this.listUsers.length > 0 &&
+            this.listUsers.every((t) => t.isChecked);
+          this.collectionSize = res.data?.totalItems;
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
 
-  checkedAll(event) {
+  checkedAll(event: boolean) {
     this.listUsers.forEach((item) => {
       item.isChecked = event;
       if (event) {
@@ -101,10 +100,11 @@ export class ModalAddUserToRoleTenantComponent implements OnInit {
         }
       }
     });
+    this.listUserIdSubmit = Array.from(new Set(this.listUserIdSubmit));
     this.isCheckAll = event;
   }
 
-  checked(event, valueChecked: any) {
+  checked(event:boolean, valueChecked: any) {
     let index = this.listUsers.findIndex((el) => valueChecked.id === el.id);
     if (index != -1) {
       this.listUsers[index].status = event;
@@ -130,28 +130,23 @@ export class ModalAddUserToRoleTenantComponent implements OnInit {
     };
     if (
       (this.dataFromParent.layoutCode == 'teacher' ||
-        this.dataFromParent.layoutCode == 'staff') &&
+        this.dataFromParent.layoutCode == 'staff' || this.dataFromParent.layoutCode == 'student') &&
       this.schoolId == null
     )
       return this.showMessage.warning(translate('role.warmingSelectSchool'));
     if (this.dataFromParent.layoutCode == 'campus' && this.campusId == null)
       return this.showMessage.warning(translate('role.warmingSelectCampus'));
+    if (this.listUserIdSubmit.length == 0)
+      return this.showMessage.warning(translate('role.warmingSelectUser'));
     this.isLoading = true;
     this.listenFireBase(
       this.dataFromParent.keyFirebaseAction,
       this.dataFromParent.keyFirebaseModule
     );
     this.dataFromParent.apiSubmit(dataInput).subscribe(
-      (res: any) => {
-        if (res.status == 0) {
-          this.isLoading = false;
-          this.activeModal.close(false);
-          this.showMessage.error(res.msg);
-        }
-      },
+      (res: any) => {},
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(MESSAGE_ERROR_CALL_API);
       }
     );
   }
@@ -163,12 +158,27 @@ export class ModalAddUserToRoleTenantComponent implements OnInit {
     );
   }
 
+  mapNameStatus(value: number) {
+    return STATUS_ACTIVE.find((status) => status.value == value)?.label || '--';
+  }
+
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getListUsers();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getListUsers();
   }
 
   paginationChange(event: any) {

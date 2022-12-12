@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -22,7 +22,7 @@ export class ModalQuaTrinhDaoTaoBoiDuongComponent implements OnInit {
   toDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     truong: [
       {
         type: "required",
@@ -119,8 +119,8 @@ export class ModalQuaTrinhDaoTaoBoiDuongComponent implements OnInit {
       toDate: [data ? data.toDate : this.toDate],
       hinhThucDaoTao: [data ? data.hinhThucDaoTao : '', [Validators.required]],
       trinhDo: [data ? data.trinhDo : '', [Validators.required]],
-      isInput: [data ? data.isInput : 1],
-      isUpdate: [data ? data.isUpdate : 0],
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.quaTrinhDaoTaoBD.push(itemForm);
   }
@@ -129,12 +129,36 @@ export class ModalQuaTrinhDaoTaoBoiDuongComponent implements OnInit {
     this.quaTrinhDaoTaoBD.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.quaTrinhDaoTaoBD.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -145,15 +169,20 @@ export class ModalQuaTrinhDaoTaoBoiDuongComponent implements OnInit {
     ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('truong').patchValue(dataForm.truong);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('chuyenNganhDaoTao').patchValue(dataForm.chuyenNganhDaoTao);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('fromDate').patchValue(dataForm.fromDate);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('toDate').patchValue(dataForm.toDate);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('hinhThucDaoTao').patchValue(dataForm.hinhThucDaoTao);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue(dataForm.trinhDo);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('truong').patchValue(dataForm.value.truong);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('chuyenNganhDaoTao').patchValue(dataForm.value.chuyenNganhDaoTao);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('fromDate').patchValue(dataForm.value.fromDate);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('toDate').patchValue(dataForm.value.toDate);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('hinhThucDaoTao').patchValue(dataForm.value.hinhThucDaoTao);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue(dataForm.value.trinhDo);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('quaTrinhDaoTaoBD') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {

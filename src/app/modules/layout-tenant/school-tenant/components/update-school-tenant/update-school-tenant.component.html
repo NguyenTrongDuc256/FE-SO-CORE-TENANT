@@ -1,538 +1,645 @@
-<div *transloco="let t; scope: 'school'">
-  <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
-    <div class="box collapse-info-basic">
-      <nz-collapse>
-        <nz-collapse-panel [nzHeader]="t('school.infoSchoolI')" [nzActive]="true">
-          <div class="collapse-main box-main">
-            <div class="row">
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-logo-user-blue.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.logo')}}</span>
+
+<div class="card card-flush p-0 h-full" *transloco="let t; scope: 'school'">
+  <div class="card-header">
+  </div>
+  <div class="card-body py-5 p-0">
+    <form action="" [formGroup]="formSchool" *ngIf="!isLoading">
+      <div class="box collapse-info-basic">
+        <nz-collapse>
+          <nz-collapse-panel [nzHeader]="t('school.infoSchoolI')" [nzActive]="true" class="school-collapse">
+            <div class="collapse-main box-main px-0 fs-13">
+              <div class="row mx-0">
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.nameMoetSchool')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600">
+                      <span class="form-control so-form-control disabled d-flex align-items-center">
+                        {{ infoBasicSchool?.MoetUnitName || '--' }}
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <div class="so-input-upload-img postion-relative">
-                      <a target="_blank" [href]="logo" *ngIf="fileName && fileName !=''">
-                        <input type="text" readonly class="form-control" [value]="fileName" [ngStyle]="{'cursor' : fileName && fileName !='' ? 'pointer': ''}">
-                      </a>
-                      <input type="text" *ngIf="!fileName || fileName ==''" readonly class="form-control" [value]="fileName">
-                      <span name="btn-change-logo" class="btn-click-change-logo fs-11 fw-500" (click)="fileInputAvatar.click()"
-                        *ngIf="!fileName || fileName ==''">
-                        <img class="logo-change-avatar" src="assets/images/svg/bx_cloud-upload.svg" alt="">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.nameSchool')}} <span class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="name" id="name" placeholder="{{t('school.enterNameSchool')}}" class="form-control so-form-control"
+                        formControlName="name"
+                             [class.is-invalid]="formSchool.get('name').invalid && (formSchool.get('name').dirty || formSchool.get('name').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formSchool.get('name').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('name').hasError(err.type) && (formSchool.get('name').dirty || formSchool.get('name').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.name"
+                                                 [displayErrorServer]="!(formSchool.get('name').dirty || formSchool.get('name').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.codeMoet')}} <span class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600">
+                      <span class="form-control so-form-control disabled d-flex align-items-center">
+                        {{ infoBasicSchool?.MoetUnitCode || '--' }}
                       </span>
-                      <span name="btn-remove-logo" class="btn-click-change-logo btn-click-remove-logo fs-11 fw-500" *ngIf="fileName && fileName !=''" (click)="removeLogo()">
-                        <img src="assets/images/svg/icon-false.svg" alt="">
-                      </span>
-                      <input #fileInputAvatar type="file" name="logo" id="logo" class="d-none" accept="image/png, image/jpeg image/jpg"
-                      (change)="onChangeFileInputLogo($event)">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('campus')}} <span class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="campus" id="campus" class="w-full form-control so-form-control" formControlName="campus"
+                              [class.is-invalid]="formSchool.get('campus').invalid && (formSchool.get('campus').dirty || formSchool.get('campus').touched)"
+                              [class.is-invalid-server]="validationMessagesServer?.campus.hasOwnProperty('message') && formSchool.get('campus').invalid">
+                        <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
+                        <ng-container *ngFor="let campus of arrCampus">
+                          <option [value]="campus.id">{{campus.name}}</option>
+                        </ng-container>
+                      </select>
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.campus">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('campus').hasError(err.type) && (formSchool.get('campus').dirty || formSchool.get('campus').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.campus">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.campus"
+                                                 [displayErrorServer]="!(formSchool.get('campus').dirty || formSchool.get('campus').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('trainingLevel')}} <span class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 fw-600 form-group so-form-group">
+                      <select name="trainingLevel" id="trainingLevel" class="w-full form-control so-form-control" formControlName="trainingLevel"
+                              [class.is-invalid]="formSchool.get('trainingLevel').invalid && (formSchool.get('trainingLevel').dirty || formSchool.get('trainingLevel').touched)"
+                              [class.is-invalid-server]="validationMessagesServer?.trainingLevel.hasOwnProperty('message') && formSchool.get('trainingLevel').invalid">
+                        <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
+                        <ng-container *ngFor="let level of arrTrainingLevel">
+                          <option [value]="level.code">{{t(level.name)}}</option>
+                        </ng-container>
+                      </select>
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.trainingLevel">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('trainingLevel').hasError(err.type) && (formSchool.get('trainingLevel').dirty || formSchool.get('trainingLevel').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.trainingLevel">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.trainingLevel"
+                                                 [displayErrorServer]="!(formSchool.get('trainingLevel').dirty || formSchool.get('trainingLevel').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.loaiHinhTruong')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="loaiHinhTruong" id="loaiHinhTruong" class="w-full form-control so-form-control" formControlName="loaiHinhTruong">
+                        <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.loaiTruong')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="loaiTruong" id="loaiTruong" class="w-full form-control so-form-control" formControlName="loaiTruong">
+                        <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.chinhSachVung')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="chinhSachVung" id="chinhSachVung" class="w-full form-control so-form-control" formControlName="chinhSachVung">
+                        <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.provinceCity')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="cityCode" id="cityCode" class="w-full form-control so-form-control" formControlName="cityCode"
+                        (change)="changeVerticalUnit('city')">
+                        <option [value]="''">{{t('school.chonProvinceCity')}}</option>
+                        <ng-container *ngFor="let item of arrCity">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.khuVuc')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="khuVuc" id="khuVuc" class="w-full form-control so-form-control" formControlName="khuVuc">
+                        <option [value]="''">{{t('school.chonKhuVuc')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.KhuVuc">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.district')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="districtCode" id="districtCode" class="w-full form-control so-form-control" formControlName="districtCode"
+                        (change)="changeVerticalUnit('district')">
+                        <option [value]="''">{{t('school.chonDistrict')}}</option>
+                        <ng-container *ngFor="let item of arrDistrict">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.ward')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="wardCode" id="wardCode" class="w-full form-control so-form-control" formControlName="wardCode"
+                        (change)="changeVerticalUnit('ward')">
+                        <option [value]="''">{{t('school.chonWard')}}</option>
+                        <ng-container *ngFor="let item of arrWard">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;Email</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class="form-control so-form-control"
+                        formControlName="Email"
+                             [class.is-invalid]="formSchool.get('Email').invalid && (formSchool.get('Email').dirty || formSchool.get('Email').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.Email.hasOwnProperty('message') && formSchool.get('Email').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.Email">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('Email').hasError(err.type) && (formSchool.get('Email').dirty || formSchool.get('Email').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" >
+                        <app-field-error-display [errorServer]="validationMessagesServer?.Email"
+                                                 [displayErrorServer]="!(formSchool.get('Email').dirty || formSchool.get('Email').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.sendFromEmail')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}"
+                        class="form-control so-form-control"
+                        formControlName="sendFromEmail"
+                             [class.is-invalid]="formSchool.get('sendFromEmail').invalid && (formSchool.get('sendFromEmail').dirty || formSchool.get('sendFromEmail').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.sendFromEmail.hasOwnProperty('message') && formSchool.get('sendFromEmail').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.sendFromEmail">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('sendFromEmail').hasError(err.type) && (formSchool.get('sendFromEmail').dirty || formSchool.get('sendFromEmail').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.sendFromEmail">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.sendFromEmail"
+                                                 [displayErrorServer]="!(formSchool.get('sendFromEmail').dirty || formSchool.get('sendFromEmail').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.SĐT')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}"
+                        class="form-control so-form-control"
+                        formControlName="phone"
+                             [class.is-invalid]="formSchool.get('phone').invalid && (formSchool.get('phone').dirty || formSchool.get('phone').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.phone.hasOwnProperty('message') && formSchool.get('phone').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.phone">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('phone').hasError(err.type) && (formSchool.get('phone').dirty || formSchool.get('phone').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.phone">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.phone"
+                                                 [displayErrorServer]="!(formSchool.get('phone').dirty || formSchool.get('phone').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;Hotline</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" ư
+                        class="form-control so-form-control"
+                        formControlName="hotline"
+                             [class.is-invalid]="formSchool.get('hotline').invalid && (formSchool.get('hotline').dirty || formSchool.get('hotline').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.hotline.hasOwnProperty('message') && formSchool.get('hotline').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.hotline">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('hotline').hasError(err.type) && (formSchool.get('hotline').dirty || formSchool.get('hotline').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.hotline">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.hotline"
+                                                 [displayErrorServer]="!(formSchool.get('hotline').dirty || formSchool.get('hotline').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.fax')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}"
+                        class="form-control so-form-control"
+                        formControlName="fax"
+                             [class.is-invalid]="formSchool.get('fax').invalid && (formSchool.get('fax').dirty || formSchool.get('fax').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.fax.hasOwnProperty('message') && formSchool.get('fax').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.fax">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('fax').hasError(err.type) && (formSchool.get('fax').dirty || formSchool.get('fax').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fax">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.fax"
+                                                 [displayErrorServer]="!(formSchool.get('fax').dirty || formSchool.get('fax').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.hieuTruong')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}"
+                        class="form-control so-form-control"
+                        formControlName="tenHieuTruong"
+                             [class.is-invalid]="formSchool.get('tenHieuTruong').invalid && (formSchool.get('tenHieuTruong').dirty || formSchool.get('tenHieuTruong').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.tenHieuTruong.hasOwnProperty('message') && formSchool.get('tenHieuTruong').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.tenHieuTruong">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('tenHieuTruong').hasError(err.type) && (formSchool.get('tenHieuTruong').dirty || formSchool.get('tenHieuTruong').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tenHieuTruong">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.tenHieuTruong"
+                                                 [displayErrorServer]="!(formSchool.get('tenHieuTruong').dirty || formSchool.get('tenHieuTruong').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.emailHieuTruong')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}"
+                        class="form-control so-form-control"
+                        formControlName="emailHieuTruong"
+                             [class.is-invalid]="formSchool.get('emailHieuTruong').invalid && (formSchool.get('emailHieuTruong').dirty || formSchool.get('emailHieuTruong').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.emailHieuTruong.hasOwnProperty('message') && formSchool.get('emailHieuTruong').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.emailHieuTruong">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('emailHieuTruong').hasError(err.type) && (formSchool.get('emailHieuTruong').dirty || formSchool.get('emailHieuTruong').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.emailHieuTruong">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.emailHieuTruong"
+                                                 [displayErrorServer]="!(formSchool.get('emailHieuTruong').dirty || formSchool.get('emailHieuTruong').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.SDTHieuTruong')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}"
+                        class="form-control so-form-control"
+                        formControlName="dienThoaiHieuTruong"
+                             [class.is-invalid]="formSchool.get('dienThoaiHieuTruong').invalid && (formSchool.get('dienThoaiHieuTruong').dirty || formSchool.get('dienThoaiHieuTruong').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.dienThoaiHieuTruong.hasOwnProperty('message') && formSchool.get('dienThoaiHieuTruong').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.dienThoaiHieuTruong">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('dienThoaiHieuTruong').hasError(err.type) && (formSchool.get('dienThoaiHieuTruong').dirty || formSchool.get('dienThoaiHieuTruong').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.dienThoaiHieuTruong">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.dienThoaiHieuTruong"
+                                                 [displayErrorServer]="!(formSchool.get('dienThoaiHieuTruong').dirty || formSchool.get('dienThoaiHieuTruong').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('indexOrder')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}"
+                        class="form-control so-form-control"
+                        formControlName="indexOrder" [min]="0"
+                             [class.is-invalid]="formSchool.get('indexOrder').invalid && (formSchool.get('indexOrder').dirty || formSchool.get('indexOrder').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.indexOrder.hasOwnProperty('message') && formSchool.get('indexOrder').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.indexOrder">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('indexOrder').hasError(err.type) && (formSchool.get('indexOrder').dirty || formSchool.get('indexOrder').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.indexOrder">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.indexOrder"
+                                                 [displayErrorServer]="!(formSchool.get('indexOrder').dirty || formSchool.get('indexOrder').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.namThanhLap')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}"
+                        class="form-control so-form-control"
+                        formControlName="namThanhLap"
+                             [class.is-invalid]="formSchool.get('namThanhLap').invalid && (formSchool.get('namThanhLap').dirty || formSchool.get('namThanhLap').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.namThanhLap.hasOwnProperty('message') && formSchool.get('namThanhLap').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.namThanhLap">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('namThanhLap').hasError(err.type) && (formSchool.get('namThanhLap').dirty || formSchool.get('namThanhLap').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.namThanhLap">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.namThanhLap"
+                                                 [displayErrorServer]="!(formSchool.get('namThanhLap').dirty || formSchool.get('namThanhLap').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.loaiDuAn')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="tenMaDuAn" id="tenMaDuAn" class="w-full form-control so-form-control" formControlName="maDuAn">
+                        <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.MaDuAn">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.dienTich')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}"
+                        class="form-control so-form-control"
+                        formControlName="dienTich"
+                             [class.is-invalid]="formSchool.get('dienTich').invalid && (formSchool.get('dienTich').dirty || formSchool.get('dienTich').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.dienTich.hasOwnProperty('message') && formSchool.get('dienTich').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.dienTich">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('dienTich').hasError(err.type) && (formSchool.get('dienTich').dirty || formSchool.get('dienTich').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.dienTich">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.dienTich"
+                                                 [displayErrorServer]="!(formSchool.get('dienTich').dirty || formSchool.get('dienTich').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.chuanQuocGia')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="w-full form-control so-form-control"
+                        formControlName="mucChuanQuocGia">
+                        <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
+                        <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
+                          <option [value]="item.MA">{{item.TEN}}</option>
+                        </ng-container>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('school.maVungKhoKhan')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                        <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="w-full form-control so-form-control"
+                          formControlName="maVungKhoKhan">
+                          <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
+                          <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
+                            <option [value]="item.MA">{{item.TEN}}</option>
+                          </ng-container>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                      <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
+                          alt="" class="box-icon" />&ensp;{{t('address')}}</span>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
+                      <input type="text" name="address" id="address" placeholder="{{t('enterAddress')}}"
+                        class="form-control form-control so-form-control"
+                        formControlName="address"
+                             [class.is-invalid]="formSchool.get('address').invalid && (formSchool.get('address').dirty || formSchool.get('address').touched)"
+                             [class.is-invalid-server]="validationMessagesServer?.address.hasOwnProperty('message') && formSchool.get('address').invalid">
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.address">
+                        <app-field-error-display
+                          [displayError]="formSchool.get('address').hasError(err.type) && (formSchool.get('address').dirty || formSchool.get('address').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.address">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.address"
+                                                 [displayErrorServer]="!(formSchool.get('address').dirty || formSchool.get('address').touched)">
+                        </app-field-error-display>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.nameSchool')}} <span class="text-danger">*</span></span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="name" id="name" placeholder="{{t('school.enterNameSchool')}}" class="form-control"
-                      formControlName="name">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'required',
-                        message: t('school.requiredName'),
-                        control: formSchool.controls['name']
-                        }">
-                      </ng-container>
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'maxLength',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['name']
-                        }">
-                      </ng-container>
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'notEmpty',
-                        message: t('school.requiredName'),
-                        control: formSchool.controls['name']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
 
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.codeMoet')}} <span class="text-danger">*</span></span>
+      <div class="box collapse-info-basic mt-5">
+        <nz-collapse>
+          <nz-collapse-panel [nzHeader]="t('school.infoAdvancedII')" [nzActive]="true" class="school-collapse">
+            <div class="collapse-main box-main px-0 fs-13">
+              <div class="row mx-0">
+                <ng-container *ngFor="let item of arrInfoAdvanced">
+                  <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+                    <label nz-checkbox class="so-checkbox checkbox-info-advanced fs-13" id="{{item.key}}"
+                     formControlName="{{item.key}}">
+                      <span class="fw-600">{{ t(item.label) }}</span>
+                    </label>
                   </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600">
-                    {{ infoBasicSchool?.MoetUnitCode || '--' }}
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('campus')}} <span class="text-danger">*</span></span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="campus" id="campus" class="w-full" formControlName="campus">
-                      <option [value]="null" disabled>{{t('school.selectCampus')}}</option>
-                      <ng-container *ngFor="let campus of arrCampus">
-                        <option [value]="campus.id">{{campus.name}}</option>
-                      </ng-container>
-                    </select>
-                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                      validation: 'required',
-                      message: t('school.requiredCampus'),
-                      control: formSchool.controls['campus']
-                      }">
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('trainingLevel')}} <span class="text-danger">*</span></span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 fw-600 form-group so-form-group">
-                    <select name="trainingLevel" id="trainingLevel" class="w-full" formControlName="trainingLevel">
-                      <option [value]="null" disabled>{{t('selectTrainingLevel')}}</option>
-                      <ng-container *ngFor="let level of arrTrainingLevel">
-                        <option [value]="level.code">{{level.name}}</option>
-                      </ng-container>
-                    </select>
-                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                      validation: 'required',
-                      message: t('school.requiredTrainingLevel'),
-                      control: formSchool.controls['trainingLevel']
-                      }">
-                    </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.loaiHinhTruong')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="loaiHinhTruong" id="loaiHinhTruong" class="w-full" formControlName="loaiHinhTruong">
-                      <option [value]="''">{{t('school.chonLoaiHinhTruong')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.MaLoaiHinhTruong">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.loaiTruong')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="loaiTruong" id="loaiTruong" class="w-full" formControlName="loaiTruong">
-                      <option [value]="''">{{t('school.chonLoaiTruong')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.MaLoaiTruong">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.chinhSachVung')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="chinhSachVung" id="chinhSachVung" class="w-full" formControlName="chinhSachVung">
-                      <option [value]="''">{{t('school.chonChinhSachVung')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.ChinhSachVung">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.provinceCity')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="cityCode" id="cityCode" class="w-full" formControlName="cityCode"
-                      (change)="changeVerticalUnit('city')">
-                      <option [value]="''">{{t('school.chonProvinceCity')}}</option>
-                      <ng-container *ngFor="let item of arrCity">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.khuVuc')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="khuVuc" id="khuVuc" class="w-full" formControlName="khuVuc">
-                      <option [value]="''">{{t('school.chonKhuVuc')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.KhuVuc">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.district')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="districtCode" id="districtCode" class="w-full" formControlName="districtCode"
-                      (change)="changeVerticalUnit('district')">
-                      <option [value]="''">{{t('school.chonDistrict')}}</option>
-                      <ng-container *ngFor="let item of arrDistrict">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.ward')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="wardCode" id="wardCode" class="w-full" formControlName="wardCode"
-                      (change)="changeVerticalUnit('ward')">
-                      <option [value]="''">{{t('school.chonWard')}}</option>
-                      <ng-container *ngFor="let item of arrWard">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;Email</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="email" id="email" placeholder="{{t('school.enterEmail')}}" class="form-control"
-                      formControlName="email">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['email']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.sendFromEmail')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="sendFromEmail" id="sendFromEmail" placeholder="{{t('school.enterSendFromEmail')}}" class="form-control"
-                      formControlName="sendFromEmail">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['sendFromEmail']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.SĐT')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="phone" id="phone" placeholder="{{t('school.enterSĐT')}}" class="form-control"
-                      formControlName="phone">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternPhone'),
-                        control: formSchool.controls['phone']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;Hotline</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="hotline" id="hotline" placeholder="{{t('school.enterHotline')}}" class="form-control"
-                      formControlName="hotline">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternHotline'),
-                        control: formSchool.controls['hotline']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.fax')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="fax" id="fax" placeholder="{{t('school.enterFax')}}" class="form-control"
-                      formControlName="fax">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternFax'),
-                        control: formSchool.controls['fax']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.hieuTruong')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="tenHieuTruong" id="tenHieuTruong" placeholder="{{t('school.enterName')}}" class="form-control"
-                      formControlName="tenHieuTruong">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['tenHieuTruong']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.emailHieuTruong')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="emailHieuTruong" id="emailHieuTruong" placeholder="{{t('school.enterEmail')}}" class="form-control"
-                      formControlName="emailHieuTruong">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'email',
-                        message: t('school.patternEmail'),
-                        control: formSchool.controls['emailHieuTruong']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.SDTHieuTruong')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="dienThoaiHieuTruong" id="dienThoaiHieuTruong" placeholder="{{t('school.enterSĐT')}}" class="form-control"
-                      formControlName="dienThoaiHieuTruong">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.patternPhone'),
-                        control: formSchool.controls['dienThoaiHieuTruong']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('indexOrder')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="number" name="indexOrder" id="indexOrder" placeholder="{{t('enterIndexOrder')}}" class="form-control"
-                      formControlName="indexOrder">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.namThanhLap')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="number" name="namThanhLap" id="namThanhLap" placeholder="{{t('school.nhapNamThanhLap')}}" class="form-control"
-                      formControlName="namThanhLap">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['namThanhLap']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.loaiDuAn')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="tenMaDuAn" id="tenMaDuAn" class="w-full" formControlName="maDuAn">
-                      <option [value]="''">{{t('school.chonLoaiDuAn')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.MaDuAn">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.dienTich')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="dienTich" id="dienTich" placeholder="{{t('school.enterDienTich')}}" class="form-control"
-                      formControlName="dienTich">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['dienTich']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.chuanQuocGia')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <select name="tenMucChuanQuocGia" id="tenMucChuanQuocGia" class="w-full" formControlName="mucChuanQuocGia">
-                      <option [value]="''">{{t('school.chonChuanQuocGia')}}</option>
-                      <ng-container *ngFor="let item of moetCategories?.MucChuanQuocGia">
-                        <option [value]="item.MA">{{item.TEN}}</option>
-                      </ng-container>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('school.maVungKhoKhan')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                      <select name="tenMaVungKhoKhan" id="tenMaVungKhoKhan" class="w-full" formControlName="maVungKhoKhan">
-                        <option [value]="''">{{t('school.chonMaVungKhoKhan')}}</option>
-                        <ng-container *ngFor="let item of moetCategories?.MaVungKhoKhan">
-                          <option [value]="item.MA">{{item.TEN}}</option>
-                        </ng-container>
-                      </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
-                <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                    <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg"
-                        alt="" class="box-icon" />&ensp;{{t('address')}}</span>
-                  </div>
-                  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 fw-600 form-group so-form-group">
-                    <input type="text" name="address" id="address" placeholder="{{t('enterAddress')}}" class="form-control"
-                      formControlName="address">
-                      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                        validation: 'pattern',
-                        message: t('school.validateMaxLengthName'),
-                        control: formSchool.controls['address']
-                        }">
-                      </ng-container>
-                  </div>
-                </div>
+                </ng-container>
               </div>
             </div>
-          </div>
-        </nz-collapse-panel>
-      </nz-collapse>
-    </div>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
 
-    <div class="box collapse-info-basic mt-5">
-      <nz-collapse>
-        <nz-collapse-panel [nzHeader]="t('school.infoAdvancedII')" [nzActive]="true">
-          <div class="collapse-main box-main">
-            <div class="row">
-              <ng-container *ngFor="let item of arrInfoAdvanced">
-                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
-                  <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="{{item.key}}"
-                   formControlName="{{item.key}}">
-                    <span class="fw-600">{{ t(item.label) }}</span>
-                  </label>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </nz-collapse-panel>
-      </nz-collapse>
-    </div>
-
-    <div class="action d-flex justify-content-end mt-4">
-      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
-      (click)="cancel()">{{t('btnAction.cancel')}}</button>
-      <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
-        (click)="submit(formSchool.value)" [disabled]="formSchool.invalid">{{t('btnAction.save')}}</button>
-    </div>
-  </form>
+      <div class="action d-flex justify-content-end mt-4">
+        <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+        (click)="cancel()">{{t('btnAction.cancel')}}</button>
+        <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
+          (click)="submit(formSchool.value)" >{{t('btnAction.save')}}</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- error -->
@@ -541,7 +648,6 @@
     <div class="fv-plugins-message-container">
       <span role="alert">
         <div class="err-form text-danger">
-          <img src="assets/images/svg/icon-false.svg" alt="">
           <span>&nbsp;{{ message }}</span>
         </div>
       </span>

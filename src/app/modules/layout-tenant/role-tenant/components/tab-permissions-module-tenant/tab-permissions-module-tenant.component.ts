@@ -1,9 +1,9 @@
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input, OnInit } from '@angular/core';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
 import { DATA_PERMISSION } from 'src/app/_shared/utils/constant';
-import { forkJoin } from 'rxjs';
 import { ModalAssignPermissionRoleTenantComponent } from '../../modals/modal-assign-permission-role-tenant/modal-assign-permission-role-tenant.component';
 
 @Component({
@@ -24,8 +24,8 @@ export class TabPermissionsModuleTenantComponent implements OnInit {
 
   constructor(
     private roleService: RoleService,
-    private showMessage: ShowMessageService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -36,16 +36,13 @@ export class TabPermissionsModuleTenantComponent implements OnInit {
     this.isLoading = true;
     this.roleService.getListPermissionRole(this.roleId, this.keyword).subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.listPermissionOriginal = res.data;
-          this.listPermission = res.data;
-        } else {
-          this.showMessage.error(res.msg);
-        }
+        this.listPermissionOriginal = res.data;
+        this.listPermission = res.data;
         this.isLoading = false;
       },
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -102,32 +99,43 @@ export class TabPermissionsModuleTenantComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(err.msg);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.keyword = value.trim();
-      this.listPermission = [];
-      this.isLoading = true;
-      this.listPermissionOriginal.forEach((item) => {
-        let arr = item.permissions.filter(
-          (per) =>
-            per.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-            per.code.toLowerCase().includes(this.keyword.toLowerCase())
-        );
-        if (arr.length > 0)
-          this.listPermission.push({
-            id: item.id,
-            code: item.code,
-            name: item.name,
-            indexOrder: item.indexOrder,
-            permissions: arr,
-          });
-      });
-      this.isLoading = false;
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+      // this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.keyword = value.trim();
+    this.listPermission = [];
+    this.isLoading = true;
+    this.listPermissionOriginal.forEach((item) => {
+      let arr = item.permissions.filter(
+        (per) =>
+          per.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
+          per.code.toLowerCase().includes(this.keyword.toLowerCase())
+      );
+      if (arr.length > 0)
+        this.listPermission.push({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          indexOrder: item.indexOrder,
+          permissions: arr,
+        });
+    });
+    this.isLoading = false;
   }
 }

@@ -46,10 +46,13 @@ describe('ModalAssignPermissionComponent', () => {
         listCampus: [],
       },
     };
+    component.isLoading = false;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -65,5 +68,23 @@ describe('ModalAssignPermissionComponent', () => {
     component.dataFromParent.layoutCode = '';
     fixture.detectChanges();
     expect(component.mapNameLayout()).toEqual('--');
+  });
+
+  it('should map true name status of user-status 0', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(0)).toEqual('notActivated');
+  });
+
+  it('should map true name status of user-status 1', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(1)).toEqual('activated');
+  });
+
+  it('should map false name status of user', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(3)).toEqual('--');
   });
 });

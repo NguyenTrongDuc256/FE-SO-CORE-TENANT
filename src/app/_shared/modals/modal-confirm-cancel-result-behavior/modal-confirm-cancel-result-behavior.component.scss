@@ -1,0 +1,91 @@
+h5,h6,
+p {
+  margin: 0 ;
+
+}
+.text-color-watermelon{
+  color: #F64E60;
+}
+
+
+.so-btn-cancel {
+  margin-left: 13px;
+}
+
+.modal-header {
+  border-bottom-color: #d9d3d3;
+}
+
+::ng-deep app-modal-delete {
+  background: #F3F6F9;
+}
+
+::ng-deep .modal-md-plus {
+  max-width: 35%;
+}
+
+@media (max-width: 1200px) {
+  ::ng-deep .modal-md-plus {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 992px) {
+  ::ng-deep .modal-md-plus {
+    max-width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  ::ng-deep .modal-md-plus {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  ::ng-deep .modal-md-plus {
+    max-width: 60%;
+  }
+}
+
+
+.icon-behavior{
+  width: 74px;
+  height: 74px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.img-cover{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.icon-size{
+  width: 20px;
+  height: 20px;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+@mixin webkit-box($value: 2) {
+  -webkit-line-clamp: $value;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+.webkit-box-1 {
+  @include webkit-box($value: 1);
+}
+.webkit-box-2 {
+  @include webkit-box($value: 2);
+}
+.myCustomModalClass{
+  background: #000 !important;
+}
+
+
+
+
+

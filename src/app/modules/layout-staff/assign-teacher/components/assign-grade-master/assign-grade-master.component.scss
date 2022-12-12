@@ -1,0 +1,14 @@
+table thead tr th:first-child {
+  max-width: 25%;
+  min-width: 26rem;
+  width: 10%;
+}
+
+table tbody tr td:first-child {
+  max-width: 25%;
+  min-width: 26rem;
+}
+
+.td-no-data {
+  border-left: 1px solid #E4E6EF;
+}

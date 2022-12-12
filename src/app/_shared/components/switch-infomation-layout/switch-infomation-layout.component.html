@@ -1,6 +1,8 @@
 <div class="custom-switch-infomation-layout" *ngIf="currentMoet || currentStudent || currentSchoolYear">
-  <h3 class="fs-14">{{ dataCurrent.name }}</h3>
-  <span class="text-small-global"><span *ngIf="currentLayout != 'tenant'">{{ dataCurrent.termName }} |</span> {{ dataCurrent.schooYearName }}</span>
+  <h3 class="fs-16 fw-700">{{ dataCurrent.name }}</h3>
+  <span class="fs-12 fw-700">
+    <span *ngIf="currentLayout != 'tenant'">{{ dataCurrent.termName }}</span> <span class="ps-3 pe-3" *ngIf="currentLayout != 'tenant'">|</span> <span>{{ dataCurrent.schooYearName }}</span>
+  </span>
   <img class="icon-choose-infomation" src="assets/images/svg/btn_down_icon.svg" alt="" nz-button nz-dropdown nzOverlayClassName="hide-content" nzTrigger="click" [nzDropdownMenu]="menu" [nzPlacement]="'bottomLeft'" [nzClickHide]="isCollapsed">
 </div>
 

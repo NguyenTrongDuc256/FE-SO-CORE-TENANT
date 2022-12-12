@@ -1,77 +1,105 @@
-<div class="card-dialog" *transloco="let t; scope: 'subject'">
+<div *transloco="let t; scope: 'subject'">
   <div class="modal-header">
     <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
     <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
-      [hidden]="!dataModal?.isHiddenBtnClose">
+      [hidden]="dataModal?.isHiddenBtnClose">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="infoForm">
-      <div class=" d-flex align-items-center ">
-        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectName') }} <span class="text-danger">*</span></span>
-        <input class="fs-14 fw-500 input-custom input-text " placeholder="{{ t('subject.enterSubjectName') }}"
-          name="input-name" type="text" formControlName="name">
+    <form [formGroup]="formGroup" class="card-dialog text-color-river-bed">
+      <div class="mb-6">
+        <div class=" d-flex align-items-center ">
+          <span class="fs-13 fw-700 label-input">{{ t('subject.subjectName') }} <span
+              class="text-danger me-2">*</span></span>
+          <input class="so-form-control form-control input-text " placeholder="{{ t('subject.enterSubjectName') }}"
+            name="input-name" type="text" formControlName="name"
+            [class.is-invalid]="formGroup.get('name').invalid && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formGroup.get('name').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validationMessages.name">
+          <app-field-error-display
+            [displayError]="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.name"
+            [displayErrorServer]="!(formGroup.get('name').dirty || formGroup.get('name').touched)">
+          </app-field-error-display>
+        </div>
       </div>
-      <div *ngFor="let item of validation_messages.name">
-        <span class="warning " *ngIf="infoForm.get('name')?.hasError(item.type)  && infoForm.get('name')?.touched">
-          {{item.message}}
-        </span>
+
+      <div class="mb-6">
+        <div class=" margin-top d-flex align-items-center ">
+          <span class="fs-13 fw-700 label-input">{{ t('subject.subjectCode') }} <span
+              class="text-danger me-2">*</span></span>
+          <input class="so-form-control form-control  input-text" placeholder="{{ t('subject.enterSubjectCode') }}"
+            type="text" formControlName="code" name="input-code"
+            [class.is-invalid]="formGroup.get('code').invalid && (formGroup.get('code').dirty || formGroup.get('code').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.code.hasOwnProperty('message') && formGroup.get('code').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validationMessages.code">
+          <app-field-error-display
+            [displayError]="formGroup.get('code').hasError(err.type) && (formGroup.get('code').dirty || formGroup.get('code').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.code">
+          <app-field-error-display [errorServer]="validationMessagesServer?.code"
+            [displayErrorServer]="!(formGroup.get('code').dirty || formGroup.get('code').touched)">
+          </app-field-error-display>
+        </div>
       </div>
-  
-      <div class=" margin-top d-flex align-items-center ">
-        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectCode') }} <span class="text-danger">*</span></span>
-        <input class="fs-14 fw-500 input-custom  input-text" placeholder="{{ t('subject.enterSubjectCode') }}" type="text"
-          formControlName="code" name="input-code">
-      </div>
-      <div *ngFor="let item of validation_messages.code">
-        <span class="warning" *ngIf="infoForm.get('code')?.hasError(item.type)  && infoForm.get('code')?.touched">
-          {{item.message}}
-        </span>
-      </div>
-  
-      <div class=" margin-top d-flex align-items-center ">
-        <span class="fs-14 fw-700 label-input">{{ t('subject.subjectType') }}</span>
-        <select class="w-100 fs-13 fw-700 form-select form-select-solid form-select-lg" name="btn-subject"
-          id="subjectType" formControlName="subjectType">
-          <!--  <option value="1">{{ t('subject.subjectMoet') }}</option> -->
+
+      <div class=" margin-top d-flex align-items-center mb-6">
+        <span class="fs-13 fw-700 label-input">{{ t('subject.subjectType') }}</span>
+        <select class="so-form-control so-select input-text" name="btn-subject" id="subjectType"
+          formControlName="subjectType">
           <option value="2">{{ t('subject.subjectPrivate') }}</option>
           <option value="3">{{ t('subject.subjectBilingual') }}</option>
         </select>
       </div>
-  
-      <div class=" margin-top d-flex align-items-center ">
-        <span class="fs-14 fw-700 label-input">{{ t('subject.applyFor') }} <span class="text-danger">*</span></span>
-        <nz-select formControlName="educationalStages" nzMode="tags" [nzTokenSeparators]="[',']"
-          nzPlaceHolder="{{ t('select') }}">
-          <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
-        </nz-select>
-      </div>
-      <div *ngFor="let item of validation_messages.educationalStages">
-        <span class="warning"
-          *ngIf="infoForm.get('educationalStages')?.hasError(item.type)  && infoForm.get('educationalStages')?.touched">
-          {{item.message}}
-        </span>
-      </div>
-  
-      <div class=" margin-top d-flex align-items-center ">
-        <div class="status">
-          <span class="fs-14 fw-700 ">{{ t('status') }}</span>
+      <div class="mb-6">
+        <div class=" margin-top d-flex align-items-center ">
+          <span class="fs-13 fw-700 label-input">{{ t('subject.applyFor') }} <span
+              class="text-danger me-2">*</span></span>
+          <nz-select class="so-form-control so-select input-text" formControlName="educationalStages" nzMode="tags"
+            [nzTokenSeparators]="[',']" nzPlaceHolder="{{ t('select') }}"
+            [class.is-invalid]="formGroup.get('educationalStages').invalid && (formGroup.get('educationalStages').dirty || formGroup.get('educationalStages').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.educationalStages.hasOwnProperty('message') && formGroup.get('educationalStages').invalid">
+            <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value">
+            </nz-option>
+          </nz-select>
         </div>
-        <!--  <input class="form-check-input" name="input-checkbox" type="checkbox" formControlName="isActive" />
-        <span class="activated fs-14 fw-700">{{ t('subject.used') }}</span> -->
-        <label class=" fs-14 fw-700 text-primary" nz-checkbox name="input-checkbox" formControlName="isActive">{{
-          t("subject.used")
-          }}</label>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validationMessages.educationalStages">
+          <app-field-error-display
+            [displayError]="formGroup.get('educationalStages').hasError(err.type) && (formGroup.get('educationalStages').dirty || formGroup.get('educationalStages').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.educationalStages">
+          <app-field-error-display [errorServer]="validationMessagesServer?.educationalStages"
+            [displayErrorServer]="!(formGroup.get('educationalStages').dirty || formGroup.get('educationalStages').touched)">
+          </app-field-error-display>
+        </div>
       </div>
-      
+
+      <div class=" margin-top d-flex align-items-center">
+        <span class="fs-13 fw-700 label-input">{{ t('status') }}</span>
+        <div class="input-text">
+          <label class="fs-13 fw-600 text-color-river-bed" nz-checkbox formControlName="isActive">{{ t('subject.used')
+            }}</label>
+        </div>
+
+      </div>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
       (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
-    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" [disabled]="infoForm.invalid"
-    (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="onSubmit(formGroup.value)">{{dataModal?.btnAccept}}</button>
   </div>
 </div>
 <div class="spinner" *ngIf="isLoading">

@@ -4,6 +4,12 @@
   "changePassword": "Change password",
   "updateUsernameCode": "Update username and code",
   "fullname": "Fullname",
+  "fatherFullname": "Father fullname",
+  "fatherPhone": "Father phone",
+  "fatherEmail": "Father email",
+  "motherFullname": "Mother fullname",
+  "motherPhone": "Mother phone",
+  "motherEmail": "Mother email",
   "createStudent": "Create student",
   "updateStudent": "Update student",
   "username": "Username",
@@ -15,7 +21,6 @@
   "password": "Password",
   "passwordTrue": "Changed",
   "passwordFalse": "Haven't changed",
-  "active": "Actived",
   "noActive": "locked",
   "school": "School",
   "newPassword": "New password",
@@ -38,6 +43,7 @@
     "appAccessLock": "App access lock",
     "unlockAppAccess": "Unlock app access"
   },
+  "homeroomClass": "Homeroom class",
   "currentAccommodation": "Current accommodation",
   "sortOrder": "Sort order",
   "personalInformation": "Personal information",
@@ -94,14 +100,25 @@
   "permanentResidence": "Permanent residence",
   "presentAddress": "Present address",
   "enter": "Enter-",
+  "search": "Enter keyword",
+  "codeCategoryRecords": "Code Category Records",
+  "nameRecord": "Record name",
+  "nameLink": "Name Link",
+  "link": "Link",
+  "note1": "This function only allows importing the path according to the list of students",
+  "note2": "Columns \"Student ID\", \"Fullname\", \"Gender\", \"Date of birth\", \"Grade\", \"Homeroom class\" are required columns",
+  "downloadSampleFiles": "Download sample files",
+  "selectSchool": "Select school",
   "validators": {
     "fullName": {
       "required": "fullname is required",
-      "pattern": "fullName invalid"
+      "pattern": "fullName invalid",
+      "maxLength": "fullName can't have more than 255 characters"
     },
     "code": {
       "required": "code is required",
-      "pattern": "code invalid"
+      "pattern": "code invalid",
+      "maxLength": "code can't have more than 50 characters"
     },
     "birthday": {
       "required": "birthday is required"
@@ -154,7 +171,8 @@
     },
     "fatherFullName": {
       "required": "fullName is required",
-      "pattern": "fullname invalid"
+      "pattern": "fullname invalid",
+      "maxLength": "fullname can't have more than 255 characters"
     },
     "fatherCode": {
       "required": "code is required",
@@ -182,7 +200,8 @@
     },
     "motherFullName": {
       "required": "fullName is required",
-      "pattern": "fullName invalid"
+      "pattern": "fullName invalid",
+      "maxLength": "fullname can't have more than 255 characters"
     },
     "motherCode": {
       "required": "code is required",
@@ -210,7 +229,8 @@
     },
     "tutorFullName": {
       "required": "fullName is required",
-      "pattern": "fullName invalid"
+      "pattern": "fullName invalid",
+      "maxLength": "fullname can't have more than 255 characters"
     },
     "tutorCode": {
       "required": "code is required",
@@ -236,5 +256,6 @@
       "required": "emailis required",
       "email": "Email invalid"
     }
-  }
+  },
+  "studentRecords": "Student records"
 }

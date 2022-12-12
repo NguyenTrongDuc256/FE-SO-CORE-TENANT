@@ -1,0 +1,81 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student-records'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('profile')}}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="so-input-search fw-600">
+          <input type="text" placeholder="{{t('studentRecords.search')}}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 so-table w-full mb-4 so-table-th-custom--grey">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-5"> {{t('STT')}}</th>
+            <th class="w-15"> {{t('studentRecords.nameRecord')}}</th>
+            <th class="w-16"> {{t('studentRecords.categoryRecords')}} </th>
+            <th class="w-10"> {{t('studentRecords.createdAt')}} </th>
+            <th class="w-14"> {{t('studentRecords.createdByName')}} </th>
+            <th class="w-15"> {{t('studentRecords.fileAttachs')}} </th>
+            <th class="w-15"> {{t('feedback')}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i=index">
+            <tr class="fs-13 fw-600 text-color-river-bed">
+              <td class="text-center">
+                {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+              </td>
+              <td class="fw-700">
+                {{item?.name}}
+                <span class="icon-mark" *ngIf="item.isImportant == 1">
+                  <img src="assets/images/svg/icon-mark.svg" alt="">
+                </span>
+              </td>
+              <td class="fw-700">
+                {{item?.fileCategoryName}}
+              </td>
+              <td class="fw-700 text-link2">
+                {{item?.createdAt | formatTime}}
+              </td>
+              <td class="fw-600">
+                {{item?.createByName}}
+              </td>
+              <td>
+                <ng-container *ngFor="let file of item?.fileAttachs">
+                  <div class="d-flex fs-12 fw-600 mb-2 align-items-start">
+                    <img src="assets/images/svg/icon-attached-files.svg" class="me-1 mt-1" alt="">
+                    <a href="{{file?.url}}" target="_blank" class="text-underline">{{file?.name}}</a>
+                  </div>
+                </ng-container>
+              </td>
+              <td>
+                <span class="icon-feedback">
+                  <img src="assets/images/svg/message-blue.svg" alt="">
+                  <span class="fw-600">{{item?.countFeedback}}</span> {{t('feedback')}}
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="arrList?.length == 0 || !arrList">
+            <td class="text-no-data" colspan="7">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

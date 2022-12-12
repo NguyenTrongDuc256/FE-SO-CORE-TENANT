@@ -9,7 +9,6 @@ import { ModuleManagerRoutingModule } from './module-manager-routing.module';
 import { ModuleDetailTenantComponent } from './components/module-detail-tenant/module-detail-tenant.component';
 import { ModuleListTenantComponent } from './components/module-list-tenant/module-list-tenant.component';
 import { ModalPermissionOfModuleTenantComponent } from './modals/modal-permission-of-module-tenant/modal-permission-of-module-tenant.component';
-
 @NgModule({
   declarations: [
     ModuleListTenantComponent,

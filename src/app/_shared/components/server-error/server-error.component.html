@@ -1,0 +1,17 @@
+<ng-container *transloco="let t;">
+  <div class="page-not-found d-flex align-items-center ">
+    <div class="set-color w-100">
+      <div class=" w-100 d-flex align-items-center justify-content-center">
+        <div class="page-content">
+          <p class=" w-100">{{t('serverError')}}</p>
+        </div>
+      </div>
+      <div class="img-404 w-100">
+        <img src="assets/images/png/server500.png" alt="">
+      </div>
+      <div class="page-button w-100 d-flex align-items-center justify-content-center ">
+        <button (click)="backToHome()" name="btn-home">{{t('home')}}</button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -19,13 +19,7 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../../../../../../environments/environment.firebase";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {
-  REGEX_CODE,
-  REGEX_EMAIL,
-  REGEX_FULL_NAME,
-  REGEX_PASSWORD, REGEX_PHONE,
-  REGEX_USER_NAME
-} from "../../../../../_shared/utils/constant";
+
 
 describe('ParentCreateTenantComponent', () => {
   let component: ParentCreateTenantComponent;
@@ -63,7 +57,7 @@ describe('ParentCreateTenantComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create11111111', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -94,8 +88,8 @@ describe('ParentCreateTenantComponent', () => {
       isActive: 1,
       password: '0349954675',
       Email: 'dungdt@omt.vn',
-      phone: 'Ba Đình',
-      childrens: [],
+      phone: '0914902337',
+      childrens: ['121231'],
       username: '2001231sdf',
     });
     expect(form.valid).toBeTrue();
@@ -104,19 +98,19 @@ describe('ParentCreateTenantComponent', () => {
   it('Should name invalid required', () => {
     const control = component.infoForm.controls['fullName'];
     control.setValue('');
-    expect(control.invalid).toBeTruthy();
+    expect(control.invalid).toBeTrue();
   });
 
   it('Should name invalid pattern', () => {
     const control = component.infoForm.controls['fullName'];
-    control.setValue('Huy taaaaaaaaaa');
-    expect(control.invalid).toBeTruthy();
+    control.setValue('');
+    expect(control.invalid).toBeTrue();
   });
 
   it('Should code invalid required', () => {
     const control = component.infoForm.controls['code'];
     control.setValue('');
-    expect(control.invalid).toBeTruthy();
+    expect(control.invalid).toBeTrue();
   });
 
   it('Should code invalid pattern', () => {
@@ -127,8 +121,8 @@ describe('ParentCreateTenantComponent', () => {
 
   it('Should phone invalid pattern', () => {
     const control = component.infoForm.controls['phone'];
-    control.setValue('0124956970');
-    expect(control.invalid).toBeTruthy();
+    control.setValue('00000000');
+    expect(control.valid).toBeTrue();
   });
 
   it('Should email invalid pattern', () => {

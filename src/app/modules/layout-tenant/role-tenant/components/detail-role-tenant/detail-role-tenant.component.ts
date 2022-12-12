@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { DATA_PERMISSION, LAYOUTS_TENANT } from 'src/app/_shared/utils/constant';
 import { ModalFormRoleTenantComponent } from '../../modals/modal-form-role-tenant/modal-form-role-tenant.component';
 @Component({
@@ -21,9 +21,9 @@ export class DetailRoleTenantComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private roleService: RoleService,
-    private showMessage: ShowMessageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -38,15 +38,12 @@ export class DetailRoleTenantComponent implements OnInit {
     this.isLoading = true;
     this.roleService.detailRole(this.roleId).subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.infoRole = res.data;
-        } else {
-          this.showMessage.error(res.msg);
-        }
+        this.infoRole = res.data;
         this.isLoading = false;
       },
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -21,11 +21,11 @@ export class ModalKyLuatComponent implements OnInit {
   currentDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     loai: [
       {
         type: "required",
-        message: translate('employee.validators.loaiKyLuat.required'),
+        message: 'employee.validators.loaiKyLuat.required',
       },
     ],
   };
@@ -91,8 +91,8 @@ export class ModalKyLuatComponent implements OnInit {
       capKyQD: [data ? data.capKyQD : ''],
       soQD: [data ? data.soQD : ''],
       date: [data ? data.date : this.currentDate],
-      isInput: [data ? data.isInput : 1],
-      isUpdate: [data ? data.isUpdate : 0],
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.kyLuat.push(itemForm);
   }
@@ -101,12 +101,36 @@ export class ModalKyLuatComponent implements OnInit {
     this.kyLuat.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.kyLuat.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -116,13 +140,18 @@ export class ModalKyLuatComponent implements OnInit {
     ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('loai').patchValue(dataForm.loai);
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('capKyQD').patchValue(dataForm.capKyQD);
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('soQD').patchValue(dataForm.soQD);
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.date);
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('loai').patchValue(dataForm.value.loai);
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('capKyQD').patchValue(dataForm.value.capKyQD);
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('soQD').patchValue(dataForm.value.soQD);
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.value.date);
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('kyLuat') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {

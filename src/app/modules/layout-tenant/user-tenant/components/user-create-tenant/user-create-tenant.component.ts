@@ -1,10 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {translate} from '@ngneat/transloco';
-import {FormGroup, FormBuilder, Validators, FormArray} from "@angular/forms";
-import {ResizeImageService} from "src/app/_services/resize-image.service";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { translate } from '@ngneat/transloco';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from "@angular/forms";
+import { ResizeImageService } from "src/app/_services/resize-image.service";
 import * as moment from 'moment';
-import {GeneralService} from "src/app/_services/general.service";
-import {Observable, Subscriber} from "rxjs";
+import { GeneralService } from "src/app/_services/general.service";
+import { Observable, Subscriber } from "rxjs";
 import {
   AVATAR_DEFAULT,
   GENDER,
@@ -13,20 +13,19 @@ import {
   MAX_LENGTH_USERNAME,
   MESSAGE_ERROR_CALL_API,
   MIN_LENGTH_PASSWORD,
-  REGEX_CODE,
+  REGEX_CODE, REGEX_EMAIL,
   REGEX_PASSWORD,
   REGEX_PHONE,
   REGEX_USER_NAME,
   TIME_OUT_LISTEN_FIREBASE
 } from "../../../../../_shared/utils/constant";
-import {RoleService} from "src/app/_services/layout-tenant/role/role.service";
-import {ShowMessageService} from "src/app/_services/show-message.service";
-import {Role} from "src/app/_models/layout-tenant/role/role.model";
-import {ListenFirebaseService} from "src/app/_services/listen-firebase.service";
-import {UserService} from "src/app/_services/layout-tenant/user/user.service";
-import {CampusList, SchoolList, UserStore} from "src/app/_models/layout-tenant/user/user.model";
-import {Router} from "@angular/router";
-import {ValidateUser} from "src/app/_models/layout-tenant/user/validate.model";
+import { ShowMessageService } from "src/app/_services/show-message.service";
+import { Role } from "src/app/_models/layout-tenant/role/role.model";
+import { ListenFirebaseService } from "src/app/_services/listen-firebase.service";
+import { UserService } from "src/app/_services/layout-tenant/user/user.service";
+import { CampusList, SchoolList, UserStore } from "src/app/_models/layout-tenant/user/user.model";
+import { Router } from "@angular/router";
+import { ValidateUser } from "src/app/_models/layout-tenant/user/validate.model";
 
 @Component({
   selector: 'app-user-create-tenant',
@@ -52,6 +51,7 @@ export class UserCreateTenantComponent implements OnInit {
   isSelectCampus: boolean = false;
   isSelect: boolean = false;
   isShowPassword = false;
+  dateCurrent: string = moment().format('X');
 
   validationMessages: ValidateUser = {
     fullName: [
@@ -112,8 +112,8 @@ export class UserCreateTenantComponent implements OnInit {
     ],
     email: [
       {
-        type: "email",
-        message: 'user.validators.email.email',
+        type: "pattern",
+        message: 'user.validators.email.pattern',
       }
     ],
     phone: [
@@ -139,9 +139,20 @@ export class UserCreateTenantComponent implements OnInit {
     ]
   };
 
+  validationMessagesServer = {
+    fullName: {},
+    code: {},
+    username: {},
+    password: {},
+    email: {},
+    phone: {},
+    roleId: {},
+    schoolId: {},
+    campusId: {}
+  }
+
   constructor(
     private resizeImageService: ResizeImageService,
-    private roleService: RoleService,
     private generalService: GeneralService,
     private showMessageService: ShowMessageService,
     private fb: FormBuilder,
@@ -171,6 +182,15 @@ export class UserCreateTenantComponent implements OnInit {
       this.isSubmitForm = true;
       this.isLoading = true;
       const file = (event.target as HTMLInputElement).files[0];
+
+      if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+        this.showMessageService.error(translate('msgCheckImg'));
+        this.fileInputAvatar.nativeElement.value = '';
+        this.isSubmitForm = false;
+        this.isLoading = false;
+        return;
+      }
+
       let dataReadFile = new Observable((subscriber: Subscriber<any>) => {
         this.resizeImageService.readFile(file, subscriber);
       })
@@ -198,50 +218,33 @@ export class UserCreateTenantComponent implements OnInit {
   initForm(): void {
     this.formGroup = this.fb.group({
       avatar: [this.avatarUser],
-      fullName: ['', [
-        Validators.required,
-        Validators.maxLength(MAX_LENGTH_FULL_NAME),
-      ]],
-      code: ['', [
-        Validators.required,
-        Validators.pattern(REGEX_CODE),
-        Validators.maxLength(MAX_LENGTH_CODE),
-      ]],
-      username: ['', [
-        Validators.required,
-        Validators.pattern(REGEX_USER_NAME),
-        Validators.maxLength(MAX_LENGTH_USERNAME),
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.pattern(REGEX_PASSWORD),
-        Validators.minLength(MIN_LENGTH_PASSWORD),
-        Validators.maxLength(MAX_LENGTH_PASSWORD),
-      ]],
+      fullName: ['', [Validators.required, Validators.maxLength(MAX_LENGTH_FULL_NAME)]],
+      code: ['', [Validators.required, Validators.pattern(REGEX_CODE), Validators.maxLength(MAX_LENGTH_CODE)]],
+      username: ['', [Validators.required, Validators.pattern(REGEX_USER_NAME), Validators.maxLength(MAX_LENGTH_USERNAME)]],
+      password: ['', [Validators.required, Validators.pattern(REGEX_PASSWORD), Validators.minLength(MIN_LENGTH_PASSWORD), Validators.maxLength(MAX_LENGTH_PASSWORD)]],
       gender: [1],
       birthday: [''],
-      email: ['', [
-        Validators.email
-      ]],
-      phone: ['', [
-        Validators.pattern(REGEX_PHONE)
-      ]],
+      email: ['', [Validators.pattern(REGEX_EMAIL)]],
+      phone: ['', [Validators.pattern(REGEX_PHONE)]],
       isActive: [1],
       isAccessApp: [1],
-      roleId: ['', [
-
-      ]],
-      campusId: ['', [
-
-      ]],
-      schoolId: ['', [
-
-      ]],
+      roleId: ['', []],
+      campusId: ['', []],
+      schoolId: ['', []],
     })
   }
 
-  onSubmit(formValue): void {
+  onSubmit(formValue: any): void {
     this.isLoading = true;
+    if (this.formGroup.valid) {
+      this.storeUser(formValue);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
+  }
+
+  storeUser(formValue: any) {
     this.isSubmitForm = true;
     let dataInput: UserStore = {
       avatar: formValue.value.avatar,
@@ -270,6 +273,9 @@ export class UserCreateTenantComponent implements OnInit {
     }, (_err: any) => {
       this.isLoading = false;
       this.isSubmitForm = false;
+      if (_err.status == 400) {
+        this.validateAllFormFieldsErrorServer(_err.errors);
+      }
     })
   }
 
@@ -295,15 +301,19 @@ export class UserCreateTenantComponent implements OnInit {
 
   getRoleList(): void {
     this.isLoading = true;
-    this.userService.getDataRolesToAssign().subscribe((res: any) => {
-        if (res.status == 1 && res.status != undefined) {
-          this.roleList = res.data;
-        } else {
-          this.showMessageService.error(res.msg);
-        }
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
-      },
-      (err: any) => {
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.userService.getDataRolesToAssign().subscribe((res: any) => {
+      this.roleList = res.data;
+      this.isLoading = false;
+    },
+      (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       }
     );
@@ -311,15 +321,19 @@ export class UserCreateTenantComponent implements OnInit {
 
   getSchoolList(): void {
     this.isLoading = true;
-    this.userService.getSchoolList().subscribe((res: any): void => {
-        if (res.status == 1) {
-          this.schoolList = res.data;
-        } else {
-          this.showMessageService.error(res.msg);
-        }
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
-      },
-      (err: any) => {
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.userService.getSchoolList().subscribe((res: any): void => {
+      this.schoolList = res.data;
+      this.isLoading = false;
+    },
+      (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       }
     );
@@ -327,15 +341,19 @@ export class UserCreateTenantComponent implements OnInit {
 
   getCampusList(): void {
     this.isLoading = true;
-    this.userService.getCampusList().subscribe((res: any): void => {
-        if (res.status == 1) {
-          this.campusList = res.data;
-        } else {
-          this.showMessageService.error(res.msg);
-        }
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
-      },
-      (err: any) => {
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.userService.getCampusList().subscribe((res: any): void => {
+      this.campusList = res.data;
+      this.isLoading = false;
+    },
+      (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       }
     );
@@ -376,5 +394,33 @@ export class UserCreateTenantComponent implements OnInit {
       this.formGroup.get('campusId').patchValue('');
       this.formGroup.get('campusId').updateValueAndValidity();
     }
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      Object.keys(this.validationMessages).forEach(itemMessage => {
+        if (key == itemMessage || (key[0].toLowerCase() + key.substring(1)) == itemMessage) {
+          this.validationMessagesServer[itemMessage] = {
+            type: "errorServer",
+            message: error[key]
+          }
+        }
+      });
+    });
   }
 }

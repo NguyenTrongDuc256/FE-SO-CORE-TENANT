@@ -41,6 +41,10 @@ export class StudentStaffService {
     );
   }
 
+  updateStudent(data) {
+    return this.http.patch(`${environment.apiIdentityService}/api/students/${data.studentId}`, data);
+  }
+
   deleteStudent(data) {
     return this.http.delete(
       `${environment.apiIdentityService}/api/students/${data.id}`
@@ -49,8 +53,25 @@ export class StudentStaffService {
 
   updateAccessAppStatus(data) {
     return this.http.patch(
-      `${environment.apiIdentityService}/api/admin-user/update-access-app-status`,
+      `${environment.apiIdentityService}/api/user/update-access-app-status`,
       data
     );
+  }
+
+  // upload file import học sinh
+  uploadFileImportStudent(data) {
+    return this.http.post(`${environment.apiIdentityService}/api/students/upload-students`, data);
+  }
+
+  // Danh sách dữ liệu import
+  getListResultImportFile(
+    keyImport: string,
+  ) {
+    return this.http.get(`${environment.apiIdentityService}/api/students/get-upload-temp?keyImport=${keyImport}`);
+  }
+
+  // lưu data import
+  saveListResultImportFile(data) {
+    return this.http.post(`${environment.apiIdentityService}/api/students/confirm-upload`, data);
   }
 }

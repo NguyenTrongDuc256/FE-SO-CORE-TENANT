@@ -55,11 +55,12 @@ export class OnlyNumberDirective implements ControlValueAccessor {
     }
 
     writeValue(value: any): void {
-        value = value ? String(value) : '1';
+        value = value || value == 0 ? String(value) : '';
         this.updateTextInput(value, false);
     }
 }
 
 function filterValue(value): string {
-    return value.replace(/^[^1-9][^0-9]*$/g, '');
+    let value1 = value.replace(/[-.]+/g, '');
+    return value1.replace(/^[^0-9]*$/g, '');
 }

@@ -1,0 +1,46 @@
+
+.color-50a5f1 {
+  color: var(--bs-picton-blue);
+}
+
+.color-6E798C {
+  color: #6E798C;
+}
+
+.color-979DAE {
+  color: #979DAE;
+}
+
+.color-000000 {
+  color: #000000;
+}
+
+.color-556EE6 {
+  color: var(--bs-blue-lotus);
+}
+
+.color-464E5F {
+  color: #464E5F;
+}
+
+.color-495057 {
+  color: var(--bs-river-bed);
+}
+
+.color-5014D0 {
+  color: #5014D0;
+}
+
+::ng-deep.insertHtml > .image > img{
+  max-width: 100%;
+}
+
+.so-badge--primary {
+  background: var(--bs-zircon);
+  color: var(--bs-picton-blue);
+}
+
+.so-badge--warning {
+  background: #FFF8DD;
+  color: #F1BC00;
+}

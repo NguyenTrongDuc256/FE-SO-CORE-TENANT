@@ -31,6 +31,12 @@ import {ModalQuaTrinhCongTacComponent} from "./modals/modal-qua-trinh-cong-tac/m
 import {
   ModalSwitchEmployeeEditComponent
 } from "./modals/modal-switch-employee-edit/modal-switch-employee-edit.component";
+import {
+  ModalImportEmployeeTenantComponent
+} from "./modals/modal-import-employee-tenant/modal-import-employee-tenant.component";
+import {
+  ResultImportEmployeeTenantComponent
+} from "./components/result-import-employee-tenant/result-import-employee-tenant.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +51,9 @@ import {
     ModalQuanHeGiaDinhComponent,
     ModalQuanHeGiaDinhVoChongComponent,
     ModalQuaTrinhCongTacComponent,
-    ModalSwitchEmployeeEditComponent
+    ModalSwitchEmployeeEditComponent,
+    ModalImportEmployeeTenantComponent,
+    ResultImportEmployeeTenantComponent
   ],
   imports: [
     CommonModule,

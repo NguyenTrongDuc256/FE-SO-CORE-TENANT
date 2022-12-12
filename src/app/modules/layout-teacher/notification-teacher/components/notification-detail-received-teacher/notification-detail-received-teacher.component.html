@@ -1,0 +1,70 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'notification'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-600">{{t('notification.notificationDetails')}}</h3>
+  </div>
+  <div class="card-body py-5 pt-2">
+    <h4 class="fw-700 fs-17">{{dataNotification?.title}}</h4>
+    <div>
+      <div class="row mt-5">
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <img src="assets/images/svg/icon-oclock-blue-2.svg" class="mb-2" alt="">
+          <span class="fw-500 text-color-river-bed mb-1 fs-14 ms-2" style="width: 15px; height: 15px;">
+              {{t('notification.sent')}}:
+              <span class="fw-700">{{dataNotification?.sendAt | formatTime: 'HH:mm'}} - {{dataNotification?.sendAt | formatTime: 'dd/MM/YYYY'}}</span>
+            </span>
+        </div>
+        <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <img src="assets/images/svg/user2.svg" class="mb-2" alt="" style="width: 15px; height: 15px;">
+          <span class="fw-500 text-color-river-bed mb-1 fs-14 ms-2">{{t('notification.sender')}}: <span class="fw-700">{{dataNotification?.createdBy}}</span></span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-start mt-5">
+        <div *ngIf="dataNotification?.avatar">
+          <div class="symbol symbol-150px me-8 mt-3" >
+            <img src="{{dataNotification?.avatar}}"  alt="">
+          </div>
+        </div>
+        <div class="d-flex justify-content-start flex-column w-100" *ngIf="dataNotification?.description">
+          <span class="fw-700 color-556EE6 fs-14">{{t('notification.description')}}</span>
+          <p class="mt-2 fw-600 color-979DAE">{{dataNotification?.description}}</p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <p class="insertHtml fs-14" [innerHTML]="dataNotification?.content"></p>
+      </div>
+      <div class="mt-5 d-flex justify-content-end fw-600">
+        <span class="me-6 group-icon text-color-river-bed">
+          <img src="assets/images/svg/icon-like-blue.svg" alt="" class="me-2">
+          <span class="fw-600">{{dataNotification?.likeNumber}} <span class="fw-600">{{t('notification.likes')}}</span></span>
+        </span>
+        <span class="me-6 group-icon" *ngIf="dataNotification.isAllowComment === 1">
+          <img src="assets/images/svg/icon-comment-noti-blue.svg" alt="" class="me-2">
+           <span class="fw-700">{{dataNotification?.commentNumber}} <span class="fw-600">{{t('notification.feedback')}}</span></span>
+        </span>
+      </div>
+      <div class="row mt-5">
+        <ng-container *ngFor="let item of dataNotification?.files;">
+          <div class="row w-100 mt-5 col-xl-12 row get-info pb-2" >
+            <div class="d-flex align-items-center ">
+              <div class="d-flex align-items-center justify-content-center">
+                <img src="assets/images/svg/icon-upload.svg" alt="" style="height: 20px">
+                <a href="{{item}}" class="ms-5" target="_blank">
+                  {{item}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
+
+
+
+
+

@@ -41,16 +41,27 @@ export class ModalListRoleUserComponent implements OnInit {
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.isLoading = true;
-      this.keyword = value.trim();
-      this.listRole = this.listRoleOriginal.filter(
-        (item) =>
-          item.roleName.toLowerCase().includes(this.keyword.toLowerCase()) ||
-          item.roleCode.toLowerCase().includes(this.keyword.toLowerCase())
-      );
-      this.isLoading = false;
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.isLoading = true;
+    this.keyword = value.trim();
+    this.listRole = this.listRoleOriginal.filter(
+      (item) =>
+        item.roleName.toLowerCase().includes(this.keyword.toLowerCase()) ||
+        item.roleCode.toLowerCase().includes(this.keyword.toLowerCase())
+    );
+    this.isLoading = false;
   }
 
   remove(id: string, name: string, userRoleId: string) {

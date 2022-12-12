@@ -1,283 +1,250 @@
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'student'">
-  <div class="col-xl-12">
-    <div class="card card-flush h-md-100">
+<div class="student-list card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('student.studentList') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap justify-content-end">
+        <button class="d-none mb-3 so-btn so-btn-cancel" name="btn-export">
+          <img class="pe-2" src="assets/images/svg/export.svg" alt="icon">
+          {{t('btnAction.export')}}
+        </button>
 
-      <div class="card-header pt-7">
-        <h3 class="card-title d-flex align-items-start flex-column">
-          <span class="card-label fs-18 fw-700">{{ t('student.studentList') }}</span>
-        </h3>
+        <button class="mb-3 me-4 so-btn so-btn-cancel" name="btn-import" (click)="import()">
+          <img class="pe-2" src="assets/images/svg/import6.svg" alt="icon">
+          {{t('btnAction.import')}}
+        </button>
 
-        <div class="card-toolbar">
-          <div class="w-100 d-flex justify-content-between align-items-center">
-            <div class="w-100 d-flex justify-content-end align-items-center custom-search">
+        <select [(ngModel)]="gradeValue" (change)="onChangeGrade()" [disabled]="!schoolValue" name="btn-select-grade"
+          [ngStyle]="{'cursor': !schoolValue ? 'no-drop' : 'pointer' }" class="me-4 mb-3 so-form-control so-select">
+          <option value="" selected>{{ t('student.grade') }}</option>
+          <ng-container *ngFor="let item of dataGrades">
+            <option [value]="item.id">{{item.name}}</option>
+          </ng-container>
+        </select>
 
-              <div class="acction-button d-flex align-items-center d-none" name="btn-export">
-                <img class="search-icon pe-2" src="assets/images/svg/export.svg" alt="">
-                <span class="fw-700">Export</span>
-              </div>
+        <select [(ngModel)]="classValue" (change)="onChangeClass()" [disabled]="!gradeValue" name="btn-select-class"
+          [ngStyle]="{'cursor': !gradeValue ? 'no-drop' : 'pointer' }" class="me-4 mb-3 so-form-control so-select">
+          <option value="" selected>{{ t('student.class') }}</option>
+          <ng-container *ngFor="let item of dataHomeroomClasses">
+            <option [value]="item.id">{{item.name}}</option>
+          </ng-container>
+        </select>
 
-              <div class="acction-button d-flex align-items-center d-none" name="btn-import">
-                <img class="search-icon pe-2" src="assets/images/svg/import6.svg" alt="">
-                <span class="fw-700">Import</span>
-              </div>
+        <select (change)="onChangeStatus()" [(ngModel)]="statusValue" name="btn-select-status"
+          class="me-4 mb-3 so-form-control so-select">
+          <option value="" selected>{{ t('status') }}</option>
+          <option *ngFor="let item of studentStatus" [value]="item.code">{{item.label | transloco}}</option>
+        </select>
 
-              <div class="search-select-option-school">
-                <select [(ngModel)]="schoolValue" (change)="onChangeSchool()"
-                  class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700"
-                  name="btn-select-school">
-                  <option value="" selected>{{ t('student.school') }}</option>
-                  <ng-container *ngFor="let item of dataSchools">
-                    <option [value]="item.id">{{item.name}}</option>
-                  </ng-container>
-                </select>
-              </div>
-
-              <div class="search-select-option-grade">
-                <select [(ngModel)]="gradeValue" (change)="onChangeGrade()" [disabled]="!schoolValue"
-                  name="btn-select-grade" [ngStyle]="{'cursor': !schoolValue ? 'no-drop' : 'pointer' }"
-                  class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
-                  <option value="" selected>{{ t('student.grade') }}</option>
-                  <ng-container *ngFor="let item of dataGrades">
-                    <option [value]="item.id">{{item.name}}</option>
-                  </ng-container>
-                </select>
-              </div>
-
-              <div class="search-select-option-grade">
-                <select [(ngModel)]="classValue" (change)="onChangeClass()" [disabled]="!gradeValue"
-                  name="btn-select-class" [ngStyle]="{'cursor': !gradeValue ? 'no-drop' : 'pointer' }"
-                  class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
-                  <option value="" selected>{{ t('student.class') }}</option>
-                  <ng-container *ngFor="let item of dataHomeroomClasses">
-                    <option [value]="item.id">{{item.name}}</option>
-                  </ng-container>
-
-                </select>
-              </div>
-
-              <div class="search-select-option">
-                <select (change)="onChangeStatus()" [(ngModel)]="statusValue" name="btn-select-status"
-                  class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
-                  <option value="" selected>{{ t('status') }}</option>
-                  <option *ngFor="let item of studentStatus" [value]="item.code">{{item.label | transloco}}</option>
-                </select>
-              </div>
-
-              <div class="search-input">
-                <input type="text" name="keyword" class="form-control custom-tag-of-form fs-14" #searchInput
-                  (keyup.enter)="onEventKeyupEnter(searchInput.value)">
-                <img class="search-icon" src="assets/images/svg/search.svg" alt=""
-                  (click)="onClickSearch(searchInput.value)" name="btn-search">
-              </div>
-              <!-- <ng-template ngxPermissionsOnly="{{ permission.student_modify }}"> -->
-              <span class="add-action so-btn so-btn-primary  d-flex justify-content-center align-items-center fs-14"
-                [routerLink]="'/staff/student/create-student'">
-                <img class="add-icon" src="assets/images/svg/plus.svg" alt="">
-                {{ t('btnAction.add') }}
-              </span>
-              <!-- </ng-template> -->
-
-            </div>
-          </div>
+        <div class="me-4 mb-3 so-input-search">
+          <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+            (keyup.enter)="search(searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+            (click)="search(searchInput.value)" />
         </div>
+
+        <ng-template ngxPermissionsOnly="{{ permission.student_modify }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" [routerLink]="'/staff/student/create-student'" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="icon">
+            {{t('btnAction.add')}}
+        </button>
+        </ng-template>
       </div>
 
-      <div class="card-body pt-6">
-        <div class="table-responsive">
-          <table class="table align-middle gs-0 gy-3 my-0">
-            <thead>
-              <tr class="fs-14 fw-700 border-bottom border-gray-200">
-                <th class="pb-3 text-start">
-                  {{ t('student.fullname') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('gender') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('student.dob') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('student.class') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('grade') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('student.school1') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('status') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('student.father') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('student.mother') }}
-                </th>
-                <th class="pb-3 text-start">
-                  {{ t('action') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of dataSource">
-
-                <td class="text-start">
-                  <div class="d-flex align-items-center">
-                    <div class="symbol symbol-50px me-3">
-                      <img src="{{ (item.avatar == '' || item.avatar == null ) ? avatarUser : item.avatar }}"
-                        class="border-radius-50" alt="">
-                    </div>
-                    <div class="d-flex justify-content-start flex-column">
-                      <a class="fw-700 color-50a5f1 mb-1 fs-13"
-                        [routerLink]="['/staff/student/detail', item.studentId]">
-                        {{ item.fullName }}
-                      </a>
-                      <span class="d-block fs-12">
-                        <span class="color-50a5f1">ID: </span>
-                        <span>
-                          {{ item.code }}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-start">
-                  <span class="gender-{{ item.gender }}">{{ getGenderName(item.gender) }}</span>
-                </td>
-                <td class="text-start">
-                  <div class="d-flex align-items-center">
-                    <span class="fw-700 fs-13">
-                      {{ item.dob | formatTime }}
-                    </span>
-                  </div>
-                </td>
-                <td class="text-start">
-                  <span class="fw-700 fs-13">
-                    {{ item.homeroomClassName }}
-                  </span>
-                </td>
-                <td class="text-start">
-                  <span class="fw-700 fs-13">
-                    {{ item.gradeName }}
-                  </span>
-                </td>
-                <td class="text-start ">
-                  <span class="fw-700 fs-13">
-                    {{ item.schoolName }}
-                  </span>
-                </td>
-                <td class="text-start fs-11 fw-700">
-                  <span class="status-{{item.status}}">{{ getStatusStudent(item.status) }}</span>
-                </td>
-                <td class="text-start">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex justify-content-start flex-column">
-                      <a class="fw-700 color-50a5f1 mb-1 fs-13">
-                        {{ item.fatherFullName }}
-                      </a>
-                      <span class="d-block">
-                        <span class="d-inline-block fs-12 pe-3">
-                          <span class="color-50a5f1">T: </span>
-                          <span>
-                            {{ item.fatherPhone }}
-                          </span>
-                        </span>
-                        <span class="d-inline-block fs-12">
-                          <span class="color-50a5f1">E: </span>
-                          <span>
-                            {{ item.fatherEmail }}
-                          </span>
-                        </span>
-                      </span>
-
-                    </div>
-                  </div>
-                </td>
-                <td class="text-start">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex justify-content-start flex-column">
-                      <a class="fw-700 color-50a5f1 mb-1 fs-13">
-                        {{ item.motherFullName }}
-                      </a>
-                      <span class="d-block">
-                        <span class="d-inline-block fs-12 pe-3">
-                          <span class="color-50a5f1">T: </span>
-                          <span>
-                            {{ item.motherPhone }}
-                          </span>
-                        </span>
-                        <span class="d-inline-block fs-12">
-                          <span class="color-50a5f1">E: </span>
-                          <span>
-                            {{ item.motherEmail }}
-                          </span>
-                        </span></span>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-start ">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <span class="user-action">
-                      <img nz-button nz-dropdown [nzDropdownMenu]="menu" class="action-icon"
-                        src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
-                      <nz-dropdown-menu #menu="nzDropdownMenu">
-                        <ul nz-menu>
-                          <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="changePassword(item)"
-                              name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/password.svg" alt="">
-                                {{ t('student.btnAction.changedPassword') }}
-                              </span>
-                            </li>
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item"
-                              (click)="openModalComfirmDelete(item)" name="btn-comfirm">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/delete6.svg" alt="">
-                                {{ t('btnAction.delete') }}
-                              </span>
-                            </li>
-                            <li *ngIf="item.isAccessApp == 1" nz-menu-item class="fs-14 fw-600 custom-action-item"
-                              (click)="updateAccessAppStatus(item)" name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/block_icon.svg" alt="">
-                                {{ t('student.btnAction.appAccessLock') }}
-                              </span>
-                            </li>
-                            <li *ngIf="item.isAccessApp == 0" nz-menu-item class="fs-14 fw-600 custom-action-item"
-                              (click)="updateAccessAppStatus(item)" name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/block_icon.svg" alt="">
-                                {{ t('student.btnAction.unlockAppAccess') }}
-                              </span>
-                            </li>
-                          </ng-template>
-                          <ng-template ngxPermissionsOnly="{{permission.user_code_username_modify}}">
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="updateUsernameCode(item)"
-                              name="btn-comfirm">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/document3.svg" alt="">
-                                {{ t('student.updateUsernameAndCode') }}
-                              </span>
-                            </li>
-                          </ng-template>
-                        </ul>
-
-                      </nz-dropdown-menu>
-                    </span>
-                  </div>
-
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
-          *ngIf="collectionSize > pageSize" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
-        </app-pagination>
-      </div>
     </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="">
+              {{ t('student.fullname') }}
+            </th>
+            <th class="">
+              {{ t('gender') }}
+            </th>
+            <th class="">
+              {{ t('student.dob') }}
+            </th>
+            <th class="">
+              {{ t('student.class') }}
+            </th>
+            <th class="">
+              {{ t('grade') }}
+            </th>
+            <th class="">
+              {{ t('student.school1') }}
+            </th>
+            <th class="">
+              {{ t('status') }}
+            </th>
+            <th class="">
+              {{ t('student.father') }}
+            </th>
+            <th class="">
+              {{ t('student.mother') }}
+            </th>
+            <th class="text-center">
+              {{ t('action') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fs-13 fw-600 text-color-river-bed" *ngFor="let item of dataSource">
+            <td class="text-start">
+              <div class="d-flex align-items-center">
+                <div class="symbol symbol-50px me-3">
+                  <img src="{{ (item.avatar == '' || item.avatar == null ) ? avatarUser : item.avatar }}"
+                    class="border-radius-50" alt="">
+                </div>
+                <div class="d-flex justify-content-start flex-column">
+                  <a class="fw-700 text-color-picton-blue mb-1 fs-14"
+                    [routerLink]="['/staff/student/detail', item.studentId]" [queryParams]="{tab: 'student-detail', userId: item.studentUserId}">
+                    {{ item.fullName }}
+                  </a>
+                  <span class="d-block fs-12">
+                    <span class="text-color-picton-blue">ID: </span>
+                    <span>
+                      {{ item.code }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td class="text-start">
+              <span
+                [ngClass]="item.gender == 1 ? 'gender-male' : (item.gender == 2 ? 'gender-fmale' : 'gender-other')">{{
+                getGenderName(item.gender) }}</span>
+            </td>
+            <td class="text-start">
+              <div class="d-flex align-items-center">
+                <img class="icon-birthday" src="assets/images/svg/calendar.svg" alt="">
+                <span class="ms-2 fw-700 fs-13">
+                  {{ item.dob | formatTime }}
+                </span>
+              </div>
+            </td>
+            <td class="text-start">
+              <span class="fw-700 fs-13">
+                {{ item.homeroomClassName }}
+              </span>
+            </td>
+            <td class="text-start">
+              <span class="fw-700 fs-13">
+                {{ item.gradeName }}
+              </span>
+            </td>
+            <td class="text-start ">
+              <span class="fw-700 fs-13">
+                {{ item.schoolName }}
+              </span>
+            </td>
+            <td class="text-start fs-11 fw-700">
+              <span class="badge so-badge so-badge--primary badge-primary">{{ getStatusStudent(item.status) }}</span>
+            </td>
+            <td class="text-start">
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                  <span class="fw-700  mb-1 fs-13">
+                    {{ item.fatherFullName }}
+                  </span>
+                  <span class="d-block">
+                    <span class="d-inline-block fs-12 pe-3">
+                      <span *ngIf="item.fatherPhone" class="text-color-picton-blue">T: </span>
+                      <span>
+                        {{ item.fatherPhone }}
+                      </span>
+                    </span>
+                    <span class="d-inline-block fs-12">
+                      <span *ngIf="item.fatherEmail" class="text-color-picton-blue">E: </span>
+                      <span>
+                        {{ item.fatherEmail }}
+                      </span>
+                    </span>
+                  </span>
+
+                </div>
+              </div>
+            </td>
+            <td class="text-start">
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                  <span class="fw-700  mb-1 fs-13">
+                    {{ item.motherFullName }}
+                  </span>
+                  <span class="d-block">
+                    <span class="d-inline-block fs-12 pe-3">
+                      <span *ngIf="item.motherPhone" class="text-color-picton-blue">T: </span>
+                      <span>
+                        {{ item.motherPhone }}
+                      </span>
+                    </span>
+                    <span class="d-inline-block fs-12">
+                      <span *ngIf="item.motherEmail" class="text-color-picton-blue">E: </span>
+                      <span>
+                        {{ item.motherEmail }}
+                      </span>
+                    </span></span>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                name="opend-so-action">
+                <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <ng-template ngxPermissionsOnly="{{permission.student_modify}}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                        [routerLink]="['/staff/student/update-student', item.studentId]"><img class="so-action--icon"
+                          src="assets/images/svg/write.svg" alt="">{{
+                        t('btnAction.update') }}
+                      </li>
+                    </ng-template>
+
+                    <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-change-password"
+                        (click)="changePassword(item)"><img class="so-action--icon" src="assets/images/svg/password.svg"
+                          alt=""> {{ t('student.btnAction.changedPassword') }}
+                      </li>
+
+                      <li *ngIf="item.isAccessApp == 1" nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                        name="btn-app-status-lock" (click)="updateAccessAppStatus(item)"><img class="so-action--icon"
+                          src="assets/images/svg/lock.svg" alt=""> {{
+                        t('student.btnAction.appAccessLock') }}
+                      </li>
+
+                      <li *ngIf="item.isAccessApp == 0" nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                        name="btn-app-status-unlock" (click)="updateAccessAppStatus(item)"><img class="so-action--icon"
+                          src="assets/images/svg/block_icon.svg" alt=""> {{
+                        t('student.btnAction.unlockAppAccess')
+                        }}
+                      </li>
+                    </ng-template>
+
+                    <ng-template ngxPermissionsOnly="{{permission.user_code_username_modify}}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-uc"
+                        (click)="openModalChangeUsernameCode(item)"><img class="so-action--icon"
+                          src="assets/images/svg/document3.svg" alt=""> {{ t('student.updateUsernameAndCode') }}
+                      </li>
+                    </ng-template>
+
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-delete"
+                      (click)="openModalComfirmDelete(item)"><img class="so-action--icon"
+                        src="assets/images/svg/delete6.svg" alt=""> {{ t('btnAction.delete') }}
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize >= sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
   </div>
 </div>
 <div class="spinner" *ngIf="isLoading">

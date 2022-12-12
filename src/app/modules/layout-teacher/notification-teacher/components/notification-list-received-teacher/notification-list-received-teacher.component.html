@@ -1,0 +1,95 @@
+<ng-container *transloco="let t; scope: 'notification'">
+  <div class="card card-flush shadow-sm p-0 h-full">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700 mb-3">{{t('notification.notificationOfReceipt')}}</h3>
+      <div class="card-toolbar">
+        <div class="filter d-flex flex-wrap algin-items-center">
+          <select [(ngModel)]="valueCreatedBy" (change)="onChangeSelect()" name="select-sender" class="so-select mb-3">
+            <option value="" selected>{{t('notification.sender')}}</option>
+            <option value="{{item.id}}" *ngFor="let item of dataCreatedBy">{{item.fullName}}</option>
+          </select>
+          <div class="search-select-date ms-4 mb-3">
+            <app-range-date-picker [startDate]="valueFromTime" [endDate]="valueToTime" [timePicker]="false"
+                                   (dataTimeOutput)="onDataTimeOutput($event)" class="noti-custom-date-ranger cursor-pointer"
+                                   id="noti-received"></app-range-date-picker>
+          </div>
+          <div class="so-input-search ms-4 mb-3">
+            <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+                   (keyup.enter)="onEventKeyupEnter(searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="onClickSearch(searchInput.value)" />
+          </div>
+          <ng-template ngxPermissionsOnly="{{ permission.announcement_modify }}">
+            <button class="so-btn so-btn-primary so-btn-primary--small ms-4 mb-3" id="add-notification"
+                    [routerLink]="['/teacher/notification/create']">
+              <img src="assets/images/svg/icon-email-noti-white.svg" alt="" />
+              {{ t("notification.create") }}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="card-body py-5">
+      <div>
+        <ng-container *ngFor="let item of dataSource">
+          <div class="box py-6 px-7 mb-4">
+            <div class="box__header d-flex algin-items-center justify-content-between pb-3">
+              <p class="fs-16 fw-600 mb-0 cursor-pointer"
+                 [routerLink]="['/teacher/notification/received/detail', item.id]">
+                {{item?.title}}
+              </p>
+            </div>
+            <div class="box_body mb-6 pt-6">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 mb-3 pe-12">
+                  <div class="d-flex">
+                    <div class="box__avatar me-8" *ngIf="item?.avatar && item?.avatar != ''">
+                      <img [src]="item?.avatar || avatarDefault" alt="">
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="text-secondary mb-2 fw-600">
+                        <img src="assets/images/svg/bank.svg" alt="" class="me-3">
+                        <span>{{t('notification.scope')}}: <span class="fw-700">{{t(item?.sendingScopeName)}}</span></span>
+                      </div>
+                      <p class="text-desc" [innerHTML]="item.description"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4 mb-3">
+                  <div class="mb-3">
+                    <span class="fw-600">{{t('notification.createBy')}}: </span> <span
+                    class="fw-500 text-desc">{{item?.createdBy}}</span>
+                  </div>
+                  <div>
+                    <span class="fw-600">{{t('notification.sentBy')}}: </span> <span
+                    class="fw-500 text-desc">{{item.sendAt | formatTime: 'HH:mm'}} - {{item.sendAt | formatTime:
+                    'dd/MM/YYYY'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="box_footer">
+              <div class="d-flex fw-600">
+                <span class="me-6 group-icon text-color-river-bed">
+                  <img src="assets/images/svg/icon-like-blue.svg" alt="">&ensp;
+                  {{t('notification.likes')}}: <span class="fw-700">{{item?.likeNumber}}</span>
+                </span>
+                <span class="me-6 group-icon" *ngIf="item?.isAllowComment === 1">
+                  <img src="assets/images/svg/icon-comment-noti-blue.svg" alt="">&ensp;
+                  {{t('notification.feedback')}}: <span class="fw-700">{{item?.commentNumber}}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

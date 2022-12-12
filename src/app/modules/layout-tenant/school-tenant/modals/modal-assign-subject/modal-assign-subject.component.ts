@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscriber } from 'rxjs';
-import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
+import {translate} from '@ngneat/transloco';
+import {Component, Input, OnInit} from '@angular/core';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, Subscriber} from 'rxjs';
+import {ListenFirebaseService} from 'src/app/_services/listen-firebase.service';
+import {ShowMessageService} from 'src/app/_services/show-message.service';
 import {
   TIME_OUT_LISTEN_FIREBASE,
-  TYPE_OF_SUBJECT,
+  ARR_TYPE_OF_SUBJECT,
 } from 'src/app/_shared/utils/constant';
+import {GeneralService} from "../../../../../_services/general.service";
 
 @Component({
   selector: 'app-modal-assign-subject',
@@ -21,7 +23,7 @@ export class ModalAssignSubjectComponent implements OnInit {
   @Input() dataModal: any;
   dataFromParent: any;
   typeSubject: number = null;
-  arrTypeSubjects = TYPE_OF_SUBJECT;
+  arrTypeSubjects = ARR_TYPE_OF_SUBJECT;
   isCheckAll = false;
   arrIdSubmit = [];
   tenantId: string = localStorage.getItem('Tenant') ? JSON.parse(localStorage.getItem('Tenant')).Id : null;
@@ -30,8 +32,11 @@ export class ModalAssignSubjectComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private listenFirebaseService: ListenFirebaseService,
     private showMessage: ShowMessageService,
-    private modalService: NgbModal
-  ) {}
+    private modalService: NgbModal,
+    private generalService: GeneralService
+
+) {
+  }
 
   ngOnInit(): void {
     this.dataFromParent = this.dataModal.dataFromParent;
@@ -41,14 +46,26 @@ export class ModalAssignSubjectComponent implements OnInit {
       item['subjectTypeName'] = this.arrTypeSubjects.find(
         (i) => i.value == item.subjectType
       )?.label;
+      item['isChecked'] = false;
     });
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.keyword = value.trim();
+    this.getList();
   }
 
   filter() {
@@ -63,6 +80,7 @@ export class ModalAssignSubjectComponent implements OnInit {
         this.arrIdSubmit.push(item.id);
       }
     });
+    this.arrIdSubmit = Array.from(new Set(this.arrIdSubmit));
     this.isCheckAll = event;
   }
 
@@ -84,6 +102,7 @@ export class ModalAssignSubjectComponent implements OnInit {
   }
 
   submit() {
+    if (this.arrIdSubmit.length == 0) return this.showMessage.warning(translate('school.requiredSubject'));
     let dataInput = {
       schoolId: this.dataFromParent.schoolId,
       tenantId: this.tenantId,
@@ -93,13 +112,11 @@ export class ModalAssignSubjectComponent implements OnInit {
     this.listenFireBase(this.dataFromParent.keyFirebaseAction, this.dataFromParent.keyFirebaseModule);
     this.dataFromParent.apiSubmit(this.dataFromParent.schoolId, dataInput).subscribe(
       (res: any) => {
-        if (res.status == 0) {
-          this.showMessage.error(res.msg);
-        }
         this.isLoading = false;
       },
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -108,22 +125,24 @@ export class ModalAssignSubjectComponent implements OnInit {
     this.isLoading = true;
     this.dataFromParent.apiGetList(this.dataFromParent.schoolId, this.typeSubject, this.keyword).subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.isLoading = false;
-          this.arrList = res.data;
-          this.arrList.forEach((item) => {
-            item['subjectTypeName'] = this.arrTypeSubjects.find(
-              (i) => i.value == item.subjectType
-            )?.label;
-          });
-        } else {
-          this.isLoading = false;
-          this.showMessage.error(res.msg);
-        }
+        this.isLoading = false;
+        this.arrList = res.data;
+        this.arrList.forEach((item) => {
+          item['subjectTypeName'] = this.arrTypeSubjects.find(
+            (i) => i.value == item.subjectType
+          )?.label;
+          item['isChecked'] = false;
+          this.arrIdSubmit.findIndex((el) => el == item.id) != -1
+            ? (item.isChecked = true)
+            : (item.isChecked = false);
+        });
+        this.isCheckAll =
+          this.arrList.length > 0 &&
+          this.arrList.every((t) => t.isChecked);
       },
       (err) => {
         this.isLoading = false;
-        this.showMessage.error(err.msg);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }

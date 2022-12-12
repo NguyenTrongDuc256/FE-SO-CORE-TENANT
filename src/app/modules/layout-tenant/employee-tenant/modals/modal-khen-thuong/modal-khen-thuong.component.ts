@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -21,11 +21,11 @@ export class ModalKhenThuongComponent implements OnInit {
   currentDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     loai: [
       {
         type: "required",
-        message: translate('employee.validators.loai.required'),
+        message: 'employee.validators.loai.required',
       },
     ],
   };
@@ -93,8 +93,8 @@ export class ModalKhenThuongComponent implements OnInit {
       capKhenThuong: data ? data.capKhenThuong : '',
       soQuyetDinh: data ? data.soQuyetDinh : '',
       date: data ? data.date : this.currentDate,
-      isInput: data ? data.isInput : 1,
-      isUpdate: data ? data.isUpdate : 0,
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
     })
     this.khenThuong.push(itemForm);
   }
@@ -103,12 +103,36 @@ export class ModalKhenThuongComponent implements OnInit {
     this.khenThuong.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.khenThuong.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
@@ -118,14 +142,20 @@ export class ModalKhenThuongComponent implements OnInit {
     ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('loai').patchValue(dataForm.loai);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('noiDung').patchValue(dataForm.noiDung);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('capKhenThuong').patchValue(dataForm.capKhenThuong);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('soQuyetDinh').patchValue(dataForm.soQuyetDinh);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.date);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('loai').patchValue(dataForm.value.loai);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('noiDung').patchValue(dataForm.value.noiDung);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('capKhenThuong').patchValue(dataForm.value.capKhenThuong);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('soQuyetDinh').patchValue(dataForm.value.soQuyetDinh);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.value.date);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('khenThuong') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
+
   }
 
   cancel(index: number): void {

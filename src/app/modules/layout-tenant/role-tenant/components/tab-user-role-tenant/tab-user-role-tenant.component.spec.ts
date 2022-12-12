@@ -28,23 +28,26 @@ describe('TabUserModuleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabUserRoleTenantComponent);
     component = fixture.componentInstance;
+    component.isLoading = false;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should map true name status of user-status 1', () => {
     component.isLoading = false;
     fixture.detectChanges();
-    expect(component.mapNameStatus(1)).toEqual('Kích hoạt');
+    expect(component.mapNameStatus(1)).toEqual('activated');
   });
 
   it('should map true name status of user-status 0', () => {
     component.isLoading = false;
     fixture.detectChanges();
-    expect(component.mapNameStatus(0)).toEqual('Bị khóa');
+    expect(component.mapNameStatus(0)).toEqual('notActivated');
   });
 
   it('should map false name status of user', () => {

@@ -1,0 +1,329 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-body ps-0 pe-0">
+    <div [formGroup]="formGroup" *ngIf="formGroup">
+      <div class="row mb-7">
+        <div class="col-md-6">
+          <!-- begin: logo-->
+          <div class="row mb-10">
+            <div class="col-md-4 pe-0">
+              <div class="box-img-logo position-relative">
+                <a href="{{formGroup.value.logo}}" target="_blank" *ngIf="formGroup.value.logo">
+                  <img src="{{formGroup.value.logo}}" alt="logo">
+                </a>
+                <div class="position-absolute position-absolute-1 cursor-pointer" (click)="onDeleteFileUpload(1)">
+                  <img src="assets/images/svg/close.svg" alt="img">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 row pe-0">
+              <label class="col-md-12 mb-6 ps-3 col-form-label ">
+                <div class="">
+                  <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                  <span>{{ t('setting.logo') }}</span>
+                </div>
+              </label>
+              <div class="col-md-12 pe-0">
+                <div
+                  class="form-control so-form-control d-flex justify-content-between align-items-center cursor-pointer"
+                  (click)="fileInputLogo.click()">
+                  <span *ngIf="fileNameLogo">{{ fileNameLogo | substring: 18 }}</span>
+                  <span class="color-placeholder" *ngIf="!fileNameLogo">{{ t('setting.chonAnhLogo')}}</span>
+                  <div class="d-flex align-items-center">
+                    <img class="search-icon" src="assets/images/svg/bx_cloud-upload.svg" alt="icon">
+                    <span>{{ t('setting.taiLen')}}</span>
+                  </div>
+                </div>
+                <input #fileInputLogo type="file" name="fileInputLogo" class="d-none"
+                       accept="image/png, image/jpeg image/jpg" (change)="onChangeFileUpload($event, 1)">
+              </div>
+            </div>
+          </div>
+          <!-- end: logo-->
+          <!-- begin: Favicon-->
+          <div class="row">
+            <div class="col-md-4 pe-0 ">
+              <div class="box-img-logo position-relative">
+                <a href="{{formGroup.value.favicon}}" target="_blank" *ngIf="formGroup.value.favicon">
+                  <img src="{{formGroup.value.favicon}}" alt="favicon">
+                </a>
+                <div class="position-absolute position-absolute-1 cursor-pointer" (click)="onDeleteFileUpload(2)">
+                  <img src="assets/images/svg/close.svg" alt="img">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 row pe-0">
+              <label class="col-md-12 mb-6 ps-3 col-form-label ">
+                <div class="">
+                  <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                  <span>{{ t('setting.favicon') }}</span>
+                </div>
+              </label>
+              <div class="col-md-12 pe-0">
+                <div
+                  class="form-control so-form-control d-flex justify-content-between align-items-center cursor-pointer"
+                  (click)="fileInputFavicon.click()">
+                  <span *ngIf="fileNameFavicon">{{ fileNameFavicon | substring: 18 }}</span>
+                  <span class="color-placeholder" *ngIf="!fileNameFavicon">{{ t('setting.chonAnhFavicon')}}</span>
+                  <div class="d-flex align-items-center">
+                    <img class="search-icon" src="assets/images/svg/bx_cloud-upload.svg" alt="icon">
+                    <span>{{ t('setting.taiLen')}}</span>
+                  </div>
+                </div>
+                <input #fileInputFavicon type="file" name="fileInputFavicon" class="d-none"
+                       accept="image/png, image/jpeg image/jpg" (change)="onChangeFileUpload($event, 2)">
+              </div>
+            </div>
+          </div>
+          <!-- end: logo-->
+        </div>
+
+        <!-- begin: background login-->
+        <div class="col-md-6">
+          <div class="row mb-6">
+            <label class="col-md-4 col-form-label ">
+              <div class="ps-6">
+                <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                <span>{{ t('setting.background') }}</span>
+              </div>
+            </label>
+            <div class="col-md-8">
+              <div
+                class=" form-control so-form-control d-flex justify-content-between align-items-center cursor-pointer"
+                (click)="fileInputBackgroundLogin.click()">
+                <span *ngIf="fileNameBackgroundLogin">{{ fileNameBackgroundLogin | substring: 25 }}</span>
+                <span class="color-placeholder" *ngIf="!fileNameBackgroundLogin">{{ t('setting.chonAnhLogin')}}</span>
+                <div class="d-flex align-items-center">
+                  <img class="search-icon" src="assets/images/svg/bx_cloud-upload.svg" alt="icon">
+                  <span>{{ t('setting.taiLen')}}</span>
+                </div>
+              </div>
+              <input #fileInputBackgroundLogin type="file" name="fileInputAvatar" class="d-none"
+                     accept="image/png, image/jpeg image/jpg" (change)="onChangeFileUpload($event, 3)">
+            </div>
+          </div>
+          <!-- end: background login-->
+          <div class="row">
+            <div class="ps-3">
+              <div class="ps-6 w-full position-relative">
+                <div class="box-img-backgournd">
+                  <a href="{{formGroup.value.backgroundLogin}}" target="_blank" *ngIf="formGroup.value.backgroundLogin">
+                    <img src="{{formGroup.value.backgroundLogin}}" alt="background_login">
+                  </a>
+                </div>
+                <div class="position-absolute position-absolute-2 cursor-pointer" (click)="onDeleteFileUpload(3)">
+                  <img src="assets/images/svg/close.svg" alt="img">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/user-nurse.svg" alt="">
+            <span class="pe-1">{{ t('setting.tenKH') }}</span><span class="text-danger fw-700">*</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <input type="text" class="form-control so-form-control" name="name"
+                 placeholder="{{ t('setting.nhapTenKhachHang') }}" formControlName="name"
+                 [class.is-invalid]="formGroup.get('name').invalid && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formGroup.get('name').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+            <app-field-error-display
+              [displayError]="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+            <app-field-error-display [errorServer]="validationMessagesServer?.name"
+                                     [displayErrorServer]="!(formGroup.get('name').dirty || formGroup.get('name').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/link.png" alt="">
+            <span>{{ t('setting.duongDan') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <input type="text" readonly class="form-control so-form-control disabled" value="{{tenantInfo.domain}}" name="address"/>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/phone-1.svg" alt="">
+            <span>{{ t('setting.soDienThoai') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <input type="text" class="form-control so-form-control" name="phone"
+                 placeholder="{{ t('setting.nhapPhone') }}" formControlName="phone"
+                 [class.is-invalid]="formGroup.get('phone').invalid && (formGroup.get('phone').dirty || formGroup.get('phone').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.phone.hasOwnProperty('message') && formGroup.get('phone').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.phone">
+            <app-field-error-display
+              [displayError]="formGroup.get('phone').hasError(err.type) && (formGroup.get('phone').dirty || formGroup.get('phone').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.phone">
+            <app-field-error-display [errorServer]="validationMessagesServer?.phone"
+                                     [displayErrorServer]="!(formGroup.get('phone').dirty || formGroup.get('phone').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label ">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/email-1.svg" alt="">
+            <span>{{ t('setting.email') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <input type="email" class="form-control so-form-control" name="email"
+                 placeholder="{{ t('setting.nhapEmail') }}" formControlName="email"
+                 [class.is-invalid]="formGroup.get('email').invalid && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.email.hasOwnProperty('message') && formGroup.get('email').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+            <app-field-error-display
+              [displayError]="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.email">
+            <app-field-error-display [errorServer]="validationMessagesServer?.email"
+                                     [displayErrorServer]="!(formGroup.get('email').dirty || formGroup.get('email').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/address.svg" alt="">
+            <span>{{ t('setting.diaChi') }}</span>
+          </div>
+        </label>
+        <div class="col-md-10">
+          <input type="text" class="form-control so-form-control" name="address"
+                 placeholder="{{ t('setting.nhapAddress') }}" formControlName="address"
+                 [class.is-invalid]="formGroup.get('address').invalid && (formGroup.get('address').dirty || formGroup.get('address').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.address.hasOwnProperty('message') && formGroup.get('address').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.address">
+            <app-field-error-display
+              [displayError]="formGroup.get('address').hasError(err.type) && (formGroup.get('address').dirty || formGroup.get('address').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.address">
+            <app-field-error-display [errorServer]="validationMessagesServer?.address"
+                                     [displayErrorServer]="!(formGroup.get('address').dirty || formGroup.get('address').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/info.svg" alt="">
+            <span>{{ t('setting.maKhuVuc') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <nz-select id="areaCode" formControlName="areaCode" nzShowSearch class="form-control so-form-control">
+            <nz-option *ngFor="let item of locationList"
+                       [nzLabel]="item.code"
+                       [nzValue]="item.code">
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2 col-form-label ">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/bx_time_1.svg" alt="">
+            <span>{{ t('setting.muiGio') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <nz-select id="timeZoneCode" formControlName="timeZoneCode" nzShowSearch class="form-control so-form-control">
+            <nz-option *ngFor="let item of timeZoneList"
+                       [nzLabel]="item.code"
+                       [nzValue]="item.code">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/lang.svg" alt="">
+            <span>{{ t('setting.ngonNgu') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <nz-select id="languageCode" formControlName="languageCode" nzShowSearch class="form-control so-form-control">
+            <nz-option *ngFor="let item of languageList"
+                       [nzLabel]="item.label"
+                       [nzValue]="item.value">
+            </nz-option>
+          </nz-select>
+        </div>
+        <label class="col-md-2 col-form-label ">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/tiente.svg" alt="">
+            <span>{{ t('setting.donViTienTe') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <nz-select id="monetaryUnitCode" formControlName="monetaryUnitCode" nzShowSearch class="form-control so-form-control">
+            <nz-option *ngFor="let item of currencyUnitList"
+                       [nzLabel]="item.code"
+                       [nzValue]="item.code">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/info.svg" alt="">
+            <span>{{ t('setting.trangThai') }}</span>
+          </div>
+        </label>
+        <div class="col-md-10 d-flex align-items-center">
+          <label nz-checkbox id="isActive" class="fs-13" formControlName="isActive">
+            <span class="col-form-label ">{{ t('setting.kichHoat') }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <div class="col-md-12 d-flex justify-content-end">
+          <a [routerLink]="['/tenant/setting']" type="button"
+             class="so-btn so-btn-cancel me-6">{{t('btnAction.cancel')}}</a>
+          <button type="button"
+                  class="so-btn so-btn-primary so-btn-primary--small"
+                  (click)="onSubmit(formGroup.value)"
+          >{{t('btnAction.save')}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

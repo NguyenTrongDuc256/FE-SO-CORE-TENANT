@@ -14,8 +14,8 @@ import { ModalFormEditSchoolYearComponent } from './modals/modal-form-edit-schoo
 import { ModalFormAddSchoolYearComponent } from './modals/modal-form-add-school-year/modal-form-add-school-year.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ModalUpdateGradebookInputComponent } from './modals/modal-update-gradebook-input/modal-update-gradebook-input.component';
-import { SchoolYearListTenantRoutingModule } from './school-year-tenant-routing.module';
 import { DetailSchoolYearTenantComponent } from './components/detail-school-year-teanant/detail-school-year-teanant.component';
+import {SchoolYearTenantRoutingModule} from "./school-year-tenant-routing.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { DetailSchoolYearTenantComponent } from './components/detail-school-year
   ],
   imports: [
     CommonModule,
-    SchoolYearListTenantRoutingModule,
+    SchoolYearTenantRoutingModule,
     CoreModule,
     ReactiveFormsModule,
     NzCheckboxModule,

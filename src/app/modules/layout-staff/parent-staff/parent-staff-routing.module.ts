@@ -7,6 +7,12 @@ import {ParentListStaffComponent} from "./components/parent-list-staff/parent-li
 import {ParentCreateStaffComponent} from "./components/parent-create-staff/parent-create-staff.component";
 import {ParentEditStaffComponent} from "./components/parent-edit-staff/parent-edit-staff.component";
 import {ParentDetailStaffComponent} from "./components/parent-detail-staff/parent-detail-staff.component";
+import {
+  ResultImportParentTenantComponent
+} from "../../layout-tenant/parent-tenant/components/result-import-parent-tenant/result-import-parent-tenant.component";
+import {
+  ResultImportParentStaffComponent
+} from "./components/result-import-parent-staff/result-import-parent-staff.component";
 
 
 const routes: Routes = [
@@ -49,6 +55,17 @@ const routes: Routes = [
     data: {
       permissions: {
         only: [DATA_PERMISSION.parent_view],
+        redirectTo: "/access-denied"
+      },
+    },
+  },
+  {
+    path: 'result-import-file/:id',
+    component: ResultImportParentStaffComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        only: [DATA_PERMISSION.parent_modify],
         redirectTo: "/access-denied"
       },
     },

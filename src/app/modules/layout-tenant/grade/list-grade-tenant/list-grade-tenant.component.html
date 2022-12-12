@@ -1,132 +1,122 @@
-<div class="card padding-compo" *transloco="let t; scope: 'grade'">
-  <div class="header-card d-flex align-items-center justify-content-between w-100">
-    <div class="title-content  mb-3">
-      <span class="fs-18 fw-700">{{ t('grade.gradeList') }}</span>
-    </div>
-
-    <div class="d-flex align-items-center justify-content-end nav-bar">
-      <div class=" mb-3 select-status">
-        <select class="w-100 fs-13 fw-700 form-select form-select-solid form-select-lg" name="btn-grade" id="gradeType"
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'grade'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('grade.gradeList') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <select class="so-form-control so-select me-4 mb-3 fw-600 text-color-river-bed" name="btn-grade" id="gradeType"
           [(ngModel)]="isActive" (change)="changeIsActie()">
           <option value="">{{ t('grade.status') }}</option>
           <option value="0">{{ t('grade.notActivated') }}</option>
           <option value="1">{{ t('grade.activated') }}</option>
         </select>
-      </div>
-
-      <div class=" mb-3 select-status">
-        <select class="w-100 fs-13 fw-700 form-select form-select-solid form-select-lg" name="btn-educationalStages"
-          id="educationalStages" [(ngModel)]="educationalStages" (change)="changeIsActie()">
+        <select class="so-form-control so-select me-4 mb-3 fw-600 text-color-river-bed" name="btn-educationalStages" id="educationalStages"
+          [(ngModel)]="educationalStages" (change)="changeIsActie()">
           <option value="">{{ t('grade.educationalStages') }}</option>
           <option value="5">{{ t('grade.primarySchool') }}</option>
           <option value="4">{{ t('grade.secondarySchool') }}</option>
           <option value="3">{{ t('grade.highSchool') }}</option>
         </select>
-      </div>
-      <div class="search-input  mb-3">
-        <input type="text" class="form-control custom-tag-of-form fs-13 fw-400" placeholder="{{ t('search') }}"
-          [(ngModel)]="keyWord" name="btn-search" (keyup.enter)="changeIsActie()">
-        <img class="search-icon" src="assets/images/svg/search.svg"  (click)="changeIsActie()" name="btn-search-icon">
-      </div>
-      <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
-        <div class="card-button mb-3">
-          <button class="add-action fs-13 fw-600 w-100" (click)="createGrade()" name="btn-create">
+        <div class="so-input-search me-4 mb-3">
+          <input type="text" class="so-form-control form-control fw-600 text-color-river-bed" placeholder="{{ t('search') }}"
+            [(ngModel)]="keyWord" name="btn-search" (keyup.enter)="changeIsActie()">
+          <img class="cursor-pointer" src="assets/images/svg/search.svg" alt="" (click)="changeIsActie()"name="btn-search-icon">
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="createGrade()" name="btn-create">
             <div class="d-flex align-items-center justify-content-center">
               <img class="add-icon" src="assets/images/svg/add.svg" alt="">
               <span class="fs-13 fw-600">{{ t('btnAction.add') }}</span>
             </div>
           </button>
-        </div>
-      </ng-template>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="w-5 text-center">
+              {{ t('grade.order') }}
+            </th>
+            <th class="w-16 ">
+              {{ t('grade.gradeName') }}
+            </th>
+            <th class="w-16 ">
+              {{ t('grade.gradeCode') }}
+            </th>
+
+            <th class="flex-grow-1 ">
+              {{ t('grade.educationalStagesApply') }}
+            </th>
+
+            <th class="w-19 ">
+              {{ t('grade.status') }}
+            </th>
+
+            <th class="w-6 text-center">
+              {{ t('action') }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="fw-bold">
+          <tr class="fs-13 fw-600 text-color-river-bed" *ngFor="let item of listGrade;let i = index">
+            <td class="text-center">{{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}</td>
+            <td class="grade-color ">{{item.name}}</td>
+            <td class="">{{ item.code }}</td>
+            <td class="">
+              <span *ngIf="item.educationalStages == 5" class="text-color-greenish-teal fw-700">{{ t('grade.primarySchool') }}</span>
+              <span *ngIf="item.educationalStages == 4" class="text-color-picton-blue fw-700">{{ t('grade.secondarySchool') }}</span>
+              <span *ngIf="item.educationalStages == 3" class="text-color-carrot-orange fw-700">{{ t('grade.highSchool') }}</span>
+            </td>
+            <td class="">
+              <span *ngIf="item.isActive == 1" class="active"> {{ t('grade.activated') }}</span>
+              <span *ngIf="item.isActive == 0" class="unActive"> {{ t('grade.notActivated') }}</span>
+            </td>
+
+            <td class="text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
+                <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                </span>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)=" updateGrade(item)"
+                        name="btn-update-grade">
+                        <img class="so-action--icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="removeGrade(item.id)"
+                        name="btn-remove-grade"><img class="so-action--icon" src="assets/images/svg/icon-delete.svg"
+                          alt="">{{t('btnAction.delete')
+                        }}</li>
+                    </ng-template>
+                  </ul>
+                </nz-dropdown-menu>
+
+
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="listGrade?.length == 0 || !listGrade">
+            <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-card">
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
     </div>
   </div>
 
-  <div class="body-card ">
-    <table class="table table-global align-middle">
-      <thead>
-        <tr>
-          <th class="fs-14 fw-700 text-center" style="width: 10%;">
-            {{ t('grade.order') }}
-          </th>
-          <th class="fs-14 fw-700 " style="width: 16%;">
-            {{ t('grade.gradeName') }}
-          </th>
-          <th class="fs-14 fw-700 " style="width: 16%;">
-            {{ t('grade.gradeCode') }}
-          </th>
-
-          <th class="fs-14 fw-700 " style="flex-grow: 1;">
-            {{ t('grade.educationalStagesApply') }}
-          </th>
-
-          <th class="fs-14 fw-700 " style="width: 19%;">
-            {{ t('grade.status') }}
-          </th>
-
-          <th class="fs-14 fw-700 " style="width: 13%;">
-            {{ t('action') }}
-          </th>
-        </tr>
-      </thead>
-
-      <tbody class="fw-bold">
-        <tr *ngFor="let item of listGrade;let i = index">
-          <td class="fs-13 fw-500 text-center">{{i+1}}</td>
-          <td class="fs-13 fw-700 grade-color ">{{item.name}}</td>
-          <td class="fs-13 fw-500">{{ item.code }}</td>
-          <td class="fs-13 fw-700">
-            <span *ngIf="item.educationalStages== 5" class="stages-primarry-school">{{ t('grade.primarySchool')
-              }}</span>
-            <span *ngIf="item.educationalStages== 4" class="stages-secondary-school">{{ t('grade.secondarySchool')
-              }}</span>
-            <span *ngIf="item.educationalStages== 3" class="stages-high-school">{{ t('grade.highSchool') }}</span>
-          </td>
-          <td class="fs-13 fw-500">
-            <span *ngIf="item.isActive == 1" class="active"> {{ t('grade.activated') }}</span>
-            <span *ngIf="item.isActive == 0" class="unActive"> {{ t('grade.notActivated') }}</span>
-          </td>
-
-          <td class="color-td fs-11 fw-700">
-            <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
-              <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="add-action fs-13 fw-600"
-                name="btn-action">
-                <div class="d-flex align-items-center ">
-                  <span class="fs-12 fw-500 w-100">{{ t('action') }}</span>
-                  <img class="add-icon" src="assets/images/svg/activate.svg" alt="">
-                </div>
-                <span class="user-action">
-                  <nz-dropdown-menu #menu="nzDropdownMenu">
-                    <ul nz-menu>
-                      <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
-                        <li nz-menu-item class="fs-13 fw-600 custom-action-item" (click)=" updateGrade(item)"
-                          name="btn-update-grade">
-                          <img class="action-icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
-                        </li>
-                      </ng-template>
-                      <ng-template ngxPermissionsOnly="{{ permission.grade_manager }}">
-                        <li nz-menu-item class="fs-13 fw-600 custom-action-item" (click)="removeGrade(item.id)"
-                          name="btn-remove-grade"><img class="action-icon" src="assets/images/svg/icon-delete.svg"
-                            alt="">{{t('btnAction.delete')
-                          }}</li>
-                      </ng-template>
-                    </ul>
-                  </nz-dropdown-menu>
-                </span>
-              </button>
-            </ng-template>
-          </td>
-        </tr>
-        <tr *ngIf="listGrade?.length == 0 || !listGrade">
-          <td class="text-no-data" colspan="5">{{t('noData')}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="footer-card">
-    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
-      [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize >= sizeOption[0]">
-    </app-pagination>
-  </div>
   <div class="spinner" *ngIf="isLoading">
     <app-loading></app-loading>
   </div>

@@ -1,0 +1,128 @@
+<div class="card card-flush  p-0" *transloco="let t; scope: 'behavior'">
+  <form [formGroup]="formGroup" *ngIf="formGroup">
+    <div class="card-header p-0 border-0">
+      <h3 class="card-title fs-16 fw-600">{{t('behavior.configGradingTime')}}:</h3>
+      <div class="card-toolbar">
+      </div>
+    </div>
+    <div class="card-body p-0 pt-0 behavior-lock">
+      <!--  -->
+      <div class="behavior-config  fw-700">
+        <div class="flex-wrap d-flex justify-content-between">
+
+          <div class="me-2 mt-7 set-height">
+            <div class="d-flex ">
+              <span class="item-label text-color-picton-blue mt-2">{{t('behavior.timeCanCorrectTheResults')}}</span>
+              <div>
+                <div class="d-flex">
+                  <input type="text" class="fw-700 so-form-control form-control w-input" name="input-grading-backdate"
+                    placeholder="{{t('behavior.enterTime')}}" formControlName="gradingBackdate"
+                    [class.is-invalid]="formGroup.get('gradingBackdate').invalid && (formGroup.get('gradingBackdate').dirty || formGroup.get('gradingBackdate').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.gradingBackdate.hasOwnProperty('message') && formGroup.get('gradingBackdate').invalid" />
+                  <span class="mt-2">{{t('behavior.day')}}</span>
+                </div>
+                <div class="">
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.gradingBackdate">
+                    <app-field-error-display
+                      [displayError]="formGroup.get('gradingBackdate').hasError(err.type) && (formGroup.get('gradingBackdate').dirty || formGroup.get('gradingBackdate').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.gradingBackdate">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.gradingBackdate"
+                      [displayErrorServer]="!(formGroup.get('gradingBackdate').dirty || formGroup.get('gradingBackdate').touched)">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="me-2 mt-7 set-height ">
+            <div class="d-flex">
+              <span class="item-label text-color-picton-blue mt-2">{{t('behavior.timeTrussCanDeleteResults')}}</span>
+              <div>
+                <div class="d-flex position-relative">
+                  <input type="text" class="form-control so-form-control fs-14 fw-700 w-input"
+                    name="input-cancellingBackdate" placeholder="{{t('behavior.enterTime')}}"
+                    formControlName="cancellingBackdate"
+                    [class.is-invalid]="formGroup.get('cancellingBackdate').invalid && (formGroup.get('cancellingBackdate').dirty || formGroup.get('cancellingBackdate').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.cancellingBackdate.hasOwnProperty('message') && formGroup.get('cancellingBackdate').invalid" />
+                  <span class="mt-2">{{t('behavior.day')}}</span>
+                </div>
+                <div class="position-absolute">
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.cancellingBackdate">
+                    <app-field-error-display
+                      [displayError]="formGroup.get('cancellingBackdate').hasError(err.type) && (formGroup.get('cancellingBackdate').dirty || formGroup.get('cancellingBackdate').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.cancellingBackdate">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.cancellingBackdate"
+                      [displayErrorServer]="!(formGroup.get('cancellingBackdate').dirty || formGroup.get('cancellingBackdate').touched)">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="me-2 mt-7 set-height d-flex  justify-content-end">
+            <span
+              class="item-label text-color-picton-blue me-5 mt-2">{{t('behavior.configTheResetOfTheScoreBy')}}</span>
+            <select class="so-form-control form-control w-input fw-700 cursor-pointer"
+              formControlName="resetTimeNumberType" name="select-resetTimeNumberType">
+              <ng-container *ngFor="let item of timeNumberType">
+                <option [value]="item.value" selected>{{item.label}}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="mt-7 flex-wrap d-flex">
+          <span class="item-label text-color-picton-blue mt-2">{{t('behavior.configWarningPoints')}}</span>
+          <div>
+            <div class="d-flex">
+              <input type="text" class="form-control so-form-control fs-14 fw-700 w-input" name="input-warningPoint"
+                placeholder="{{t('behavior.inputScore')}}" formControlName="warningPoint"
+                [class.is-invalid]="formGroup.get('warningPoint').invalid && (formGroup.get('warningPoint').dirty || formGroup.get('warningPoint').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.warningPoint.hasOwnProperty('message') && formGroup.get('warningPoint').invalid" />
+              <span class="mt-2">{{t('behavior.title.point')}}</span>
+              <span class="fs-12 text-color-bittersweet mt-1"><img class="ms-7 me-3 mb-3"
+                  src="assets/images/svg/info-warning.svg"
+                  alt="">{{t('behavior.soDiemVanMinhThapDenMucNayHeThongSeCanhBao')}}
+              </span>
+            </div>
+
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.warningPoint">
+              <app-field-error-display
+                [displayError]="formGroup.get('warningPoint').hasError(err.type) && (formGroup.get('warningPoint').dirty || formGroup.get('warningPoint').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.warningPoint">
+              <app-field-error-display [errorServer]="validationMessagesServer?.warningPoint"
+                [displayErrorServer]="!(formGroup.get('warningPoint').dirty || formGroup.get('warningPoint').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <label class="fs-13 fw-700" nz-checkbox
+            [nzDisabled]="behaviorConfigData?.canEditIsApplyTimeNumber == 0 ? true : false"
+            formControlName="isApplyTimeNumber">{{t('behavior.applyScoreByTime')}}</label>
+        </div>
+
+        <ng-template ngxPermissionsOnly="{{ permission.behavior_manager }}">
+          <div class="d-flex algin-items-center justify-content-end">
+            <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="updateBehaviorConfig()"
+              name="btn-update">
+              {{t('btnAction.save')}}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <!--  -->
+    </div>
+  </form>
+</div>

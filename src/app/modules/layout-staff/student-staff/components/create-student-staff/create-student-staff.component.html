@@ -1,0 +1,2451 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('student.createStudent') }}</h3>
+    <div class="card-toolbar"></div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="style-student text-color-river-bed">
+      <form [formGroup]="formGroup" *ngIf="formGroup">
+        <div class="header-info  d-flex pb-6 text-normal-global">
+          <!-- ảnh -->
+          <div class="custom-avatar">
+            <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+              <img [src]="avatarUser" alt="image" class="avatar">
+              <div class="delete-img" (click)="onDeleteFileInputAvatar(1)" name="btn-onDeleteFileInputAvatar">
+                <img src="assets/images/svg/close.svg" alt="img">
+              </div>
+              <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+                <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                <span class="fs-11">{{t('student.upload')}}</span>
+              </div>
+              <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event, 1)">
+            </div>
+          </div>
+
+          <div class="w-100">
+            <div class="row w-100">
+              <div class="col-xl-6 d-flex  get-info  pb-6 ">
+                <!-- Họ và tên , học sinh-->
+                <div class=" label-info d-flex ">
+                  <img src="assets/images/svg/info.svg" alt="">
+                  <span class="fw-700 text-label ">{{t('student.fullname')}} <span class="text-danger">*</span></span>
+                  <span class=" fw-700">[1]</span>
+                </div>
+
+                <div class=" input-custom ">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-fullname"
+                    class="so-form-control form-control" formControlName="fullName"
+                    [class.is-invalid]="formGroup.get('fullName').invalid && (formGroup.get('fullName').dirty || formGroup.get('fullName').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.fullName.hasOwnProperty('message') && formGroup.get('fullName').invalid">
+                  <!-- <div *ngFor="let item of validationMessages.fullName">
+                    <span class="text-danger"
+                      *ngIf="formGroup.get('fullName')?.hasError(item.type)  && formGroup.get('fullName')?.touched">
+                      {{t(item.message)}}
+                    </span>
+                  </div> -->
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.fullName">
+                    <app-field-error-display
+                      [displayError]="formGroup.get('fullName').hasError(err.type) && (formGroup.get('fullName').dirty || formGroup.get('fullName').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fullName">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.fullName"
+                      [displayErrorServer]="!(formGroup.get('fullName').dirty || formGroup.get('fullName').touched)">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 d-flex  get-info  pb-6 ">
+                <!-- Mã học sinh -->
+                <!-- mã hs -->
+                <div class=" label-info d-flex ">
+                  <img src="assets/images/svg/info.svg" alt="">
+                  <span class="fw-700 text-label">{{t('student.studentCode')}} <span class="text-danger">*</span></span>
+                  <span class=" fw-700">[2]</span>
+                </div>
+
+                <div class=" input-custom ">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-code"
+                    class="so-form-control form-control" formControlName="code"
+                    [class.is-invalid]="formGroup.get('code').invalid && (formGroup.get('code').dirty || formGroup.get('code').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.code.hasOwnProperty('message') && formGroup.get('code').invalid">
+                  <!-- <div *ngFor="let item of validationMessages.code">
+                    <span class="text-danger"
+                      *ngIf="formGroup.get('code')?.hasError(item.type)  && formGroup.get('code')?.touched">
+                      {{t(item.message)}}
+                    </span>
+                  </div> -->
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.code">
+                    <app-field-error-display
+                      [displayError]="formGroup.get('code').hasError(err.type) && (formGroup.get('code').dirty || formGroup.get('code').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.code">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.code"
+                      [displayErrorServer]="!(formGroup.get('code').dirty || formGroup.get('code').touched)">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row w-100">
+              <div class="col-xl-6 d-flex  get-info  pb-6 ">
+                <!-- Mã Moet -->
+                <div class=" label-info d-flex ">
+                  <img src="assets/images/svg/info.svg" alt="">
+                  <span class="fw-700 text-label ">{{t('student.moetCode')}}</span>
+                  <span class=" fw-700">[3]</span>
+                </div>
+
+                <div class=" input-custom ">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-moetcode"
+                    class="so-form-control form-control" formControlName="moetCode"
+                    [class.is-invalid]="formGroup.get('moetCode').invalid && (formGroup.get('moetCode').dirty || formGroup.get('moetCode').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.moetCode.hasOwnProperty('message') && formGroup.get('moetCode').invalid">
+                  <!-- <div *ngFor="let item of validationMessages.moetCode">
+                    <span class="text-danger"
+                      *ngIf="formGroup.get('moetCode')?.hasError(item.type)  && formGroup.get('moetCode')?.touched">
+                      {{t(item.message)}}
+                    </span>
+                  </div> -->
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.moetCode">
+                    <app-field-error-display
+                      [displayError]="formGroup.get('moetCode').hasError(err.type) && (formGroup.get('moetCode').dirty || formGroup.get('moetCode').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.moetCode">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.moetCode"
+                      [displayErrorServer]="!(formGroup.get('moetCode').dirty || formGroup.get('moetCode').touched)">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 d-flex  get-info  pb-6 ">
+                <!-- ngày sinh -->
+                <div class=" label-info d-flex ">
+                  <img src="assets/images/svg/info.svg" alt="">
+                  <span class="fw-700 text-label">{{t('student.dateOfBirth')}} <span class="text-danger">*</span></span>
+                  <span class=" fw-700">[4]</span>
+                </div>
+
+                <div class=" input-custom ">
+                  <app-single-date-picker [currentDate]="dateNow" [timePicker]="timePicker" [maxDate]="dateNow"
+                    (dataTimeOutput)="dataTimeBirthday($event, 1)"></app-single-date-picker>
+                  <!-- <div *ngFor="let item of validationMessages.fullName">
+                    <span class="text-danger"
+                      *ngIf="formGroup.get('birthday')?.hasError(item.type)  && formGroup.get('birthday')?.touched">
+                      {{t(item.message)}}
+                    </span>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row w-100">
+              <div class="col-xl-6 d-flex  get-info  pb-6 ">
+                <!-- Giới tính -->
+                <div class=" label-info d-flex ">
+                  <img src="assets/images/svg/info.svg" alt="">
+                  <span class="fw-700 text-label ">{{t('student.gender')}}</span>
+                  <span class=" fw-700">[5]</span>
+                </div>
+
+                <div class=" input-custom ">
+                  <select name="select-gender" formControlName="gender"
+                    class="gender form-select form-select-solid form-select-lg ant-select-selection-search-input fs-13 ">
+                    <ng-container *ngFor="let item of gender">
+                      <option [value]="item.id">{{t(item.name)}}</option>
+                    </ng-container>
+                  </select>
+                  <!-- <span class="text-danger">fefweiofwe</span> -->
+                </div>
+              </div>
+
+              <div class="col-xl-6 d-flex align-items-center  get-info  pb-6  justify-content-between">
+                <!-- Hệ song ngữ -->
+                <label class="set-height fw-500" nz-checkbox formControlName="isHocSongNgu" name="is-HocSongNgu">
+                  {{t('student.bilingual')}}</label>
+                <label class="set-height fw-500" nz-checkbox formControlName="isAccessApp" name="is-AccessApp">
+                  <!-- Được phép truy cập app -->
+                  {{t('student.accessApp')}}
+                </label>
+                <label class="set-height fw-500" nz-checkbox formControlName="isActive" name="is-Active">
+                  <!-- Kích hoạt -->
+                  {{t('student.active')}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thông tin chung -->
+        <div class="general-info">
+          <div class="d-flex align-items-center general-info-title">
+            <img src="assets/images/svg/school_code_icon.svg" alt="">
+            <!-- Thông tin chung -->
+            <h5 class="fs-14 fw-700 text-color-river-bed">{{t('student.generalInformation')}}</h5>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Khối -->
+              <div class="col-md-6 label-info d-flex ">
+                <!-- <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.school')}} <span class="text-danger">*</span></span> -->
+                <img src="assets/images/svg/info.svg" alt="">
+                <!-- Khối -->
+                <span class="fw-700 text-label"> {{t('student.grade')}} <span class="text-danger">*</span></span>
+              </div>
+
+              <div class="col-md-6 input-custom">
+
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-grade" nzShowSearch
+                    formControlName="gradeId" (ngModelChange)="onChangeGrade($event)"
+                    [nzNotFoundContent]="t(nzNotFoundContent)"
+                    [class.is-invalid]="formGroup.get('gradeId').invalid && (formGroup.get('gradeId').dirty || formGroup.get('gradeId').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.gradeId.hasOwnProperty('message') && formGroup.get('gradeId').invalid">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of dataGrades" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+
+                <!-- <div *ngFor="let item of validationMessages.gradeId">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('gradeId')?.hasError(item.type)  && formGroup.get('gradeId')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.gradeId">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('gradeId').hasError(err.type) && (formGroup.get('gradeId').dirty || formGroup.get('gradeId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.gradeId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.gradeId"
+                    [displayErrorServer]="!(formGroup.get('gradeId').dirty || formGroup.get('gradeId').touched)">
+                  </app-field-error-display>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Lớp -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.class')}}<span class="text-danger"> *</span></span>
+              </div>
+
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select
+                    class="select-search form-control so-form-control  {{formGroup.value['gradeId'] == '' ? 'disabled' : ''}}"
+                    name="select-class" nzShowSearch formControlName="homeroomClassId"
+                    [nzDisabled]="formGroup.value['gradeId'] == '' ? true : false"
+                    [nzNotFoundContent]="t(nzNotFoundContent)"
+                    [class.is-invalid]="formGroup.get('homeroomClassId').invalid && (formGroup.get('homeroomClassId').dirty || formGroup.get('homeroomClassId').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.homeroomClassId.hasOwnProperty('message') && formGroup.get('homeroomClassId').invalid">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of dataHomeroomClasses" [nzLabel]="item.name" [nzValue]="item.id">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.homeroomClassId">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('homeroomClassId')?.hasError(item.type)  && formGroup.get('homeroomClassId')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.homeroomClassId">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('homeroomClassId').hasError(err.type) && (formGroup.get('homeroomClassId').dirty || formGroup.get('homeroomClassId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.homeroomClassId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.homeroomClassId"
+                    [displayErrorServer]="!(formGroup.get('homeroomClassId').dirty || formGroup.get('homeroomClassId').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Tên đăng nhập  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.username')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-username"
+                    class="so-form-control form-control" formControlName="username"
+                    [class.is-invalid]="formGroup.get('username').invalid && (formGroup.get('username').dirty || formGroup.get('username').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.username.hasOwnProperty('message') && formGroup.get('username').invalid">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.username">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('username')?.hasError(item.type)  && formGroup.get('username')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.username">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('username').hasError(err.type) && (formGroup.get('username').dirty || formGroup.get('username').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.username">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.username"
+                    [displayErrorServer]="!(formGroup.get('username').dirty || formGroup.get('username').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Mật khẩu -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.password')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="password d-flex align-items-center">
+                  <input name="input-password" formControlName="password" placeholder="{{t('student.enter')}}"
+                    type="{{isShowPassword ? 'text' : 'password'}}" autocomplete="off"
+                    class="so-form-control form-control"
+                    [class.is-invalid]="formGroup.get('password').invalid && (formGroup.get('password').dirty || formGroup.get('password').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.password.hasOwnProperty('message') && formGroup.get('password').invalid">
+                  <span (click)="showPassword()" class="cursor-pointer" name="btn-showpass1">
+                    <img src="{{isShowPassword ? 'assets/images/svg/eye_show.svg': 'assets/images/svg/eye_hide.svg'}}"
+                      alt="">
+                  </span>
+                  <span class="fw-700">[1]</span>
+                </div>
+
+                <!-- <div *ngFor="let item of validationMessages.password">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('password')?.hasError(item.type)  && formGroup.get('password')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.password">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('password').hasError(err.type) && (formGroup.get('password').dirty || formGroup.get('password').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.password">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.password"
+                    [displayErrorServer]="!(formGroup.get('password').dirty || formGroup.get('password').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Trạng thái  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.status')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-status" nzShowSearch
+                    formControlName="status" [nzNotFoundContent]="t(nzNotFoundContent)"
+                    [class.is-invalid]="formGroup.get('status').invalid && (formGroup.get('status').dirty || formGroup.get('status').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.status.hasOwnProperty('message') && formGroup.get('status').invalid">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentStatus" [nzLabel]="t(item.label)" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.status">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('status')?.hasError(item.type)  && formGroup.get('status')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.status">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('status').hasError(err.type) && (formGroup.get('status').dirty || formGroup.get('status').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.status">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.status"
+                    [displayErrorServer]="!(formGroup.get('status').dirty || formGroup.get('status').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Thứ tự sắp xếp -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.sortOrder')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-thuTu"
+                    class="so-form-control form-control" formControlName="thuTu"
+                    [class.is-invalid]="formGroup.get('thuTu').invalid && (formGroup.get('thuTu').dirty || formGroup.get('thuTu').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.thuTu.hasOwnProperty('message') && formGroup.get('thuTu').invalid">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.thuTu">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('thuTu')?.hasError(item.type)  && formGroup.get('thuTu')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.thuTu">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('thuTu').hasError(err.type) && (formGroup.get('thuTu').dirty || formGroup.get('thuTu').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.thuTu">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.thuTu"
+                    [displayErrorServer]="!(formGroup.get('thuTu').dirty || formGroup.get('thuTu').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Dân tộc  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700  text-label">{{t('student.ethnic')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-ethnic" nzShowSearch
+                    formControlName="ethnic" [nzNotFoundContent]="t(nzNotFoundContent)"
+                    [class.is-invalid]="formGroup.get('ethnic').invalid && (formGroup.get('ethnic').dirty || formGroup.get('ethnic').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.ethnic.hasOwnProperty('message') && formGroup.get('ethnic').invalid">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.dan_toc" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.ethnic">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('ethnic')?.hasError(item.type)  && formGroup.get('ethnic')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.ethnic">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('ethnic').hasError(err.type) && (formGroup.get('ethnic').dirty || formGroup.get('ethnic').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.ethnic">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.ethnic"
+                    [displayErrorServer]="!(formGroup.get('ethnic').dirty || formGroup.get('ethnic').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- HT trúng tuyển -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label"> {{t('student.admissionForm')}} </span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-selectedType" nzShowSearch
+                    formControlName="selectedType" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.optionItems?.selected_type_list"
+                      [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Nhóm máu  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.bloodGroup')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-bloodType"
+                    class="so-form-control form-control" formControlName="bloodType">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Tôn giáo -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.religion')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-religion" nzShowSearch
+                    formControlName="religion" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.ton_giao" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Email  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">Email</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-email"
+                    class="so-form-control form-control" formControlName="email"
+                    [class.is-invalid]="formGroup.get('email').invalid && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.email.hasOwnProperty('message') && formGroup.get('email').invalid">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.email">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('email')?.hasError(item.type)  && formGroup.get('email')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('email').hasError(err.type) && (formGroup.get('email').dirty || formGroup.get('email').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.email">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.email"
+                    [displayErrorServer]="!(formGroup.get('email').dirty || formGroup.get('email').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- ĐT ưu tiên -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.priorityObject')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-priorityLevel"
+                    nzShowSearch formControlName="priorityLevel" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.optionItems?.priority_level_list"
+                      [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Số điện thoại  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.phone')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-phone"
+                    class="so-form-control form-control" formControlName="phone"
+                    [class.is-invalid]="formGroup.get('phone').invalid && (formGroup.get('phone').dirty || formGroup.get('phone').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.phone.hasOwnProperty('message') && formGroup.get('phone').invalid">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.phone">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('phone')?.hasError(item.type)  && formGroup.get('phone')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.phone">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('phone').hasError(err.type) && (formGroup.get('phone').dirty || formGroup.get('phone').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.phone">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.phone"
+                    [displayErrorServer]="!(formGroup.get('phone').dirty || formGroup.get('phone').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Quốc tịch -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.nationality')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-nationality" nzShowSearch
+                    formControlName="nationality" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.quoc_tich" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Địa chỉ  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.address')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-address"
+                    class="so-form-control form-control" formControlName="address">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- HKTT -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.permanentResidence')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-permanentResidence"
+                    class="so-form-control form-control" formControlName="permanentResidence">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Tỉnh/thành phố  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.city')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="city-code" nzShowSearch
+                    formControlName="cityCode" (ngModelChange)="onChangeCity($event)"
+                    [nzNotFoundContent]="t(nzNotFoundContent)"
+                    [class.is-invalid]="formGroup.get('cityCode').invalid && (formGroup.get('cityCode').dirty || formGroup.get('cityCode').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.cityCode.hasOwnProperty('message') && formGroup.get('cityCode').invalid">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of cityList" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.cityCode">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('cityCode')?.hasError(item.type)  && formGroup.get('cityCode')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.cityCode">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('cityCode').hasError(err.type) && (formGroup.get('cityCode').dirty || formGroup.get('cityCode').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.cityCode">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.cityCode"
+                    [displayErrorServer]="!(formGroup.get('cityCode').dirty || formGroup.get('cityCode').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Nơi sinh -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.placeOfBirth')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-placeOfBirth"
+                    class="so-form-control form-control" formControlName="placeOfBirth">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Quận/Huyện  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.district')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select
+                    class="select-search form-control so-form-control  {{formGroup.value['cityCode'] == '' ? 'disabled' : ''}}"
+                    name="district-code" nzShowSearch formControlName="districtCode"
+                    [nzDisabled]="formGroup.value['cityCode'] == '' ? true : false"
+                    (ngModelChange)="onChangeDistrict($event)" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of districtList" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Tỉnh/TP theo HK -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">Tỉnh/TP theo HK</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="thanhPhoNoiSinh" nzShowSearch
+                    formControlName="thanhPhoNoiSinh" (ngModelChange)="onChangeCity($event, 1)"
+                    [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of cityListHK" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Phường xã  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.ward')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select
+                    class="select-search form-control so-form-control {{formGroup.value['districtCode'] == '' ? 'disabled' : ''}}"
+                    name="ward-code" nzShowSearch formControlName="wardCode"
+                    [nzDisabled]="formGroup.value['districtCode'] == '' ? true : false"
+                    [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of wardList" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Quận/Huyện theo HK -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">Quận/Huyện theo HK</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select
+                    class="select-search form-control so-form-control {{formGroup.value['thanhPhoNoiSinh'] == '' ? 'disabled' : ''}}"
+                    name="select-quanHuyenNoiSinh" nzShowSearch formControlName="quanHuyenNoiSinh"
+                    [nzDisabled]="formGroup.value['thanhPhoNoiSinh'] == '' ? true : false"
+                    [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of districtListHK" [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Mã ACE  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.ACEcode')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-aceCode"
+                    class="so-form-control form-control" formControlName="aceCode">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- HT CT Tiểu học -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">HT CT Tiểu học</span>
+              </div>
+              <div class="col-md-6 input-custom d-flex align-items-center">
+                <label class="label-checkbox d-flex align-items-center" nz-checkbox
+                  formControlName="isHoanThanhCTrinhTieuHoc" name="is-HoanThanhCTrinhTieuHoc"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- DT trên giấy KS  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">DT trên giấy KS</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-danTocTheoGiayKhai"
+                    class="so-form-control form-control" formControlName="danTocTheoGiayKhai">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Thôn/Xóm -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">Thôn/Xóm</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-thonXom"
+                    class="so-form-control form-control" formControlName="thonXom">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Chỗ ở hiện nay  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.currentAccommodation')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-currentAccommodation"
+                    class="so-form-control form-control" formControlName="currentAccommodation">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  get-info  pb-6 ">
+            </div>
+          </div>
+        </div>
+        <!-- Hết thông tin chung -->
+
+        <!-- Tab chuyển thông tin cá nhân, thông tin phụ huynh -->
+        <div class="d-flex align-items-center tab-student fs-14 fw-700">
+          <div class="tab-student-child d-flex align-items-center" (click)="isTabPersonalOrParents()"
+            name="btn-tabPersonalOrParents"
+            [ngStyle]="{'border-bottom': tabPersonalOrParents ? '2px solid #00A3FF' : '2px solid transparent' }">
+            <img src="assets/images/svg/school_code_icon.svg" alt="">
+            <span>{{t('student.personalInformation')}}</span>
+            <!-- Thông tin cá nhân -->
+          </div>
+          <div class="tab-student-child d-flex align-items-center" (click)="isTabPersonalOrParents()"
+            name="btn-tabPersonalOrParents"
+            [ngStyle]="{'border-bottom': !tabPersonalOrParents ? '2px solid #00A3FF' : '2px solid transparent'   }">
+            <img src="assets/images/svg/people.svg" alt="">
+            <span>{{t('student.parentsInformation')}}</span> <!-- Thông tin phụ huynh -->
+          </div>
+        </div>
+        <!-- hết Tab chuyển thông tin cá nhân, thông tin phụ huynh -->
+
+
+        <!-- Tab thông tin cá nhân -->
+        <div *ngIf="tabPersonalOrParents" class="person-info">
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Khu vực  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.area')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-maKhuVuc" nzShowSearch
+                    formControlName="maKhuVuc" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.khu_vuc" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Bệnh về mắt -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.eyeDisease')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-benhVeMat" nzShowSearch
+                    formControlName="benhVeMat" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.benh_ve_mat" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Loại khuyết tật  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.typeOfDisability')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-disablilityCode"
+                    nzShowSearch formControlName="disablilityCode" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.loai_khuyet_tat" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Số CMND -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">Số CMND</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-idNumber"
+                    class="so-form-control form-control" formControlName="idNumber"
+                    [class.is-invalid]="formGroup.get('idNumber').invalid && (formGroup.get('idNumber').dirty || formGroup.get('idNumber').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.idNumber.hasOwnProperty('message') && formGroup.get('idNumber').invalid">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <div *ngFor="let item of validationMessages.idNumber">
+                  <span class="text-danger"
+                    *ngIf="formGroup.get('idNumber')?.hasError(item.type)  && formGroup.get('idNumber')?.touched">
+                    {{t(item.message)}}
+                  </span>
+                </div> -->
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.idNumber">
+                  <app-field-error-display
+                    [displayError]="formGroup.get('idNumber').hasError(err.type) && (formGroup.get('idNumber').dirty || formGroup.get('idNumber').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.idNumber">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.idNumber"
+                    [displayErrorServer]="!(formGroup.get('idNumber').dirty || formGroup.get('idNumber').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- ĐT chính sách  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.policyObject')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-policyObject" nzShowSearch
+                    formControlName="policyObject" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.doi_tuong_chinh_sach" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Ngày cấp -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">Ngày cấp</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <app-single-date-picker class="date-picker" [currentDate]="formGroup.get('idNumberIssueDate').value"
+                    [maxDate]="dateNow" [timePicker]="timePicker" (dataTimeOutput)="dataTimeBirthday($event, 2)">
+                  </app-single-date-picker>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- HD, Dạy nghề  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">{{t('student.vocationalTraining')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="city-huongNghiepDayNghe"
+                    nzShowSearch formControlName="huongNghiepDayNghe" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.huong_nghiep_day_nghe" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Nơi cấp -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">{{t('student.placeOfGrant')}}</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-idNumberIssueBy"
+                    nzShowSearch formControlName="idNumberIssueBy" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.optionItems?.id_number_issue_by_list"
+                      [nzLabel]="item.name" [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Lý do thôi học  -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label ">Lý do thôi học</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <input placeholder="{{t('student.enter')}}" type="text" name="input-lyDoThoiHoc"
+                    class="so-form-control form-control" name="input-maLyDoThoiHoc" formControlName="maLyDoThoiHoc">
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+            <div class="col-xl-6 row  get-info  pb-6 ">
+              <!-- Số buổi học /Tuần -->
+              <div class="col-md-6 label-info d-flex ">
+                <img src="assets/images/svg/info.svg" alt="">
+                <span class="fw-700 text-label">Số buổi học /Tuần</span>
+              </div>
+              <div class="col-md-6 input-custom">
+                <div class="d-flex align-items-center">
+                  <nz-select class="select-search form-control so-form-control " name="select-maSoBuoiHocTrenTuan"
+                    nzShowSearch formControlName="maSoBuoiHocTrenTuan" [nzNotFoundContent]="t(nzNotFoundContent)">
+                    <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+                    <nz-option *ngFor="let item of studentDataRelate?.moet?.so_buoi_hoc_tren_tuan" [nzLabel]="item.name"
+                      [nzValue]="item.code">
+                    </nz-option>
+                  </nz-select>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <!-- <span class="text-danger">fefweiofwe</span> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- checkbox -->
+          <div class="row w-100">
+            <div class="col-xl-6 row  ">
+              <div class="col-sm-6">
+                <!-- 42 to 50 -->
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isKhuyetTatKhongDanhGia"
+                    name="is-KhuyetTatKhongDanhGia">
+                    Khuyết tật không DG</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocLopMG5Tuoi" name="is-HocLopMG5Tuoi">
+                    Đã học mẫu giáo 5 tuổi</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isBietBoiKy1" name="is-BietBoiKy1">
+                    Học sinh biết bơi kỳ I</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHsdtHtnn" name="is-HsdtHtnn">
+                    HSDT có nhu cầu HT NN</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHsdtTctv" name="is-HsdtTctv">
+                    HSDT có TL T.Cường TV</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHoc2Buoi" name="is-Hoc2Buoi">
+                    Học 2 buổi / ngày</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isVungKhoKhan" name="is-VungKhoKhan">
+                    {{t('student.disadvantagedAreas')}}</label><!-- Vùng khó khăn -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHoTroChiPhiHocTap" name="is-HoTroChiPhiHocTap">
+                    {{t('student.supportStudyExpenses')}}</label><!-- Hỗ trợ chi phí học tập -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isCapGao" name="is-CapGao">
+                    {{t('student.riceSupply')}} </label><!--  Cấp gạo -->
+                  <span class="fw-700">[1]</span>
+                </div>
+
+              </div>
+              <div class="col-sm-6 ">
+                <!-- 51 to 58 -->
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isKhuyetTatHocChuyenBiet"
+                    name="is-KhuyetTatHocChuyenBiet">
+                    Khuyết tật học chuyển biệt</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isDuDieuKienXetTotNghiep"
+                    name="is-isDuDieuKienXetTotNghiep">
+                    HS có đủ ĐK xét tốt nghiệp</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="partyMember" name="is-partyMember">
+                    Đội viên</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="unionMember" name="is-unionMember">
+                    Đoàn viên</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocSinhTiengDanToc"
+                    name="is-isHocSinhTiengDanToc">
+                    Học tiếng D.Tộc </label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="kiNangSong" name="is-kiNangSong">
+                    {{t('student.livingSkill')}}</label><!-- Kĩ năng sống -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isMienHocPhi" name="is-isMienHocPhi">
+                    {{t('student.freeTuition')}}</label><!-- Miễn học phí -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHoTroNhaO" name="is-isHoTroNhaO">
+                    {{t('student.housingAssistance')}}</label><!--  Hỗ trợ nhà ở -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isMoiTuyenDauCap" name="is-isMoiTuyenDauCap">
+                    Mới tuyển đầu cấp</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 row  ">
+              <div class="col-sm-6 ">
+                <!-- 59 to 67 -->
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocTinHoc" name="is-isHocTinHoc">
+                    {{t('student.studyInformatics')}}</label><!-- Học tin học -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHsTotNghiepThcs" name="is-isHsTotNghiepThcs">
+                    Học sinh tốt nghiệp THCS</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocCTGDCuaBo" name="is-isHocCTGDCuaBo">
+                    Học CTGD của Bộ</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocSinhNoiTruDanNuoi"
+                    name="is-isHocSinhNoiTruDanNuoi">
+                    Học sinh N.Trú D.Nuôi</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocSinhBanTruDanNuoi"
+                    name="is-isHocSinhBanTruDanNuoi">
+                    Học sinh B.Trú D.Nuôi</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocSinhPtDtBanTru" name="is-isHocSinhPtDtBanTru">
+                    Học sinh PTDT bán trú</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isMeDt" name="is-isMeDt">
+                    Có mẹ dân tộc</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isChaDt" name="is-isChaDt">
+                    Có cha dân tộc</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isLuuBanNamTruoc" name="is-isLuuBanNamTruoc">
+                    Lưu ban năm trước</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+              </div>
+              <div class="col-sm-6 ">
+                <!-- 68 to 76 -->
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHsdtTroGiang" name="is-isHsdtTroGiang">
+                    Học sinh DT trợ giảng</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHocLopBanTru" name="is-isHocLopBanTru">
+                    Học sinh lớp bán trú</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHoNgheo" name="is-isHoNgheo">
+                    {{t('student.poorHousehold')}}</label><!-- Hộ nghèo -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isGiamHocPhi" name="is-isGiamHocPhi">
+                    {{t('student.reduceTuition')}}</label><!--  Giảm học phí -->
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isCapTienHangThang" name="is-isCapTienHangThang">
+                    Cấp tiền hàng tháng</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isKhuyetTatHocHoaNhap"
+                    name="is-isKhuyetTatHocHoaNhap">
+                    Khuyết tật học hòa nhập</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isHsDttsRatItNguoiDuocHtht"
+                    name="is-isHsDttsRatItNguoiDuocHtht">
+                    HS DTTS rất ít người được HTHT</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isPhCoSmartphone" name="is-isPhCoSmartphone">
+                    P.Huynh có Smartphone</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+                <div class="d-flex align-item-center pt-5">
+                  <label nz-checkbox class="fw-500" formControlName="isPhCoMayTinhInternet"
+                    name="is-isPhCoMayTinhInternet">
+                    P.Huynh có M.tính Internet</label>
+                  <span class="fw-700">[1]</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- hết Tab thông tin cá nhân -->
+
+        <!-- Tab thông tin phụ huynh -->
+        <div *ngIf="!tabPersonalOrParents" class="parents-info">
+          <!-- Bố ruột -->
+          <div class="parents-child">
+            <div>
+              <label class="fs-14 fw-700 text-color-river-bed" nz-checkbox formControlName="isCreateFatherAccount"
+                (ngModelChange)="onChangeisCreateAccount($event, 1)" name="is-isCreateFatherAccount">
+                {{t('student.biologicalFather')}}</label><!-- Bố ruột -->
+            </div>
+
+            <div *ngIf="formGroup.value.isCreateFatherAccount">
+
+              <div class=" d-flex pt-5 pb-5 text-normal-global">
+                <!-- ảnh -->
+                <div class="custom-avatar">
+                  <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+                    <img [src]="fatherAvatarDefault" alt="image" class="avatar">
+                    <div class="delete-img" (click)="onDeleteFileInputAvatar(2)" name="btn-onDeleteFileInputAvatar">
+                      <img src="assets/images/svg/close.svg" alt="img">
+                    </div>
+                    <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+                      <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                      <span class="fs-11">{{t('student.upload')}}</span>
+                    </div>
+                    <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                      accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event, 2)">
+                  </div>
+                </div>
+
+                <div class="w-100">
+
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Họ và tên -->
+                      <!--  của bố ruột -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.fullname')}} <span
+                            class="text-danger">*</span></span>
+                        <!-- Họ và tên -->
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherFullName"
+                          class="so-form-control form-control" formControlName="fatherFullName"
+                          [class.is-invalid]="formGroup.get('fatherFullName').invalid && (formGroup.get('fatherFullName').dirty || formGroup.get('fatherFullName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherFullName.hasOwnProperty('message') && formGroup.get('fatherFullName').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.fatherFullName">
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('fatherFullName')?.hasError(item.type)  && formGroup.get('fatherFullName')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherFullName">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('fatherFullName').hasError(err.type) && (formGroup.get('fatherFullName').dirty || formGroup.get('fatherFullName').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherFullName">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.fatherFullName"
+                            [displayErrorServer]="!(formGroup.get('fatherFullName').dirty || formGroup.get('fatherFullName').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Mã phụ huynh -->
+                      <!--  của bố ruột -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label">{{t('student.parentCode')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherCode"
+                          class="so-form-control form-control" formControlName="fatherCode"
+                          [class.is-invalid]="formGroup.get('fatherCode').invalid && (formGroup.get('fatherCode').dirty || formGroup.get('fatherCode').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherCode.hasOwnProperty('message') && formGroup.get('fatherCode').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.fatherCode">
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('fatherCode')?.hasError(item.type)  && formGroup.get('fatherCode')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherCode">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('fatherCode').hasError(err.type) && (formGroup.get('fatherCode').dirty || formGroup.get('fatherCode').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherCode">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.fatherCode"
+                            [displayErrorServer]="!(formGroup.get('fatherCode').dirty || formGroup.get('fatherCode').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Học sinh -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.student')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fullName"
+                          [attr.disabled]="true" formControlName="fullName" class="so-form-control form-control"
+                          [ngStyle]="{'cursor': 'no-drop'}">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Mối quan hệ -->
+                      <!--  của bố ruột -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.relationship')}} </span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <!-- <input placeholder="{{t('student.enter')}}" type="text" name="input-code"
+                           class="so-form-control form-control" > -->
+                        <input placeholder="{{t('student.biologicalFather')}}" type="text" name="input-biologicalFather"
+                          [attr.disabled]="true" class="so-form-control form-control" [ngStyle]="{'cursor': 'no-drop'}">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row w-100">
+                    <div class="row col-xl-6 d-flex  get-info  pb-6  justify-content-between ps-20">
+                      <div class="col-md-7">
+                        <label class="fw-500" nz-checkbox formControlName="fatherIsAccessApp"
+                          name="is-fatherIsAccessApp">
+                          {{t('student.accessApp')}}</label><!-- Được phép truy cập app -->
+                      </div>
+                      <div class="col-md-5">
+                        <label class="fw-500" nz-checkbox formControlName="fatherIsActive" name="is-fatherIsActive">
+                          {{t('student.active')}}</label><!-- Kích hoạt -->
+                      </div>
+                    </div>
+                    <div class="col-xl-6  get-info  pb-6  d-none"></div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+
+              <div class="general-info">
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Tên đăng nhập -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label ">{{t('student.username')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherUserName"
+                          class="so-form-control form-control" formControlName="fatherUserName"
+                          [class.is-invalid]="formGroup.get('fatherUserName').invalid && (formGroup.get('fatherUserName').dirty || formGroup.get('fatherUserName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherUserName.hasOwnProperty('message') && formGroup.get('fatherUserName').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.fatherUserName">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('fatherUserName')?.hasError(item.type)  && formGroup.get('fatherUserName')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherUserName">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('fatherUserName').hasError(err.type) && (formGroup.get('fatherUserName').dirty || formGroup.get('fatherUserName').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherUserName">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.fatherUserName"
+                          [displayErrorServer]="!(formGroup.get('fatherUserName').dirty || formGroup.get('fatherUserName').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Mật khẩu -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label ">{{t('student.password')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="password d-flex align-items-center">
+                        <input name="input-fatherPassword" formControlName="fatherPassword"
+                          placeholder="{{t('student.enter')}}" placeholder="{{t('student.enter')}}"
+                          type="{{isShowPassword ? 'text' : 'password'}}" autocomplete="off"
+                          class="so-form-control form-control"
+                          [class.is-invalid]="formGroup.get('fatherPassword').invalid && (formGroup.get('fatherPassword').dirty || formGroup.get('fatherPassword').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherPassword.hasOwnProperty('message') && formGroup.get('fatherPassword').invalid">
+                        <span (click)="showPassword()" class="cursor-pointer" name="btn-showpass2">
+                          <img
+                            src="{{isShowPassword ? 'assets/images/svg/eye_show.svg': 'assets/images/svg/eye_hide.svg'}}"
+                            alt="">
+                        </span>
+                        <span class="fw-700">[1]</span>
+                      </div>
+
+
+                      <!-- <div *ngFor="let item of validationMessages.fatherPassword">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('fatherPassword')?.hasError(item.type)  && formGroup.get('fatherPassword')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherPassword">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('fatherPassword').hasError(err.type) && (formGroup.get('fatherPassword').dirty || formGroup.get('fatherPassword').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherPassword">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.fatherPassword"
+                          [displayErrorServer]="!(formGroup.get('fatherPassword').dirty || formGroup.get('fatherPassword').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Số điện thoại  -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.phone')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherPhone"
+                          class="so-form-control form-control" formControlName="fatherPhone"
+                          [class.is-invalid]="formGroup.get('fatherPhone').invalid && (formGroup.get('fatherPhone').dirty || formGroup.get('fatherPhone').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherPhone.hasOwnProperty('message') && formGroup.get('fatherPhone').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.fatherPhone">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('fatherPhone')?.hasError(item.type)  && formGroup.get('fatherPhone')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherPhone">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('fatherPhone').hasError(err.type) && (formGroup.get('fatherPhone').dirty || formGroup.get('fatherPhone').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherPhone">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.fatherPhone"
+                          [displayErrorServer]="!(formGroup.get('fatherPhone').dirty || formGroup.get('fatherPhone').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Email -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">Email</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherEmail"
+                          class="so-form-control form-control" formControlName="fatherEmail"
+                          [class.is-invalid]="formGroup.get('fatherEmail').invalid && (formGroup.get('fatherEmail').dirty || formGroup.get('fatherEmail').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.fatherEmail.hasOwnProperty('message') && formGroup.get('fatherEmail').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.fatherEmail">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('fatherEmail')?.hasError(item.type)  && formGroup.get('fatherEmail')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.fatherEmail">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('fatherEmail').hasError(err.type) && (formGroup.get('fatherEmail').dirty || formGroup.get('fatherEmail').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fatherEmail">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.fatherEmail"
+                          [displayErrorServer]="!(formGroup.get('fatherEmail').dirty || formGroup.get('fatherEmail').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Ngày sinh  -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.dateOfBirth')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <app-single-date-picker class="date-picker"
+                          [currentDate]="formGroup.get('fatherBirthday').value" [maxDate]="dateNow"
+                          [timePicker]="timePicker" (dataTimeOutput)="dataTimeBirthday($event, 3)">
+                        </app-single-date-picker>
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Nghề nghiệp -->
+                    <!--  của bố ruột -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.job')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fatherJob"
+                          class="so-form-control form-control" formControlName="fatherJob">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end Bố ruột -->
+
+          <!-- Mẹ đẻ -->
+          <div class="parents-child">
+            <div>
+              <label class="fs-14 fw-700 text-color-river-bed" nz-checkbox formControlName="isCreateMotherAccount"
+                (ngModelChange)="onChangeisCreateAccount($event, 2)" name="is-isCreateMotherAccount">
+                {{t('student.biologicalMother')}}</label><!-- Mẹ đẻ -->
+            </div>
+
+            <div *ngIf="this.formGroup.value.isCreateMotherAccount">
+              <div class=" d-flex pt-5 pb-5  text-normal-global">
+                <!-- ảnh -->
+                <!--  của mẹ đẻ -->
+                <div class="custom-avatar">
+                  <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+                    <img [src]="motherAvatarDefault" alt="image" class="avatar">
+                    <div class="delete-img" (click)="onDeleteFileInputAvatar(3)" name="btn-onDeleteFileInputAvatar">
+                      <img src="assets/images/svg/close.svg" alt="img">
+                    </div>
+                    <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+                      <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                      <span class="fs-11">{{t('student.upload')}}</span>
+                    </div>
+                    <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                      accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event, 3)">
+                  </div>
+                </div>
+
+                <div class="w-100">
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Họ tên -->
+                      <!--  của mẹ đẻ -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.fullname')}}<span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherFullName"
+                          class="so-form-control form-control" formControlName="motherFullName"
+                          [class.is-invalid]="formGroup.get('motherFullName').invalid && (formGroup.get('motherFullName').dirty || formGroup.get('motherFullName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherFullName.hasOwnProperty('message') && formGroup.get('motherFullName').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.motherFullName">
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('motherFullName')?.hasError(item.type)  && formGroup.get('motherFullName')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherFullName">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('motherFullName').hasError(err.type) && (formGroup.get('motherFullName').dirty || formGroup.get('motherFullName').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherFullName">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.motherFullName"
+                            [displayErrorServer]="!(formGroup.get('motherFullName').dirty || formGroup.get('motherFullName').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Mã phụ huynh -->
+                      <!--  của mẹ đẻ -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label">{{t('student.parentCode')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherCode"
+                          class="so-form-control form-control" formControlName="motherCode"
+                          [class.is-invalid]="formGroup.get('motherCode').invalid && (formGroup.get('motherCode').dirty || formGroup.get('motherCode').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherCode.hasOwnProperty('message') && formGroup.get('motherCode').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.motherCode">
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('motherCode')?.hasError(item.type)  && formGroup.get('motherCode')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherCode">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('motherCode').hasError(err.type) && (formGroup.get('motherCode').dirty || formGroup.get('motherCode').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherCode">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.motherCode"
+                            [displayErrorServer]="!(formGroup.get('motherCode').dirty || formGroup.get('motherCode').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Học sinh -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.student')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fullName"
+                          [attr.disabled]="true" class="so-form-control form-control" [ngStyle]="{'cursor': 'no-drop'}"
+                          formControlName="fullName">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- mối quan hệ -->
+                      <!--  của mẹ đẻ -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label t">{{t('student.relationship')}}</span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.biologicalMother')}}" type="text" name="input-biologicalMother"
+                          [attr.disabled]="true" class="so-form-control form-control" [ngStyle]="{'cursor': 'no-drop'}">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row w-100">
+                    <div class="row col-xl-6 d-flex  get-info  pb-6  justify-content-between ps-20">
+                      <div class="col-md-7">
+                        <label class="fw-500" nz-checkbox formControlName="motherIsAccessApp"
+                          name="is-motherIsAccessApp">
+                          {{t('student.accessApp')}}</label><!-- Được phép truy cập app -->
+                      </div>
+                      <div class="col-md-5">
+                        <label class="fw-500" nz-checkbox formControlName="motherIsActive" name="is-motherIsActive">
+                          {{t('student.active')}}</label><!-- Kích hoạt -->
+                      </div>
+                    </div>
+                    <div class="col-xl-6  get-info  pb-6  d-none"></div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+
+              <div class="general-info">
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- tên đăng nhập -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.username')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherUserName"
+                          class="so-form-control form-control" formControlName="motherUserName"
+                          [class.is-invalid]="formGroup.get('motherUserName').invalid && (formGroup.get('motherUserName').dirty || formGroup.get('motherUserName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherUserName.hasOwnProperty('message') && formGroup.get('motherUserName').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.motherUserName">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('motherUserName')?.hasError(item.type)  && formGroup.get('motherUserName')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherUserName">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('motherUserName').hasError(err.type) && (formGroup.get('motherUserName').dirty || formGroup.get('motherUserName').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherUserName">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.motherUserName"
+                          [displayErrorServer]="!(formGroup.get('motherUserName').dirty || formGroup.get('motherUserName').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- mật khẩu -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.password')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="password d-flex align-items-center">
+                        <input name="input-motherPassword" formControlName="motherPassword"
+                          placeholder="{{t('student.enter')}}" type="{{isShowPassword ? 'text' : 'password'}}"
+                          autocomplete="off" class="so-form-control form-control"
+                          [class.is-invalid]="formGroup.get('motherPassword').invalid && (formGroup.get('motherPassword').dirty || formGroup.get('motherPassword').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherPassword.hasOwnProperty('message') && formGroup.get('motherPassword').invalid">
+                        <span (click)="showPassword()" class="cursor-pointer" name="btn-showpass3">
+                          <img
+                            src="{{isShowPassword ? 'assets/images/svg/eye_show.svg': 'assets/images/svg/eye_hide.svg'}}"
+                            alt="">
+                        </span>
+                        <span class="fw-700">[1]</span>
+                      </div>
+
+                      <!-- <div *ngFor="let item of validationMessages.motherPassword">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('motherPassword')?.hasError(item.type)  && formGroup.get('motherPassword')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherPassword">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('motherPassword').hasError(err.type) && (formGroup.get('motherPassword').dirty || formGroup.get('motherPassword').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherPassword">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.motherPassword"
+                          [displayErrorServer]="!(formGroup.get('motherPassword').dirty || formGroup.get('motherPassword').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- số điện thoại  -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.phone')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherPhone"
+                          class="so-form-control form-control" formControlName="motherPhone"
+                          [class.is-invalid]="formGroup.get('motherPhone').invalid && (formGroup.get('motherPhone').dirty || formGroup.get('motherPhone').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherPhone.hasOwnProperty('message') && formGroup.get('motherPhone').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.motherPhone">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('motherPhone')?.hasError(item.type)  && formGroup.get('motherPhone')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherPhone">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('motherPhone').hasError(err.type) && (formGroup.get('motherPhone').dirty || formGroup.get('motherPhone').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherPhone">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.motherPhone"
+                          [displayErrorServer]="!(formGroup.get('motherPhone').dirty || formGroup.get('motherPhone').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Email -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">Email</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherEmail"
+                          class="so-form-control form-control" formControlName="motherEmail"
+                          [class.is-invalid]="formGroup.get('motherEmail').invalid && (formGroup.get('motherEmail').dirty || formGroup.get('motherEmail').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.motherEmail.hasOwnProperty('message') && formGroup.get('motherEmail').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.motherEmail">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('motherEmail')?.hasError(item.type)  && formGroup.get('motherEmail')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.motherEmail">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('motherEmail').hasError(err.type) && (formGroup.get('motherEmail').dirty || formGroup.get('motherEmail').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.motherEmail">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.motherEmail"
+                          [displayErrorServer]="!(formGroup.get('motherEmail').dirty || formGroup.get('motherEmail').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Ngày sinh  -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.dateOfBirth')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <app-single-date-picker class="date-picker"
+                          [currentDate]="formGroup.get('motherBirthday').value" [maxDate]="dateNow"
+                          [timePicker]="timePicker" (dataTimeOutput)="dataTimeBirthday($event, 4)">
+                        </app-single-date-picker>
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Nghề nghiệp -->
+                    <!--  của mẹ đẻ -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.job')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-motherJob"
+                          class="so-form-control form-control" formControlName="motherJob">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Mẹ đẻ -->
+
+          <!-- Người đỡ đầu -->
+          <div class="parents-child">
+            <div>
+              <label class="fs-14 fw-700 text-color-river-bed" nz-checkbox formControlName="isCreateTutorAccount"
+                (ngModelChange)="onChangeisCreateAccount($event, 3)" name="is-isCreateTutorAccount">
+                {{t('student.tutor')}}</label><!-- Người đỡ đầu -->
+            </div>
+
+            <div *ngIf="this.formGroup.value.isCreateTutorAccount">
+              <div class="  d-flex pt-5 pb-5  text-normal-global">
+                <!-- ảnh -->
+                <!--  của người đỡ đầu -->
+                <div class="custom-avatar">
+                  <div class="symbol symbol-lg-150px symbol-fixed position-relative">
+                    <img [src]="tutorAvatarDefault" alt="image" class="avatar">
+                    <div class="delete-img" (click)="onDeleteFileInputAvatar(4)" name="btn-onDeleteFileInputAvatar">
+                      <img src="assets/images/svg/close.svg" alt="img">
+                    </div>
+                    <div class="upload-img" (click)="fileInputAvatar.click()" name="btn-fileInputAvatar">
+                      <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                      <span class="fs-11">{{t('student.upload')}}</span>
+                    </div>
+                    <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                      accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event, 4)">
+                  </div>
+                </div>
+
+                <div class="w-100">
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Họ và tên -->
+                      <!--  của người đỡ đầu -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label">{{t('student.fullname')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorFullName"
+                          class="so-form-control form-control" formControlName="tutorFullName"
+                          [class.is-invalid]="formGroup.get('tutorFullName').invalid && (formGroup.get('tutorFullName').dirty || formGroup.get('tutorFullName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorFullName.hasOwnProperty('message') && formGroup.get('tutorFullName').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.tutorFullName" >
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('tutorFullName')?.hasError(item.type)  && formGroup.get('tutorFullName')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorFullName">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('tutorFullName').hasError(err.type) && (formGroup.get('tutorFullName').dirty || formGroup.get('tutorFullName').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorFullName">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.tutorFullName"
+                            [displayErrorServer]="!(formGroup.get('tutorFullName').dirty || formGroup.get('tutorFullName').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Mã phụ huynh -->
+                      <!--  của người đỡ đầu -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label">{{t('student.parentCode')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorCode"
+                          class="so-form-control form-control" formControlName="tutorCode"
+                          [class.is-invalid]="formGroup.get('tutorCode').invalid && (formGroup.get('tutorCode').dirty || formGroup.get('tutorCode').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorCode.hasOwnProperty('message') && formGroup.get('tutorCode').invalid">
+                        <!-- <div *ngFor="let item of validationMessages.tutorCode">
+                          <span class="text-danger"
+                            *ngIf="formGroup.get('tutorCode')?.hasError(item.type)  && formGroup.get('tutorCode')?.touched">
+                            {{t(item.message)}}
+                          </span>
+                        </div> -->
+                        <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorCode">
+                          <app-field-error-display
+                            [displayError]="formGroup.get('tutorCode').hasError(err.type) && (formGroup.get('tutorCode').dirty || formGroup.get('tutorCode').touched)"
+                            errorMsg="{{ t(err.message) }}">
+                          </app-field-error-display>
+                        </div>
+                        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorCode">
+                          <app-field-error-display [errorServer]="validationMessagesServer?.tutorCode"
+                            [displayErrorServer]="!(formGroup.get('tutorCode').dirty || formGroup.get('tutorCode').touched)">
+                          </app-field-error-display>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row w-100">
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- Học sinh -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label">{{t('student.student')}} <span
+                            class="text-danger">*</span></span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-fullName"
+                          [attr.disabled]="true" class="so-form-control form-control" [ngStyle]="{'cursor': 'no-drop'}"
+                          formControlName="fullName">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+
+                    <div class="col-xl-6 d-flex  get-info  pb-6 ps-20">
+                      <!-- mối quan hệ -->
+                      <!--  của người đỡ đầu -->
+                      <div class=" label-info d-flex ">
+                        <img src="assets/images/svg/info.svg" alt="">
+                        <span class="fw-700 text-label ">{{t('student.relationship')}} </span>
+                        <span class=" fw-700">[1]</span>
+                      </div>
+
+                      <div class=" input-custom ">
+                        <input placeholder="{{t('student.tutor')}}" type="text" name="input-biologicalMother"
+                          [attr.disabled]="true" class="so-form-control form-control" [ngStyle]="{'cursor': 'no-drop'}">
+                        <!-- <span class="text-danger">fefweiofwe</span> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row w-100">
+                    <div class="row col-xl-9 d-flex  get-info  pb-6  justify-content-between ps-20">
+                      <div class="col-md-3">
+                        <label class="fw-500" nz-checkbox formControlName="tutorGender" name="is-tutorGender">
+                          {{t('genderName.female')}}</label><!-- giới tính -->
+                      </div>
+                      <div class="col-md-5">
+                        <label class="fw-500" nz-checkbox formControlName="tutorIsAccessApp" name="is-tutorIsAccessApp">
+                          {{t('student.accessApp')}}</label><!-- Được phép truy cập app -->
+                      </div>
+                      <div class="col-md-4">
+                        <label class="fw-500" nz-checkbox formControlName="tutorIsActive" name="is-tutorIsActive">
+                          {{t('student.active')}}</label><!-- Kích hoạt -->
+                      </div>
+                    </div>
+                    <div class="col-xl-3  get-info  pb-6  d-none"></div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+
+              <div class="general-info">
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Tên đăng nhập -->
+                    <!--  của người đỡ đầu -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label ">{{t('student.username')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorUserName"
+                          class="so-form-control form-control" formControlName="tutorUserName"
+                          [class.is-invalid]="formGroup.get('tutorUserName').invalid && (formGroup.get('tutorUserName').dirty || formGroup.get('tutorUserName').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorUserName.hasOwnProperty('message') && formGroup.get('tutorUserName').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.tutorUserName">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('tutorUserName')?.hasError(item.type)  && formGroup.get('tutorUserName')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorUserName">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('tutorUserName').hasError(err.type) && (formGroup.get('tutorUserName').dirty || formGroup.get('tutorUserName').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorUserName">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.tutorUserName"
+                          [displayErrorServer]="!(formGroup.get('tutorUserName').dirty || formGroup.get('tutorUserName').touched)">
+                        </app-field-error-display>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- mật khẩu -->
+                    <!--  của người đỡ đầu -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label ">{{t('student.password')}} <span
+                          class="text-danger">*</span></span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="password d-flex align-items-center">
+                        <input name="input-tutorPassword" formControlName="tutorPassword"
+                          placeholder="{{t('student.enter')}}" type="{{isShowPassword ? 'text' : 'password'}}"
+                          autocomplete="off" class="so-form-control form-control"
+                          [class.is-invalid]="formGroup.get('tutorPassword').invalid && (formGroup.get('tutorPassword').dirty || formGroup.get('tutorPassword').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorPassword.hasOwnProperty('message') && formGroup.get('tutorPassword').invalid">
+                        <span (click)="showPassword()" class="cursor-pointer" name="btn-showpass4">
+                          <img
+                            src="{{isShowPassword ? 'assets/images/svg/eye_show.svg': 'assets/images/svg/eye_hide.svg'}}"
+                            alt="">
+                        </span>
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.tutorPassword">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('tutorPassword')?.hasError(item.type)  && formGroup.get('tutorPassword')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorPassword">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('tutorPassword').hasError(err.type) && (formGroup.get('tutorPassword').dirty || formGroup.get('tutorPassword').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorPassword">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.tutorPassword"
+                          [displayErrorServer]="!(formGroup.get('tutorPassword').dirty || formGroup.get('tutorPassword').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- số điện thoại  -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.phone')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorPhone"
+                          class="so-form-control form-control" formControlName="tutorPhone"
+                          [class.is-invalid]="formGroup.get('tutorPhone').invalid && (formGroup.get('tutorPhone').dirty || formGroup.get('tutorPhone').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorPhone.hasOwnProperty('message') && formGroup.get('tutorPhone').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.tutorPhone">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('tutorPhone')?.hasError(item.type)  && formGroup.get('tutorPhone')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorPhone">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('tutorPhone').hasError(err.type) && (formGroup.get('tutorPhone').dirty || formGroup.get('tutorPhone').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorPhone">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.tutorPhone"
+                          [displayErrorServer]="!(formGroup.get('tutorPhone').dirty || formGroup.get('tutorPhone').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Email -->
+                    <!--  của người đỡ đầu -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">Email</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorEmail"
+                          class="so-form-control form-control" formControlName="tutorEmail"
+                          [class.is-invalid]="formGroup.get('tutorEmail').invalid && (formGroup.get('tutorEmail').dirty || formGroup.get('tutorEmail').touched)"
+                          [class.is-invalid-server]="validationMessagesServer?.tutorEmail.hasOwnProperty('message') && formGroup.get('tutorEmail').invalid">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <div *ngFor="let item of validationMessages.tutorEmail">
+                        <span class="text-danger"
+                          *ngIf="formGroup.get('tutorEmail')?.hasError(item.type)  && formGroup.get('tutorEmail')?.touched">
+                          {{t(item.message)}}
+                        </span>
+                      </div> -->
+                      <div class="text-danger mt-2" *ngFor="let err of validationMessages.tutorEmail">
+                        <app-field-error-display
+                          [displayError]="formGroup.get('tutorEmail').hasError(err.type) && (formGroup.get('tutorEmail').dirty || formGroup.get('tutorEmail').touched)"
+                          errorMsg="{{ t(err.message) }}">
+                        </app-field-error-display>
+                      </div>
+                      <div class="text-danger mt-2" *ngIf="validationMessagesServer?.tutorEmail">
+                        <app-field-error-display [errorServer]="validationMessagesServer?.tutorEmail"
+                          [displayErrorServer]="!(formGroup.get('tutorEmail').dirty || formGroup.get('tutorEmail').touched)">
+                        </app-field-error-display>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row w-100">
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Ngày sinh  -->
+                    <!--  của người đỡ đầu -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label"> {{t('student.dateOfBirth')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <app-single-date-picker class="date-picker" [currentDate]="formGroup.get('tutorBirthday').value"
+                          [maxDate]="dateNow" [timePicker]="timePicker" (dataTimeOutput)="dataTimeBirthday($event, 5)">
+                        </app-single-date-picker>
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 row  get-info  pb-6 ">
+                    <!-- Nghề nghiệp -->
+                    <!--  của người đỡ đầu -->
+                    <div class="col-md-6 label-info d-flex ">
+                      <img src="assets/images/svg/info.svg" alt="">
+                      <span class="fw-700 text-label">{{t('student.job')}}</span>
+                    </div>
+                    <div class="col-md-6 input-custom">
+                      <div class="d-flex align-items-center">
+                        <input placeholder="{{t('student.enter')}}" type="text" name="input-tutorJob"
+                          class="so-form-control form-control" formControlName="tutorJob">
+                        <span class="fw-700">[1]</span>
+                      </div>
+                      <!-- <span class="text-danger">fefweiofwe</span> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Người đỡ đầu -->
+          <!-- hết Tab thông tin phụ huynh -->
+          <!-- [disabled]="formGroup.invalid" -->
+        </div>
+        <div class="modal-footer border-0  d-flex justify-content-end">
+          <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" routerLink="/staff/student"
+            name="btn-cancel">{{t('btnAction.cancel')}}</button>
+          <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-submit"
+            (click)="onSubmit()">{{t('btnAction.save')}}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -67,27 +67,27 @@ describe('InfoSettingSchoolStaffComponent', () => {
   });
 
   it('Should create a form with controls', () => {
-    expect(component.formSchool.contains('name')).toBeTruthy();
-    expect(component.formSchool.contains('campus')).toBeTruthy();
-    expect(component.formSchool.contains('trainingLevel')).toBeTruthy();
-    expect(component.formSchool.contains('loaiHinhTruong')).toBeTruthy();
-    expect(component.formSchool.contains('loaiTruong')).toBeTruthy();
-    expect(component.formSchool.contains('chinhSachVung')).toBeTruthy();
-    expect(component.formSchool.contains('khuVuc')).toBeTruthy();
-    expect(component.formSchool.contains('email')).toBeTruthy();
-    expect(component.formSchool.contains('sendFromEmail')).toBeTruthy();
-    expect(component.formSchool.contains('phone')).toBeTruthy();
-    expect(component.formSchool.contains('hotline')).toBeTruthy();
-    expect(component.formSchool.contains('fax')).toBeTruthy();
-    expect(component.formSchool.contains('tenHieuTruong')).toBeTruthy();
-    expect(component.formSchool.contains('emailHieuTruong')).toBeTruthy();
-    expect(component.formSchool.contains('dienThoaiHieuTruong')).toBeTruthy();
-    expect(component.formSchool.contains('indexOrder')).toBeTruthy();
-    expect(component.formSchool.contains('namThanhLap')).toBeTruthy();
-    expect(component.formSchool.contains('maDuAn')).toBeTruthy();
-    expect(component.formSchool.contains('dienTich')).toBeTruthy();
-    expect(component.formSchool.contains('mucChuanQuocGia')).toBeTruthy();
-    expect(component.formSchool.contains('maVungKhoKhan')).toBeTruthy();
+    expect(component.formSchool.contains('Name')).toBeTruthy();
+    expect(component.formSchool.contains('Campus')).toBeTruthy();
+    expect(component.formSchool.contains('TrainingLevel')).toBeTruthy();
+    expect(component.formSchool.contains('LoaiHinhTruong')).toBeTruthy();
+    expect(component.formSchool.contains('LoaiTruong')).toBeTruthy();
+    expect(component.formSchool.contains('ChinhSachVung')).toBeTruthy();
+    expect(component.formSchool.contains('KhuVuc')).toBeTruthy();
+    expect(component.formSchool.contains('Email')).toBeTruthy();
+    expect(component.formSchool.contains('SendFromEmail')).toBeTruthy();
+    expect(component.formSchool.contains('Phone')).toBeTruthy();
+    expect(component.formSchool.contains('Hotline')).toBeTruthy();
+    expect(component.formSchool.contains('Fax')).toBeTruthy();
+    expect(component.formSchool.contains('TenHieuTruong')).toBeTruthy();
+    expect(component.formSchool.contains('EmailHieuTruong')).toBeTruthy();
+    expect(component.formSchool.contains('DienThoaiHieuTruong')).toBeTruthy();
+    expect(component.formSchool.contains('IndexOrder')).toBeTruthy();
+    expect(component.formSchool.contains('NamThanhLap')).toBeTruthy();
+    expect(component.formSchool.contains('MaDuAn')).toBeTruthy();
+    expect(component.formSchool.contains('DienTich')).toBeTruthy();
+    expect(component.formSchool.contains('MucChuanQuocGia')).toBeTruthy();
+    expect(component.formSchool.contains('MaVungKhoKhan')).toBeTruthy();
 
     expect(component.formSchool.contains('IsCoChiBoDang')).toBeTruthy();
     expect(component.formSchool.contains('IsTruongQuocTe')).toBeTruthy();
@@ -127,25 +127,25 @@ describe('InfoSettingSchoolStaffComponent', () => {
   it('Should form valid', () => {
     const form = component.formSchool;
     form.patchValue({
-      name: 'Trường THCS An Viên',
-      campus: '0000-90000-00000',
-      trainingLevel: 4,
-      loaiHinhTruong: '01',
-      loaiTruong: '01',
-      chinhSachVung: '01',
-      khuVuc: '02',
-      email: 'anvien@gmail.com',
-      sendFromEmail: 'anvien@gmail.com',
-      phone: '0349810349',
-      hotline: '0349810349',
-      fax: '0349810349',
-      dienThoaiHieuTruong: '0349810349',
-      indexOrder: 1,
-      namThanhLap: '1998',
-      maDuAn: '01',
-      dienTich: '2000',
-      mucChuanQuocGia: '01',
-      maVungKhoKhan: '01',
+      Name: 'Trường THCS An Viên',
+      Campus: '0000-90000-00000',
+      TrainingLevel: 4,
+      LoaiHinhTruong: '01',
+      LoaiTruong: '01',
+      ChinhSachVung: '01',
+      KhuVuc: '02',
+      Email: 'anvien@gmail.com',
+      SendFromEmail: 'anvien@gmail.com',
+      Phone: '0349810349',
+      Hotline: '0349810349',
+      Fax: '0349810349',
+      DienThoaiHieuTruong: '0349810349',
+      IndexOrder: 1,
+      NamThanhLap: '1998',
+      MaDuAn: '01',
+      DienTich: '2000',
+      MucChuanQuocGia: '01',
+      MaVungKhoKhan: '01',
       IsCoChiBoDang: '1',
       IsTruongQuocTe: '0',
       IsHocSinhKhuyetTat: '0',
@@ -172,32 +172,31 @@ describe('InfoSettingSchoolStaffComponent', () => {
   });
 
   it('Should name invalid max length', () => {
-    const control = component.formSchool.controls['name'];
+    const control = component.formSchool.controls['Name'];
     control.setValue('When a user clicks the button, the profileForm model is  When a user clicks the button, the profileForm model is  When a user clicks the button, the profileForm model is When a user clicks the button, the profileForm model is When a user clicks the button, the profileForm model is');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should name invalid empty', () => {
-    const control = component.formSchool.controls['name'];
+    const control = component.formSchool.controls['Name'];
     control.setValue('');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should phone invalid regex', () => {
-    const control = component.formSchool.controls['dienThoaiHieuTruong'];
+    const control = component.formSchool.controls['DienThoaiHieuTruong'];
     control.setValue('09149á');
-    console.log(control.invalid)
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should email invalid', () => {
-    const control = component.formSchool.controls['email'];
+    const control = component.formSchool.controls['Email'];
     control.setValue('omt.com.vn');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should ten hieu truong invalid max length', () => {
-    const control = component.formSchool.controls['tenHieuTruong'];
+    const control = component.formSchool.controls['TenHieuTruong'];
     control.setValue(
       'When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided'
     );
@@ -205,44 +204,44 @@ describe('InfoSettingSchoolStaffComponent', () => {
   });
 
   it('Should campus invalid', () => {
-    const control = component.formSchool.controls['campus'];
+    const control = component.formSchool.controls['Campus'];
     let campus = '';
     control.setValue(campus);
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should sendFromEmail invalid', () => {
-    const control = component.formSchool.controls['sendFromEmail'];
+    const control = component.formSchool.controls['SendFromEmail'];
     control.setValue('omt.com.vn');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should phone invalid', () => {
-    const control = component.formSchool.controls['phone'];
+    const control = component.formSchool.controls['Phone'];
     control.setValue('09149á');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should hotline invalid', () => {
-    const control = component.formSchool.controls['hotline'];
+    const control = component.formSchool.controls['Hotline'];
     control.setValue('09149á');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should fax invalid', () => {
-    const control = component.formSchool.controls['fax'];
+    const control = component.formSchool.controls['Fax'];
     control.setValue('09149á');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should email HT invalid', () => {
-    const control = component.formSchool.controls['emailHieuTruong'];
+    const control = component.formSchool.controls['EmailHieuTruong'];
     control.setValue('omt.com.vn');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should namThanhLap invalid', () => {
-    const control = component.formSchool.controls['namThanhLap'];
+    const control = component.formSchool.controls['NamThanhLap'];
     control.setValue(
       'When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided'
     );
@@ -250,7 +249,7 @@ describe('InfoSettingSchoolStaffComponent', () => {
   });
 
   it('Should dienTich validate', () => {
-    const control = component.formSchool.controls['dienTich'];
+    const control = component.formSchool.controls['DienTich'];
     control.setValue(
       'When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided'
     );

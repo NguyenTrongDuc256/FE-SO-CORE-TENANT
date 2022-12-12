@@ -2,13 +2,17 @@
   <!-- start buoc nhap email/phone de lay ma -->
   <div *ngIf="!isVerifyAccount">
     <form>
-      <h4 class="mb-6 text-medium-global fw-700 so-auth-text-primary pt-12 pb-6">
+      <h4 class="mb-6 fs-18 fw-700 so-auth-text-primary pt-12 pb-6">
         {{t('auth.requiredPhoneEmail')}}
       </h4>
       <!--begin::Form group-->
       <div class="fv-row mb-10">
-        <input class="form-control form-control-lg form-control-solid" type="text" placeholder="{{t('auth.enterPhoneEmail')}}"
-          name="email" autocomplete="off" [(ngModel)]="userName" />
+        <input class="so-form-control form-control" type="text" placeholder="{{t('auth.enterPhoneEmail')}}"
+          name="email" autocomplete="off" [(ngModel)]="userName" #emailPhone="ngModel"
+          [class.is-invalid]="(userName == '' || userName.trim() == '') && (emailPhone.dirty || emailPhone.touched)"/>
+        <div *ngIf="(userName == '' || userName.trim() == '') && (emailPhone.dirty || emailPhone.touched)" class="mt-2">
+          <span class="text-danger">{{t('auth.requiredEnterUserName')}}</span>
+        </div>
       </div>
       <!--end::Form group-->
       <!--begin::Form group-->
@@ -23,15 +27,8 @@
             {{t('btnAction.cancel')}}
           </a>
           <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
-            (click)="checkAccount()" [disabled]="!userName" *ngIf="!(isLoading$ | async)">
+            (click)="checkAccount()">
             <span class="indicator-label">{{t('auth.getCode')}}</span>
-          </button>
-          <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
-            disabled *ngIf="isLoading$ | async">
-            <span class="indicator-progress">
-              {{t('auth.processing')}}
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
           </button>
         </div>
       </div>
@@ -42,10 +39,10 @@
 
   <!-- start buoc chon tai khoan dang ki de lay ma -->
   <div *ngIf="isVerifyAccount">
-    <h4 class="text-medium-global fw-700 so-auth-text-primary pt-12 pb-6">
+    <h4 class="fs-18 fw-700 so-auth-text-primary pt-10 pb-6">
       {{t('auth.confirmAccount')}}
     </h4>
-    <p class="fw-600 mb-5">{{t('auth.requiredChooseAccount')}} </p>
+    <p class="fw-600 mb-6 fs-14">{{t('auth.requiredChooseAccount')}} </p>
     <div class="fv-row mb-10">
       <nz-radio-group [(ngModel)]="accountSelected" ngDefaultControl class="so-radio-group w-full">
         <ng-container *ngFor="let acc of arrAccount">
@@ -104,15 +101,7 @@
         </a>
         <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
           (click)="continue()">
-          <ng-container *ngIf="!(isLoading$ | async)">
-            <span class="indicator-label">{{t('btnAction.next')}}</span>
-          </ng-container>
-          <ng-container *ngIf="isLoading$ | async">
-            <span class="indicator-progress">
-              {{t('auth.waite')}}
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          </ng-container>
+          <span class="indicator-label">{{t('btnAction.next')}}</span>
         </button>
       </div>
     </div>

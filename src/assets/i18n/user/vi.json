@@ -47,7 +47,8 @@
 
     "email":{
       "required":"Bạn chưa nhập email",
-      "email":"Email không hợp lệ"
+      "email":"Email không hợp lệ",
+      "pattern":"Email không hợp lệ"
     },
     "phone":{
       "required":"Bạn chưa nhập số điện thoại",
@@ -94,5 +95,12 @@
   "select": "Chọn",
   "truyCapAp": "Truy cập app",
   "access": "Cho phép",
-  "khac": "Khác"
+  "khac": "Khác",
+  "enterFullname":"Nhập họ và tên",
+  "enterCode":"Nhập mã",
+  "enterUsername":"Nhập tên đăng nhập",
+  "enterPassword":"Nhập mật khẩu",
+  "enterPhone":"Nhập số điện thoại",
+  "enterEmail":"Nhập email",
+  "order":"STT"
 }

@@ -6,7 +6,7 @@
 .aside {
 	display: flex;
 	flex-direction: column;
-	box-shadow: get($aside-config, box-shadow);
+	//box-shadow: get($aside-config, box-shadow);
 	padding: 0;
 
 	// Custom button
@@ -68,7 +68,8 @@
 
 	// Light theme
 	&.aside-light {
-		background-color: $white;
+		//background-color: $white;
+		background-color: #F3F6F9;
 	}
 }
 

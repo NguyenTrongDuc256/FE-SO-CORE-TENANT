@@ -51,16 +51,26 @@ describe('ModalListUsersComponent', () => {
         collectionSize: 2,
       },
     };
+    component.isLoading = false;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  it('should map true name status of user', () => {
     component.isLoading = false;
     fixture.detectChanges();
-    expect(component.mapNameStatus(1)).toEqual('Kích hoạt');
+    expect(component).toBeTruthy();
+  });
+
+  it('should map true name status of user-status 0', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(0)).toEqual('notActivated');
+  });
+
+  it('should map true name status of user-status 1', () => {
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(component.mapNameStatus(1)).toEqual('activated');
   });
 
   it('should map false name status of user', () => {

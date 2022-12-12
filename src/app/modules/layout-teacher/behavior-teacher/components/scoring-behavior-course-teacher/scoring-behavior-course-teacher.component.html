@@ -1,0 +1,141 @@
+<div class="card so-tab-horizontal shadow-none p-0 h-full" *transloco="let t; scope: 'behavior'">
+  <div class="card-header p-0 border-bottom-none">
+    <div class="card-title">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="w-200px me-4 mb-3">
+          <nz-select id="selectGrade" nzShowSearch [(ngModel)]="gradeId" class="form-control so-form-control"
+                     nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeGrade()">
+            <nz-option nzValue="" nzLabel="{{ t('grade') }}"></nz-option>
+            <nz-option *ngFor="let item of gradeList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+        </div>
+        <div class="w-200px me-4 mb-3">
+          <nz-select id="selectCourse" nzShowSearch [(ngModel)]="courseId"
+                     class="form-control so-form-control"
+                     nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeCourse()"
+                     [ngClass]="{'disabled': gradeId == '' ? true : false}"
+                     [nzDisabled]="gradeId == '' ? true : false">
+            <nz-option nzValue="" nzLabel="{{ t('class') }}"></nz-option>
+            <nz-option *ngFor="let item of courseList" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="so-input-search me-4 mb-3" *ngIf="courseInfo">
+          <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+                 (keyup.enter)="search(searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+               (click)="search(searchInput.value)"/>
+        </div>
+        <button class="border-none fs-13 fw-600 text-color-white bg-color-blue-lotus guide-action me-4 mb-3"
+                name="btn-guide">
+          <span class="fs-13 fw-600">?</span>
+        </button>
+        <ng-template ngxPermissionsOnly="{{ permission.behavior_grading }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-create"
+                  [routerLink]="['/teacher/behavior/course/many-student']"
+                  [queryParams]="{gradeId: gradeId, courseId: courseId}">
+            <img src="assets/images/svg/icon-pen-white.svg" alt="icon">
+            {{t('behavior.title.scoreManyStudents')}}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0 pt-3">
+    <div *ngIf="courseInfo" class="box__title d-flex align-items-center flex-space-between mb-4">
+      <div class="box__left d-flex align-items-baseline">
+        <h4 class="fs-18 fw-700 me-4">{{courseInfo.name}}</h4>
+        <span class="fs-14 fw-700 text-color-picton-blue">{{studentScoreList.length}} {{ t('student') }}</span>
+      </div>
+      <ng-template ngxPermissionsOnly="{{ permission.behavior_grading }}">
+        <a class="box__right d-flex align-items-center hover-lichsu" (click)="redirectURLHistoryCourse()">
+          <div class="icon--img"><img class="filter-history me-2" src="assets/images/svg/history.svg" alt=""></div>
+          <a class="fs-14 fw-700">{{ t('behavior.title.scoringHistory') }}</a>
+        </a>
+      </ng-template>
+    </div>
+    <div class="box__list row" *ngIf="courseInfo">
+      <ng-container *ngFor="let item of studentScoreList">
+        <div class="p-4 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3">
+          <div class="box__list--item d-flex align-items-center">
+            <div class="item-left w-33">
+              <ng-container *ngIf="item.isWarningPoint == 1; then warning1 , else warning2"></ng-container>
+              <ng-template #warning1>
+                <div class="warning d-flex align-items-center w-100 action-hover">
+                  <p class="fw-700 text-color-carrot-orange">{{ t('behavior.title.currentScore') }}:</p>
+                  <img src="assets/images/svg/warning.svg" alt="">
+                  <div class="message pt-6 pb-6 ps-4 pe-4 bg-color-white">
+                    <span class="text-color-bittersweet">{{ t('behavior.title.warning') }}</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #warning2>
+                <div class="warning d-flex align-items-center w-100">
+                  <p class="text-color-mountain-mist fw-700">{{ t('behavior.title.currentScore') }}:</p>
+                </div>
+              </ng-template>
+
+              <div class="scores mt-4 mb-4 ms-auto me-auto"
+                   [class]="(item.isWarningPoint == 1) ? 'bg-color-carrot-orange' :'bg-color-picton-blue'">
+              <span
+                class="scores-number fs-25 fw-700 text-color-white">{{item.totalPoint != null ? item.totalPoint : '?'}}</span>
+              </div>
+              <ng-template ngxPermissionsOnly="{{ permission.behavior_grading }}">
+                <a class="btn-item fw-600 bg-color-blue-lotus d-flex justify-content-center align-items-center"
+                   [routerLink]="['/teacher/behavior/course/mark']"
+                   [queryParams]="{type: 1, gradeId: gradeId , courseId: courseId, userId: item.id}">
+                  <img class="add-icon" src="assets/images/svg/icon-pen-white.svg" alt="">
+                  <span class="fs-12 fw-500 text-color-white">{{ t('behavior.title.mark') }}</span>
+                </a>
+              </ng-template>
+            </div>
+            <div class="item-right w-68 ps-10 d-flex flex-column justify-content-between ">
+              <span class="title d-flex align-items-center">
+                <div class="avatar">
+                  <img src="{{(item.avatar) ? item.avatar : avatar }}" alt="">
+                </div>
+                <h5 class="fs-14 fw-700">{{item.fullName}}</h5>
+              </span>
+              <div class="code d-flex align-items-center">
+                <div class="item-title d-flex align-items-center">
+                  <img src="assets/images/svg/icon-grade-blue.svg" alt="">
+                  <p class="text-color-mountain-mist fw-700">{{ t('behavior.title.maHS') }}:</p>
+                </div>
+                <span class="text-color-picton-blue fw-700">{{item.code}}</span>
+              </div>
+              <div class="grade d-flex align-items-center">
+                <div class="item-title d-flex align-items-center">
+                  <img src="assets/images/svg/gender.svg" alt="">
+                  <p class="text-color-mountain-mist fw-700">{{ t('gender') }}:</p>
+                </div>
+                <ng-container *ngFor="let gender of genders">
+                <span *ngIf="item.gender == gender.id"
+                      [class]="(item.gender == 1) ? 'gender-male' : (item.gender == 2) ? 'gender-fmale' : 'gender-other'">{{ t(gender.name) }}</span>
+                </ng-container>
+              </div>
+              <ng-template ngxPermissionsOnly="{{ permission.behavior_grading }}">
+                <a class="history d-flex align-items-center hover-lichsu"
+                   (click)="getBehaviorHistoryStudentCourse(item)">
+                  <div class="item-title d-flex align-items-center">
+                    <img class="filter-history" src="assets/images/svg/history.svg" alt="">
+                  </div>
+                  <p>{{ t('behavior.title.scoringHistory') }}</p>
+                </a>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+    <div class="text-center mt-30" *ngIf="studentScoreList?.length == 0 || !studentScoreList">
+      <p class="text-no-data">{{t('noData')}}</p>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

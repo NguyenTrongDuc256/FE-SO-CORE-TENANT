@@ -1,0 +1,55 @@
+<ng-container *transloco="let t;scope: 'behavior'">
+  <div class="modal-header border-bottom-0">
+    <h5 class="title-modal-global text-color-watermelon">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)" name="icon-close"
+    [hidden]="dataModal?.isHiddenBtnClose">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <h5 class="fs-16 fw-700 mb-6 text-color-river-bed">{{t('behavior.title.contentScoringBehavior')}}:</h5>
+        <div class="" >
+          <div class="item-top d-flex align-items-center mb-5">
+            <div class="item-top--icon icon-behavior">
+              <img class="img-cover" src="{{ dataviewConfirm.behaviorCategoryAvatar }}" alt="">
+            </div>
+            <div class="item-top--content ms-4  flex-grow-1">
+              <span class="badge so-badge text-color-white bg-color-picton-blue mb-4">{{ dataviewConfirm.behaviorCategoryName }}</span>
+              <p class="fs-14 fw-700 webkit-box-2 mb-0 text-color-river-bed" alt="">{{ dataviewConfirm.behaviorName }}</p>
+            </div>
+          </div>
+          <div class="item-bottom">
+            <div class="mb-1">
+              <p class="webkit-box-2 fs-14 fw-600 text-color-mountain-mist" alt="">{{t('behavior.title.comment')}}: {{ dataviewConfirm.comment }}</p>
+            </div>
+            <div class="d-flex align-items-end">
+              <div class="d-flex align-items-center me-10 fw-700"><span class="icon-size me-2"><img src="assets/images/svg/bx_time.svg" alt=""></span> <span class="time me-4">{{ dataviewConfirm.time | formatTime :'HH:mm dd/MM/yyyy' }}</span> - by: {{ dataviewConfirm.createdBy.fullName }} <span
+                class="code text-color-picton-blue">({{ dataviewConfirm.createdBy.code }})</span></div>
+              <ng-container *ngIf="dataviewConfirm.isApplyTimeNumber == 1; then solancham , else diem"></ng-container>
+              <ng-template #solancham>
+                <div class="d-flex align-items-center">
+                  <span [class]="(dataviewConfirm.behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                        class="point fs-14 fw-700">{{ t('behavior.title.numberOfTimes') }} {{ dataviewConfirm.timeNumber }}: {{dataviewConfirm.behaviorType == 1 ? '+' : ''}}{{ dataviewConfirm.point }}</span>
+                </div>
+              </ng-template>
+              <ng-template #diem>
+                <span [class]="(dataviewConfirm.behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                      class="point fs-14 fw-700"> {{t('behavior.title.point')}}: {{dataviewConfirm.behaviorType == 1 ? '+' : ''}}{{ dataviewConfirm.point }}</span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+
+    <div class="d-flex align-items-center justify-content-end mt-14">
+      <button type="button" class="so-btn so-btn-danger" name="btn-accept" (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel" (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    </div>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>
+
+

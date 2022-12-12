@@ -1,0 +1,42 @@
+<ng-container *transloco="let t; scope: 'training'">
+  <div class="d-none modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="list-period">
+      <div class="  d-flex align-items-center justify-content-center">
+        <div class="bg-color-white so-title w-50 d-flex align-items-center justify-content-center">
+          <img src="assets/images/svg/document5.svg" alt="">
+          <span class="fs-18 fw-700">{{t('training.listPeriod')}} {{ fromDate | formatTime }} {{ toDate && toDate !=
+            fromDate ? '-' : '' }} {{ toDate && toDate != fromDate ? (toDate | formatTime) : '' }} </span>
+        </div>
+      </div>
+      <div class="row mt-7">
+        <div class="col-md-4 so-item d-flex align-items-center justify-content-center"
+          *ngFor="let item of listPeriod, let i = index">
+          <div class="ahihi h-100 w-100 d-flex align-items-center justify-content-center">
+            <div class="period">
+              <span>{{item.periodName}}</span>
+              <div> 
+                <span>({{item.periodTime}})</span>
+              </div>
+              <div class="text-color-picton-blue">
+                <span class="order fw-600">{{i+1}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer so-footer d-flex justify-content-center">
+    <button type="button" class="d-none so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="closeModal('accept')">{{dataModal?.btnAccept}}</button>
+  </div>
+</ng-container>

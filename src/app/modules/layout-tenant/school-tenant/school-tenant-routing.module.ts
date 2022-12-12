@@ -9,6 +9,7 @@ import { UpdateSchoolTenantComponent } from './components/update-school-tenant/u
 import { ListUserSchoolTenantComponent } from './components/list-user-school-tenant/list-user-school-tenant.component';
 import { DanhSachDiemTruongComponent } from './components/danh-sach-diem-truong/danh-sach-diem-truong.component';
 import { TabControlConfigComponent } from './components/tab-control-config/tab-control-config.component';
+import { ListMenuPackageComponent } from './components/list-menu-package/list-menu-package.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,17 @@ const routes: Routes = [
       {
         path: ':id/diem-truong',
         component: DanhSachDiemTruongComponent,
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: [DATA_PERMISSION.school_manager],
+            redirectTo: '/access-denied',
+          },
+        },
+      },
+      {
+        path: ':id/menu-package',
+        component: ListMenuPackageComponent,
         canActivate: [NgxPermissionsGuard],
         data: {
           permissions: {

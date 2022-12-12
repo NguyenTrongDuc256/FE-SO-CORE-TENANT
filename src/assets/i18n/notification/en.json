@@ -1,0 +1,65 @@
+{
+  "notificationSent": "Notification Sent",
+  "scope": "Scope",
+  "recipientGroup": "Recipient Group",
+  "sender": "Sender",
+  "status": "Status",
+  "create": "Add notification",
+  "edit": "Edit notification",
+  "likes": "likes",
+  "feedback": "Feedback",
+  "read": "read",
+  "sentBy": "Sent By",
+  "previewContent": "Preview Content",
+  "insertPhotos": "Insert Photos",
+  "title": "Title",
+  "description": "Description",
+  "content": "Content",
+  "uploadFiles": "Upload Files",
+  "selectMachineComputer": "Select a machine from a personal computer",
+  "selectGroupRecipients": "Select at least one group of recipients",
+  "sendNow": "Send Now",
+  "scheduleSending": "Schedule Sending",
+  "allowFeedback": "Allow Feedback",
+  "validators": {
+    "title":{
+      "required":"Title is required",
+      "maxLength":"Title can't have more than 255 characters"
+    },
+    "recipientGroups":{
+      "required":"Please select at least group of recipients"
+    },
+    "content":{
+      "required":"Content is required"
+    },
+    "avatar":{
+      "validate":"Please select image file"
+    },
+    "files":{
+      "validate":"Please select  word, excel, pdf, ppt, txt, mp3, mp4, zip, zar"
+    },
+    "scope":{
+      "required":"Please select at least 1 scope"
+    },
+    "object":{
+      "required":"Please select at least 1 subject"
+    }
+  },
+  "uploadFileFalse": "File upload failed!",
+  "update": "Update Notification",
+  "notificationDetails": "Notification Details",
+  "receiver": "Receiver",
+  "people": "people",
+  "sent": "Sent",
+  "listOfNotificationRecipients": "List Of Notification Recipients",
+  "date": "Date",
+  "deleteRecipient": "Delete recipient",
+  "notificationOfReceipt": "Notification of receipt",
+  "previewTheOutputData": "Preview the output data",
+  "createBy": "Create by",
+  "listNotiInSchool": "List all notification in school",
+  "titleDialogDeleteNoti": "Delete notification",
+  "textConfirmDeleteNoti1": "Are you sure you want to delete the notification",
+  "textConfirmDeleteNoti2": "this?",
+  "enterDescription": "Enter description"
+}

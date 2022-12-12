@@ -30,6 +30,7 @@
   "textConfirmDeleteRole2": "này không?",
   "textConfirmRemoveUserRole1": "Bạn có muốn gỡ",
   "textConfirmRemoveUserRole2": "khỏi quyền này không?",
-  "warmingSelectSchool": "Chưa chọn trường!",
-  "warmingSelectCampus": "Chưa chọn campus!"
+  "warmingSelectSchool": "Vui lòng chọn trường!",
+  "warmingSelectCampus": "Vui lòng chọn campus!",
+  "warmingSelectUser": "Vui lòng chọn người dùng!"
 }

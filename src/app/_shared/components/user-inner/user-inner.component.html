@@ -1,0 +1,119 @@
+<ng-container *transloco="let t;">
+  <div style="max-height: 80vh; overflow-y: auto;">
+    <div class="menu-item px-3">
+      <div class="menu-content px-3">
+        <div class="symbol so-symbol">
+          <img alt="Logo" [src]="user.Avatar || avatarDefault" />
+        </div>
+
+        <div class="d-flex flex-column pt-4">
+          <div class="fw-bolder d-flex align-items-center fs-17 text-grey">
+            {{ user?.FullName }}
+          </div>
+          <span class="fw-bold text-muted text-grey--style2 fs-12">
+            {{ user.Username }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator my-2 mt-1"></div>
+
+    <div class="menu-item px-5"
+    *ngIf="user?.Email && user?.Phone && user?.Email != '' && user?.Phone != ''">
+      <div class="menu-content px-3">
+        <div class="fw-bolder d-flex align-items-center fs-15 text-grey--style2">
+          {{t('contact')}}
+        </div>
+        <div>
+          <ul class="contact mt-4">
+            <li class="mb-3">
+              <div class="d-flex align-items-center">
+                <span class="contact-icon">
+                  <img src="assets/images/svg/email_icon.svg" alt="">
+                </span>
+                <div>
+                  <span class="fs-12">Email</span><br>
+                  <span class="fs-13 text-grey">{{user?.Email }}</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="d-flex align-items-center">
+                <span class="contact-icon">
+                  <img src="assets/images/svg/icon-phone-blue2.svg" alt="">
+                </span>
+                <div>
+                  <span class="fs-12">{{t('phone')}}</span><br>
+                  <span class="fs-13 text-grey">{{user?.Phone }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator my-2 mt-1"></div>
+
+    <div class="menu-item px-5">
+      <div class="menu-content px-3">
+        <div class="fw-bolder d-flex align-items-center fs-15 text-grey--style2">
+          <span class="cursor-pointer" (click)="isOpen = !isOpen">
+            {{t('language')}}
+            <span class="icon-arrow {{isOpen ? '' : 'active'}}">
+              <img src="assets/images/svg/icon-arrow-up.svg" alt="">
+            </span>
+          </span>
+        </div>
+        <ul class="p-0 mt-4 language" *ngIf="isOpen">
+          <li class="d-flex align-items-center fs-13 fw-600 mb-3 cursor-pointer {{lang == 'vi' ? 'active': ''}}"
+            (click)="selectLanguage('vi')">
+            <div class="me-4 symbol symbol-20px symbol-2by3" style="border-radius: 2px">
+              <img src="assets/images/png/flag-vi.png" alt="">
+            </div>
+            {{t('vi')}}
+          </li>
+          <li class="d-flex align-items-center fs-13 fw-600 mb-3 cursor-pointer {{lang == 'en' ? 'active': ''}}"
+            (click)="selectLanguage('en')">
+            <div class="me-4 symbol symbol-20px symbol-2by3" style="border-radius: 2px">
+              <img src="assets/images/png/flag-en.png" alt="">
+            </div>
+            {{t('en')}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="separator my-2 mt-1"></div>
+
+    <div class="menu-item px-5 mt-3">
+      <div class="menu-content px-3">
+        <div class="d-flex align-items-center cursor-pointer mb-3" (click)="viewProfile()" *ngIf="layoutCode == 'student' || layoutCode == 'parent'">
+          <span class="icon">
+            <img src="assets/images/svg/icon-book-white.svg" alt="">
+          </span>
+          <span class="fs-14 text-grey--style2">
+            {{t('profile')}}
+          </span>
+        </div>
+        <div class="d-flex align-items-center cursor-pointer mb-3" (click)="changePassword()">
+          <span class="icon">
+            <img src="assets/images/svg/icon-lock-white.svg" alt="">
+          </span>
+          <span class="fs-14 text-grey--style2">
+            {{t('changePassword')}}
+          </span>
+        </div>
+        <div class="d-flex align-items-center cursor-pointer" (click)="logout()">
+          <span class="icon">
+            <img src="assets/images/svg/icon-logout-white.svg" alt="">
+          </span>
+          <span class="fs-14 text-grey--style2">
+            {{t('logout')}}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

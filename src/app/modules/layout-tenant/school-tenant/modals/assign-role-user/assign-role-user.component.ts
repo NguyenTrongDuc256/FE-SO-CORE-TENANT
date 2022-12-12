@@ -4,6 +4,7 @@ import { LAYOUTS_TENANT, TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
+import {GeneralService} from "../../../../../_services/general.service";
 
 @Component({
   selector: 'app-assign-role-user-school-tenant',
@@ -24,7 +25,8 @@ export class AssignRoleUserComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private showMessage: ShowMessageService,
-    private listenFirebaseService: ListenFirebaseService
+    private listenFirebaseService: ListenFirebaseService,
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -81,27 +83,35 @@ export class AssignRoleUserComponent implements OnInit {
     );
     this.dataFromParent.apiSubmit(dataInput).subscribe(
       (res: any) => {
-        if (res.status == 0) {
           this.isLoading = false;
-          this.showMessage.error(res.msg);
-        }
       },
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(err.msg);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
 
-  search(event: any, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.keyword = value.trim();
+  search(event, value: string) {
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
+    }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.keyword = value.trim();
       this.listRoleToAssign = this.listRoleToAssignOriginal.filter(
         (item) =>
           item.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
           item.code.toLowerCase().includes(this.keyword.toLowerCase())
       );
-    }
   }
 
   mapNameLayout(layoutCode: string) {

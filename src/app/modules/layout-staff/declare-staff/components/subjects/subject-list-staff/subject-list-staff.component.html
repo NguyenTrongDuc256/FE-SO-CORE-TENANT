@@ -1,0 +1,80 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'subject'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('subject.subjectManager') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center text-color-river-bed">
+        <select class="so-form-control so-select me-4 mb-3 fs-13 fw-600" name="btn-subject" id="subjectType"
+          [(ngModel)]="subjectType" (change)="changeIsActie()">
+          <option value="">{{ t('subject.subjectType') }}</option>
+          <option value="1">{{ t('subject.subjectMoet') }}</option>
+          <option value="2">{{ t('subject.subjectPrivate') }}</option>
+          <option value="3">{{ t('subject.subjectBilingual') }}</option>
+        </select>
+        <div class="so-input-search mb-3">
+          <input type="text" class="so-input-search fs-13 fw-600" placeholder="{{ t('search') }}" [(ngModel)]="keyWord"
+            name="btn-search" (keyup.enter)="changeIsActie()">
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="" (click)="changeIsActie()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="pdl-15 w-10">
+              {{ t('subject.order') }}
+            </th>
+            <th class="pdl-15 w-17">
+              {{ t('subject.subjectName') }}
+            </th>
+            <th class="pdl-15 w-14">
+              {{ t('subject.subjectCode') }}
+            </th>
+            <th class="pdl-15 w-15">
+              {{ t('subject.subjectType') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="fw-bold">
+          <tr class="fs-13 fw-600 text-color-river-bed" *ngFor="let item of listSubjectStaff;let i = index">
+            <td class="pdl-15">
+              <p class="webkit-box-1 mb-0"> {{ (pageSize * (pageIndex - 1)) + i+1 }}</p>
+            </td>
+            <td class="subject-color pdl-15">
+              <p class="webkit-box-1 mb-0" title="{{item.name}}"> {{item.name}}</p>
+            </td>
+            <td class="pdl-15">
+              <p class="webkit-box-1 mb-0" title="{{ item.code }}"> {{ item.code }}</p>
+            </td>
+            <td class="pdl-15">
+              <div *ngIf="item.subjectType == 1" class="subject-type-1 d-flex justify-content-center align-items-center subject-style">
+                <span class="">{{ t('subject.subjectMoet') }}</span>
+              </div>
+              <div *ngIf="item.subjectType == 2" class="subject-type-2 d-flex justify-content-center align-items-center subject-style">
+                <span class="">{{ t('subject.subjectPrivate') }}</span>
+              </div>
+              <div *ngIf="item.subjectType == 3" class="subject-type-3 d-flex justify-content-center align-items-center subject-style">
+                <span class="">{{ t('subject.subjectBilingual') }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="listSubjectStaff?.length == 0 || !listSubjectStaff">
+            <td class="text-no-data" colspan="4">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize >= sizeOption[0]">
+      </app-pagination>
+    </div>
+  </div>
+  <div class="footer-card">
+
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

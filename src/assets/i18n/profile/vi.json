@@ -1,0 +1,39 @@
+{
+  "profileCategory": "Danh mục hồ sơ",
+  "range": "Phạm vi",
+  "student": "Học sinh",
+  "staff": "CBNV",
+  "status": "Trạng thái",
+  "imperative": "Bắt buộc",
+  "optional": "Không bắt buộc",
+  "order": "STT",
+  "nameCategory": "Tên danh mục",
+  "codeCategory": "Mã danh mục",
+  "profileScope": "Phạm vi hồ sơ",
+  "note": "Ghi chú",
+  "createProfileCategory": "Thêm mới danh mục hồ sơ",
+  "requiredProfile": "Hồ sơ bắt buộc",
+  "editProfileCategory": "Chỉnh sửa danh mục hồ sơ",
+  "deleteProfileCategory": "Xoá danh mục hồ sơ",
+  "btnAction": {
+    "send": "Gửi thông báo",
+    "changedPassword": "Đổi mật khẩu",
+    "lockedAccount": "Khóa truy cập app",
+    "unlockAppAccess": "Mở khóa truy cập app"
+  },
+  "validators": {
+    "name":{
+      "required":"Bạn chưa nhập tên người dùng",
+      "maxlength":"Tên người dùng không được có nhiều hơn 255 kí tự"
+    },
+    "code":{
+      "required":"Bạn chưa nhập mã người dùng",
+      "pattern":"Mã người dùng không hợp lệ",
+      "maxlength":"Mã của bạn không được vượt quá 50 ký tự"
+    },
+    "type":{
+      "required":"Bạn chưa chọn phạm vi danh mục"
+    }
+  }
+
+}

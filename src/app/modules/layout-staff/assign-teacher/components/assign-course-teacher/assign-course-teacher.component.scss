@@ -1,0 +1,56 @@
+table thead tr th:first-child {
+  max-width: 22%;
+  border-left: 1px solid #E4E6EF;
+  padding-left: 1rem;
+}
+
+table tbody tr td:first-child {
+  max-width: 22%;
+  min-width: 23rem;
+  border-left: 1px solid #E4E6EF;
+  padding-left: 1rem;
+}
+
+table thead tr th {
+  max-width: 20%;
+  min-width: 18%;
+  width: 8%;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+table tbody tr td {
+  max-width: 20%;
+  min-width: 18%;
+  width: 8%;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.so-table-style-border thead tr {
+  border-top: 1px solid #E4E6EF;
+}
+
+.so-table-style-border thead tr th, .so-table-style-border tbody tr td {
+  border-right: 1px solid #E4E6EF;
+}
+
+.so-table-style-border thead tr th:last-child, .so-table-style-border tbody tr td:last-child {
+  border-right-width: 0 !important;
+}
+
+.so-table-style-border tbody tr:last-child {
+  border-bottom: 1px solid #E4E6EF !important;
+}
+
+.has-bg-color {
+  background:var(--bs-white-smoke);
+  &--style1 {
+    background: var(--bs-picton-blue);
+    color: var(--bs-white);
+  }
+}
+
+table thead tr th#name-teacher:first-child {
+  min-width: 23rem;
+}

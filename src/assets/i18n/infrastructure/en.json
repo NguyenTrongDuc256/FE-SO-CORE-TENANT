@@ -1,0 +1,57 @@
+{
+  "buildingManager": "Building/Lecturer Management",
+  "order": "Order",
+  "buildingName": "Building name",
+  "buildingCode": "Building code",
+  "numberOfFloor":"Number of floors",
+  "status": "Status",
+  "stopUsing": "Stop using",
+  "using": "Using",
+  "action": "Action",
+  "search": "Search",
+  "addBuilding": "Add building",
+  "updateBuilding": "Edit building",
+  "deleteBuilding": "Delete building",
+  "validators": {
+    "name": {
+      "required": "Building name is required",
+      "maxlength": "Building name can't have more than 255 characters",
+      "pattern": "Building name invalid"
+    },
+    "code": {
+      "required": "Building code is required",
+      "maxlength": "Building code can't have more than 50 characters",
+      "maxlengthclass": "Classroom code cannot be more than 50 characters",
+      "minlength": "Minimum Building code over 3 characters",
+      "pattern": "Building code invalid"
+    },
+    "numberOfFloor": {
+      "required": "You have not entered the applicable floor number",
+      "max": "The number of floors should not exceed {{name}} floors of the selected building"
+    },
+    "numberOfSeats" : {
+      "required": "You have not entered the maximum capacity"
+    },
+    "isRoom": {
+      "required": "You have not selected a room type"
+    },
+    "isActive": {
+      "required": "You have not selected a status"
+    },
+    "classroomBuildingId": {
+      "required": "You have not selected a building"
+    }
+  },
+  "classroomManager": "Classroom Management",
+  "createClassroom": "Create classroom",
+  "updateClassroom": "Update classroom",
+  "deleteClassroom": "Delete classroom",
+  "classroomName": "Classroom name",
+  "classroomCode": "Classroom code",
+  "classroomType": "Classroom type",
+  "capacity": "Capacity",
+  "floor": "Floor",
+  "functionRoom": "Function Room",
+  "classroom": "Classroom"
+
+}

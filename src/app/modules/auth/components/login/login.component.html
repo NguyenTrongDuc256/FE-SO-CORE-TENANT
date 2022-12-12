@@ -32,7 +32,7 @@
             <img src="assets/images/png/auth/logo-SO.png" alt="">
           </div>
           <h1 class="form-title d-flex align-items-center flex-grow-1 mb-0 mx-3">{{t('auth.system')}} &nbsp;<a
-              routerLink="/auth/registration" class="link-primary fw-bolder">SchoolOnline</a></h1>
+              routerLink="/auth/login" class="link-primary fw-bolder">SchoolOnline</a></h1>
         </div>
         <!--end::Heading-->
 
@@ -52,7 +52,7 @@
         <!--begin::Form group-->
         <div class="fv-row mb-10">
           <label class="form-label fs-3 fw-bolder text-dark">{{t('auth.username')}}</label>
-          <input class="form-control form-control-lg form-control-solid" type="text" name="username"
+          <input class="so-form-control form-control form-control-solid" type="text" name="username"
             formControlName="username" autocomplete="off" placeholder="{{t('auth.enterUsername')}}" />
           <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
@@ -71,7 +71,7 @@
           </div>
 
           <div class="so-input-password">
-            <input class="form-control form-control-lg form-control-solid"
+            <input class="so-form-control form-control form-control-solid"
               type="{{isShowPassword ? 'text' : 'password'}}" name="password" autocomplete="off"
               formControlName="password" placeholder="{{t('auth.enterPassword')}}" />
             <span (click)="showPassword()">
@@ -95,7 +95,7 @@
         <!-- begin:: remember password -->
         <div class="d-flex justify-content-between fv-row mb-12">
           <div>
-            <nz-switch [(ngModel)]="rememberPassword" [ngModelOptions]="{standalone: true}"></nz-switch>
+            <nz-switch [(ngModel)]="rememberPassword" [ngModelOptions]="{standalone: true}" name="remember-Password"></nz-switch>
             <span class="fs-4" [style.margin-left]="'5px'">{{t('auth.rememberLogin')}}</span>
           </div>
           <a routerLink="/auth/forgot-password" class="link-primary fs-4 fw-bolder" id="kt_login_forgot"
@@ -107,30 +107,31 @@
 
         <!--begin::Action-->
         <div class="d-flex align-items-center justify-content-center fv-row mb-12 action">
-          <div class="auth-provider d-flex align-items-center d-none">
+          <!-- tạm ẩn chức năng login bằng các phương thức khác - do chưa phát triển -->
+          <!-- <div class="auth-provider d-flex align-items-center">
             <span class="fs-3">{{t('auth.loginBy')}}:</span>
             <div class="icon-auth">
-              <a href="login">
+              <a href="/auth/login">
                 <img src="assets/images/png/auth/google-icon.png" alt="">
               </a>
             </div>
             <div class="icon-auth">
-              <a href="login">
+              <a href="/auth/login">
                 <img src="assets/images/png/auth/microsoft-icon.png" alt="">
               </a>
             </div>
             <div class="icon-auth">
-              <a href="login">
+              <a href="/auth/login">
                 <img src="assets/images/png/auth/ldap-icon.png" alt="">
               </a>
             </div>
             <div class="icon-auth">
-              <a href="login">
+              <a href="/auth/login">
                 <img src="assets/images/png/auth/qr-code-icon.png" alt="">
               </a>
             </div>
-          </div>
-          <button class="btn btn-primary so-btn-login" [disabled]="loginForm.invalid ">
+          </div> -->
+          <button class="btn btn-primary so-btn-login" [disabled]="loginForm.invalid " name="btn-login">
             {{t('auth.login')}}
           </button>
         </div>

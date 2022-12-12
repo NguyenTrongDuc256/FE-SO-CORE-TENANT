@@ -1,0 +1,26 @@
+<div class="card so-tab-horizontal shadow-sm h-100" *transloco="let t; scope: 'behavior'">
+  <div class="card-header card-header-stretch">
+    <h3 class="card-title fs-18 fw-700">{{t('behavior.title.scoreBehavior')}}</h3>
+    <div class="card-toolbar">
+      <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 active" data-bs-toggle="tab"
+             [routerLink]="['/staff/behavior']">{{t('behavior.title.scoringBehaviorHomeroomClass')}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600" data-bs-toggle="tab"
+             [routerLink]="['/staff/behavior/course']">{{t('behavior.title.scoringBehaviorCourse')}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600" data-bs-toggle="tab"
+             [routerLink]="['/staff/behavior/student']">{{t('behavior.title.scoringBehaviorStudent')}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body py-5">
+    <div class="tab-content h-full" id="myTabContent">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

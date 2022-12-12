@@ -45,6 +45,8 @@ export interface UserEdit {
   isAccessApp: number,
 }
 
+
+
 export interface UserInfo {
   id: string,
   avatar: string,

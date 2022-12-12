@@ -1,18 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
+import { RoleForm } from 'src/app/_models/layout-tenant/role/role.model';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { ValidatorNotNull } from 'src/app/_services/validator-custom.service';
+import { ValidatorNotNull, ValidatorNotEmptyString } from 'src/app/_services/validator-custom.service';
 import {
-  LAYOUTS_TENANT,
-  MESSAGE_ERROR_CALL_API,
-  REGEX_CODE,
+  LAYOUTS_TENANT, REGEX_CODE,
   TIME_OUT_LISTEN_FIREBASE
 } from 'src/app/_shared/utils/constant';
-import { translate } from "@ngneat/transloco";
-import { RoleForm } from 'src/app/_models/layout-tenant/role/role.model';
 
 @Component({
   selector: 'app-modal-form-role-tenant',
@@ -25,12 +21,16 @@ export class ModalFormRoleTenantComponent implements OnInit {
   dataFromParent: any;
   isLoading = false;
   arrLayouts = LAYOUTS_TENANT;
+  validationMessagesServer = {
+    name: {},
+    code: {},
+    requestLayout: {}
+  }
 
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private showMessage: ShowMessageService,
-    private listenFirebaseService: ListenFirebaseService
+    private listenFirebaseService: ListenFirebaseService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class ModalFormRoleTenantComponent implements OnInit {
         this.dataFromParent.nameForm == 'update'
           ? this.dataFromParent?.role?.name
           : '',
-        [Validators.required, Validators.maxLength(255)],
+        [Validators.required, Validators.maxLength(255), ValidatorNotEmptyString],
       ],
       code: [
         this.dataFromParent.nameForm == 'update'
@@ -52,7 +52,7 @@ export class ModalFormRoleTenantComponent implements OnInit {
           : '',
         [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_CODE)],
       ],
-      layoutCode: [
+      requestLayout: [
         this.dataFromParent.nameForm == 'update'
           ? this.dataFromParent?.role?.layout
           : null,
@@ -67,35 +67,33 @@ export class ModalFormRoleTenantComponent implements OnInit {
   }
 
   submit(valueForm: RoleForm) {
-    if(this.formRole.invalid) return this.showMessage.warning(translate('warmingValidateForm'));
-    let dataInput = {
-      name: valueForm.name.trim(),
-      code: valueForm.code.trim(),
-      requestLayout: valueForm.layoutCode,
-      description: valueForm.desc,
-    };
-    if (this.dataFromParent.nameForm == 'update') {
-      // form update
-      dataInput['id'] = this.dataFromParent?.role?.id;
-    }
-    this.isLoading = true;
-    this.listenFireBase(
-      this.dataFromParent.keyFirebaseAction,
-      this.dataFromParent.keyFirebaseModule
-    );
-    this.dataFromParent.apiSubmit(dataInput).subscribe(
-      (res: any) => {
-        if (res.status == 0) {
-          this.isLoading = false;
-          this.activeModal.close(false);
-          this.showMessage.error(res.msg);
-        }
-      },
-      (err: any) => {
-        this.isLoading = false;
-        this.showMessage.error(MESSAGE_ERROR_CALL_API);
+    if (this.formRole.valid) {
+      let dataInput = {
+        name: valueForm.name.trim(),
+        code: valueForm.code.trim(),
+        requestLayout: valueForm.layoutCode,
+        description: valueForm.desc,
+      };
+      if (this.dataFromParent.nameForm == 'update') {
+        // form update
+        dataInput['id'] = this.dataFromParent?.role?.id;
       }
-    );
+      this.isLoading = true;
+      this.listenFireBase(
+        this.dataFromParent.keyFirebaseAction,
+        this.dataFromParent.keyFirebaseModule
+      );
+      this.dataFromParent.apiSubmit(dataInput).subscribe(
+        (res: any) => {},
+        (err: any) => {
+          this.isLoading = false;
+          this.validateAllFormFieldsErrorServer(err.errors);
+        }
+      );
+    } else {
+       this.isLoading = false;
+       this.validateAllFormFields(this.formRole);
+    }
   }
 
   mapNameLayout() {
@@ -126,4 +124,88 @@ export class ModalFormRoleTenantComponent implements OnInit {
   closeModal(sendData: any) {
     this.activeModal.close(sendData);
   }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      let arrKey = String(key).split('.');
+      let indexKey = '';
+      if (arrKey.length == 1) {
+        this.validationMessagesServer[arrKey[0]] = {
+          message: error[key]
+        }
+      } else {
+        arrKey.forEach((itemKey: any) => {
+          if (!isNaN(itemKey)) {
+            indexKey += `${itemKey}`;
+          }
+          Object.keys(this.validationMessagesServer).forEach(itemMessage => {
+            if (itemMessage == arrKey[arrKey.length - 1]) {
+              if (indexKey) {
+                this.validationMessagesServer[itemMessage][indexKey] = {
+                  message: error[key]
+                }
+              }
+            }
+          });
+        })
+      }
+    });
+  }
+
+  getMessageServer(key, i) {
+    let indexKey = `${i}`;
+    return this.validationMessagesServer[key][indexKey];
+  }
+
+  validationMessages = {
+    name: [
+      {
+        type: "required",
+        message: 'requiredName'
+      },
+      {
+        type: "maxlength",
+        message: 'maxLengthName'
+      },
+      {
+        type: "notEmpty",
+        message: 'requiredName'
+      }
+    ],
+    code: [
+      {
+        type: "required",
+        message: 'requiredCode'
+      },
+      {
+        type: "maxlength",
+        message: 'maxLengthCode'
+      },
+      {
+        type: "pattern",
+        message: 'patternCode'
+      }
+    ],
+    requestLayout: [
+      {
+        type: "notNull",
+        message: 'role.requiredLayout'
+      },
+    ]
+  };
 }

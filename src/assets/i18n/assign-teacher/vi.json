@@ -1,0 +1,22 @@
+{
+  "assignHomeroomClass": "Phân công lớp chủ nhiệm",
+  "fullNameTeacher": "Họ và tên GV",
+  "assignMainHomeroomTeacher": "Phân công GV chủ nhiệm chính",
+  "isAssigned": "Đã phân công",
+  "assignGradeMaster": "Phân công trưởng khối",
+  "chooseAssignStatus": "Trạng thái phân công",
+  "unassigned": "Chưa phân công",
+  "assigned": "Đã phân công",
+  "teacherTeaching": " Giáo viên giảng dạy",
+  "titleModalConfirmMainHomeroomTeacher": "Xác nhận thay đổi phân công chủ nhiệm chính lớp",
+  "hasMainHomeroomTeacher": "Lớp học hiện tại đang có giáo viên chủ nhiệm chính!",
+  "currentMainHomeroomTeacher": "Giáo viên chủ nhiệm hiện tại của lớp",
+  "subsTituteMainHomeroomTeacher": "Giáo viên chủ nhiệm sẽ đưa vào lớp",
+  "alternativeChoice": "Lựa chọn thay thế giáo viên chủ nhiệm",
+  "option1ConfirmAssign": "Thêm giáo viên chủ nhiệm mới vào lớp và vẫn giữ GVCN hiện tại trong lớp này",
+  "option2ConfirmAssign": "Thêm giáo viên chủ nhiệm mới vào lớp và xóa GVCN hiện tại ra khỏi lớp này",
+  "notHasMainHomeroomTeacher": "Lớp học hiện tại đang chưa có giáo viên chủ nhiệm chính!",
+  "mainHomeroomTeacher": "Giáo viên CN chính",
+  "fullNameStaff": "Họ tên CBNV",
+  "assignCourseTeacher": "Phân công lớp bộ môn"
+}

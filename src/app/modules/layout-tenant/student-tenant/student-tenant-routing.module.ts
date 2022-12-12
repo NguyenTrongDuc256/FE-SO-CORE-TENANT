@@ -6,6 +6,7 @@ import { StudentTenantListComponent } from "./components/student-tenant-list/stu
 import { CreateStudentTenantComponent } from "./components/create-student-tenant/create-student-tenant.component";
 import { StudentDetailTenantComponent } from "./components/student-detail-tenant/student-detail-tenant.component";
 import { UpdateStudentTenantComponent } from "./components/update-student-tenant/update-student-tenant.component";
+import { ResultImportFileStudentTenantComponent } from "./components/result-import-file-student-tenant/result-import-file-student-tenant.component";
 
 const routes: Routes = [
   {
@@ -52,6 +53,17 @@ const routes: Routes = [
       },
     },
   },
+  {
+    path: 'result-import-file/:id',
+    component: ResultImportFileStudentTenantComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        only: [DATA_PERMISSION.student_modify],
+        redirectTo: "/access-denied"
+      }
+    }
+  }
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 .main-content {
   h3 {
     font-size: 1.6rem;
-    color: #50a5f1;
+    color: var(--bs-picton-blue);
     line-height: 1.5;
     margin-bottom: 10px;
   }
@@ -11,6 +11,13 @@
     width: 100%;
     border: none;
     padding: 1rem 1.5rem;
+    outline: none;
+    &:focus {
+      border-color: #40a9ff !important;
+      box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
+      border-right-width: 1px !important;
+      outline: none;
+    }
   }
 }
 

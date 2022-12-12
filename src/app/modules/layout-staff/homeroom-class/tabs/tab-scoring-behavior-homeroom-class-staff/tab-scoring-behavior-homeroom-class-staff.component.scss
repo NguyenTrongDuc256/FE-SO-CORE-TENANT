@@ -1,0 +1,41 @@
+
+h3,h4,h5,p {
+  margin: 0;
+}
+
+
+.bg-color-blue-lotus {
+  &:hover {
+    background: #3c5ae9;
+  }
+}
+
+.webkit-box-2 {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+
+.card-button {
+  border: none;
+  img {
+    margin-right: 5px;
+  }
+}
+
+.guide-action {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  color: var(--bs-white);
+  &::after {
+    border-radius: 50%;
+  }
+}
+//.box__list{
+//  grid-gap: 17px;
+//}
+
+

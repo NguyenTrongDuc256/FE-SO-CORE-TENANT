@@ -1,57 +1,60 @@
-<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'school'">
-  <div class="d-flex h-full">
-    <div class="column-left">
-      <div class="text-center">
-        <h3>{{infoSchool?.Name}}</h3>
-        <span class="badge so-badge so-badge-status-1">{{infoSchool?.IsActive ? t('activated') :
-          t('locked')}}</span>
-      </div>
-      <ul class="so-tab-column mt-8">
-        <li [ngClass]="{'active': tabActive === keyTab.TAB_INFO}" (click)="changeTab('1')">
-          <a>
-            <span>
-              <img src="assets/images/svg/icon-user-nurse-blue.svg" alt="">{{t('school.infoSchool')}}
+<div class="card shadow-none d-flex flex-row so-tab-vertical-2 h-100" *transloco="let t; scope: 'school'">
+  <div class="card-body p-0 d-flex flex-row">
+    <div class="nav nav-tabs py-5 nav-pills flex-row border-0 flex-md-column mb-3 mb-md-0 min-w-lg-200px w-20">
+      <div class="card shadow-none card-flush p-0 h-full border-right rounded-0">
+        <div class="card-header text-center d-flex flex-column algin-items-center">
+          <h3 class="card-title fs-18 fw-700 text-center d-block">{{infoSchool?.Name}}</h3>
+          <div class="text-center">
+            <span class="badge so-badge {{+infoSchool?.IsActive == 1 ? 'so-badge--primary' : 'so-badge--danger'}}">
+              {{+infoSchool?.IsActive == 1 ? t('activated') : t('locked')}}
             </span>
-          </a>
-        </li>
-        <li [ngClass]="{'active': tabActive === keyTab.TAB_USER}" (click)="changeTab('2')">
-          <a>
-            <span>
-              <img src="assets/images/svg/user-account.svg" alt="">{{t('user')}}
-            </span>
-          </a>
-        </li>
-        <li [ngClass]="{'active': tabActive === keyTab.TAB_CONFIG}" (click)="changeTab('3')">
-          <a>
-            <span>
-              <img src="assets/images/svg/icon-setting-blue.svg" alt="">{{t('config')}}
-            </span>
-          </a>
-        </li>
-        <li [ngClass]="{'active': tabActive === keyTab.TAB_MENU}" (click)="changeTab('4')">
-          <a>
-            <span>
-              <img src="assets/images/svg/school_icon.svg" alt="">{{t('menuApply')}}
-            </span>
-          </a>
-        </li>
-        <li [ngClass]="{'active': tabActive === keyTab.TAB_DIEM_TRUONG}" (click)="changeTab('5')">
-          <a>
-            <span>
-              <img src="assets/images/svg/icon-document-blue.svg" alt="">{{t('school.danhSachDiemTruong')}}
-            </span>
-          </a>
-        </li>
-      </ul>
-      <hr>
-      <div>
-        <span style="padding: 5px;" class="d-flex align-items-center">
-          <img src="assets/images/svg/icon-calendar.svg" alt="">{{t('school.createAt')}}: {{infoSchool?.CreatedAt | formatTime}}
-        </span>
+          </div>
+        </div>
+        <div class="card-body py-5">
+          <ul class="so-tab-column fw-600">
+            <li [ngClass]="{'active': tabActive === keyTab.TAB_INFO}" (click)="changeTab('1')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/icon-user-nurse-blue.svg" alt="">{{t('school.infoSchool')}}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === keyTab.TAB_USER}" (click)="changeTab('2')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/user-account.svg" alt="">{{t('user')}}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === keyTab.TAB_CONFIG}" (click)="changeTab('3')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/icon-setting-blue.svg" alt="">{{t('config')}}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === keyTab.TAB_MENU}" (click)="changeTab('4')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/school_icon.svg" alt="">{{t('menuApply')}}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === keyTab.TAB_DIEM_TRUONG}" (click)="changeTab('5')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/icon-document-blue.svg" alt="">{{t('school.danhSachDiemTruong')}}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="column-right">
-      <router-outlet></router-outlet>
+    <div class="tab-content w-80 ps-8 pe-8">
+      <div class="tab-pane fade show active" role="tabpanel">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>

@@ -71,13 +71,13 @@ describe('UpdateGradeTenantComponent', () => {
   });
 
   it('init form', () => {
-    expect(component.infoForm.contains('name')).toBeTruthy();
-    expect(component.infoForm.contains('educationalStages')).toBeTruthy();
-    expect(component.infoForm.contains('isActive')).toBeTruthy();
+    expect(component.formGroup.contains('name')).toBeTruthy();
+    expect(component.formGroup.contains('educationalStages')).toBeTruthy();
+    expect(component.formGroup.contains('isActive')).toBeTruthy();
   });
 
   it('Should form valid', () => {
-    const form = component.infoForm;
+    const form = component.formGroup;
     form.patchValue({
       name: 'Khối 1',
       educationalStages: 3,
@@ -87,13 +87,13 @@ describe('UpdateGradeTenantComponent', () => {
   });
 
   it('Should name invalid empty', () => {
-    const control = component.infoForm.controls['name'];
+    const control = component.formGroup.controls['name'];
     control.setValue('');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should name invalid max length', () => {
-    const control = component.infoForm.controls['name'];
+    const control = component.formGroup.controls['name'];
     control.setValue(
       'When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided'
     );

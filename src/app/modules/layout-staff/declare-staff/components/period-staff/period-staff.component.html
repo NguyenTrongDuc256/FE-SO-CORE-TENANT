@@ -1,0 +1,99 @@
+<div class="card card-flush p-0" *transloco="let t; scope: 'declare'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('declare.periodManager') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap algin-items-center text-color-river-bed">
+        <div class="so-input-search me-4 mb-3">
+          <input type="text" class="fs-13 fw-600" [(ngModel)]="keyWord"
+            (keyup.enter)="getListPeriodStaff()" placeholder="{{ t('search') }}">
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="" (click)="getListPeriodStaff()">
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.timetable_period_manager }}">
+            <button class="card-button so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-create" (click)="createPeriodStaff()">
+              <div class="d-flex align-items-center justify-content-center">
+                <img class="add-icon" src="assets/images/svg/add.svg" alt="">
+                <span class="fs-13 fw-600"> {{ t('btnAction.add') }}</span>
+              </div>
+            </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-5">
+              {{ t('declare.order') }}
+            </th>
+            <th class="w-17">
+              {{ t('declare.periodName') }}
+            </th>
+            <th class="w-14">
+              {{ t('declare.periodCode') }}
+            </th>
+            <th class="w-16">
+              {{ t('declare.periodMoet') }}
+            </th>
+            <th class="w-14">
+              {{ t('declare.studyTime') }}
+            </th>
+            <th class="text-center w-14">
+              {{ t('declare.displayOrder') }}
+            </th>
+            <th class="text-center w-14">
+              {{ t('declare.showOnApp') }}
+            </th>
+            <th class="text-center w-7">
+              {{ t('action') }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="fs-13 fw-600 text-color-river-bed" *ngFor="let item of listPeriod;let i = index">
+            <td class="text-center">{{i+1}}</td>
+            <td class="fw-700">{{item.Name}}</td>
+            <td class="">{{ item.Code }}</td>
+            <td class="fw-700">
+              <ng-container *ngFor="let itemMoet of arrMoetPeriod">
+                <span *ngIf="item.MoetPeriod == itemMoet.key">{{itemMoet.label}}</span>
+              </ng-container>
+            </td>
+            <td class="">{{ item.TimeStart }} - {{ item.TimeEnd }}</td>
+            <td class="text-center fw-700">{{ item.IndexOrder }}</td>
+            <td class="text-center fw-700">{{ item.IndexOrderAppManager }}</td>
+
+            <td class="color-td fs-11 fw-700 text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.timetable_period_manager }}">
+                <span class="so-action " nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="updatePeriodStaff(item)">
+                        <img class="so-action--icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="removePeriodStaff(item.id)"><img
+                          class="so-action--icon" src="assets/images/svg/icon-delete.svg" alt="">{{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="listPeriod?.length == 0 || !listPeriod">
+            <td class="text-no-data" colspan="8">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

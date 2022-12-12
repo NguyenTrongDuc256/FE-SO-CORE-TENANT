@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CoreModule } from 'src/app/_core/core.module';
-import { SchoolYearListTenantRoutingModule } from '../../../school-year-tenant/school-year-tenant-routing.module';
 import { SchoolTenantModule } from './../../school-tenant.module';
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -22,7 +21,6 @@ describe('ModalFormDiemTruongComponent', () => {
       declarations: [ModalFormDiemTruongComponent],
       imports: [
         CommonModule,
-        SchoolYearListTenantRoutingModule,
         CoreModule,
         SchoolTenantModule,
         RouterModule,
@@ -118,7 +116,7 @@ describe('ModalFormDiemTruongComponent', () => {
 
   it('Should phone invalid regex', () => {
     const control = component.formSubmit.controls['DienThoai'];
-    control.setValue('0124956970');
+    control.setValue('0124956970a');
     expect(control.invalid).toBeTruthy();
   });
 

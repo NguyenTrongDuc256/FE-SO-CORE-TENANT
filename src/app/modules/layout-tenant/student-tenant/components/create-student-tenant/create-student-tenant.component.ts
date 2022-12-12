@@ -4,7 +4,7 @@ import { ResizeImageService } from 'src/app/_services/resize-image.service';
 import { AVATAR_DEFAULT, GENDER, MESSAGE_ERROR_CALL_API, REGEX_CODE, REGEX_PASSWORD, REGEX_PHONE, REGEX_USER_NAME, STUDENT_STATUS_SELECT, TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
 import * as moment from 'moment';
 import { GeneralService } from 'src/app/_services/general.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { CreateStudentModel } from 'src/app/_models/layout-tenant/student/create-student.model';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class CreateStudentTenantComponent implements OnInit {
   isLoading: boolean = false;
-  infoForm!: FormGroup;
+  formGroup!: FormGroup;
   avatarUser: string = AVATAR_DEFAULT;
   fatherAvatarDefault: string = AVATAR_DEFAULT;
   motherAvatarDefault: string = AVATAR_DEFAULT;
@@ -42,6 +42,7 @@ export class CreateStudentTenantComponent implements OnInit {
   txtSelect: string = 'student.select';
   nzNotFoundContent: string = 'student.notFoundContent';
   isShowPassword = false;
+  dateNow = moment().format('X');
 
   constructor(
     private resizeImageService: ResizeImageService,
@@ -62,9 +63,9 @@ export class CreateStudentTenantComponent implements OnInit {
   }
 
   initForm() {
-    this.infoForm = this.fb.group({
+    this.formGroup = this.fb.group({
       avatar: [],
-      fullName: ['', [Validators.required]],
+      fullName: ['', [Validators.required, Validators.maxLength(255)]],
       moetCode: ['', [Validators.pattern(REGEX_CODE), Validators.maxLength(50)]],
       gender: 1,
       code: ['', [Validators.required, Validators.pattern(REGEX_CODE), Validators.maxLength(50)]],
@@ -75,26 +76,26 @@ export class CreateStudentTenantComponent implements OnInit {
       //thong tin chung
       schoolId: ['', [Validators.required]],
       gradeId: ['', [Validators.required]],
-      username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
+      username: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)]],
       status: ['', [Validators.required]],
-      homeroomClassId: [''],
+      homeroomClassId: ['', [Validators.required]],
       ethnic: ['', [Validators.required]],
-      selectedType: [''],//hình thức trúng tuyển
+      selectedType: [''],
       bloodType: [],
       religion: [''],
       email: ['', [Validators.email]],
-      priorityLevel: [''], //đối tượng ưu tiên
+      priorityLevel: [''],
       phone: ['', [Validators.pattern(REGEX_PHONE)]],
       nationality: [''],
       address: [],
       permanentResidence: [],
       cityCode: ['', [Validators.required]],
       placeOfBirth: [],
-      districtCode: [''],///quận huyện,  ăn theo cityCode
-      thanhPhoNoiSinh: [''],// Tỉnh/TP theo HK
-      wardCode: [''],//phường xã , ăn theo districtCode
-      quanHuyenNoiSinh: [''],// Quận/Huyện theo HK
+      districtCode: [''],
+      thanhPhoNoiSinh: [''],
+      wardCode: [''],
+      quanHuyenNoiSinh: [''],
       aceCode: [],
       isHoanThanhCTrinhTieuHoc: false,
       danTocTheoGiayKhai: [],
@@ -110,7 +111,7 @@ export class CreateStudentTenantComponent implements OnInit {
       policyObject: [''],
       idNumberIssueDate: [''],//không có formcontrollname bên html, lấy từ hàm datepicker
       huongNghiepDayNghe: [''],
-      idNumberIssueBy: [''],//nơi cấp
+      idNumberIssueBy: [''],
       maLyDoThoiHoc: [],
       maSoBuoiHocTrenTuan: [''],
       //checkbox
@@ -153,16 +154,29 @@ export class CreateStudentTenantComponent implements OnInit {
 
       //thông tin phụ huynh
       //Bố ruột
-      isCreateFatherAccount: true,
+      // isCreateFatherAccount: false,
+      // fatherAvatar: [],
+      // fatherFullName: ['', [Validators.required]],
+      // fatherCode: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_CODE)]],
+      // fatherIsAccessApp: false,
+      // fatherIsActive: false,
+      // fatherUserName: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
+      // fatherPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)]],
+      // fatherPhone: ['', [Validators.pattern(REGEX_PHONE)]],
+      // fatherEmail: ['', [Validators.email]],
+      // fatherBirthday: [''],
+      // fatherJob: [''],
+
+      isCreateFatherAccount: false,
       fatherAvatar: [],
-      fatherFullName: ['', [Validators.required]],
-      fatherCode: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_CODE)]],
+      fatherFullName: [''],
+      fatherCode: [''],
       fatherIsAccessApp: false,
       fatherIsActive: false,
-      fatherUserName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
-      fatherPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)]],
-      fatherPhone: ['', [Validators.pattern(REGEX_PHONE)]],
-      fatherEmail: ['', [Validators.email]],
+      fatherUserName: [''],
+      fatherPassword: [''],
+      fatherPhone: [''],
+      fatherEmail: [''],
       fatherBirthday: [''],
       fatherJob: [''],
 
@@ -173,7 +187,7 @@ export class CreateStudentTenantComponent implements OnInit {
       // motherCode: ['', [Validators.required,Validators.maxLength(50), Validators.pattern(REGEX_CODE)]],
       // motherIsAccessApp: false,
       // motherIsActive: false,
-      // motherUserName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
+      // motherUserName: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
       // motherPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)]],
       // motherPhone: ['', [Validators.pattern(REGEX_PHONE)]],
       // motherEmail: ['', [Validators.email]],
@@ -200,7 +214,7 @@ export class CreateStudentTenantComponent implements OnInit {
       // tutorIsAccessApp: false,
       // tutorIsActive: false,
       // tutorGender: 1,
-      // tutorUserName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
+      // tutorUserName: ['', [Validators.required,  Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
       // tutorPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)]],
       // tutorPhone: ['', [Validators.pattern(REGEX_PHONE)]],
       // tutorEmail: ['', [Validators.email]],
@@ -212,196 +226,179 @@ export class CreateStudentTenantComponent implements OnInit {
       tutorCode: [''],
       tutorIsAccessApp: false,
       tutorIsActive: false,
-      tutorGender: 1,
+      tutorGender: false,
       tutorUserName: [''],
       tutorPassword: [''],
       tutorPhone: [''],
       tutorEmail: [''],
       tutorBirthday: [''],
       tutorJob: [],
-
     });
-
   }
 
   createStudent() {
     this.isLoading = true;
     let dataRequest: CreateStudentModel = {
-      avatar: this.infoForm.value.avatar,
-      fullName: this.infoForm.value.fullName,
-      moetCode: this.infoForm.value.moetCode,
-      gender: this.infoForm.value.gender,
-      code: this.infoForm.value.code,
-      birthday: this.infoForm.value.birthday ? this.infoForm.value.birthday : null,
-      isHocSongNgu: this.infoForm.value.isHocSongNgu ? 1 : 0,
-      isAccessApp: this.infoForm.value.isAccessApp ? 1 : 0,
-      isActive: this.infoForm.value.isActive ? 1 : 0,
+      avatar: this.formGroup.value.avatar,
+      fullName: this.formGroup.value.fullName,
+      moetCode: this.formGroup.value.moetCode,
+      gender: this.formGroup.value.gender,
+      code: this.formGroup.value.code,
+      birthday: this.formGroup.value.birthday ? this.formGroup.value.birthday : null,
+      isHocSongNgu: this.formGroup.value.isHocSongNgu ? 1 : 0,
+      isAccessApp: this.formGroup.value.isAccessApp ? 1 : 0,
+      isActive: this.formGroup.value.isActive ? 1 : 0,
 
       //thong tin chung
-      schoolId: this.infoForm.value.schoolId,
-      gradeId: this.infoForm.value.gradeId,
-      username: this.infoForm.value.username,
-      password: this.infoForm.value.password,
-      status: this.infoForm.value.status,
-      homeroomClassId: this.infoForm.value.homeroomClassId ? this.infoForm.value.homeroomClassId : null,
-      ethnic: this.infoForm.value.ethnic,
-      selectedType: this.infoForm.value.selectedType,//hình thức trúng tuyển
-      bloodType: this.infoForm.value.bloodType,
-      religion: this.infoForm.value.religion,
-      email: this.infoForm.value.email,
-      priorityLevel: this.infoForm.value.priorityLevel, //đối tượng ưu tiên
-      phone: this.infoForm.value.phone,
-      nationality: this.infoForm.value.nationality,
-      address: this.infoForm.value.address,
-      permanentResidence: this.infoForm.value.permanentResidence,
-      cityCode: this.infoForm.value.cityCode,
-      placeOfBirth: this.infoForm.value.placeOfBirth,
-      districtCode: this.infoForm.value.districtCode,
-      thanhPhoNoiSinh: this.infoForm.value.thanhPhoNoiSinh,
-      wardCode: this.infoForm.value.wardCode, //phường xã , ăn theo districtCode
-      quanHuyenNoiSinh: this.infoForm.value.quanHuyenNoiSinh,// Quận/Huyện theo HK
-      aceCode: this.infoForm.value.aceCode,
-      isHoanThanhCTrinhTieuHoc: this.infoForm.value.isHoanThanhCTrinhTieuHoc ? 1 : 0,
-      danTocTheoGiayKhai: this.infoForm.value.danTocTheoGiayKhai,
-      thonXom: this.infoForm.value.thonXom,
-      currentAccommodation: this.infoForm.value.currentAccommodation,
-      thuTu: this.infoForm.value.thuTu ? this.infoForm.value.thuTu : null,
+      schoolId: this.formGroup.value.schoolId || null,
+      gradeId: this.formGroup.value.gradeId || null,
+      username: this.formGroup.value.username,
+      password: this.formGroup.value.password,
+      status: this.formGroup.value.status,
+      homeroomClassId: this.formGroup.value.homeroomClassId ? this.formGroup.value.homeroomClassId : null,
+      ethnic: this.formGroup.value.ethnic,
+      selectedType: this.formGroup.value.selectedType,//hình thức trúng tuyển
+      bloodType: this.formGroup.value.bloodType,
+      religion: this.formGroup.value.religion,
+      email: this.formGroup.value.email,
+      priorityLevel: this.formGroup.value.priorityLevel, //đối tượng ưu tiên
+      phone: this.formGroup.value.phone,
+      nationality: this.formGroup.value.nationality,
+      address: this.formGroup.value.address,
+      permanentResidence: this.formGroup.value.permanentResidence,
+      cityCode: this.formGroup.value.cityCode,
+      placeOfBirth: this.formGroup.value.placeOfBirth,
+      districtCode: this.formGroup.value.districtCode,
+      thanhPhoNoiSinh: this.formGroup.value.thanhPhoNoiSinh,
+      wardCode: this.formGroup.value.wardCode, //phường xã , ăn theo districtCode
+      quanHuyenNoiSinh: this.formGroup.value.quanHuyenNoiSinh,// Quận/Huyện theo HK
+      aceCode: this.formGroup.value.aceCode,
+      isHoanThanhCTrinhTieuHoc: this.formGroup.value.isHoanThanhCTrinhTieuHoc ? 1 : 0,
+      danTocTheoGiayKhai: this.formGroup.value.danTocTheoGiayKhai,
+      thonXom: this.formGroup.value.thonXom,
+      currentAccommodation: this.formGroup.value.currentAccommodation,
+      thuTu: this.formGroup.value.thuTu ? this.formGroup.value.thuTu : null,
 
       //thong tin ca nhan
-      maKhuVuc: this.infoForm.value.maKhuVuc,
-      benhVeMat: this.infoForm.value.benhVeMat,
-      disablilityCode: this.infoForm.value.disablilityCode,
-      idNumber: this.infoForm.value.idNumber,
-      policyObject: this.infoForm.value.policyObject,
-      idNumberIssueDate: this.infoForm.value.idNumberIssueDate ? this.infoForm.value.idNumberIssueDate : null,
-      huongNghiepDayNghe: this.infoForm.value.huongNghiepDayNghe,
-      idNumberIssueBy: this.infoForm.value.idNumberIssueBy,//nơi cấp
-      maLyDoThoiHoc: this.infoForm.value.maLyDoThoiHoc,
-      maSoBuoiHocTrenTuan: this.infoForm.value.maSoBuoiHocTrenTuan,
+      maKhuVuc: this.formGroup.value.maKhuVuc,
+      benhVeMat: this.formGroup.value.benhVeMat,
+      disablilityCode: this.formGroup.value.disablilityCode,
+      idNumber: this.formGroup.value.idNumber,
+      policyObject: this.formGroup.value.policyObject,
+      idNumberIssueDate: this.formGroup.value.idNumberIssueDate ? this.formGroup.value.idNumberIssueDate : null,
+      huongNghiepDayNghe: this.formGroup.value.huongNghiepDayNghe,
+      idNumberIssueBy: this.formGroup.value.idNumberIssueBy,//nơi cấp
+      maLyDoThoiHoc: this.formGroup.value.maLyDoThoiHoc,
+      maSoBuoiHocTrenTuan: this.formGroup.value.maSoBuoiHocTrenTuan,
       //checkbox
-      isKhuyetTatKhongDanhGia: this.infoForm.value.isKhuyetTatKhongDanhGia ? 1 : 0,
-      isHocLopMG5Tuoi: this.infoForm.value.isHocLopMG5Tuoi ? 1 : 0,
-      isBietBoiKy1: this.infoForm.value.isBietBoiKy1 ? 1 : 0,
-      isHsdtHtnn: this.infoForm.value.isHsdtHtnn ? 1 : 0,
-      isHsdtTctv: this.infoForm.value.isHsdtTctv ? 1 : 0,
-      isHoc2Buoi: this.infoForm.value.isHoc2Buoi ? 1 : 0,
-      isVungKhoKhan: this.infoForm.value.isVungKhoKhan ? 1 : 0,
-      isHoTroChiPhiHocTap: this.infoForm.value.isHoTroChiPhiHocTap ? 1 : 0,
-      isCapGao: this.infoForm.value.isCapGao ? 1 : 0,
-      isKhuyetTatHocChuyenBiet: this.infoForm.value.isKhuyetTatHocChuyenBiet ? 1 : 0,
-      isDuDieuKienXetTotNghiep: this.infoForm.value.isDuDieuKienXetTotNghiep ? 1 : 0,
-      partyMember: this.infoForm.value.partyMember ? 1 : 0,
-      unionMember: this.infoForm.value.unionMember ? 1 : 0,
-      isHocSinhTiengDanToc: this.infoForm.value.isHocSinhTiengDanToc ? 1 : 0,
-      kiNangSong: this.infoForm.value.kiNangSong ? 1 : 0,
-      isMienHocPhi: this.infoForm.value.isMienHocPhi ? 1 : 0,
-      isHoTroNhaO: this.infoForm.value.isHoTroNhaO ? 1 : 0,
-      isMoiTuyenDauCap: this.infoForm.value.isMoiTuyenDauCap ? 1 : 0,
-      isHocTinHoc: this.infoForm.value.isHocTinHoc ? 1 : 0,
-      isHsTotNghiepThcs: this.infoForm.value.isHsTotNghiepThcs ? 1 : 0,
-      isHocCTGDCuaBo: this.infoForm.value.isHocCTGDCuaBo ? 1 : 0,
-      isHocSinhNoiTruDanNuoi: this.infoForm.value.isHocSinhNoiTruDanNuoi ? 1 : 0,
-      isHocSinhBanTruDanNuoi: this.infoForm.value.isHocSinhBanTruDanNuoi ? 1 : 0,
-      isHocSinhPtDtBanTru: this.infoForm.value.isHocSinhPtDtBanTru ? 1 : 0,
-      isMeDt: this.infoForm.value.isMeDt ? 1 : 0,
-      isChaDt: this.infoForm.value.isChaDt ? 1 : 0,
-      isLuuBanNamTruoc: this.infoForm.value.isLuuBanNamTruoc ? 1 : 0,
-      isHsdtTroGiang: this.infoForm.value.isHsdtTroGiang ? 1 : 0,
-      isHocLopBanTru: this.infoForm.value.isHocLopBanTru ? 1 : 0,
-      isHoNgheo: this.infoForm.value.isHoNgheo ? 1 : 0,
-      isGiamHocPhi: this.infoForm.value.isGiamHocPhi ? 1 : 0,
-      isCapTienHangThang: this.infoForm.value.isCapTienHangThang ? 1 : 0,
-      isKhuyetTatHocHoaNhap: this.infoForm.value.isKhuyetTatHocHoaNhap ? 1 : 0,
-      isHsDttsRatItNguoiDuocHtht: this.infoForm.value.isHsDttsRatItNguoiDuocHtht ? 1 : 0,
-      isPhCoSmartphone: this.infoForm.value.isPhCoSmartphone ? 1 : 0,
-      isPhCoMayTinhInternet: this.infoForm.value.isPhCoMayTinhInternet ? 1 : 0,
+      isKhuyetTatKhongDanhGia: this.formGroup.value.isKhuyetTatKhongDanhGia ? 1 : 0,
+      isHocLopMG5Tuoi: this.formGroup.value.isHocLopMG5Tuoi ? 1 : 0,
+      isBietBoiKy1: this.formGroup.value.isBietBoiKy1 ? 1 : 0,
+      isHsdtHtnn: this.formGroup.value.isHsdtHtnn ? 1 : 0,
+      isHsdtTctv: this.formGroup.value.isHsdtTctv ? 1 : 0,
+      isHoc2Buoi: this.formGroup.value.isHoc2Buoi ? 1 : 0,
+      isVungKhoKhan: this.formGroup.value.isVungKhoKhan ? 1 : 0,
+      isHoTroChiPhiHocTap: this.formGroup.value.isHoTroChiPhiHocTap ? 1 : 0,
+      isCapGao: this.formGroup.value.isCapGao ? 1 : 0,
+      isKhuyetTatHocChuyenBiet: this.formGroup.value.isKhuyetTatHocChuyenBiet ? 1 : 0,
+      isDuDieuKienXetTotNghiep: this.formGroup.value.isDuDieuKienXetTotNghiep ? 1 : 0,
+      partyMember: this.formGroup.value.partyMember ? 1 : 0,
+      unionMember: this.formGroup.value.unionMember ? 1 : 0,
+      isHocSinhTiengDanToc: this.formGroup.value.isHocSinhTiengDanToc ? 1 : 0,
+      kiNangSong: this.formGroup.value.kiNangSong ? 1 : 0,
+      isMienHocPhi: this.formGroup.value.isMienHocPhi ? 1 : 0,
+      isHoTroNhaO: this.formGroup.value.isHoTroNhaO ? 1 : 0,
+      isMoiTuyenDauCap: this.formGroup.value.isMoiTuyenDauCap ? 1 : 0,
+      isHocTinHoc: this.formGroup.value.isHocTinHoc ? 1 : 0,
+      isHsTotNghiepThcs: this.formGroup.value.isHsTotNghiepThcs ? 1 : 0,
+      isHocCTGDCuaBo: this.formGroup.value.isHocCTGDCuaBo ? 1 : 0,
+      isHocSinhNoiTruDanNuoi: this.formGroup.value.isHocSinhNoiTruDanNuoi ? 1 : 0,
+      isHocSinhBanTruDanNuoi: this.formGroup.value.isHocSinhBanTruDanNuoi ? 1 : 0,
+      isHocSinhPtDtBanTru: this.formGroup.value.isHocSinhPtDtBanTru ? 1 : 0,
+      isMeDt: this.formGroup.value.isMeDt ? 1 : 0,
+      isChaDt: this.formGroup.value.isChaDt ? 1 : 0,
+      isLuuBanNamTruoc: this.formGroup.value.isLuuBanNamTruoc ? 1 : 0,
+      isHsdtTroGiang: this.formGroup.value.isHsdtTroGiang ? 1 : 0,
+      isHocLopBanTru: this.formGroup.value.isHocLopBanTru ? 1 : 0,
+      isHoNgheo: this.formGroup.value.isHoNgheo ? 1 : 0,
+      isGiamHocPhi: this.formGroup.value.isGiamHocPhi ? 1 : 0,
+      isCapTienHangThang: this.formGroup.value.isCapTienHangThang ? 1 : 0,
+      isKhuyetTatHocHoaNhap: this.formGroup.value.isKhuyetTatHocHoaNhap ? 1 : 0,
+      isHsDttsRatItNguoiDuocHtht: this.formGroup.value.isHsDttsRatItNguoiDuocHtht ? 1 : 0,
+      isPhCoSmartphone: this.formGroup.value.isPhCoSmartphone ? 1 : 0,
+      isPhCoMayTinhInternet: this.formGroup.value.isPhCoMayTinhInternet ? 1 : 0,
 
       //thông tin phụ huynh
       //Bố ruột
-      isCreateFatherAccount: this.infoForm.value.isCreateFatherAccount ? 1 : 0,
-      fatherAvatar: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherAvatar : '',
-      fatherFullName: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherFullName : '',
-      fatherCode: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherCode : '',
+      isCreateFatherAccount: this.formGroup.value.isCreateFatherAccount ? 1 : 0,
+      fatherAvatar: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherAvatar : null,
+      fatherFullName: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherFullName : '',
+      fatherCode: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherCode : '',
       // mối quan hệ, giới tính ?????
-      fatherIsAccessApp: this.infoForm.value.fatherIsAccessApp ? 1 : 0,
-      fatherIsActive: this.infoForm.value.fatherIsActive ? 1 : 0,
-      fatherUserName: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherUserName : '',
-      fatherPassword: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherPassword : null,
-      fatherPhone: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherPhone : '',
-      fatherEmail: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherEmail : '',
-      fatherBirthday: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherBirthday : null,
-      fatherJob: this.infoForm.value.isCreateFatherAccount ? this.infoForm.value.fatherJob : '',
+      fatherIsAccessApp: this.formGroup.value.fatherIsAccessApp ? 1 : 0,
+      fatherIsActive: this.formGroup.value.fatherIsActive ? 1 : 0,
+      fatherUserName: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherUserName : '',
+      fatherPassword: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherPassword : null,
+      fatherPhone: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherPhone : '',
+      fatherEmail: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherEmail : '',
+      fatherBirthday: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherBirthday : null,
+      fatherJob: this.formGroup.value.isCreateFatherAccount ? this.formGroup.value.fatherJob : '',
 
       //Mẹ đẻ
-      isCreateMotherAccount: this.infoForm.value.isCreateMotherAccount ? 1 : 0,
-      motherAvatar: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherAvatar : '',
-      motherFullName: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherFullName : '',
-      motherCode: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherCode : '',
+      isCreateMotherAccount: this.formGroup.value.isCreateMotherAccount ? 1 : 0,
+      motherAvatar: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherAvatar : null,
+      motherFullName: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherFullName : '',
+      motherCode: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherCode : '',
       // mối quan hệ, giới tính ?????
-      motherIsAccessApp: this.infoForm.value.motherIsAccessApp ? 1 : 0,
-      motherIsActive: this.infoForm.value.motherIsActive ? 1 : 0,
-      motherUserName: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherUserName : '',
-      motherPassword: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherPassword : null,
-      motherPhone: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherPhone : '',
-      motherEmail: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherEmail : '',
-      motherBirthday: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherBirthday : null,
-      motherJob: this.infoForm.value.isCreateMotherAccount ? this.infoForm.value.motherJob : '',
+      motherIsAccessApp: this.formGroup.value.motherIsAccessApp ? 1 : 0,
+      motherIsActive: this.formGroup.value.motherIsActive ? 1 : 0,
+      motherUserName: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherUserName : '',
+      motherPassword: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherPassword : null,
+      motherPhone: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherPhone : '',
+      motherEmail: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherEmail : '',
+      motherBirthday: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherBirthday : null,
+      motherJob: this.formGroup.value.isCreateMotherAccount ? this.formGroup.value.motherJob : '',
 
       //người đỡ đầu
-      isCreateTutorAccount: this.infoForm.value.isCreateTutorAccount ? 1 : 0,
-      tutorAvatar: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorAvatar : '',
-      tutorFullName: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorFullName : '',
-      tutorCode: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorCode : '',
-      tutorIsAccessApp: this.infoForm.value.tutorIsAccessApp ? 1 : 0,
-      tutorIsActive: this.infoForm.value.tutorIsActive ? 1 : 0,
-      tutorGender: this.infoForm.value.tutorGender,
-      tutorUserName: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorUserName : '',
-      tutorPassword: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorPassword : null,
-      tutorPhone: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorPhone : '',
-      tutorEmail: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorEmail : '',
-      tutorBirthday: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorBirthday : null,
-      tutorJob: this.infoForm.value.isCreateTutorAccount ? this.infoForm.value.tutorJob : '',
+      isCreateTutorAccount: this.formGroup.value.isCreateTutorAccount ? 1 : 0,
+      tutorAvatar: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorAvatar : null,
+      tutorFullName: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorFullName : '',
+      tutorCode: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorCode : '',
+      tutorIsAccessApp: this.formGroup.value.tutorIsAccessApp ? 1 : 0,
+      tutorIsActive: this.formGroup.value.tutorIsActive ? 1 : 0,
+      tutorGender: this.formGroup.value.tutorGender ? 2 : 1,
+      tutorUserName: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorUserName : '',
+      tutorPassword: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorPassword : null,
+      tutorPhone: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorPhone : '',
+      tutorEmail: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorEmail : '',
+      tutorBirthday: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorBirthday : null,
+      tutorJob: this.formGroup.value.isCreateTutorAccount ? this.formGroup.value.tutorJob : '',
 
     }
-    // console.log("isCreateFatherAccount", this.infoForm.value.isCreateFatherAccount);
-    // console.log("validator required FullName  ", this.infoForm.get('fatherFullName')?.hasError('required'));
-    // console.log("validator required code", this.infoForm.get('fatherCode')?.hasError('required'));
-    // console.log("validator required UserName", this.infoForm.get('fatherUserName')?.hasError('required'));
-    // console.log("validator required Password", this.infoForm.get('fatherPassword')?.hasError('required'));
 
-    // console.log("isCreateFatherAccount2", this.infoForm.value.isCreateMotherAccount);
-    // console.log("validator required FullName2  ", this.infoForm.get('motherFullName')?.hasError('required'));
-    // console.log("validator required code2", this.infoForm.get('motherCode')?.hasError('required'));
-    // console.log("validator required UserName2", this.infoForm.get('motherUserName')?.hasError('required'));
-
-    // console.log("isCreateFatherAccount3", this.infoForm.value.isCreateTutorAccount);
-    // console.log("validator required FullName3  ", this.infoForm.get('tutorFullName')?.hasError('required'));
-    // console.log("validator required code3", this.infoForm.get('tutorCode')?.hasError('required'));
-    // console.log("validator required UserName3", this.infoForm.get('tutorUserName')?.hasError('required'));
-
-    // for (const key in this.infoForm.controls) {//log ra các feid đang bắt validator
-    //   if (this.infoForm.get(key)?.hasError('required'))
+    // for (const key in this.formGroup.controls) {//log ra các feid đang bắt validator
+    //   if (this.formGroup.get(key)?.hasError('required'))
     //     console.log("validator required", key);
     // }
-
-    // console.log('ngày sinh', dataRequest.birthday);
-    // console.log('ngày cấp idNumberIssueDate', dataRequest.idNumberIssueDate);
-    // console.log('ngày sinh fatherBirthday', dataRequest.fatherBirthday);
-    // console.log('ngày sinh motherBirthday', dataRequest.motherBirthday);
-    // console.log('ngày sinh tutorBirthday', dataRequest.tutorBirthday);
-
+    this.listenFireBase('create', 'student');
     this.studentService.createStudent(dataRequest).subscribe((res: any) => {
-      if (res.status == 0) {
-        this.showMessageService.error(res.msg);
-        this.isLoading = false;
-      }
-      else {
-        this.isLoading = false;
-      }
+      this.isLoading = false;
+
     },
       (_err: any) => {
         this.isLoading = false;
+        this.validateAllFormFieldsErrorServer(_err.errors);
       })
+  }
+
+  onSubmit() {
+    // this.createStudent();
+
+    if (this.formGroup.valid) {
+      this.createStudent();
+    } else {
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   onChangeisCreateAccount(event, type: number) {// Bố ruột: 1, Mẹ đẻ: 2, người đỡ đầu: 3
@@ -420,15 +417,15 @@ export class CreateStudentTenantComponent implements OnInit {
 
     if (!event) {
       getParentKey?.forEach((item) => {
-        this.infoForm.get(item).clearValidators();
-        this.infoForm.get(item).updateValueAndValidity();
+        this.formGroup.get(item).clearValidators();
+        this.formGroup.get(item).updateValueAndValidity();
       });
     }
 
     else {
       getParentKey?.forEach((item, index) => {
-        this.infoForm.get(item).setValidators(this.validationType[index]);
-        this.infoForm.get(item).updateValueAndValidity();
+        this.formGroup.get(item).setValidators(this.validationType[index]);
+        this.formGroup.get(item).updateValueAndValidity();
       });
     }
   }
@@ -461,16 +458,16 @@ export class CreateStudentTenantComponent implements OnInit {
         this.generalService.uploadFileBase64(dataInput).subscribe((res: any) => {
           switch (inputFor) {
             case 1:
-              this.infoForm.controls["avatar"].setValue(res.data);// học sinh
+              this.formGroup.controls["avatar"].setValue(res.data);// học sinh
               break;
             case 2:
-              this.infoForm.controls["fatherAvatar"].setValue(res.data);//bố
+              this.formGroup.controls["fatherAvatar"].setValue(res.data);//bố
               break;
             case 3:
-              this.infoForm.controls["motherAvatar"].setValue(res.data);//mẹ
+              this.formGroup.controls["motherAvatar"].setValue(res.data);//mẹ
               break;
             case 4:
-              this.infoForm.controls["tutorAvatar"].setValue(res.data);//người đỡ đầu
+              this.formGroup.controls["tutorAvatar"].setValue(res.data);//người đỡ đầu
               break;
           }
         })
@@ -484,19 +481,19 @@ export class CreateStudentTenantComponent implements OnInit {
     switch (inputFor) {
       case 1:
         this.avatarUser = AVATAR_DEFAULT;
-        this.infoForm.controls["avatar"].setValue(this.avatarUser);// học sinh
+        this.formGroup.controls["avatar"].setValue(this.avatarUser);// học sinh
         break;
       case 2:
         this.fatherAvatarDefault = AVATAR_DEFAULT;
-        this.infoForm.controls["fatherAvatar"].setValue(this.fatherAvatarDefault);//bố
+        this.formGroup.controls["fatherAvatar"].setValue(this.fatherAvatarDefault);//bố
         break;
       case 3:
         this.motherAvatarDefault = AVATAR_DEFAULT;
-        this.infoForm.controls["motherAvatar"].setValue(this.motherAvatarDefault);//mẹ
+        this.formGroup.controls["motherAvatar"].setValue(this.motherAvatarDefault);//mẹ
         break;
       case 4:
         this.tutorAvatarDefault = AVATAR_DEFAULT;
-        this.infoForm.controls["tutorAvatar"].setValue(this.tutorAvatarDefault);//người đỡ đầu
+        this.formGroup.controls["tutorAvatar"].setValue(this.tutorAvatarDefault);//người đỡ đầu
         break;
     }
   }
@@ -504,19 +501,19 @@ export class CreateStudentTenantComponent implements OnInit {
   dataTimeBirthday(event: any, sendFrom) {//lấy ngày sinh date picker
     switch (sendFrom) {
       case 1:// học sinh
-        this.infoForm.get('birthday').setValue(Number(event));
+        this.formGroup.get('birthday').setValue(Number(event));
         break;
       case 2://ngày cấp
-        this.infoForm.get('idNumberIssueDate').setValue(Number(event));
+        this.formGroup.get('idNumberIssueDate').setValue(Number(event));
         break;
       case 3://bố ruột
-        this.infoForm.get('fatherBirthday').setValue(Number(event));
+        this.formGroup.get('fatherBirthday').setValue(Number(event));
         break;
       case 4://mẹ đẻ
-        this.infoForm.get('motherBirthday').setValue(Number(event));
+        this.formGroup.get('motherBirthday').setValue(Number(event));
         break;
       case 5://người đỡ đầu
-        this.infoForm.get('tutorBirthday').setValue(Number(event));
+        this.formGroup.get('tutorBirthday').setValue(Number(event));
         break;
     }
   }
@@ -530,52 +527,44 @@ export class CreateStudentTenantComponent implements OnInit {
       }
     }, TIME_OUT_LISTEN_FIREBASE);
     this.studentService.getStudentDataRelate().subscribe((res: any) => {
-      if (res.status === 1) {
-        this.studentDataRelate = res.data;
-        this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+      this.studentDataRelate = res.data;
+      this.isLoading = false;
     }, (_err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(_err);
     });
   }
 
   onChangeSchool(event): void {
     event ? this.getDistrictList(event) : this.districtList = [];
     if (event) {
-      let schoolSelected = this.studentDataRelate.schools.find(item => item.id == this.infoForm.value.schoolId);
+      let schoolSelected = this.studentDataRelate.schools.find(item => item.id == this.formGroup.value.schoolId);
       this.dataGrades = this.studentDataRelate.grades.filter(item => item.educationStages == schoolSelected?.educationStages);//get array Grade
     } else {
       this.dataGrades = [];
     }
-    this.infoForm.get('gradeId').patchValue('');
+    this.formGroup.get('gradeId').patchValue('');
   }
 
   onChangeGrade(event): void {
     if (event) {
-      this.dataHomeroomClasses = this.studentDataRelate.homeroomClasses.filter(item => item.schoolId == this.infoForm.value.schoolId && item.gradeId == this.infoForm.value.gradeId)//get homeroomClasses
+      this.dataHomeroomClasses = this.studentDataRelate.homeroomClasses.filter(item => item.schoolId == this.formGroup.value.schoolId && item.gradeId == this.formGroup.value.gradeId)//get homeroomClasses
     } else {
       this.dataHomeroomClasses = [];
     }
-    this.infoForm.get('homeroomClassId').patchValue('');
+    this.formGroup.get('homeroomClassId').patchValue('');
   }
 
   getCityList(): void {
     this.isLoading = true;
     this.locationService.getCityList().subscribe((res: any): void => {
-      if (res.status != undefined && res.status == 1) {
-        this.cityList = res.data;
-        this.cityListHK = res.data;
-      } else {
-        this.showMessageService.error(res.msg);
-      }
+      this.cityList = res.data;
+      this.cityListHK = res.data;
       this.isLoading = false;
+
     }, (err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(err);
     }
     );
   }
@@ -583,19 +572,17 @@ export class CreateStudentTenantComponent implements OnInit {
   getDistrictList(cityCode: string, type?: number): void {
     this.isLoading = true;
     this.locationService.getDistrictList(cityCode).subscribe((res: any): void => {
-      if (res.status != undefined && res.status == 1) {
-        if (type == 1) {
-          this.districtListHK = res.data;
-        }
-        else {
-          this.districtList = res.data;
-        }
-      } else {
-        this.showMessageService.error(res.msg);
-      }
       this.isLoading = false;
+      if (type == 1) {
+        this.districtListHK = res.data;
+      }
+      else {
+        this.districtList = res.data;
+      }
+
     }, (err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(err);
     }
     );
   }
@@ -603,14 +590,11 @@ export class CreateStudentTenantComponent implements OnInit {
   getWardList(districtCode: string): void {
     this.isLoading = true;
     this.locationService.getWardList(districtCode).subscribe((res: any): void => {
-      if (res.status != undefined && res.status == 1) {
-        this.wardList = res.data;
-      } else {
-        this.showMessageService.error(res.msg);
-      }
+      this.wardList = res.data;
       this.isLoading = false;
     }, (err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(err);
     }
     );
   }
@@ -618,18 +602,18 @@ export class CreateStudentTenantComponent implements OnInit {
   onChangeCity(event, type?: number): void {
     if (type == 1) {
       event ? this.getDistrictList(event, 1) : this.districtListHK = [];
-      this.infoForm.get('quanHuyenNoiSinh').patchValue('');
+      this.formGroup.get('quanHuyenNoiSinh').patchValue('');
     }
     else {
       event ? this.getDistrictList(event) : this.districtList = [];
-      this.infoForm.get('districtCode').patchValue('');
+      this.formGroup.get('districtCode').patchValue('');
     }
   }
 
 
   onChangeDistrict(event): void {
     event ? this.getWardList(event) : this.wardList = [];
-    this.infoForm.get('wardCode').patchValue('');
+    this.formGroup.get('wardCode').patchValue('');
   }
 
   isTabPersonalOrParents() {
@@ -640,10 +624,46 @@ export class CreateStudentTenantComponent implements OnInit {
     this.isShowPassword = !this.isShowPassword;
   }
 
-  onSubmit() {
-    this.isLoading = true;
-    this.listenFireBase('create', 'student');
-    this.createStudent();
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      let arrKey = String(key).split('.');
+      let indexKey = '';
+      if (arrKey.length == 1) {
+        this.validationMessagesServer[arrKey[0]] = {
+          message: error[key]
+        }
+      } else {
+        arrKey.forEach((itemKey: any) => {
+          if (!isNaN(itemKey)) {
+            indexKey += `${itemKey}`;
+          }
+          Object.keys(this.validationMessagesServer).forEach(itemMessage => {
+            if (itemMessage == arrKey[arrKey.length - 1]) {
+              if (indexKey) {
+                this.validationMessagesServer[itemMessage][indexKey] = {
+                  message: error[key]
+                }
+              }
+            }
+          });
+        })
+      }
+    });
   }
 
   listenFireBase(action: string, module: string) {
@@ -664,10 +684,12 @@ export class CreateStudentTenantComponent implements OnInit {
     });
   }
 
-  validation_messages = {
+  validationMessages = {
     'fullName': [
       { type: 'required', message: 'requiredName' },
       { type: 'pattern', message: 'student.validators.fullName.pattern' },
+      { type: 'maxlength', message: 'student.validators.fullName.maxlength' },
+
     ],
     'code': [
       { type: 'required', message: 'requiredCode' },
@@ -731,6 +753,8 @@ export class CreateStudentTenantComponent implements OnInit {
     'fatherFullName': [
       { type: 'required', message: 'requiredName' },
       { type: 'pattern', message: 'student.validators.fatherFullName.pattern' },
+      { type: 'maxlength', message: 'student.validators.fatherFullName.maxlength' },
+
     ],
     'fatherCode': [
       { type: 'required', message: 'requiredCode' },
@@ -740,7 +764,7 @@ export class CreateStudentTenantComponent implements OnInit {
     ],
     'fatherUserName': [
       { type: 'required', message: 'student.validators.fatherUserName.required' },
-      { type: 'maxlength', message: 'student.validators.fatherUserName.maxlength' },
+      { type: 'minlength', message: 'student.validators.fatherUserName.minlength' },
       { type: 'maxLength', message: 'student.validators.fatherUserName.maxlength' },
       { type: 'pattern', message: 'student.validators.fatherUserName.pattern' },
     ],
@@ -759,6 +783,8 @@ export class CreateStudentTenantComponent implements OnInit {
     'motherFullName': [
       { type: 'required', message: 'requiredName' },
       { type: 'pattern', message: 'student.validators.motherFullName.pattern' },
+      { type: 'maxlength', message: 'student.validators.motherFullName.maxlength' },
+
     ],
     'motherCode': [
       { type: 'required', message: 'requiredCode' },
@@ -787,6 +813,8 @@ export class CreateStudentTenantComponent implements OnInit {
     'tutorFullName': [
       { type: 'required', message: 'requiredName' },
       { type: 'pattern', message: 'student.validators.tutorFullName.pattern' },
+      { type: 'maxlength', message: 'student.validators.tutorFullName.maxlength' },
+
     ],
     'tutorCode': [
       { type: 'required', message: 'requiredCode' },
@@ -812,6 +840,129 @@ export class CreateStudentTenantComponent implements OnInit {
     'tutorEmail': [
       { type: 'email', message: 'student.validators.tutorEmail.email' },
     ]
+  }
+
+  validationMessagesServer = {
+    avatar: {},
+    fullName: {},
+    moetCode: {},
+    gender: {},
+    code: {},
+    birthday: {},
+    isHocSongNgu: {},
+    isAccessApp: {},
+    isActive: {},
+    schoolId: {},
+    gradeId: {},
+    username: {},
+    password: {},
+    status: {},
+    homeroomClassId: {},
+    ethnic: {},
+    selectedType: {},
+    bloodType: {},
+    religion: {},
+    email: {},
+    priorityLevel: {},
+    phone: {},
+    nationality: {},
+    address: {},
+    permanentResidence: {},
+    cityCode: {},
+    placeOfBirth: {},
+    districtCode: {},
+    thanhPhoNoiSinh: {},
+    wardCode: {},
+    quanHuyenNoiSinh: {},
+    aceCode: {},
+    isHoanThanhCTrinhTieuHoc: {},
+    danTocTheoGiayKhai: {},
+    thonXom: {},
+    currentAccommodation: {},
+    thuTu: {},
+    maKhuVuc: {},
+    benhVeMat: {},
+    disablilityCode: {},
+    idNumber: {},
+    policyObject: {},
+    idNumberIssueDate: {},
+    huongNghiepDayNghe: {},
+    idNumberIssueBy: {},
+    maLyDoThoiHoc: {},
+    maSoBuoiHocTrenTuan: {},
+    isKhuyetTatKhongDanhGia: {},
+    isHocLopMG5Tuoi: {},
+    isBietBoiKy1: {},
+    isHsdtHtnn: {},
+    isHsdtTctv: {},
+    isHoc2Buoi: {},
+    isVungKhoKhan: {},
+    isHoTroChiPhiHocTap: {},
+    isCapGao: {},
+    isKhuyetTatHocChuyenBiet: {},
+    isDuDieuKienXetTotNghiep: {},
+    partyMember: {},
+    unionMember: {},
+    isHocSinhTiengDanToc: {},
+    kiNangSong: {},
+    isMienHocPhi: {},
+    isHoTroNhaO: {},
+    isMoiTuyenDauCap: {},
+    isHocTinHoc: {},
+    isHsTotNghiepThcs: {},
+    isHocCTGDCuaBo: {},
+    isHocSinhNoiTruDanNuoi: {},
+    isHocSinhBanTruDanNuoi: {},
+    isHocSinhPtDtBanTru: {},
+    isMeDt: {},
+    isChaDt: {},
+    isLuuBanNamTruoc: {},
+    isHsdtTroGiang: {},
+    isHocLopBanTru: {},
+    isHoNgheo: {},
+    isGiamHocPhi: {},
+    isCapTienHangThang: {},
+    isKhuyetTatHocHoaNhap: {},
+    isHsDttsRatItNguoiDuocHtht: {},
+    isPhCoSmartphone: {},
+    isPhCoMayTinhInternet: {},
+    isCreateFatherAccount: {},
+    fatherAvatar: {},
+    fatherFullName: {},
+    fatherCode: {},
+    fatherIsAccessApp: {},
+    fatherIsActive: {},
+    fatherUserName: {},
+    fatherPassword: {},
+    fatherPhone: {},
+    fatherEmail: {},
+    fatherBirthday: {},
+    fatherJob: {},
+    isCreateMotherAccount: {},
+    motherAvatar: {},
+    motherFullName: {},
+    motherCode: {},
+    motherIsAccessApp: {},
+    motherIsActive: {},
+    motherUserName: {},
+    motherPassword: {},
+    motherPhone: {},
+    motherEmail: {},
+    motherBirthday: {},
+    motherJob: {},
+    isCreateTutorAccount: {},
+    tutorAvatar: {},
+    tutorFullName: {},
+    tutorCode: {},
+    tutorIsAccessApp: {},
+    tutorIsActive: {},
+    tutorGender: {},
+    tutorUserName: {},
+    tutorPassword: {},
+    tutorPhone: {},
+    tutorEmail: {},
+    tutorBirthday: {},
+    tutorJob: {},
   }
 
   dataSetOrClearValidator = {
@@ -844,9 +995,9 @@ export class CreateStudentTenantComponent implements OnInit {
   }
 
   validationType = {// use in forEach
-    '0': [Validators.required],//FullName
+    '0': [Validators.required, Validators.maxLength(255)],//FullName
     '1': [Validators.required, Validators.pattern(REGEX_CODE), Validators.maxLength(50)],//Code
-    '2': [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)],//UserName
+    '2': [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)],//UserName
     '3': [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_PASSWORD)],//Password
     '4': [Validators.pattern(REGEX_PHONE)],//Phone
     '5': [Validators.email],//Email

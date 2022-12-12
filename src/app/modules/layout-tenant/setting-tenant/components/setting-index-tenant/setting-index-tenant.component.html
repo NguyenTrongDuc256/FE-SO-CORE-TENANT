@@ -1,0 +1,80 @@
+<div class="card shadow-none d-flex flex-row so-tab-vertical-2 shadow-sm h-100" *transloco="let t; scope: 'setting'">
+  <div class="card-body p-0 d-flex flex-row">
+    <div class="nav nav-tabs py-5 nav-pills flex-row border-0 flex-md-column mb-3 mb-md-0 min-w-lg-200px w-20">
+      <div class="card shadow-none card-flush p-0 h-full border-right rounded-0">
+        <div class="card-header py-5 text-center d-flex flex-column align-items-center">
+          <h3 class="card-title fs-18 fw-700 text-center d-block">{{ tenantInfo?.name }}</h3>
+          <span class="badge so-badge bg-color-greenish-teal text-color-white max-width-tenant-status" *ngIf="tenantInfo?.isActive == 1">{{t('setting.dangHoatDong')}}</span>
+          <span class="badge so-badge bg-color-bittersweet text-color-white max-width-tenant-status" *ngIf="tenantInfo?.isActive == 0">{{t('setting.daKhoa')}}</span>
+        </div>
+        <div class="card-body py-5">
+          <ul class="so-tab-column fw-600">
+            <li [ngClass]="{'active': tabActive === 'info'}" (click)="changeTab('info')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/user-nurse.svg" alt="">{{ t('setting.thongTin') }}
+
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === 'general-config'}" (click)="changeTab('general-config')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/icon-setting-blue.svg" alt="">{{ t('setting.cauHinhChung') }}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === 'attendance-config'}" (click)="changeTab('attendance-config')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/settings-solid-alerted.svg" alt="">{{ t('setting.cauHinhDiemDanh') }}
+                </span>
+              </a>
+            </li>
+            <li [ngClass]="{'active': tabActive === 'attendance-device-config'}" (click)="changeTab('attendance-device-config')">
+              <a>
+                <span>
+                  <img src="assets/images/svg/clarity_file-settings-solid-alerted.svg" alt="">{{ t('setting.cauHinhThietBiDiemDanh') }}
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div class="created-at-info">
+            <img class="" src="assets/images/svg/calendar_icon.svg" alt="">
+            <span class="ps-3 fw-600">{{ t('setting.ngayTao') }}: {{ tenantInfo?.createdDate | formatTime: 'dd/MM/yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card shadow-none card-flush tab-content w-80 ps-8 pe-8">
+      <div class="card-body p-0">
+        <ng-container *ngIf="tabActive == 'info'">
+          <div class="tab-pane fade {{ tabActive == 'info' ? 'show active' : '' }}" role="tabpanel">
+            <app-info-tenant [tenantInfo]="tenantInfo" *ngIf="isUpdateTabInfo != 1 && tenantInfo"></app-info-tenant>
+            <app-update-tenant [tenantInfo]="tenantInfo" *ngIf="isUpdateTabInfo == 1 && tenantInfo"
+                               (isSuccessUpdateEvent)="checkSuccessUpdateEvent($event)">
+            </app-update-tenant>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'general-config'">
+          <div class="tab-pane fade {{ tabActive == 'general-config' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-config-tenant></app-tab-config-tenant>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'attendance-config'">
+          <div class="tab-pane fade {{ tabActive == 'attendance-config' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-attendance-config></app-tab-attendance-config>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'attendance-device-config'">
+          <div class="tab-pane fade {{ tabActive == 'attendance-device-config' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-attendance-device-config></app-tab-attendance-device-config>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

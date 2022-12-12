@@ -1,0 +1,52 @@
+
+.pdl-15 {
+  padding-left: 15px !important;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.webkit-box-1 {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+
+.nav-bar {
+  flex-grow: 1;
+}
+
+.card-body {
+  .activate {
+    cursor: pointer;
+  }
+
+  .subject-style {
+    border-radius: 3px;
+    padding: 0.3rem 1.2rem;
+    width: 13rem;
+    border-radius: 3px;
+  }
+  .p-right {
+    margin-right: 0.5rem;
+  }
+
+  @mixin subject-type($color,$bgcolor) {
+    color: $color; 
+    background-color: $bgcolor;
+  }
+
+  .subject-type-1{
+    @include subject-type(var(--bs-picton-blue),var(--bs-hawkes-blue));
+  }
+
+  .subject-type-2{
+    @include subject-type(var(--bs-carrot-orange),var(--bs-light-apricot));
+  }
+
+  .subject-type-3{
+    @include subject-type(var(--bs-greenish-teal),var(--bs-water-leaf));
+  }
+}

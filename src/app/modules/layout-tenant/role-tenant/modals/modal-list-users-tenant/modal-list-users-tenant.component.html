@@ -8,42 +8,42 @@
   </div>
   <div class="modal-body">
     <div>
-      <div class="so-input-search mb-3">
-        <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" name="input-search" nz-input placeholder="Tìm kiếm" #searchInput
-            (keydown)="search($event, searchInput.value)" />
-        </nz-input-group>
-        <ng-template #suffixIconSearch>
-          <img src="assets/images/svg/search.svg" alt="" nzType="search">
-        </ng-template>
+      <div class="filter d-flex flex-wrap align-items-center justify-content-end">
+        <div class="so-input-search">
+          <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
       </div>
 
-      <div class="mt-8">
-        <table class="table-global w-full mt-5">
+      <div class="mt-4 table-responsive">
+        <table class="table w-full table-row-bordered table-row-gray-300 so-table">
           <caption></caption>
           <thead>
-            <th style="width: 5%;" class="text-header-table text-center">{{t('STT')}}</th>
-            <th style="width: 20%;" class="text-header-table"> {{t('role.nameUser')}}</th>
-            <th style="width: 10%;" class="text-header-table"> {{t('code')}} </th>
-            <th style="width: 10%;" class="text-header-table"> {{t('account')}} </th>
-            <th style="width: 10%;" class="text-header-table"> {{t('phone')}} </th>
-            <th style="width: 12%;" class="text-header-table"> {{t('email')}} </th>
-            <th style="width: 15%;" class="text-header-table"
-              *ngIf="layout == 'teacher' || layout =='staff' || layout == 'campus'">
-              {{t('unit')}}
-            </th>
-            <th style="width: 10%;" class="text-header-table"> {{t('status')}} </th>
+            <tr class="fs-14 fw-700">
+              <th style="width: 5%;" class="text-center">{{t('STT')}}</th>
+              <th style="width: 20%;"> {{t('role.nameUser')}}</th>
+              <th style="width: 10%;"> {{t('code')}} </th>
+              <th style="width: 10%;"> {{t('account')}} </th>
+              <th style="width: 10%;"> {{t('phone')}} </th>
+              <th style="width: 12%;"> {{t('email')}} </th>
+              <th style="width: 15%;"
+                *ngIf="layout == 'teacher' || layout =='staff' || layout == 'campus'">
+                {{t('unit')}}
+              </th>
+              <th style="width: 10%;"> {{t('status')}} </th>
+            </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let item of listUsers; let i=index">
-              <tr>
-                <td class="text-content-table text-center">
+              <tr class="fs-13 fw-600">
+                <td class="text-center">
                   {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
                 </td>
-                <td class="text-content-table">
-                  <span class="text-link fw-500">{{item.fullName}}</span>
-                </td>
                 <td>
+                  <span class="fw-700 text-break">{{item.fullName}}</span>
+                </td>
+                <td class="text-break">
                   {{item.code}}
                 </td>
                 <td>
@@ -56,8 +56,8 @@
                   {{item.email}}
                 </td>
                 <td>
-                  <span class="badge so-badge so-badge-status so-badge-status-{{item?.isActive}}">
-                    {{mapNameStatus(item?.isActive)}}
+                  <span class="badge so-badge so-badge--primary so-badge-status-{{item?.isActive}}">
+                    {{t(mapNameStatus(item?.isActive))}}
                   </span>
                 </td>
               </tr>

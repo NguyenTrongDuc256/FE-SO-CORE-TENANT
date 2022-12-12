@@ -1,23 +1,22 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import {
   AVATAR_DEFAULT, MESSAGE_ERROR_CALL_API,
   REGEX_CODE,
-  REGEX_EMAIL,
   REGEX_PHONE,
   REGEX_USER_NAME, TIME_OUT_LISTEN_FIREBASE
 } from "../../../../../_shared/utils/constant";
 import * as moment from "moment";
-import {ResizeImageService} from "../../../../../_services/resize-image.service";
-import {StudentStaffService} from "../../../../../_services/layout-staff/student/student-staff.service";
-import {GeneralService} from "../../../../../_services/general.service";
-import {ParentService} from "../../../../../_services/layout-staff/parent/parent.service";
-import {ShowMessageService} from "../../../../../_services/show-message.service";
-import {ListenFirebaseService} from "../../../../../_services/listen-firebase.service";
-import {LocationService} from "../../../../../_services/location.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Observable, Subscriber} from "rxjs";
-import {ParentEdit} from "../../../../../_models/layout-staff/user/parent.model";
+import { ResizeImageService } from "../../../../../_services/resize-image.service";
+import { StudentStaffService } from "../../../../../_services/layout-staff/student/student-staff.service";
+import { GeneralService } from "../../../../../_services/general.service";
+import { ParentService } from "../../../../../_services/layout-staff/parent/parent.service";
+import { ShowMessageService } from "../../../../../_services/show-message.service";
+import { ListenFirebaseService } from "../../../../../_services/listen-firebase.service";
+import { LocationService } from "../../../../../_services/location.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable, Subscriber } from "rxjs";
+import { ParentEdit } from "../../../../../_models/layout-staff/user/parent.model";
 export const GENDER_PARENT = [
   {
     id: 1,
@@ -44,40 +43,53 @@ export class ParentEditStaffComponent implements OnInit {
   parentId: string;
   studentDataRelate: any;
   maxDate: string = moment().subtract(1, 'days').format('X'); // có hiển thị giờ phút hay không
-  validation_messages = {
+  validationMessages = {
     'fullName': [
-      { type: 'required', message: 'parent.validators.fullName.required'},
-      { type: 'maxlength', message: 'parent.validators.fullName.maxLength'}
+      { type: 'required', message: 'parent.validators.fullName.required' },
+      { type: 'maxlength', message: 'parent.validators.fullName.maxLength' },
     ],
-    'code': [
-      { type: 'required', message: 'parent.validators.code.required'},
-      { type: 'pattern', message: 'parent.validators.code.pattern'},
-      { type: 'maxlength', message: 'parent.validators.code.maxlength'},
-    ],
-    'username': [
-      { type: 'required', message: 'parent.validators.username.required'},
-      { type: 'minlength', message: 'parent.validators.username.minLength'},
-      { type: 'maxlength', message: 'parent.validators.username.maxLength'},
-      { type: 'pattern', message: 'parent.validators.username.pattern'},
-    ],
+    // 'code': [
+    //   { type: 'required', message: 'parent.validators.code.required' },
+    //   { type: 'pattern', message: 'parent.validators.code.pattern' },
+    //   { type: 'maxlength', message: 'parent.validators.code.maxlength' },
+    // ],
+    // 'username': [
+    //   { type: 'required', message: 'parent.validators.username.required' },
+    //   { type: 'maxlength', message: 'parent.validators.username.maxLength' },
+    //   { type: 'pattern', message: 'parent.validators.username.pattern' },
+    // ],
     'password': [
-      { type: 'required', message: 'requiredPassword'},
-      { type: 'minlength', message: 'minLengthPassword'},
-      { type: 'maxlength', message: 'maxLengthPassword'},
-      { type: 'pattern', message: 'patternPasswordBasic'},
+      { type: 'required', message: 'requiredPassword' },
+      { type: 'minlength', message: 'minLengthPassword' },
+      { type: 'maxlength', message: 'maxLengthPassword' },
+      { type: 'pattern', message: 'patternPasswordBasic' },
     ],
     'email': [
-      { type: 'pattern', message: 'parent.validators.email.pattern'},
+      { type: 'email', message: 'parent.validators.email.pattern' },
     ],
     'phone': [
-      { type: 'pattern', message: 'parent.validators.phone.pattern'},
+      { type: 'pattern', message: 'parent.validators.phone.pattern' },
+    ],
+    'studentsUserId': [
+      { type: 'required', message: 'parent.validators.students.required' },
     ],
   }
+
+  validationMessagesServer = {
+    fullName: {},
+    // code: {},
+    // username: {},
+    password: {},
+    email: {},
+    phone: {},
+    studentsUserId: {},
+  }
+
   isSubmitForm: boolean = false;
 
   constructor(
     private resizeImageService: ResizeImageService,
-    private studentStaffService: StudentStaffService,
+    private studentService: StudentStaffService,
     private generalService: GeneralService,
     private parentService: ParentService,
     private fb: FormBuilder,
@@ -101,22 +113,6 @@ export class ParentEditStaffComponent implements OnInit {
     this.getStudentDataRelate();
   }
 
-  // initForm() {
-  //   this.infoForm = this.fb.group({
-  //     avatar: [],
-  //     fullName: ['', [Validators.required, Validators.maxLength(255)]],
-  //     gender: [],
-  //     code: ['', [Validators.required, Validators.pattern(REGEX_CODE)]],
-  //     birthday: [],//không có formcontrollname bên html, lấy từ hàm datepicker
-  //     isAccessApp: false,
-  //     isActive: false,
-  //     username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
-  //     email: ['', [Validators.pattern(REGEX_EMAIL)]],
-  //     phone: ['', [Validators.pattern(REGEX_PHONE)]],
-  //     childrens: [[], Validators.required],
-  //   });
-  // }
-
   initForm(info) {
     this.infoForm = this.fb.group({
       avatar: [info.avatar],
@@ -126,49 +122,21 @@ export class ParentEditStaffComponent implements OnInit {
       birthday: [String(info.birthday)],//không có formcontrollname bên html, lấy từ hàm datepicker
       isAccessApp: info.isAccessApp === 1 ? true : false,
       isActive: info.isActive === 1 ? true : false,
-      username: [info.username, [Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
-      email: [info.email, [Validators.pattern(REGEX_EMAIL)]],
+      username: [info.username, [Validators.required, Validators.maxLength(50), Validators.pattern(REGEX_USER_NAME)]],
+      email: [info.email, [Validators.email]],
       phone: [info.phone, [Validators.pattern(REGEX_PHONE)]],
-      childrens: [info.childrens.map(i => i.studentUserId), Validators.required],
+      studentsUserId: [info.childrens.map(i => i.studentUserId), Validators.required],
     });
   }
 
-  getDataParent(itemId){
+  getDataParent(itemId) {
     this.isLoading = true;
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
     this.parentService.show(itemId).subscribe((res: any) => {
-      if (res.status === 1) {
-        this.avatarUser = res.data.avatar ? res.data.avatar : this.avatarUser;
-        this.initForm(res.data);
-
-        // this.infoForm.get('birthday').setValue(String(res.data.birthday))
-        //
-        // this.infoForm.patchValue({
-        //   avatar: res.data.code,
-        //   fullName: res.data.name,
-        //   username: res.data.username,
-        //   gender: res.data.gender,
-        //   code: res.data.code,
-        //   isAccessApp: res.data.isAccessApp === 1 ? true : false,
-        //   isActive: res.data.isActive === 1 ? true : false,
-        //   email: res.data.email,
-        //   phone: res.data.phone,
-        //   childrens: res.data.childrens.map(i => i.studentId),
-        // })
-        this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.router.navigate(['/staff/parent']);
-        this.showMessageService.error(res.msg);
-      }
+      this.avatarUser = res.data.avatar ? res.data.avatar : this.avatarUser;
+      this.initForm(res.data);
+      this.isLoading = false;
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err);
       this.router.navigate(['/staff/parent']);
       this.isLoading = false;
     });
@@ -187,9 +155,13 @@ export class ParentEditStaffComponent implements OnInit {
           base64Input: data,
           fileName: `${moment().format('x')}-${file.name}`
         }
+        this.isLoading = true;
         this.generalService.uploadFileBase64(dataInput).subscribe((res: any) => {
+          this.isLoading = false;
           this.infoForm.controls["avatar"].setValue(res.data);// học sinh
-          console.log('hs');
+        }, (_err: any) => {
+          this.isLoading = false;
+          this.generalService.showToastMessageError400(_err);
         })
       })
     }
@@ -207,33 +179,70 @@ export class ParentEditStaffComponent implements OnInit {
 
   getStudentDataRelate() {
     this.isLoading = true;
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
-    const school = JSON.parse(localStorage.getItem('currentUnit')).id;
-    this.studentStaffService.getStudentList(1000000, 1,school, '', '', '' ,'').subscribe((res: any) => {
-      if (res.status === 1) {
-        this.studentDataRelate = res.data.data;
-        this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+    this.studentService.getStudentList(1000000, 1, '', '', '', '', '').subscribe((res: any) => {
+      this.studentDataRelate = res.data.data;
+      this.isLoading = false;
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err);
       this.isLoading = false;
     });
   }
 
-  onSubmit(formValue): void {
+  onSubmit(formValue: any): void {
     this.isLoading = true;
-    // formValue.
+    if (this.infoForm.valid) {
+      this.saveForm(formValue);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.infoForm);
+    }
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      let arrKey = String(key).split('.');
+      let indexKey = '';
+      if (arrKey.length == 1) {
+        this.validationMessagesServer[arrKey[0]] = {
+          message: error[key]
+        }
+      } else {
+        arrKey.forEach((itemKey: any) => {
+          if (!isNaN(itemKey)) {
+            indexKey += `${itemKey}`;
+          }
+          Object.keys(this.validationMessagesServer).forEach(itemMessage => {
+            if (itemMessage == arrKey[arrKey.length - 1]) {
+              if (indexKey) {
+                this.validationMessagesServer[itemMessage][indexKey] = {
+                  message: error[key]
+                }
+              }
+            }
+          });
+        })
+      }
+    });
+  }
+
+  saveForm(formValue: any) {
     const dataInput: ParentEdit = {
-      studentsUserId: formValue.value.childrens,
+      studentsUserId: formValue.value.studentsUserId,
       fullName: formValue.value.fullName,
       relation: formValue.value.gender,
       email: formValue.value.email,
@@ -246,28 +255,14 @@ export class ParentEditStaffComponent implements OnInit {
       isAccessApp: formValue.value.isAccessApp ? 1 : 0
     }
 
-    // {
-    //   "fullName": "string",
-    //   "email": "string",
-    //   "phone": "string",
-    //   "birthday": 1
-    //   "note": "string",
-    //   "avatar": "string",
-    //   "gender": 0,
-    //   "isActive": 0,
-    //   "isAccessApp": 0,
-    // }
 
     this.listenFireBase('update', 'parent');
     this.parentService.update(dataInput, this.parentId).subscribe((res: any) => {
-      if (res.status == 0 && res.status != undefined) {
-        this.isLoading = false;
-        this.isSubmitForm = false;
-        this.showMessageService.error(res.msg);
-      }
     }, (_err: any) => {
       this.isLoading = false;
-      this.isSubmitForm = false;
+      if (_err.status == 400) {
+        this.validateAllFormFieldsErrorServer(_err.errors);
+      }
     })
   }
 
@@ -291,8 +286,8 @@ export class ParentEditStaffComponent implements OnInit {
     });
   }
 
-  clickCancel(){
-    this.router.navigate(['/tenant/parent']);
+  clickCancel() {
+    this.router.navigate(['/staff/parent']);
   }
 
 }

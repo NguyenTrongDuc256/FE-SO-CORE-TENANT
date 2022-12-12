@@ -1,0 +1,119 @@
+<div *transloco="let t; scope: 'training'" class="h-100">
+  <div class="so-header d-flex fs-14 fw-500">
+    <div class="h-item active d-flex justify-content-center align-items-end">
+      <div>
+        <div class="d-flex align-items-center justify-content-center">
+          <img src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
+          <span class="ms-3 fs-15 fw-700">LỚP 1A1</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <img src="assets/images/svg/people.svg" alt="">
+          <span class="ms-3 ">Sĩ số: 18 học sinh</span>
+        </div>
+        <div class="attendance">
+          <span class="fw-700 fs-12">Đã điểm danh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex h-100 custom-detail-homeroom-class">
+    <div class="d-flex flex-row so-tab-vertical shadow-sm h-100 w-100">
+      <ul class="card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 mb-md-0 min-w-lg-200px w-20">
+        <li class="nav-item w-100 me-0 mb-md-2">
+          <a class="nav-link w-100 {{ tabActive == 'absent' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+            (click)="activeTab('absent')">
+            <span class="svg-icon svg-icon-2 me-5">
+              <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
+            </span>
+            <span class="d-flex flex-column align-items-start">
+              <span class="fs-14 fw-600">{{t('training.absent')}}</span>
+              <!-- <span class="fs-11">Description</span> -->
+            </span>
+          </a>
+        </li>
+
+        <li class="nav-item w-100 me-0 mb-md-2">
+          <a class="nav-link w-100 {{ tabActive == 'tab2' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+            (click)="activeTab('tab2')">
+            <span class="svg-icon svg-icon-2 me-5">
+              <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+            </span>
+            <span class="d-flex flex-column align-items-start">
+              <span class="fs-14 fw-600">Điểm danh</span>
+              <!-- <span class="fs-11">Description</span> -->
+            </span>
+          </a>
+        </li>
+
+        <li class="nav-item w-100 me-0 mb-md-2">
+          <a class="nav-link w-100 {{ tabActive == 'behavior' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+            (click)="activeTab('behavior')">
+            <span class="svg-icon svg-icon-2 me-5">
+              <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+            </span>
+            <span class="d-flex flex-column align-items-start">
+              <!-- Chấm điểm hành vi -->
+              <span class="fs-14 fw-600">{{t('training.behavioralScoring')}}</span>
+              <!-- <span class="fs-11">Description</span> -->
+            </span>
+          </a>
+        </li>
+
+        <li class="nav-item w-100 me-0 mb-md-2">
+          <a class="nav-link w-100 {{ tabActive == 'tab6' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+            (click)="activeTab('tab6')">
+            <span class="svg-icon svg-icon-2 me-5">
+              <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+            </span>
+            <span class="d-flex flex-column align-items-start">
+              <span class="fs-14 fw-600">Nhận xét học sinh</span>
+              <!-- <span class="fs-11">Description</span> -->
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="card tab-content w-80 mt-5 ms-7 me-7" id="myTabContent">
+        <ng-container *ngIf="tabActive == 'absent'">
+          <div class="h-100 tab-pane fade {{ tabActive == 'absent' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-absent-list-teacher></app-tab-absent-list-teacher>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="tabActive == 'tab2'">
+          <div class="h-100 tab-pane fade {{ tabActive == 'tab2' ? 'show active' : '' }}" role="tabpanel">
+            <!-- Điểm danh -->
+            <app-tab-attendance-teacher [homeroomClassId]="homeroomClassId"></app-tab-attendance-teacher>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="tabActive == 'behavior'">
+          <div class="h-100 tab-pane fade {{ tabActive == 'behavior' ? 'show active' : '' }}" role="tabpanel">
+            <ng-container *ngIf="tabActive == 'behavior' && subtab == null">
+              <!-- Chấm điểm hành vi -->
+              <app-tab-scoring-behavior-homeroom-class-teacher></app-tab-scoring-behavior-homeroom-class-teacher>
+            </ng-container>
+
+            <ng-container *ngIf="tabActive == 'behavior' && subtab == 'history'">
+              <!-- Lịch sử chấm điểm hành vi lớp chủ nhiệm -->
+              <app-history-score-homeroom-class-teacher></app-history-score-homeroom-class-teacher>
+            </ng-container>
+
+            <ng-container *ngIf="tabActive == 'behavior' && subtab == 1 || subtab == 2 ">
+              <!-- Chấm điểm hành vi 1 học sinh -->
+              <app-score-student-in-homeroom-class-teacher></app-score-student-in-homeroom-class-teacher>
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="tabActive == 'tab6'">
+          <div class="h-100 tab-pane fade {{ tabActive == 'tab6' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-daily-comment-student-teacher></app-tab-daily-comment-student-teacher>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <!-- tab -->
+  </div>
+
+</div>

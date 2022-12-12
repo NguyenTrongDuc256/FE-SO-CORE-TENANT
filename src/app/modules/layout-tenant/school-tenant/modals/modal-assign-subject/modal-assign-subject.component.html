@@ -7,45 +7,41 @@
     </button>
   </div>
   <div class="modal-body">
-    <div *ngIf="!isLoading">
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="d-inline-flex align-items-center">
+    <div>
+      <div class="d-flex align-items-center justify-content-between flex-wrap">
+        <div class="d-inline-flex align-items-center mb-3">
           <label nz-checkbox class="so-checkbox" name="checkbox-all" [(ngModel)]="isCheckAll" [nzValue]="null"
             [nzDisabled]="arrList.length == 0 || !arrList" (ngModelChange)="checkedAll($event)">
             {{t('selectAll')}}
           </label>
-          <span class="mx-12 text-link">{{t('selected')}} {{arrIdSubmit.length}} {{t('subject').toLowerCase()}}</span>
+          <span class="mx-12">{{t('selected')}}: <span class="text-link">{{arrIdSubmit.length}} {{t('subject').toLowerCase()}}</span></span>
         </div>
-        <div class="filter d-flex flex-wrap algin-items-center">
-          <select name="status" id="status" [(ngModel)]="typeSubject" class="so-select mx-2" (ngModelChange)="filter()">
+        <div class="filter d-flex flex-wrap align-items-center">
+          <select name="status" id="status" [(ngModel)]="typeSubject" class="so-select me-2 mb-3" (ngModelChange)="filter()">
             <option [value]="null">{{t('school.selectTypeSubject')}}</option>
             <ng-container *ngFor="let subject of arrTypeSubjects">
-              <option [value]="subject.value">{{subject.label}}</option>
+              <option [value]="subject.value">{{t(subject.label)}}</option>
             </ng-container>
           </select>
-          <div class="so-input-search mx-2">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" name="input-search" nz-input placeholder="{{t('school.search')}}" #searchInput
-                (keydown)="search($event, searchInput.value)" />
-            </nz-input-group>
-            <ng-template #suffixIconSearch>
-              <img src="assets/images/svg/search.svg" alt="" nzType="search">
-            </ng-template>
+          <div class="so-input-search mb-3">
+            <input type="text" placeholder="{{ t('school.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
           </div>
         </div>
       </div>
       <hr>
       <div class="mt-8">
-        <div class="row">
+        <div class="row" *ngIf="!isLoading">
           <ng-container *ngFor="let item of arrList; let i = index">
             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-5">
-              <div class="d-flex algin-items-center justify-content-between box">
+              <div class="d-flex align-items-center justify-content-between box">
                 <label nz-checkbox class="so-checkbox" name="checkbox-user" [(ngModel)]="item.isChecked"
                       [nzValue]="item.id" (ngModelChange)="checked($event, item)">
-                      <span>{{item.name}} <span class="text-link">({{item.code}})</span></span>
+                      <span class="fw-600">{{item.name}} <span class="text-link">({{item.code}})</span></span>
                 </label>
                 <span class="fw-500 badge so-badge so-badge-status-1 so-badge-status-{{item?.subjectType}} cursor-pointer">
-                  {{item.subjectTypeName || '--'}}
+                  {{t(item.subjectTypeName) || '--'}}
                 </span>
               </div>
             </div>

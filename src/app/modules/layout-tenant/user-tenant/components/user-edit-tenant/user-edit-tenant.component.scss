@@ -6,6 +6,7 @@
     .avatar {
       width: 125px;
       height: 125px;
+      object-fit: cover;
     }
     .delete-img {
       position: absolute;
@@ -72,3 +73,6 @@
   }
 }
 
+.col-form-label {
+  font-weight: 600;
+}

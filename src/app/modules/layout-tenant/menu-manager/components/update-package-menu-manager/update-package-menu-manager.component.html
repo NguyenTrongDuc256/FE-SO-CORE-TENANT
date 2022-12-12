@@ -1,0 +1,103 @@
+<div class="style-form-package-menu-manager" *transloco="let t; scope: 'menu-manager'">
+  <div class="content-left">
+    <h4 class="title-menu-item fs-16 fw-600 w-100">{{ t('menuManager.menuList') }}</h4>
+    <div class="filter-menu-item w-100">
+      <input type="text" placeholder="{{ t('menuManager.enterNameCodeMenu') }}" class="form-control so-form-control w-100" name="search-menu-item"
+        [(ngModel)]="keyWord" (keyup.enter)="getListMenuItem()">
+      <img class="search-icon" src="assets/images/svg/search.svg" alt="">
+    </div>
+    <div class="list-menu-item w-100">
+      <div cdkDropList #activeList="cdkDropList" [cdkDropListData]="dataSourceMenuItem"
+        [cdkDropListConnectedTo]="[inactiveList]" class="w-100" (cdkDropListDropped)="drop($event)">
+        <ng-container *ngIf="!isLoading">
+          <div class="menu-item menu-package w-100" *ngFor="let item of dataSourceMenuItem" cdkDrag>
+            <div class="menu-item-icon">
+              <img class="icon-menu" [src]="item.icon" alt="">
+            </div>
+            <span class="menu-name fs-13 fw-600">{{ item.name }}</span>
+            <span *ngIf="item.menuType == 2" class="is-category"><img class="icon-category-menu"
+                src="assets/images/svg/menu_icon.svg" alt=""></span>
+          </div>
+        </ng-container>
+      </div>
+      <ng-container>
+        <div *ngIf="dataSourceMenuItem?.length == 0 || !dataSourceMenuItem" class="w-100 text-center mt-5">
+          <span class="text-no-data" colspan="6">{{t('noData')}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="content-rigth">
+    <div class="infomation-menu-package w-100">
+      <div class="col-md-12 title-infomation-menu-package w-100">
+        <h4 class="title-menu-item fs-16 fw-600">{{ t('menuManager.updateMenuPackage') }}</h4>
+        <span class="description-menu-packager fs-13 fw-600">{{ t('note') }}: <img class="icon-description"
+            src="assets/images/svg/menu_icon.svg" alt=""><span class="content-description">{{ t('menuManager.menuIsCategory') }}</span></span>
+      </div>
+      <div class="col-md-12 data-infomation-menu-package w-100">
+        <div class="lb-infomation-menu fs-13 fw-700">
+          <img class="icon-infomation-menu" src="assets/images/svg/school_code_icon.svg" alt="">
+          {{ t('menuManager.menuPackageName') }} <span class="text-danger"> *</span>
+        </div>
+        <input [(ngModel)]="menuName" type="text" class="form-control so-form-control custom-input-menu-package mr-1 fs-13 fw-600"
+          placeholder="{{ t('menuManager.enterMenuPackageName') }}" name="menu-package-name">
+        <div class="lb-infomation-menu fs-13 fw-700">
+          <img class="icon-infomation-menu" src="assets/images/svg/school_code_icon.svg" alt="">
+          {{ t('menuManager.menuPackageCode') }} <span class="text-danger">*</span>
+        </div>
+        <input [(ngModel)]="menuCode" type="text" class="form-control so-form-control custom-input-menu-package fs-13 fw-600"
+          placeholder="{{ t('menuManager.enterMenuPackageCode') }}" name="menu-package-code">
+
+      </div>
+      <div class="col-md-12 data-infomation-menu-package w-100">
+        <div class="lb-infomation-menu fs-13 fw-700">
+          <img class="icon-infomation-menu" src="assets/images/svg/school_code_icon.svg" alt="">
+          Layout <span class="text-danger">*</span>
+        </div>
+        <div class="layout-menu-package">
+          <nz-select class="custom-input-menu-package" [(ngModel)]="layoutApply" name="select-school-year-circulars"
+            [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple" nzPlaceHolder="{{ t('menuManager.selectLayoutApply') }}">
+            <nz-option *ngFor="let itemCirculars of dataLayouts" [nzLabel]="itemCirculars.name"
+              [nzValue]="itemCirculars.code"></nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList>{{ t('schoolYear.and') }} {{ selectedList.length }} {{
+            t('schoolYear.otherCirculars') }}</ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="detail-tree-menu content-drag-drop-menu w-100" cdkDropList #inactiveList="cdkDropList"
+      [cdkDropListData]="dataSourceMenuTo" [cdkDropListConnectedTo]="[activeList]" class="w-100"
+      (cdkDropListDropped)="drop($event)">
+      <ng-container *ngIf="dataSourceTreeNZ && dataSourceTreeNZ.length > 0">
+        <nz-tree nzNoAnimation [nzData]="dataSourceTreeNZ" #nzTreeComponent [nzExpandAll]="true" nzDraggable
+          (nzClick)="nzEvent($event)" (nzOnDrop)="nzEvent($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+        <ng-template #nzTreeTemplate let-node let-origin="origin">
+          <span class="custom-node w-100">
+            <span class="tree-menu-item">
+              <span nzNoAnimation class="custom-menu-icon"><img class="menu-icon" [src]="node.icon" alt=""></span>
+              <input nzNoAnimation type="text" class="form-control so-form-control custom-input-index-order fs-13 fw-600 {{ validateTitleMenu[node.key] == 1 ? 'is-invalid' : '' }}" (keyup)="changeTitleMenu($event,node.key)"
+                [(ngModel)]="dataTitleMenu[node.key]">
+              <span nzNoAnimation class="custom-menu-title fs-13 fw-600">{{ node.title }}</span>
+              <span nzNoAnimation class="custom-menu-router fs-13 fw-600">{{ origin.url }}</span>
+              <img nzNoAnimation *ngIf="origin.menuType == 2" class="icon-menu-category"
+                src="assets/images/svg/menu_icon.svg" alt="">
+              <img nzNoAnimation class="icon-delete-menu-item" src="assets/images/svg/icon-delete.svg" alt=""
+                (click)="removeMenuItem(node)">
+            </span>
+          </span>
+        </ng-template>
+      </ng-container>
+    </div>
+    <div class="description-drag-drop w-100 fs-13 fw-600">
+      {{ t('menuManager.dragDropMenuAddMenu') }}
+    </div>
+    <div class="btn-action w-100">
+      <span class="so-pointer so-btn so-btn-cancel fw-600" (click)="cancelEditMenuPackage()">{{ t('btnAction.cancel') }}</span>
+      <span class="ms-4 so-pointer so-btn so-btn-primary so-btn-primary--small" (click)="saveMenuPackage()">{{ t('btnAction.save') }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

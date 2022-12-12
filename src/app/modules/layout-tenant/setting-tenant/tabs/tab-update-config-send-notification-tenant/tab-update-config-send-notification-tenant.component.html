@@ -1,0 +1,58 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-body p-0">
+    <form [formGroup]="formGroup" *ngIf="formGroup">
+      <div class="row mb-6">
+        <div class="col-md-12">
+          <span class="fs-16 fw-700">{{t('setting.cauHinhPhamViGuiThongBao')}}</span>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <div class="col-md-12 d-flex justify-content-end">
+          <button class="so-btn so-btn-cancel me-4 mb-3" name="btn-cancel" (click)="cancelUpdateConfigSendNotification()">
+            {{t('btnAction.cancel')}}
+          </button>
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-save" (click)="onSubmit(formGroup.value)">
+            {{t('btnAction.save')}}
+          </button>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <div class="table-responsive">
+          <table class="table table-rounded border gy-7 gs-7">
+            <thead>
+            <tr class="border-bottom border-right fs-14 fw-700">
+              <th class="w-200px">{{t('setting.phamViGui')}}</th>
+              <th class="text-center w-250px" *ngFor="let item of notificationRecipientGroup">
+                {{t(item.label)}}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container formArrayName="data">
+              <ng-container *ngIf="formGroup.get('data')['controls'].length > 0">
+                <ng-container *ngFor="let itemForm of formGroup.get('data')['controls']; let index = index">
+                  <tr class="border-bottom border-right fs-13 fw-600" [formGroupName]="index">
+                    <td class="text-color-picton-blue">{{t(getNameScope(itemForm.value.scope))}}</td>
+                    <ng-container formArrayName="recipientGroupConfigs">
+                      <ng-container *ngFor="let item of itemForm.get('recipientGroupConfigs')['controls']; let i = index">
+                        <td class="text-center" [formGroupName]="i">
+                          <label nz-checkbox class="so-checkbox" formControlName="isRecipient">
+                          </label>
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

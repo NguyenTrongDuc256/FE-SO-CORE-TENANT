@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
     <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
-      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+            name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -10,29 +10,24 @@
     <div class="row">
       <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
-          <label for="name" class="fw-600">{{t('school.avatar')}} <span class="text-danger">*</span></label>
+          <label for="name" class="fw-600">{{t('school.avatar')}}</label>
           <div>
             <div class="box-img position-relative d-inline-block">
               <div class="symbol symbol-lg-150px symbol-fixed ">
                 <img [src]="avatarUser" alt="image" class="avatar">
-                  <div class="upload-img" (click)="fileInputAvatar.click()">
-                    <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
-                    <span class="fs-11">{{t('school.uploadAvatar')}}</span>
-                  </div>
-                  <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
-                    accept="image/png, image/jpeg image/jpg" (change)="onChangeFileInputAvatar($event)">
+                <div class="upload-img" (click)="fileInputAvatar.click()">
+                  <img src="assets/images/svg/icon-upload-img.svg" alt="" class="pe-1">
+                  <span class="fs-11">{{t('school.uploadAvatar')}}</span>
+                </div>
+                <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                       accept="image/png, image/jpeg, image/jpg" (change)="onChangeFileInputAvatar($event)">
               </div>
               <div class="delete-img" (click)="onDeleteFileInputAvatar()">
                 <img src="assets/images/svg/close.svg" alt="img">
               </div>
+              <div class="loading-upload-avatar" *ngIf="isLoadingUploadImg"></div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
-        <div class="form-group so-form-group">
-          <label for="code" class="fw-600">{{t('school.codeUser')}} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="code" name="code" [value]="dataFromParent?.user?.code" disabled>
         </div>
       </div>
     </div>
@@ -40,48 +35,51 @@
     <div class="row">
       <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
-          <label for="name" class="fw-600">{{t('school.nameUser')}} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="{{t('school.enterName')}}"
-            autocomplete="off" formControlName="name">
+          <label class="fw-600">{{t('school.nameUser')}} <span class="text-danger">*</span></label>
+          <div class="flex-grow-1">
+            <input type="text" class="form-control so-form-control" id="name" name="name"
+                   placeholder="{{t('school.enterName')}}"
+                   autocomplete="off" formControlName="fullName"
+                   [class.is-invalid]="formUser.get('fullName').invalid && (formUser.get('fullName').dirty || formUser.get('fullName').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.fullName.hasOwnProperty('message') && formUser.get('fullName').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.fullName">
+              <app-field-error-display
+                [displayError]="formUser.get('fullName').hasError(err.type) && (formUser.get('fullName').dirty || formUser.get('fullName').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fullName">
+              <app-field-error-display [errorServer]="validationMessagesServer?.fullName"
+                                       [displayErrorServer]="!(formUser.get('fullName').dirty || formUser.get('fullName').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: t('requiredName'),
-          control: formUser.controls['name']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: t('maxLengthName'),
-          control: formUser.controls['name']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'notEmpty',
-          message: t('requiredName'),
-          control: formUser.controls['name']
-          }">
-        </ng-container>
       </div>
       <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
-          <label for="username" class="fw-600">{{t('username')}} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="enterAccount" name="code"
-            placeholder="{{t('school.enterUsername')}}" autocomplete="off" formControlName="username"
-            [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null">
+          <label class="fw-600">{{t('school.codeUser')}} <span class="text-danger">*</span></label>
+          <span class="text-link fw-600">{{dataFromParent?.user?.code}}</span>
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: t('school.requiredUsername'),
-          control: formUser.controls['username']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: t('school.maxLengthUsername'),
-          control: formUser.controls['username']
-          }">
-        </ng-container>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <label class="fw-600">{{t('username')}} <span class="text-danger">*</span></label>
+          <span class="text-link fw-600">{{dataFromParent?.user?.username}}</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <label for="email" class="fw-600">{{t('birthday')}}</label>
+          <app-single-date-picker [currentDate]="currentDate"
+                                  [timePicker]="false" class="w-full"
+                                  [maxDate]="maxDate"
+                                  (dataTimeOutput)="dataTimeOutput($event)">
+          </app-single-date-picker>
+        </div>
       </div>
     </div>
 
@@ -89,56 +87,56 @@
       <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
           <label for="phone" class="fw-600">{{t('phone')}}</label>
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="{{t('school.enterSĐT')}}"
-            autocomplete="off" formControlName="phone">
+          <div class="flex-grow-1">
+            <input type="text" class="form-control so-form-control" id="phone" name="phone"
+                   placeholder="{{t('school.enterSĐT')}}"
+                   autocomplete="off" formControlName="phone"
+                   [class.is-invalid]="formUser.get('phone').invalid && (formUser.get('phone').dirty || formUser.get('phone').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.phone.hasOwnProperty('message') && formUser.get('phone').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.phone">
+              <app-field-error-display
+                [displayError]="formUser.get('phone').hasError(err.type) && (formUser.get('phone').dirty || formUser.get('phone').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.phone">
+              <app-field-error-display [errorServer]="validationMessagesServer?.phone"
+                                       [displayErrorServer]="!(formUser.get('phone').dirty || formUser.get('phone').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: t('school.patternPhone'),
-          control: formUser.controls['phone']
-          }">
-        </ng-container>
+
       </div>
       <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
           <label for="email" class="fw-600">{{t('email')}}</label>
-          <input type="text" class="form-control" id="email" name="email" placeholder="{{t('school.enterEmail')}}"
-            autocomplete="off" formControlName="email">
-        </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'email',
-          message: t('school.patternEmail'),
-          control: formUser.controls['email']
-          }">
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
-        <div class="form-group so-form-group">
-          <label for="gender" class="fw-600">{{t('gender')}}</label>
-          <select name="gender" id="gender" class="w-full" formControlName="gender">
-            <ng-container *ngFor="let gender of arrGender">
-              <option [value]="gender.id">{{t(gender.name)}}</option>
-            </ng-container>
-          </select>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
-        <div class="form-group so-form-group">
-          <label for="email" class="fw-600">{{t('birthday')}}</label>
-          <app-single-date-picker [currentDate]="currentDate" [timePicker]="false"
-            (dataTimeOutput)="dataTimeOutput($event)">
-          </app-single-date-picker>
+          <div class="flex-grow-1">
+            <input type="text" class="form-control so-form-control" id="email" name="email"
+                   placeholder="{{t('school.enterEmail')}}"
+                   autocomplete="off" formControlName="email"
+                   [class.is-invalid]="formUser.get('email').invalid && (formUser.get('email').dirty || formUser.get('email').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.email.hasOwnProperty('message') && formUser.get('email').invalid">
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.email">
+              <app-field-error-display
+                [displayError]="formUser.get('email').hasError(err.type) && (formUser.get('email').dirty || formUser.get('email').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.email">
+              <app-field-error-display [errorServer]="validationMessagesServer?.email"
+                                       [displayErrorServer]="!(formUser.get('email').dirty || formUser.get('email').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-12 col-xl-12 mb-6">
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group d-flex align-items-center">
-          <label for="status" class="fw-600">{{t('status')}} </label>
+          <label class="fw-600">{{t('status')}} </label>
           <span class="mx-4">
             <label nz-checkbox class="so-checkbox" name="checkbox-user" formControlName="status">
               <span>{{t('activated')}}</span>
@@ -146,28 +144,26 @@
           </span>
         </div>
       </div>
-    </div>
-    <!-- error -->
-    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
-      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-        <div class="fv-plugins-message-container">
-          <span role="alert">
-            <div class="err-form text-danger">
-              <img src="assets/images/svg/icon-false.svg" alt="">
-              <span>&nbsp;{{ message }}</span>
-            </div>
-          </span>
+      <div class="col-12 col-md-6 col-lg-6 col-xl-6 mb-6">
+        <div class="form-group so-form-group">
+          <label for="gender" class="fw-600">{{t('gender')}}</label>
+          <div class="flex-grow-1">
+            <select name="gender" id="gender" class="w-full form-control so-form-control" formControlName="gender">
+              <ng-container *ngFor="let gender of arrGender">
+                <option [value]="gender.id">{{t(gender.name)}}</option>
+              </ng-container>
+            </select>
+          </div>
         </div>
-      </ng-container>
-    </ng-template>
+      </div>
+    </div>
+
   </div>
   <div class="modal-footer">
     <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
-      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+            (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
     <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
-      (click)="submit(formUser.value, false)" [disabled]="!formUser.valid">{{t(dataModal?.btnAccept)}}</button>
-    <!-- <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-continue"
-      (click)="submit(formUser.value, true)" [disabled]="!formUser.valid">{{t(dataModal?.btnContinue)}}</button> -->
+            (click)="submit(formUser.value)">{{t(dataModal?.btnAccept)}}</button>
   </div>
 </form>
 

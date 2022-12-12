@@ -86,7 +86,7 @@ export class SchoolYearListTenantComponent implements OnInit {
 
   getDataIndex() {
     this.isLoading = true;
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -98,21 +98,18 @@ export class SchoolYearListTenantComponent implements OnInit {
         this.collectionSize = res.data.totalItems;
         this.dataSource = res.data.data;
         this.isLoading = false;
+        clearTimeout(timeoutCallAPI);
       }
 
       if (res.status === 0) {
         this.isLoading = false;
         this.showMessageService.error(res.msg);
+        clearTimeout(timeoutCallAPI);
       }
     }, (_err: any) => {
       this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     });
-  }
-
-  getStatusName(value: number): string {
-    if (value == 0) return translate('schoolYear.lock0');
-    if (value == 1) return translate('schoolYear.lock1');
-    if (value == 2) return translate('schoolYear.lock2');
   }
 
   openModalAdd(DataRelationship) {
@@ -254,7 +251,7 @@ export class SchoolYearListTenantComponent implements OnInit {
 
   getDataRelationship(item: any = null, isUpdate: boolean = false) {
     this.isLoading = true;
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -267,8 +264,10 @@ export class SchoolYearListTenantComponent implements OnInit {
         this.openModalAdd(res);
       }
       this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     }, (_err: any) => {
       this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     });
   }
 }

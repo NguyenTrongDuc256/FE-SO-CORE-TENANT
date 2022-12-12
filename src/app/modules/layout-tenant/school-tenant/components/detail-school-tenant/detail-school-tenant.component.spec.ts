@@ -1,5 +1,4 @@
 import { SchoolTenantModule } from './../../school-tenant.module';
-import { SchoolYearListTenantRoutingModule } from './../../../school-year-tenant/school-year-tenant-routing.module';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -26,7 +25,6 @@ describe('DetailSchoolTenantComponent', () => {
       declarations: [DetailSchoolTenantComponent],
       imports: [
         CommonModule,
-        SchoolYearListTenantRoutingModule,
         CoreModule,
         SchoolTenantModule,
         RouterModule,
@@ -125,72 +123,72 @@ describe('DetailSchoolTenantComponent', () => {
       component.arrInfoAdvanced
     );
     expect(component.arrInfoAdvanced).toEqual([
-      { key: 'IsCoChiBoDang', label: 'school.IsCoChiBoDang', value: '0' },
-      { key: 'IsTruongQuocTe', label: 'school.IsTruongQuocTe', value: '0' },
+      { key: 'IsCoChiBoDang', label: 'IsCoChiBoDang', value: '0' },
+      { key: 'IsTruongQuocTe', label: 'IsTruongQuocTe', value: '0' },
       {
         key: 'IsVungDacBietKhoKhan',
-        label: 'school.IsVungDacBietKhoKhan',
+        label: 'IsVungDacBietKhoKhan',
         value: '0',
       },
-      { key: 'IsHocSinhNoiTru', label: 'school.IsHocSinhNoiTru', value: '0' },
+      { key: 'IsHocSinhNoiTru', label: 'IsHocSinhNoiTru', value: '0' },
       {
         key: 'IsSuDungMayTinhDayHoc',
-        label: 'school.IsSuDungMayTinhDayHoc',
+        label: 'IsSuDungMayTinhDayHoc',
         value: '1',
       },
       {
         key: 'IsCongTacTuVanHocDuong',
-        label: 'school.IsCongTacTuVanHocDuong',
+        label: 'IsCongTacTuVanHocDuong',
         value: '1',
       },
       {
         key: 'IsKhaiThacInternetDayHoc',
-        label: 'school.IsKhaiThacInternetDayHoc',
+        label: 'IsKhaiThacInternetDayHoc',
         value: '1',
       },
-      { key: 'IsDienLuoi', label: 'school.IsDienLuoi', value: '1' },
-      { key: 'IsKhiHauThienTai', label: 'school.IsKhiHauThienTai', value: '0' },
-      { key: 'IsNguonNuocSach', label: 'school.IsNguonNuocSach', value: '1' },
-      { key: 'IsCongTrinhVeSinh', label: 'school.IsCongTrinhVeSinh', value: '1' },
+      { key: 'IsDienLuoi', label: 'IsDienLuoi', value: '1' },
+      { key: 'IsKhiHauThienTai', label: 'IsKhiHauThienTai', value: '0' },
+      { key: 'IsNguonNuocSach', label: 'IsNguonNuocSach', value: '1' },
+      { key: 'IsCongTrinhVeSinh', label: 'IsCongTrinhVeSinh', value: '1' },
       {
         key: 'IsHocSinhKhuyetTat',
-        label: 'school.IsHocSinhKhuyetTat',
+        label: 'IsHocSinhKhuyetTat',
         value: '0',
       },
-      { key: 'IsCtGdvsDoiTay', label: 'school.IsCtGdvsDoiTay', value: '1' },
+      { key: 'IsCtGdvsDoiTay', label: 'IsCtGdvsDoiTay', value: '1' },
       {
         key: 'IsChuongTrinhGiaoDucCoBan',
-        label: 'school.IsChuongTrinhGiaoDucCoBan',
+        label: 'IsChuongTrinhGiaoDucCoBan',
         value: '1',
       },
-      { key: 'IsHocSinhBanTru', label: 'school.IsHocSinhBanTru', value: '0' },
+      { key: 'IsHocSinhBanTru', label: 'IsHocSinhBanTru', value: '0' },
       {
         key: 'IsCoHaTangTlhtPhuHopHskt',
-        label: 'school.IsCoHaTangTlhtPhuHopHskt',
+        label: 'IsCoHaTangTlhtPhuHopHskt',
         value: '1',
       },
       {
         key: 'IsDatChatLuongToiThieu',
-        label: 'school.IsDatChatLuongToiThieu',
+        label: 'IsDatChatLuongToiThieu',
         value: '1',
       },
-      { key: 'IsKyNangSongGDXG', label: 'school.IsKyNangSongGDXG', value: '0' },
+      { key: 'IsKyNangSongGDXG', label: 'IsKyNangSongGDXG', value: '0' },
       {
         key: 'IsChuyenBietKhuyetTat',
-        label: 'school.IsChuyenBietKhuyetTat',
+        label: 'IsChuyenBietKhuyetTat',
         value: '0',
       },
       {
         key: 'IsHocChuongTrinhSongNgu',
-        label: 'school.IsHocChuongTrinhSongNgu',
+        label: 'IsHocChuongTrinhSongNgu',
         value: '0',
       },
       {
         key: 'IsTruongPtDtBanTru',
-        label: 'school.IsTruongPtDtBanTru',
+        label: 'IsTruongPtDtBanTru',
         value: '0',
       },
-      { key: 'IsActive', label: 'school.IsActive', value: '0' },
+      { key: 'IsActive', label: 'IsActive', value: '0' },
     ]);
   });
 });

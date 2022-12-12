@@ -14,6 +14,7 @@ import { UpdateSubjectMoetTenantComponent } from '../../modals/update-subject-mo
 import { UpdateSubjectTenantComponent } from '../../modals/update-subject-tenant/update-subject-tenant.component';
 import { SubjectList } from 'src/app/_models/layout-tenant/subject/subject.model';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
+import { GeneralService } from 'src/app/_services/general.service';
 @Component({
   selector: 'app-list-subject-tenant',
   templateUrl: './list-subject-tenant.component.html',
@@ -27,17 +28,18 @@ export class ListSubjectTenantComponent implements OnInit {
   gradeType: string = '';
   listGrade: Array<number> = [];
   listSubject: SubjectList[];
-
-  pageIndex = PAGE_INDEX_DEFAULT;
-  pageSize = PAGE_SIZE_DEFAULT;
-  collectionSize = 0;
-  sizeOption = PAGE_SIZE_OPTIONS_DEFAULT;
+  pageIndex = PAGE_INDEX_DEFAULT; // Trang hiện tại
+  pageSize = PAGE_SIZE_DEFAULT; // Số bản ghi trong 1 trang
+  collectionSize = 20; // Tổng số lượng bản ghi
+  sizeOption = PAGE_SIZE_OPTIONS_DEFAULT; // Thay đổi pageSize
+  oldPageIndex = this.pageIndex;
   isLoading = false;
 
   constructor(
     private modalService: NgbModal,
     private subjectService: SubjectService,
     private showMessage: ShowMessageService,
+    private generalService: GeneralService,
 
   ) { }
 
@@ -46,6 +48,7 @@ export class ListSubjectTenantComponent implements OnInit {
   }
 
   getListSubject() {
+    this.isLoading = true;
     for (let i = 0; i <= 11; i++) {
       this.listGrade[i] = i + 1;
     }
@@ -58,19 +61,18 @@ export class ListSubjectTenantComponent implements OnInit {
       pageSize: this.pageSize
     }
     this.subjectService.getListSubject(dataRequest).subscribe((res: any) => {
-      if (res.status == 1) {
-        this.listSubject = res.data.data;
-        this.collectionSize = res.data?.totalItems;
-      } else {
-        this.showMessage.error(res.msg);
-      }
+      this.listSubject = res.data.data;
+      this.collectionSize = res.data?.totalItems;
       this.isLoading = false;
     }, (err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(err);
     }
     );
   }
+
   changeIsActie() {
+    this.oldPageIndex = this.pageIndex;
     this.getListSubject();
   }
 
@@ -99,10 +101,6 @@ export class ListSubjectTenantComponent implements OnInit {
     }, (_reason) => {
     });
   }
-
-
- 
-
 
   updateSubject(item) {
     const modalRef = this.modalService.open(UpdateSubjectTenantComponent, {
@@ -188,6 +186,7 @@ export class ListSubjectTenantComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getListSubject();

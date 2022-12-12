@@ -11,83 +11,76 @@
       <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
           <label for="name" class="fw-600">{{t('role.nameRole')}} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="{{t('role.enterNameRole')}}"
-            autocomplete="off" formControlName="name">
+          <input type="text" class="form-control so-form-control" id="name" name="name" placeholder="{{t('role.enterNameRole')}}"
+            autocomplete="off" formControlName="name"
+            [class.is-invalid]="formRole.get('name').invalid && (formRole.get('name').dirty || formRole.get('name').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formRole.get('name').invalid">
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: t('requiredName'),
-          control: formRole.controls['name']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: t('maxLengthName'),
-          control: formRole.controls['name']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'notEmpty',
-          message: t('requiredName'),
-          control: formRole.controls['name']
-          }">
-        </ng-container>
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+          <app-field-error-display
+            [displayError]="formRole.get('name').hasError(err.type) && (formRole.get('name').dirty || formRole.get('name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.name"
+            [displayErrorServer]="!(formRole.get('name').dirty || formRole.get('name').touched)">
+          </app-field-error-display>
+        </div>
       </div>
       <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-6">
         <div class="form-group so-form-group">
           <label for="code" class="fw-600">{{t('code')}} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="code" name="code" placeholder="{{t('enterCode')}}"
-            autocomplete="off" formControlName="code" [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null">
+          <input type="text" class="form-control so-form-control" id="code" name="code" placeholder="{{t('enterCode')}}"
+            autocomplete="off" formControlName="code" [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null"
+            [class.is-invalid]="formRole.get('code').invalid && (formRole.get('code').dirty || formRole.get('code').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formRole.get('code').invalid">
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: t('requiredCode'),
-          control: formRole.controls['code']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: t('maxLengthCode'),
-          control: formRole.controls['code']
-          }">
-        </ng-container>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: t('patternCode'),
-          control: formRole.controls['code']
-          }">
-        </ng-container>
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.code">
+          <app-field-error-display
+            [displayError]="formRole.get('code').hasError(err.type) && (formRole.get('code').dirty || formRole.get('code').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.code">
+          <app-field-error-display [errorServer]="validationMessagesServer?.code"
+            [displayErrorServer]="!(formRole.get('code').dirty || formRole.get('code').touched)">
+          </app-field-error-display>
+        </div>
       </div>
     </div>
     <div class="row" *ngIf="dataFromParent.nameForm == 'create'">
       <div class="col-12 col-md-12 col-lg-12 col-xl-12 mb-6">
         <div class="form-group so-form-group">
           <label for="layout" class="fw-600">{{t('role.layout')}} <span class="text-danger">*</span></label>
-          <select name="layout" id="layout" class="w-full" formControlName="layoutCode">
+          <select name="layout" id="layout" class="w-full so-form-control" formControlName="requestLayout"
+            [class.is-invalid]="formRole.get('requestLayout').invalid && (formRole.get('requestLayout').dirty || formRole.get('requestLayout').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formRole.get('name').invalid">
             <option [value]="null">{{t('role.selectLayout')}}</option>
             <ng-container *ngFor="let layout of arrLayouts">
               <option [value]="layout.code">{{layout.name}}</option>
             </ng-container>
           </select>
         </div>
-        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-          validation: 'notNull',
-          message: t('role.requiredLayout'),
-          control: formRole.controls['layoutCode']
-          }">
-        </ng-container>
+        <div class="text-danger mt-2" *ngFor="let err of validationMessages.requestLayout">
+          <app-field-error-display
+            [displayError]="formRole.get('requestLayout').hasError(err.type) && (formRole.get('requestLayout').dirty || formRole.get('requestLayout').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2" *ngIf="validationMessagesServer?.requestLayout">
+          <app-field-error-display [errorServer]="validationMessagesServer?.requestLayout"
+            [displayErrorServer]="!(formRole.get('requestLayout').dirty || formRole.get('requestLayout').touched)">
+          </app-field-error-display>
+        </div>
       </div>
     </div>
     <div class="row" *ngIf="dataFromParent.nameForm == 'update'">
       <div class="col-12 col-md-12 col-lg-12 col-xl-12 mb-6">
         <div class="form-group so-form-group">
           <label for="layout" class="fw-600">{{t('role.layout')}} <span class="text-danger">*</span></label>
-          <span class="form-control"
-          style="padding: 0.8rem 1rem;
-          background: #f5f8fa;
-          border-radius: 5px;
-          border: none;
-          font-size: 1.3rem;">{{mapNameLayout()}}</span>
+          <span class="form-control so-form-control disabled"
+          style="padding: 0.8rem 1rem;">{{mapNameLayout()}}</span>
         </div>
       </div>
     </div>
@@ -95,30 +88,17 @@
       <div class="col-12 col-md-12 col-lg-12 col-xl-12 mb-6">
         <div class="form-group so-form-group">
           <label for="desc" class="fw-600">{{t('description')}} </label>
-          <textarea name="desc" id="desc" cols="30" rows="10" placeholder="{{t('enterDescription')}}" class="w-full"
+          <textarea name="desc" id="desc" cols="30" rows="10" placeholder="{{t('enterDescription')}}" class="w-full so-form-control"
             formControlName="desc"></textarea>
         </div>
       </div>
     </div>
-    <!-- error -->
-    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
-      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
-        <div class="fv-plugins-message-container">
-          <span role="alert">
-            <div class="err-form text-danger">
-              <img src="assets/images/svg/icon-false.svg" alt="">
-              <span>&nbsp;{{ message }}</span>
-            </div>
-          </span>
-        </div>
-      </ng-container>
-    </ng-template>
   </div>
   <div class="modal-footer">
     <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
       (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
     <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
-      (click)="submit(formRole.value)" [disabled]="!formRole.valid">{{t(dataModal?.btnAccept)}}</button>
+      (click)="submit(formRole.value)">{{t(dataModal?.btnAccept)}}</button>
   </div>
 </form>
 

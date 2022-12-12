@@ -1,1 +1,22 @@
-<p class="text-no-data py-8">Bạn không có quyền truy cập chức năng này!</p>
+<ng-container *transloco="let t;">
+    <div class="access-denied d-flex align-items-center justify-content-center">
+        <div class="left-content d-flex align-items-center">
+            <img src="assets/images/png/403-right.png" alt="">
+        </div>
+        <div class="right-content d-flex align-items-center ">
+            <div class="set-color">
+                <div class="img-404 w-100">
+                    <img src="assets/images/png/403.png" alt="">
+                </div>
+                <div class="page-content w-100 d-flex align-items-center justify-content-center">
+                    <div class="">
+                        <p>{{t('accessDenied')}}</p>
+                    </div>
+                </div>
+                <div class="page-button w-100 d-flex align-items-center justify-content-center ">
+                    <button (click)="backToHome()" name="btn-home">{{t('home')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

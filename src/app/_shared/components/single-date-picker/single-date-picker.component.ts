@@ -29,6 +29,7 @@ export class SingleDatePickerComponent implements OnChanges {
   @Input() timePicker: boolean;
   @Input() maxDate?: number | string;
   @Input() minDate?: number | string;
+  @Input() disabled?: boolean = false;
   @Output() dataTimeOutput = new EventEmitter<any>();
   selected: any = { startDate: null, endDate: null };
   constructor() { }

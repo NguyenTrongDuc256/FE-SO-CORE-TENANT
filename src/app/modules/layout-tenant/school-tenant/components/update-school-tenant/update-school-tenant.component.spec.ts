@@ -4,8 +4,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { CoreModule } from 'src/app/_core/core.module';
 import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { SchoolYearListTenantRoutingModule } from '../../../school-year-tenant/school-year-tenant-routing.module';
-
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -48,7 +46,6 @@ describe('UpdateSchoolTenantComponent', () => {
       declarations: [UpdateSchoolTenantComponent],
       imports: [
         CommonModule,
-        SchoolYearListTenantRoutingModule,
         CoreModule,
         SchoolTenantModule,
         RouterModule,
@@ -201,13 +198,19 @@ describe('UpdateSchoolTenantComponent', () => {
 
   it('Should name invalid empty', () => {
     const control = component.formSchool.controls['name'];
+    control.setValue('   ');
+    expect(control.invalid).toBeTruthy();
+  });
+
+  it('Should name required', () => {
+    const control = component.formSchool.controls['name'];
     control.setValue('');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should phone invalid regex', () => {
     const control = component.formSchool.controls['dienThoaiHieuTruong'];
-    control.setValue('0124956970');
+    control.setValue('+33333432a');
     expect(control.invalid).toBeTruthy();
   });
 
@@ -232,6 +235,13 @@ describe('UpdateSchoolTenantComponent', () => {
     expect(control.invalid).toBeTruthy();
   });
 
+  it('Should trainingLevel invalid', () => {
+    const control = component.formSchool.controls['trainingLevel'];
+    let trainingLevel = null;
+    control.setValue(trainingLevel);
+    expect(control.invalid).toBeTruthy();
+  });
+
   it('Should sendFromEmail invalid', () => {
     const control = component.formSchool.controls['sendFromEmail'];
     control.setValue('omt.com.vn');
@@ -240,19 +250,19 @@ describe('UpdateSchoolTenantComponent', () => {
 
   it('Should phone invalid', () => {
     const control = component.formSchool.controls['phone'];
-    control.setValue('0123456789');
+    control.setValue('+33333432a');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should hotline invalid', () => {
     const control = component.formSchool.controls['hotline'];
-    control.setValue('0123456789');
+    control.setValue('+33333432a');
     expect(control.invalid).toBeTruthy();
   });
 
   it('Should fax invalid', () => {
     const control = component.formSchool.controls['fax'];
-    control.setValue('0123456789');
+    control.setValue('+33333432a');
     expect(control.invalid).toBeTruthy();
   });
 

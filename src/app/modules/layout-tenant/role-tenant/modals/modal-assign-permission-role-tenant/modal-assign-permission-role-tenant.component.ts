@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
-import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { LAYOUTS_TENANT, TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
+import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
+import { TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
 
 @Component({
   selector: 'app-modal-assign-permission-role-tenant',
@@ -27,9 +27,9 @@ export class ModalAssignPermissionRoleTenantComponent implements OnInit {
 
   constructor(
     private roleService: RoleService,
-    private showMessage: ShowMessageService,
     private listenFirebaseService: ListenFirebaseService,
     public activeModal: NgbActiveModal,
+    private generalService: GeneralService
   ) { }
 
   ngOnInit(): void {
@@ -47,19 +47,16 @@ export class ModalAssignPermissionRoleTenantComponent implements OnInit {
   //   this.isLoading = true;
   //   this.roleService.getAllPermission(this.keyword).subscribe(
   //     (res: any) => {
-  //       if (res.status == 1) {
-  //         let arr = res.data.filter(item => item.permissions.length > 0);
-  //         this.listAllPermission = arr;
-  //         this.listAllPermissionOriginal = arr;
-  //         this.customData(this.listAllPermission);
-  //         this.getListPermissionRole();
-  //       } else {
-  //         this.showMessage.error(res.msg);
-  //       }
+  //       let arr = res.data.filter(item => item.permissions.length > 0);
+  //       this.listAllPermission = arr;
+  //       this.listAllPermissionOriginal = arr;
+  //       this.customData(this.listAllPermission);
+  //       this.getListPermissionRole();
   //       this.isLoading = false;
   //     },
   //     (err: any) => {
   //       this.isLoading = false;
+  //       this.generalService.showToastMessageError400(err);
   //     }
   //   );
   // }
@@ -68,16 +65,13 @@ export class ModalAssignPermissionRoleTenantComponent implements OnInit {
   //   this.isLoading = true;
   //   this.roleService.getListPermissionRole(this.dataFromParent?.roleId, this.keyword).subscribe(
   //     (res: any) => {
-  //       if (res.status == 1) {
-  //         this.listPermissionRole = res.data;
-  //         this.mapPermission(this.listAllPermission, this.listPermissionRole);
-  //       } else {
-  //         this.showMessage.error(res.msg);
-  //       }
+  //       this.listPermissionRole = res.data;
+  //       this.mapPermission(this.listAllPermission, this.listPermissionRole);
   //       this.isLoading = false;
   //     },
   //     (err: any) => {
   //       this.isLoading = false;
+  //       this.generalService.showToastMessageError400(err);
   //     }
   //   );
   // }
@@ -96,14 +90,10 @@ export class ModalAssignPermissionRoleTenantComponent implements OnInit {
     })
     this.listenFireBase('update-permission', 'role');
     this.roleService.updatePermissionRole({roleId: this.dataFromParent?.roleId, modulePermissions: arrPermissionSubmit}).subscribe(
-      (res: any) => {
-        if (res.status == 0) {
-          this.showMessage.error(res.msg);
-        }
-        this.isLoading = false;
-      },
+      (res: any) => {},
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }

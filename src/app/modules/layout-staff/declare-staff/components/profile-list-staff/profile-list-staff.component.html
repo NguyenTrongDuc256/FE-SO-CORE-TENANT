@@ -1,0 +1,125 @@
+<div class="card card-flush p-0" *transloco="let t; scope: 'profile'">
+  <div class="card-header">
+
+    <h3 class="card-title fs-18 fw-700">{{ t("profile.profileCategory") }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap algin-items-center">
+        <select class="so-select me-4 mb-3" name="select-range" id="classroomType " [(ngModel)]="type"
+          (change)="changeIsActive()">
+          <option value="">{{ t("profile.range") }}</option>
+          <option value="1">{{ t("profile.student") }}</option>
+          <option value="2">{{ t("profile.staff") }}</option>
+        </select>
+
+
+        <select class="so-select me-4 mb-3" name="select-status" id="status" [(ngModel)]="isImperative"
+          (change)="changeIsActive()">
+          <option value="">{{ t("profile.status") }}</option>
+          <option value="0">{{ t("profile.optional") }}</option>
+          <option value="1">{{ t("profile.imperative") }}</option>
+        </select>
+
+        <div class="so-input-search me-4 mb-3">
+          <input type="text" class="" [(ngModel)]="keyWord" (keyup.enter)="changeIsActive()"
+            placeholder="{{ t('search') }}" />
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="" (click)="changeIsActive()" />
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.file_category_modify }}">
+          <button class="card-button so-btn so-btn-primary so-btn-primary--small me-4 mb-3" name="btn-create"
+            (click)="createProfileStaff()">
+            <div class="d-flex align-items-center justify-content-center">
+              <img class="add-icon" src="assets/images/svg/add.svg" alt="" />
+              <span class="fs-13 fw-600"> {{ t("btnAction.add") }}</span>
+            </div>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <thead>
+          <tr class="fs-14 fw-700">
+            <th class="w-6">
+              {{ t("profile.order") }}
+            </th>
+            <th class="w-17">
+              {{ t("profile.nameCategory") }}
+            </th>
+            <th class="w-17">
+              {{ t("profile.codeCategory") }}
+            </th>
+            <th class="w-17">
+              {{ t("profile.profileScope") }}
+            </th>
+            <th class="w-17">
+              {{ t("profile.status") }}
+            </th>
+            <th class="w-20">
+              {{ t("profile.note") }}
+            </th>
+            <th class="w-6">
+              {{ t("action") }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="fw-bold">
+          <tr class="fs-13 fw-600" *ngFor="let item of listProfileStaff; let i= index">
+            <td class="">{{ pageSize * (pageIndex - 1) + i + 1 }}</td>
+            <td class="">{{ item.name }}</td>
+            <td class="">{{ item.code }}</td>
+            <td class="">
+              <div *ngIf="item.type == 1" class="subject-style">
+                <span class="">{{ t("profile.student") }}</span>
+              </div>
+              <div *ngIf="item.type == 2" class="subject-style">
+                <span class="">{{ t("profile.staff") }}</span>
+              </div>
+            </td>
+            <td class="">
+                <span *ngIf="item.isImperative == 0" class="badge so-badge bg-color-greenish-teal text-color-white">{{ t("profile.optional") }}</span>
+                <span *ngIf="item.isImperative == 1" class="badge so-badge bg-color-carrot-orange text-color-white">{{ t("profile.imperative") }}</span>
+            </td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{ item.note }}">
+                {{ item.note }}
+              </p>
+            </td>
+            <td class="color-td fs-11 fw-600 text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.file_category_modify }}">
+                <span class="so-action " nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="updateProfileStaff(item)">
+                        <img class="so-action--icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="removeProfileStaff(item.id)"><img
+                          class="so-action--icon" src="assets/images/svg/icon-delete.svg" alt="">{{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="listProfileStaff?.length == 0 || !listProfileStaff">
+            <td class="text-no-data" colspan="7">{{ t("noData") }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-card">
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize>= sizeOption[0]">
+      </app-pagination>
+    </div>
+  </div>
+
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

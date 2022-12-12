@@ -1,0 +1,163 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('confirmDataUpload')}}</h3>
+  </div>
+  <div class="card-body py-5">
+    <div class="row mb-3">
+      <label class="col-md-1 col-form-label fw-700">{{t('fileFormat')}}</label>
+      <div class="col-md-4">
+        <div class="input-import-units-custom">
+          <img src="assets/images/svg/icon-excel.svg" class="image-upload-import-custom">
+          <div class="cursor-pointer" (click)="import()">
+            <input readonly type="text" class="form-control so-form-control-import"
+              placeholder="{{t('warmingValidateFormImport')}}" [(ngModel)]="fileName">
+          </div>
+          <span class="span-image-upload-import-custom" (click)="import()">
+            <img src="/assets/images/svg/import6.svg">
+            {{t('clickUpload')}}
+          </span>
+        </div>
+      </div>
+      <div class="col-md-7 justify-content-end d-flex flex-wrap align-items-center">
+        <div class="w-150px me-4 mb-3">
+          <select [(ngModel)]="statusRecord" (change)="filter()" class="form-control so-form-control fw-700">
+            <option value="{{status?.value}}" *ngFor="let status of arrStatus">{{t(status?.label)}}</option>
+          </select>
+        </div>
+        <div class="so-input-search mb-3">
+          <input #searchInput type="text" name="input-search" placeholder="{{t('student.search')}}"
+            (keyup.enter)="onSearch(searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+            (click)="onSearch(searchInput.value)" />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center fw-700 mb-3 number-error">
+      <span class="pe-2">{{t('record')}}:</span>
+      <span>{{numberError}} {{t('error')}}/ {{dataSource.length}}</span>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 table-import">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700">
+            <th>{{t('checkLoi')}}</th>
+            <th class="text-center">{{t('STT')}}</th>
+            <th class="text-start"> {{ t('student.studentCode') }}</th>
+            <th class="text-start"> {{ t('student.fullname') }}</th>
+            <th class="text-start"> {{ t('student.gender') }}</th>
+            <th class="text-start"> {{ t('student.dateOfBirth') }} </th>
+            <th class="text-start"> {{ t('student.address') }}</th>
+            <th class="text-start"> {{ t('student.city') }}</th>
+            <th class="text-start"> {{ t('student.district') }}</th>
+            <th class="text-start"> {{ t('email') }}</th>
+            <th class="text-start"> {{ t('student.phone') }}</th>
+            <th class="text-start"> {{ t('student.grade') }}</th>
+            <th class="text-start"> {{ t('student.homeroomClass') }}</th>
+            <th class="text-start"> {{ t('student.fatherFullname') }}</th>
+            <th class="text-start"> {{ t('student.fatherPhone') }}</th>
+            <th class="text-start"> {{ t('student.fatherEmail') }}</th>
+            <th class="text-start"> {{ t('student.motherFullname') }}</th>
+            <th class="text-start"> {{ t('student.motherPhone') }}</th>
+            <th class="text-start"> {{ t('student.motherEmail') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fs-13 fw-600" *ngFor="let item of dataItem; let i=index"
+            [class]="item.status === 1 ? '' : 'class-error'">
+            <td class="text-start">
+              <ng-container *ngIf="item.status === 1">
+                <div>
+                  <img src="assets/images/svg/icon-true.svg" class="img-tick">
+                  {{t('validData')}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="item.status === 0">
+                <div *ngFor="let error of item.errors" class="mb-1">
+                  <img src="assets/images/svg/icon-false.svg" class="img-cancel">
+                  {{error}}
+                </div>
+              </ng-container>
+            </td>
+
+            <td class="text-center">
+              {{(pageIndex-1)*pageSize + i + 1}}
+            </td>
+
+            <td class="text-start">
+              {{item?.code}}
+
+            </td>
+            <td class="text-start">
+              {{item?.fullname}}
+
+            </td>
+            <td class="text-start">
+              {{item?.gender}}
+            </td>
+            <td class="text-start">
+              {{item?.birthday | formatTime}}
+            </td>
+            <td class="text-start">
+              {{item?.address}}
+            </td>
+            <td class="text-start">
+              {{item?.cityName}}
+            </td>
+            <td class="text-start">
+              {{item?.districtName}}
+            </td>
+            <td class="text-start">
+              {{item?.email}}
+            </td>
+            <td class="text-start">
+              {{item?.phone}}
+            </td>
+            <td class="text-start">
+              {{item?.gradeName}}
+            </td>
+            <td class="text-start">
+              {{item?.homeroomClassName}}
+            </td>
+            <td class="text-start">
+              {{item?.fatherFullName}}
+            </td>
+            <td class="text-start">
+              {{item?.fatherPhone}}
+            </td>
+            <td class="text-start">
+              {{item?.fatherEmail}}
+            </td>
+            <td class="text-start">
+              {{item?.motherFullName}}
+            </td>
+            <td class="text-start">
+              {{item?.motherPhone}}
+            </td>
+            <td class="text-start">
+              {{item?.motherEmail}}
+            </td>
+          </tr>
+          <tr *ngIf="dataItem?.length == 0 || !dataItem">
+            <td class="text-no-data" colspan="19">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+  <div class="card-footer d-flex justify-content-center align-items-center">
+    <button type="button" class="so-btn so-btn-cancel me-2" name="btn-cancel" (click)="clickCancel()">
+      {{ t('btnAction.cancel') }}
+    </button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-submit"
+      [disabled]="numberError > 0" (click)="onSubmit()">{{ t('btnAction.save') }}
+    </button>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

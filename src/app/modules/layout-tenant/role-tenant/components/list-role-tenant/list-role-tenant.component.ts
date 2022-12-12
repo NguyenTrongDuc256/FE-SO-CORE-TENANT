@@ -1,20 +1,20 @@
-import { translate } from '@ngneat/transloco';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { translate } from '@ngneat/transloco';
+import { Role } from 'src/app/_models/layout-tenant/role/role.model';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
 import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import {
   DATA_PERMISSION,
   LAYOUTS_TENANT,
   PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
-  PAGE_SIZE_OPTIONS_DEFAULT,
+  PAGE_SIZE_OPTIONS_DEFAULT
 } from 'src/app/_shared/utils/constant';
 import { ModalFormRoleTenantComponent } from '../../modals/modal-form-role-tenant/modal-form-role-tenant.component';
 import { ModalListUsersTenantComponent } from '../../modals/modal-list-users-tenant/modal-list-users-tenant.component';
 import { ModalViewPermissionTenantComponent } from '../../modals/modal-view-permission-tenant/modal-view-permission-tenant.component';
-import { Role } from 'src/app/_models/layout-tenant/role/role.model';
 @Component({
   selector: 'app-list-role-tenant',
   templateUrl: './list-role-tenant.component.html',
@@ -31,11 +31,12 @@ export class ListRoleTenantComponent implements OnInit {
   arrLayouts = LAYOUTS_TENANT;
   isLoading = false;
   permission = DATA_PERMISSION;
+  oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
     private roleService: RoleService,
-    private showMessage: ShowMessageService
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -48,16 +49,14 @@ export class ListRoleTenantComponent implements OnInit {
       .getList(this.keyword, this.pageIndex, this.pageSize, this.layoutCode)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrRole = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrRole = res.data.data;
+          this.collectionSize = res.data?.totalItems;
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -67,7 +66,7 @@ export class ListRoleTenantComponent implements OnInit {
       scrollable: true,
       windowClass: 'myCustomModalClass',
       keyboard: false,
-      // backdrop: 'static', // prevent click outside modal to close modal
+      backdrop: 'static', // prevent click outside modal to close modal
       centered: false, // vị trí hiển thị modal ở giữa màn hình
       size: 'lg', // 'sm' | 'md' | 'lg' | 'xl',
     });
@@ -90,7 +89,7 @@ export class ListRoleTenantComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
           this.getList();
         }
       },
@@ -103,7 +102,7 @@ export class ListRoleTenantComponent implements OnInit {
       scrollable: true,
       windowClass: 'myCustomModalClass',
       keyboard: false,
-      // backdrop: 'static', // prevent click outside modal to close modal
+      backdrop: 'static', // prevent click outside modal to close modal
       centered: false, // vị trí hiển thị modal ở giữa màn hình
       size: 'lg', // 'sm' | 'md' | 'lg' | 'xl',
     });
@@ -127,7 +126,6 @@ export class ListRoleTenantComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
           this.getList();
         }
       },
@@ -169,7 +167,7 @@ export class ListRoleTenantComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
           this.getList();
         }
       },
@@ -185,33 +183,30 @@ export class ListRoleTenantComponent implements OnInit {
       .getListUserRole(roleId, '', PAGE_SIZE_DEFAULT, PAGE_INDEX_DEFAULT)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.isLoading = false;
-            modalRef = this.modalService.open(ModalListUsersTenantComponent, {
-              scrollable: true,
-              windowClass: 'myCustomModalClass',
-              keyboard: false,
-              centered: false, // vị trí hiển thị modal ở giữa màn hình
-              modalDialogClass: 'modal-xxl',
-            });
-            data = {
-              titleModal: 'role.listUser',
-              btnAccept: 'btnAction.close',
-              isHiddenBtnClose: false, // hidden/show btn close modal,
-              dataFromParent: {
-                roleId: roleId,
-                listUsers: res.data.data,
-                collectionSize: res.data?.totalItems,
-              },
-            };
-            modalRef.componentInstance.dataModal = data;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.isLoading = false;
+          modalRef = this.modalService.open(ModalListUsersTenantComponent, {
+            scrollable: true,
+            windowClass: 'myCustomModalClass',
+            keyboard: false,
+            centered: false, // vị trí hiển thị modal ở giữa màn hình
+            modalDialogClass: 'modal-xxl',
+          });
+          data = {
+            titleModal: 'role.listUser',
+            btnAccept: 'btnAction.close',
+            isHiddenBtnClose: false, // hidden/show btn close modal,
+            dataFromParent: {
+              roleId: roleId,
+              listUsers: res.data.data,
+              collectionSize: res.data?.totalItems,
+            },
+          };
+          modalRef.componentInstance.dataModal = data;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -220,47 +215,55 @@ export class ListRoleTenantComponent implements OnInit {
     this.isLoading = true;
     this.roleService.getListPermissionRole(roleId, '').subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          const modalRef = this.modalService.open(ModalViewPermissionTenantComponent, {
-            scrollable: true,
-            windowClass: 'myCustomModalClass',
-            keyboard: false,
-            centered: false, // vị trí hiển thị modal ở giữa màn hình
-            size: 'xl',
-          });
+        const modalRef = this.modalService.open(ModalViewPermissionTenantComponent, {
+          scrollable: true,
+          windowClass: 'myCustomModalClass',
+          keyboard: false,
+          centered: false, // vị trí hiển thị modal ở giữa màn hình
+          size: 'xl',
+        });
 
-          let data = {
-            titleModal: 'role.listPermission',
-            btnAccept: 'btnAction.close',
-            isHiddenBtnClose: false, // hidden/show btn close modal
-            dataFromParent: {
-              roleId: roleId,
-              listPermissions: res.data,
-            },
-          };
+        let data = {
+          titleModal: 'role.listPermission',
+          btnAccept: 'btnAction.close',
+          isHiddenBtnClose: false, // hidden/show btn close modal
+          dataFromParent: {
+            roleId: roleId,
+            listPermissions: res.data,
+          },
+        };
 
-          modalRef.componentInstance.dataModal = data;
-        } else {
-          this.showMessage.error(res.msg);
-        }
+        modalRef.componentInstance.dataModal = data;
         this.isLoading = false;
       },
       (err: any) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
-
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList();
+  }
+
   filter() {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getList();
   }
 
@@ -269,6 +272,7 @@ export class ListRoleTenantComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getList();

@@ -1,0 +1,191 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'training'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t("training.listSubjectClass") }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center text-color-river-bed">
+        <select name="gradeId" id="gradeId" [(ngModel)]="gradeId" class="so-select mb-3 me-4 fw-600"
+          (ngModelChange)="filter()">
+          <option [value]="''">{{ t("chooseGrade") }}</option>
+          <ng-container *ngFor="let grade of arrGrades">
+            <option [value]="grade.id">{{ grade.name }}</option>
+          </ng-container>
+        </select>
+        <select name="subject-id" id="subject-id" [(ngModel)]="subjectId" class="so-select me-4 mb-3 fw-600"
+          (ngModelChange)="filter()">
+          <option [value]="''">{{ t("chooseSubject") }}</option>
+          <ng-container *ngFor="let fi of arrSubject">
+            <option [value]="fi.id">{{ fi.name }}</option>
+          </ng-container>
+        </select>
+        <select name="homeroom-class" id="homeroom-class" [(ngModel)]="homeroomClassId" class="so-select mb-3 me-4 fw-600"
+          (ngModelChange)="filter()">
+          <option [value]="''">{{ t("training.homeroomClass") }}</option>
+          <ng-container *ngFor="let fi of arrHomeroomClass">
+            <option [value]="fi.id">{{ fi.Name }}</option>
+          </ng-container>
+        </select>
+        <select name="status" id="status" [(ngModel)]="status" class="so-select me-4 mb-3 fw-600" (ngModelChange)="filter()">
+          <option [value]="''">{{ t("status") }}</option>
+          <ng-container *ngFor="let st of arrStatus">
+            <option [value]="st.value">{{ t(st.label) }}</option>
+          </ng-container>
+        </select>
+
+        <div class="so-input-search me-4 mb-3 fw-600">
+          <input class="fw-600" type="text" placeholder="{{ t('training.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.course_manager }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="formCourse('create', null)"
+            name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="" />
+            {{ t("btnAction.add") }}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr>
+            <th style="display: none"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i = index">
+            <tr>
+              <td class="w-5" *ngIf="isEnableClassAvatar == 1">
+                <div class="d-flex justify-content-center align-items-center">
+                  <div class="avatar">
+                    <img [src]="item?.avatar || avatarDefault" alt="" />
+                  </div>
+                </div>
+              </td>
+
+              <td [ngStyle]="{ width: isEnableClassAvatar == 1 ? '95%' : '100%' }">
+                <div class="d-flex flex-column w-100 text-color-river-bed">
+                  <div class="w-100 d-flex align-items-center">
+                    <div class="w-30">
+                      <div class="info-item">
+                        <img src="assets/images/svg/icon_lop_bo_mon.svg" alt="" class="icon"/>
+                        <span class="text-link fw-700 fs-15 so-pointer" [routerLink]="['detail',item.id]">{{ item.name }}
+                          <span class="fw-500 fs-13">({{ item.code }})</span></span>
+                      </div>
+                    </div>
+                    <div style="width: 21%">
+                      <div class="info-item">
+                        <img src="assets/images/svg/icon-grade2-blue.svg" alt="" class="icon" />
+                        <span class="color-tertiary fw-500">{{ t("subject") }}: &nbsp;</span>
+                        <div class="fw-700">{{ item?.subjectName }}</div>
+                      </div>
+                    </div>
+                    <div style="width: 21%">
+                      <div class="info-item">
+                        <img src="assets/images/svg/icon-grade2-blue.svg" alt="" class="icon" />
+                        <span class="color-tertiary fw-500">{{ t("grade") }}: &nbsp;</span>
+                        <div class="fw-700">{{ item?.gradeName }}</div>
+                      </div>
+                    </div>
+                    <div style="width: 18%">
+                      <div class="info-item">
+                        <img src="assets/images/svg/people.svg" alt="" class="icon" />
+                        <span class="color-tertiary fw-500">{{ t("training.siSo") }}: &nbsp;</span>
+                        <div class="fw-700">
+                          {{ item.numberOfStudentInCourse }} {{ t("student") }}
+                        </div>
+                      </div>
+                    </div>
+                    <div style="width: 10%">
+                      <span class="fw-600 badge so-badge so-badge--primary" *ngIf="item.statusName != '--'">
+                        {{ t(item.statusName) }}
+                      </span>
+                    </div>
+                    <ng-template ngxPermissionsOnly="{{ permission.course_access }}">
+                      <div class="text-center" style="width: 3%">
+                        <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="so-action"
+                          name="btn-open-menu">
+                          <img src="assets/images/svg/three_vertical_dot_icon.svg" alt=""
+                            class="so-action--icon-opend" />
+                        </span>
+                        <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">
+                          <ul nz-menu>
+                            <ng-template ngxPermissionsOnly="{{ permission.course_manager }}">
+                              <li nz-menu-item (click)="formCourse('update', item)"
+                                class="fs-13 fw-600 text-color-river-bed" name="btn-update-role">
+                                <img src="assets/images/svg/write.svg" alt="" class="so-action--icon" />
+                                {{ t("btnAction.update") }}
+                              </li>
+                            </ng-template>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-sendNoti">
+                              <img src="assets/images/svg/icon-email-noti-blue.svg" alt="" class="so-action--icon" />
+                              {{ t("training.sendNoti") }}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="view-student" [routerLink]="[
+                                          '/staff/course/' + item.id + '/student'
+                                        ]" [queryParams]="{
+                                          name: item?.name,
+                                          code: item?.code
+                                        }">
+                              <img src="assets/images/svg/icon-user-2-blue.svg" alt="" class="so-action--icon" />
+                              {{ t("student") }}
+                            </li>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="view-teacher" [routerLink]="[
+                                            '/staff/course/' + item.id + '/teacher'
+                                          ]">
+                              <img src="assets/images/svg/user-check.svg" alt="" class="so-action--icon" />
+                              {{ t("teacher") }}
+                            </li>
+                            <ng-template ngxPermissionsOnly="{{ permission.course_manager }}">
+                              <li nz-menu-item (click)="delete(item.id, item.name)" class="fs-13 fw-600 text-danger"
+                                name="btn-delete">
+                                <img src="assets/images/svg/icon-delete.svg" alt="" class="so-action--icon" />
+                                {{ t("btnAction.delete") }}
+                              </li>
+                            </ng-template>
+                          </ul>
+                        </nz-dropdown-menu>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="w-100 mt-2">
+                    <div colspan="6">
+                      <div class="info-item align-items-center">
+                        <div class="d-flex align-items-center" style="min-width:fit-content">
+                          <img src="assets/images/svg/icon-user-class-blue.svg" alt="" class="icon" />
+                          <span class="color-tertiary fw-500">{{ t("teacher") }}: &nbsp;</span>
+                        </div>
+                        <div class="fw-600 d-flex algin-items-center py-2 flex-wrap">
+                          <ng-container *ngFor="let te of item?.teachers">
+                            <div class="mx-4 d-flex flex-wrap fw-700">
+                              <div class="avatar">
+                                <img src="{{ te?.avatar || avatarDefault }}" alt="" />
+                              </div>
+                              {{ te?.fullName }}
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="(arrList?.length == 0 || !arrList) && !isLoading">
+            <td class="text-no-data py-3" colspan="2">{{ t("noData") }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>

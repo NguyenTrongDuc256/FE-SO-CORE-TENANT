@@ -1,0 +1,71 @@
+{
+  "periodManager": "Period Management",
+  "period": "Period",
+  "order": "STT",
+  "periodName": "Period name",
+  "periodCode": "Period code",
+  "periodMoet": "Period MOET",
+  "studyTime": "Study Time",
+  "displayOrder": "Display Order",
+  "showOnApp": "Show on app",
+  "Time": "Time",
+  "To": "To",
+  "addPeriod": "Create Period",
+  "updatePeriod": "Update Period",
+  "deletePeriod" :"Delete Period",
+  "periodType": "Period type",
+  "used": "Use",
+  "validators": {
+      "name": {
+          "required": "You have not entered the name Period",
+          "maxlength": "Period name cannot be more than 255 characters",
+          "pattern": "Invalid Period name"
+      },
+      "code": {
+          "required": "You have not entered the period code",
+          "maxlength": "MOET codes cannot be more than 50 characters",
+          "pattern": "Invalid period code",
+          "samecode": "Mã code không được trùng nhau"
+      },
+      "moetCode": {
+          "required": "You have not entered the code MOET",
+          "maxlength": "MOET codes cannot be more than 50 characters",
+          "pattern": "Invalid MOET code"
+      },
+      "displayOrder": {
+        "required": "You have not entered the display order"
+      },
+      "timeStart": {
+        "required": "Vui lòng nhập thời gian vào tiết"
+      },
+      "timeStart": {
+        "min": "Nhâp thời gian kết thúc lớn hơn thời gian bắt đầu"
+      }
+  },
+  "titleDialogDeleteSubjectGrade": "Xóa môn học khối",
+  "textConfirmDeleteSubjectGrade1": "Bạn có chắc muốn xóa môn học khối",
+  "textConfirmDeleteSubjectGrade2": "này không?",
+  "listSubjectGrade": "Danh sách môn khối",
+  "search": "Search...",
+  "typeSubject": "Loại môn học",
+  "gradeBookType": "Kiểu chấm điểm",
+  "reportType": "Loại sổ điểm",
+  "convertType": "Kiểu chuyển đổi",
+  "subjectConvert": "Môn chuyển đổi",
+  "createSubjectGrade": "Add subject",
+  "requiredGradingType": "Bạn chưa chọn kiểu chấm điểm!",
+  "requiredReportTypeId": "Bạn chưa chọn sổ điểm!",
+  "titleDialogUpdateSubjectGrade": "Cập nhật môn học khối",
+  "isSyncMoet": "Đồng bộ Sđ MOET",
+  "requiredReportTypeFormulaCode": "Bạn chưa chọn công thức!",
+  "requiredMoetSubjectCode": "Bạn chưa chọn khối chuyển đổi!",
+  "requiredSubject": "Bạn chưa chọn môn!",
+  "otherName": "Tên riêng của trường",
+  "isPrivateGradebook": "Dùng sổ riêng",
+  "thietLapSoRieng": "Thiết lập sổ điểm riêng",
+  "chooseReportType": "Chọn sổ điểm",
+  "convertMethod": "Công thức chuyển đổi",
+  "addNewConvertMethod": "Thêm mới bộ chuyển đổi",
+  "warmingTitleCreateSubjectGrade": "Lưu ý khi chọn “Môn học khối” dùng sổ điểm riêng của trường học sẽ phải bắt buộc phải cấu hình sổ điểm",
+  "warmingDelConvertMethod": "There must be at least one set of conversion formulas!"
+}

@@ -142,10 +142,12 @@ export interface QuaTrinhCongTac {
 }
 
 export interface EmployeeForm {
+  id?: string,
+  userId?: string,
   avatar: string,
   fullName: string,
   code: string,
-  codeMoet: string,
+  moetCode: string,
   roleId: string,
   birthday: number,
   gender: number,
@@ -213,7 +215,7 @@ export interface EmployeeForm {
   trinhDoLLCT: string,
   trinhDoTinHoc: string,
   trinhDoQLGD: string,
-  ChuyenMonChinh: string,
+  chuyenMonChinh: string,
   thamGiaBDNghiepVuQLGD: string,
   trinhDoChinh: string,
   thamGiaBDCBQLCotCan: string,
@@ -239,4 +241,5 @@ export interface EmployeeForm {
   qhGiaDinhVoChong: QuanHeGiaDinhVoChong[] | null,
   kyLuat: KyLuatGiaoVien[] | null,
   quaTrinhCongTac: QuaTrinhCongTac[] | null,
+  roles?: RoleList[]
 }

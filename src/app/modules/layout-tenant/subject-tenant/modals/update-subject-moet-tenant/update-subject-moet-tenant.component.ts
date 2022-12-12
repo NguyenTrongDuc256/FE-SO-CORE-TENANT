@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { translate } from '@ngneat/transloco';
 import { Observable, Subscriber } from 'rxjs';
@@ -11,10 +11,9 @@ import { TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
 @Component({
   selector: 'app-update-subject-moet-tenant',
   templateUrl: './update-subject-moet-tenant.component.html',
-  styleUrls: ['./update-subject-moet-tenant.component.scss']
+  styleUrls: ['./update-subject-moet-tenant.component.scss'],
 })
 export class UpdateSubjectMoetTenantComponent implements OnInit {
-
   @Input() dataModal: any;
   infoForm!: FormGroup;
   public isLoading: boolean = false;
@@ -25,9 +24,8 @@ export class UpdateSubjectMoetTenantComponent implements OnInit {
     private fb: FormBuilder,
     private listenFirebaseService: ListenFirebaseService,
     private showMessage: ShowMessageService,
-    private subjectService: SubjectService,
-
-  ) { }
+    private subjectService: SubjectService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -35,7 +33,10 @@ export class UpdateSubjectMoetTenantComponent implements OnInit {
 
   initForm() {
     this.infoForm = this.fb.group({
-      name: [this.dataModal.dataFromParent.name, [Validators.required, Validators.maxLength(255)]],
+      name: [
+        this.dataModal.dataFromParent.name,
+        [Validators.required, Validators.maxLength(255)],
+      ],
       displayOrder: ['', [Validators.pattern('^[0-9]+$')]],
       isActive: true,
     });
@@ -50,8 +51,8 @@ export class UpdateSubjectMoetTenantComponent implements OnInit {
       subjectType: this.dataModal.dataFromParent.subjectType,
       displayOrder: this.infoForm.value.displayOrder,
       educationalStages: this.dataModal.dataFromParent.educationalStages,
-      isActive: this.infoForm.value.isActive === true ? 1 : 0
-    }
+      isActive: this.infoForm.value.isActive === true ? 1 : 0,
+    };
 
     // this.subjectService.updateSubject(this.dataFilter).subscribe((res: any) => {
     //   if (res.status == 0) {
@@ -67,10 +68,28 @@ export class UpdateSubjectMoetTenantComponent implements OnInit {
   }
 
   onSubmit() {
-    this.listenFireBase('update', 'subject');
-    this.updateSubject();
+    if (this.infoForm.valid) {
+      this.listenFireBase('update', 'subject');
+      this.updateSubject();
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.infoForm);
+    }
   }
-
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        });
+      }
+    });
+  }
   listenFireBase(action: string, module: string) {
     const timeId = setTimeout(() => {
       this.isLoading = false;
@@ -90,19 +109,23 @@ export class UpdateSubjectMoetTenantComponent implements OnInit {
   }
 
   closeModal(sendData: any) {
-    this.activeModal.close(sendData);
+    this.activeModal.close(false);
   }
 
   validation_messages = {
-    'name': [
+    name: [
       { type: 'required', message: translate('requiredName') },
       { type: 'maxlength', message: translate('maxLengthName') },
-      { type: "pattern", message: translate('subject.validators.name.pattern') }
-
+      {
+        type: 'pattern',
+        message: translate('subject.validators.name.pattern'),
+      },
     ],
-    'displayOrder': [
-      { type: 'pattern', message: translate('subject.validators.displayOrder.pattern') },
-    ]
-  }
+    displayOrder: [
+      {
+        type: 'pattern',
+        message: translate('subject.validators.displayOrder.pattern'),
+      },
+    ],
+  };
 }
-

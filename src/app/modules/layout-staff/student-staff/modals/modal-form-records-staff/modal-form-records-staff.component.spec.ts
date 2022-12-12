@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment.firebase';
 
 import { ModalFormRecordsStaffComponent } from './modal-form-records-staff.component';
 import { FormArray, FormGroup } from '@angular/forms';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 describe('ModalFormRecordsStaffComponent', () => {
   let component: ModalFormRecordsStaffComponent;
@@ -25,7 +26,8 @@ describe('ModalFormRecordsStaffComponent', () => {
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireDatabaseModule,
         BrowserAnimationsModule,
-        getTranslocoModule()
+        getTranslocoModule(),
+        NzCheckboxModule
       ],
       providers: [
         NgbActiveModal,
@@ -87,6 +89,7 @@ describe('ModalFormRecordsStaffComponent', () => {
             },
           ],
           approveStatusName: 'approved',
+          isSendNoti: true
         },
       },
     };
@@ -109,15 +112,15 @@ describe('ModalFormRecordsStaffComponent', () => {
     form.patchValue({
       name: 'Tên',
       categoryId: 'b72e1537-2656-4dd6-a6b5-12978f6b32ca',
-      isSendNoti: 1,
+      isSendNoti: true,
       fileAttachs: [{
         fileType: 3,
-        name: 'Đơn xin nghỉ làm',
+        nameFile: 'Đơn xin nghỉ làm',
         url: 'https://schoolonline-rebuild-dev.s3-ap-southeast-1.amazonaws.com/SO/2022/09/23/files/uploads/1663922313_bai-test-thuc-tap.docx',
       },
       {
         fileType: 1,
-        name: 'CV',
+        nameFile: 'CV',
         url: 'https://schoolonline-rebuild-dev.s3-ap-southeast-1.amazonaws.com/SO/2022/09/23/files/uploads/1663922313_bai-test-thuc-tap.docx',
       },]
     });
@@ -151,19 +154,39 @@ describe('ModalFormRecordsStaffComponent', () => {
     expect(control.invalid).toBeTruthy();
   });
 
-  it('Should name file required', () => {
+  it('Should name file invalid max length', () => {
+    const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['nameFile'];
+    control.setValue(
+      'When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided When a user clicks the button, the profileForm model is updated with new values for firstName and street. Notice that street is provided'
+    );
+    expect(control.invalid).toBeTruthy();
+  });
+
+  it('Should name file invalid required', () => {
+    const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['nameFile'];
+    control.setValue('');
+    expect(control.invalid).toBeTruthy();
+  });
+
+  it('Should name file invalid empty', () => {
+    const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['nameFile'];
+    control.setValue('    ');
+    expect(control.invalid).toBeTruthy();
+  });
+
+  it('Should url required', () => {
     const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['url'];
     control.setValue('');
     expect(control.invalid).toBeTruthy();
   });
 
-  it('Should name file empty', () => {
+  it('Should url empty', () => {
     const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['url'];
     control.setValue('   ');
     expect(control.invalid).toBeTruthy();
   });
 
-  it('Should name file not is url', () => {
+  it('Should url not is url', () => {
     const control = ((component.formSubmit.controls['fileAttachs'] as FormArray).controls[0] as FormGroup).controls['url'];
     control.setValue('abc@@');
     expect(control.invalid).toBeTruthy();

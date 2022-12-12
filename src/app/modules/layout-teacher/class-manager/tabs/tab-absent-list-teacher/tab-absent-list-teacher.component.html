@@ -1,0 +1,140 @@
+<div class="card card-flush shadow-none p-0 h-full tab-list-absent" *transloco="let t; scope: 'training'">
+  <div class="card-header">
+    <div class="card-toolbar w-100">
+      <div class="w-100 d-flex align-items-center justify-content-between flex-wrap">
+        <div class="filter d-flex flex-wrap align-items-center">
+          <div class="d-flex align-items-center justify-content-between so-date-picker">
+            <span class="me-6 fs-13 fw-700 d-flex align-items-center">{{t('training.selectDate')}}</span>
+            <app-single-date-picker name="date-time-picker-from" [currentDate]="fromDate ? fromDate : dateNow"
+              [timePicker]="timePicker" [maxDate]="maxDate" (dataTimeOutput)="dataFromDate($event)">
+            </app-single-date-picker>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between so-date-picker">
+            <span class=" me-6 fs-13 fw-700 me-6 ms-6 d-flex align-items-center">{{t('training.to')}}</span>
+            <app-single-date-picker name="date-time-picker-to" [currentDate]="toDate ? toDate : dateNow"
+              [timePicker]="timePicker" [minDate]="minDate" (dataTimeOutput)="dataToDate($event)">
+            </app-single-date-picker>
+          </div>
+          <div class="ms-6 fs-13 fw-600 d-flex align-items-center">
+            <span class="">{{t('training.have')}}<span class="fw-700  text-primary"> {{totalItems}}
+              </span>{{t('training.absent')}}</span>
+          </div>
+        </div>
+        <div class="filter d-flex flex-wrap align-items-center">
+          <ng-template ngxPermissionsOnly="{{ permission.absent_manager }}">
+            <button class="so-btn so-btn-primary so-btn-primary--small" (click)="createAbsent ()" name="btn-create">
+              <img src="assets/images/svg/add.svg" alt="" />
+              {{t('training.createAbsent')}}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="m-0">
+  <div class="card-body py-5 pt-0">
+    <!-- content -->
+    <div class=" so-content" *ngFor="let item of listAbsent">
+      <div class="d-flex algin-items-center justify-content-between">
+        <ng-template ngxPermissionsOnly="{{ permission.absent_access }}">
+          <span class="fs-16 fw-700 text-color-picton-blue   cursor-pointer"
+            (click)="absentDetail(item)">{{t('training.absentDate')}} {{ item.fromDate | formatTime }} {{ item.toDate &&
+            item.toDate != item.fromDate ? '-' : '' }} {{ item.toDate && item.toDate != item.fromDate ? (item.toDate |
+            formatTime) : '' }}</span>
+        </ng-template>
+        <ng-template ngxPermissionsOnly="{{ permission.absent_manager }}">
+          <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+            name="opend-so-action">
+            <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item class="fs-13 fw-600 text-color-mountain-mist " name="btn-update-user"
+                  (click)="updateAbsent(item)"><img class="so-action--icon" src="assets/images/svg/config_2_icon.svg"
+                    alt="">{{t('training.edit')}}
+                </li>
+                <li nz-menu-item class="fs-13 fw-600 text-color-mountain-mist" name="btn-assign-role-user"
+                  (click)="removeAbsent(item.id)"><img class="so-action--icon" src="assets/images/svg/icon-delete.svg"
+                    alt="">{{
+                  t('btnAction.delete') }}</li>
+              </ul>
+            </nz-dropdown-menu>
+          </span>
+        </ng-template>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 mt-5">
+          <div class="d-flex align-items-center ">
+            <img class="so-icon" src="assets/images/svg/clock.svg" alt=""><label
+              class="fs-13 fw-500 color-tertiary pe-2">{{t('training.sendAt')}}</label>
+            <span class="fs-13 fw-700 text-color-river-bed me-4">{{item?.createdAt | formatTime}}</span>
+
+            <img class="so-icon" src="assets/images/svg/people.svg" alt=""> <label
+              class="fs-13 fw-500 color-tertiary">{{t('training.sender')}}:</label>
+            <span class="fs-13 fw-700 text-primary">{{item?.sendBy}}</span>
+          </div>
+        </div>
+        <div class="col-lg-6 mt-5 d-flex align-items-center ">
+          <div class="w-50 h-100">
+            <img class="so-icon" src="assets/images/svg/calendar.svg" alt=""> <label class="fs-13 fw-500 pe-2"
+              for="">{{t('training.since')}}:</label> <span
+              class="text-color-picton-blue  p-right fs-13 fw-700">{{item?.fromDate |
+              formatTime}}</span>
+
+            <label class="fs-13 fw-500 ms-4 me-2" for="">{{t('training.to')}}:</label> <span
+              class="text-color-picton-blue  fs-13 fw-700">{{item?.fromDate |
+              formatTime}}</span>
+          </div>
+          <div class="w-50 h-100">
+            <img class="so-icon" src="assets/images/svg/bus.svg" alt=""> <label class="fs-13 fw-500"
+              for="">{{t('training.busBreak')}}:</label>
+            <ng-container *ngFor="let itemAbsentBus of item.absentBus; let i = index">
+              <span class="text-color-picton-blue  fs-13 fw-700">
+                <ng-container *ngIf="i != 0">,</ng-container>
+                {{substringDate(itemAbsentBus?.date | formatTime)}}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class=" row">
+        <div class="col-lg-6 mt-5">
+          <span class="fs-13 fw-600 text-color-mountain-mist">
+            {{t('training.reasonAbsent')}}: {{item?.reason}}</span>
+        </div>
+
+        <div class="col-lg-6 mt-5 d-flex align-items-center ">
+          <div class="w-50 h-100">
+            <img class="so-icon" src="assets/images/svg/duotone.svg" alt=""> <label class="fs-13 fw-500 " for="">
+              {{t('training.absentNumber')}}:</label><!-- Số ngày nghỉ  -->
+            <span class="fs-13 fw-700 ms-1">{{numberPeriods(item?.absentPeriod, 1)}} {{t('training.day')}} </span>
+            <span class="text-color-picton-blue  ms-2 fs-13 fw-700">({{numberPeriods(item?.absentPeriod, 2)}}
+              {{t('training.lesso')}})</span>
+            <!-- Số tiết -->
+          </div>
+          <div class="w-50 h-100">
+            <img class="so-icon" src="assets/images/svg/icon-eat.svg" alt=""><label class="fs-13 fw-500" for="">
+              {{t('training.absentMeal')}}:</label>
+            <ng-container *ngFor="let itemAbsentMeal of item.absentMeal; let i = index">
+              <span class="text-color-picton-blue  fs-13 fw-700">
+                <ng-container *ngIf="i != 0">,</ng-container>
+                {{substringDate(itemAbsentMeal?.date | formatTime)}}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end content -->
+    <div class="footer-card">
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize >= sizeOption[0]">
+      </app-pagination>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

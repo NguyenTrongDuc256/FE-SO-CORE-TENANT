@@ -27,3 +27,8 @@
   width: 30px;
   height: 30px;
 }
+
+.menu-sub-dropdown.menu.show, .menu-sub-dropdown.show {
+  display: flex;
+  animation: menu-sub-dropdown-animation-fade-in 0.3s ease 1, menu-sub-dropdown-animation-move-up 0.3s ease 1;
+}

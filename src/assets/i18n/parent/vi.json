@@ -37,7 +37,7 @@
   "validators": {
     "fullName":{
       "required":"Bạn chưa nhập tên người dùng",
-      "maxLength":"Tên người dùng không được có nhiều hơn 50 kí tự"
+      "maxLength":"Tên người dùng không được có nhiều hơn 255 kí tự"
     },
     "code":{
       "required":"Bạn chưa nhập mã người dùng",
@@ -70,5 +70,9 @@
   },
   "avatar": "Ảnh đại diện",
   "upload": "Tải ảnh",
-  "close": "Đóng"
+  "close": "Đóng",
+  "deleteStudent": "Xóa người dùng",
+  "note1": "Thao tác nhập dữ liệu phụ huynh từ file excel, hệ thống sẽ thực hiện các thao tác:",
+  "note2": "1. Tên đăng nhập phụ huynh: Lấy theo số điện thoại",
+  "note3": "2. Nếu đã tồn tại thông tin đăng nhập trên hệ thống sẽ được gán phụ huynh chứ ko tạo mới"
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AVATAR_DEFAULT,
-  DATA_PERMISSION, MESSAGE_ERROR_CALL_API,
+  DATA_PERMISSION,
   PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT,
-  PAGE_SIZE_OPTIONS_DEFAULT, TIME_OUT_LISTEN_FIREBASE
+  PAGE_SIZE_OPTIONS_DEFAULT,
 } from "../../../../../_shared/utils/constant";
 import {ParentList} from "../../../../../_models/layout-staff/user/parent.model";
 import {SchoolList} from "../../../../../_models/layout-staff/school/school.model";
@@ -17,6 +17,9 @@ import {
   ModalChangePasswordComponent
 } from "../../../../../_shared/modals/modal-change-password/modal-change-password.component";
 import {ModalDeleteComponent} from "../../../../../_shared/modals/modal-delete/modal-delete.component";
+import {
+  ModalImportParentStaffComponent
+} from "../../modals/modal-import-parent-staff/modal-import-parent-staff.component";
 
 @Component({
   selector: 'app-parent-list-staff',
@@ -50,51 +53,28 @@ export class ParentListStaffComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.generalService.changeValueSearch(1)
     this.getDataGeneralList();
     this.getDataParent();
   }
 
   getDataParent() {
     this.isLoading = true;
-
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
-
     this.parentService.getParentList(this.pageIndex, this.pageSize, this.valueDefaultSchool, this.valueDefaultGrade, this.valueDefaultClass, this.keyWord).subscribe((res: any) => {
-      if (res.status === 1) {
         this.collectionSize = res.data.totalItems;
         this.dataSource = res.data.data;
         this.dataSource.forEach(item => {
           item.genderName = this.getGenderName(item.gender)
         })
         this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err)
       this.isLoading = false;
     });
   }
 
   getDataGeneralList() {
     this.isLoading = true;
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
-
     this.parentService.getDataGeneralList().subscribe((res: any): void => {
-      if (res.status === 1) {
         this.dataApi = res.data;
         this.schoolList = this.dataApi.schools;
         // this.gradeList = this.dataApi.grades;
@@ -107,34 +87,13 @@ export class ParentListStaffComponent implements OnInit {
           classes.forEach(school => this.classList.push(school));
         });
         this.isLoading = false;
-      }
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err)
       this.isLoading = false;
     });
   }
 
   onChangeSelect(field?: string) {
-    // if (field === "school") {
-    //   if (this.valueDefaultSchool){
-    //     this.classList = [];
-    //     const school = this.dataApi.schools.find(item => item.id === this.valueDefaultSchool)
-    //     this.gradeList = this.dataApi.grades.filter((item: any) => item.educationStages === school.educationStages);
-    //     // this.listPhong = this.dataDialog.divisions.filter((item: any) => item.parent_id === Number(this.formSubmit.get('department_id').value));
-    //     this.gradeList.forEach(grade => {
-    //       const classes = this.dataApi.homeroomClasses.filter((item: any) => item.gradeId === grade.id);
-    //       classes.forEach(school => this.classList.push(school));
-    //     });
-    //   }
-    //   else{
-    //     this.gradeList = this.dataApi.grades;
-    //   }
-    //   this.valueDefaultGrade = '';
-    //   this.valueDefaultClass = '';
-    // }
     if(field === "grade"){
       if (this.valueDefaultGrade){
         this.classList = this.dataApi.homeroomClasses.filter((item: any) => item.gradeId === this.valueDefaultGrade);
@@ -165,11 +124,11 @@ export class ParentListStaffComponent implements OnInit {
 
   getGenderName(value: number): string {
     if (value === 1)
-      return translate('genderName.male');
+      return 'genderName.male';
     else if (value === 2)
-      return translate('genderName.female');
+      return 'genderName.female';
     else
-      return translate('genderName.other');
+      return 'genderName.other';
   }
 
   openModalChangePassword(item) {
@@ -179,7 +138,7 @@ export class ParentListStaffComponent implements OnInit {
       code: item.code,
       username: item. username,
       apiSubmit: (dataInput: any) =>
-        this.generalService.changePasswordUserLayoutTenant(dataInput),
+        this.generalService.changePasswordUser(dataInput),
       keyFirebaseAction: 'change-password',
       keyFirebaseModule: 'user',
     };
@@ -214,33 +173,6 @@ export class ParentListStaffComponent implements OnInit {
         return;
       }
     );
-
-    // const modalRef = this.modalService.open(ModalChangePasswordComponent,
-    //   {
-    //     scrollable: true,
-    //     windowClass: 'myCustomModalClass',
-    //     keyboard: false,
-    //     centered: false,
-    //     size: 'lg',
-    //   });
-    //
-    // let data = {
-    //   titleModal: translate('user.btnAction.changedPassword'),
-    //   btnCancel: translate('btnAction.cancel'),
-    //   btnAccept: translate('btnAction.save'),
-    //   isHiddenBtnClose: false, // hidden/show btn close modal
-    //   dataFromParent: item,
-    // }
-    //
-    // modalRef.componentInstance.dataModal = data;
-    // modalRef.result.then((result) => {
-    //   if (result === true) {
-    //     this.getDataParent();
-    //   }
-    // }, (reason) => {
-    //   console.log(reason);
-    //
-    // });
   }
 
   openModalConfirmDelete(item: any) {
@@ -272,7 +204,6 @@ export class ParentListStaffComponent implements OnInit {
         this.getDataParent();
       }
     }, (reason) => {
-      console.log(reason);
     });
   }
 
@@ -315,48 +246,6 @@ export class ParentListStaffComponent implements OnInit {
       },
       (reason) => { }
     );
-
-    //
-    // let title: string = '';
-    // let content: string = '';
-    // let dataInput: number = 0;
-    // if (item.isActive === 0) {
-    //   title = translate('parent.lockedApp');
-    //   content = translate('parent.lockedContent');
-    // } else {
-    //   title = translate('parent.openApp');
-    //   content = translate('parent.openContent');
-    //   dataInput = 1;
-    // }
-    // const modalRef = this.modalService.open(ModalUpdateStatusComponent,
-    //   {
-    //     scrollable: true,
-    //     windowClass: 'myCustomModalClass',
-    //     keyboard: false,
-    //     centered: false,
-    //     size: 'lg'
-    //   });
-    //
-    // let data: any = {
-    //   titleModal: title,
-    //   btnCancel: translate('btnAction.cancel'),
-    //   btnAccept: translate('btnAction.save'),
-    //   isHiddenBtnClose: false,
-    //   dataFromParent: {
-    //     dataInput: dataInput,
-    //     userId: item.id,
-    //     content: content
-    //   }
-    // }
-    //
-    // modalRef.componentInstance.dataModal = data;
-    // modalRef.result.then((result) => {
-    //   if (result === true) {
-    //     this.getDataParent();
-    //   }
-    // }, (reason) => {
-    //   console.log(reason);
-    // });
   }
 
   openModalSendNotification(item) {
@@ -403,6 +292,24 @@ export class ParentListStaffComponent implements OnInit {
     // }, (reason) => {
     //   console.log(reason);
     // });
+  }
+
+  openModalImport(): void {
+    const modalRef = this.modalService.open(ModalImportParentStaffComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass',
+        keyboard: false,
+        centered: true,
+        backdrop: 'static',
+        size: 'xl',
+      });
+
+    let data: any = {
+      title: 'titleImport',
+      isHiddenBtnClose: false, // hidden/show btn close modal
+    }
+    modalRef.componentInstance.dataModal = data;
   }
 
 }

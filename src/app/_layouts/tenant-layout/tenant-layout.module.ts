@@ -1,26 +1,24 @@
-import {RouterModule} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   NgbDropdownModule,
   NgbProgressbarModule,
-  NgbTooltipModule,
+  NgbTooltipModule
 } from '@ng-bootstrap/ng-bootstrap';
-import {TranslateModule} from '@ngx-translate/core';
-import {AsideComponent} from './components/aside/aside.component';
-import {HeaderComponent} from './components/header/header.component';
-import {ContentComponent} from './components/content/content.component';
-import {FooterComponent} from './components/footer/footer.component';
-import {ScriptsInitComponent} from './components/scripts-init/scripts-init.component';
-import {ToolbarComponent} from './components/toolbar/toolbar.component';
-import {AsideMenuComponent} from './components/aside/aside-menu/aside-menu.component';
-import {TopbarComponent} from './components/topbar/topbar.component';
-import {PageTitleComponent} from './components/header/page-title/page-title.component';
-import {HeaderMenuComponent} from './components/header/header-menu/header-menu.component';
-import {TenantLayoutComponent} from "./tenant-layout.component";
-import { CoreModule } from 'src/app/_core/core.module';
-import { UserInnerComponent } from './components/header/user-inner/user-inner.component';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { CoreModule } from 'src/app/_core/core.module';
+import { AsideMenuComponent } from './components/aside/aside-menu/aside-menu.component';
+import { AsideComponent } from './components/aside/aside.component';
+import { ContentComponent } from './components/content/content.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderMenuComponent } from './components/header/header-menu/header-menu.component';
+import { HeaderComponent } from './components/header/header.component';
+import { PageTitleComponent } from './components/header/page-title/page-title.component';
+import { ScriptsInitComponent } from './components/scripts-init/scripts-init.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
+import { TenantLayoutComponent } from "./tenant-layout.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +33,6 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
     TopbarComponent,
     PageTitleComponent,
     HeaderMenuComponent,
-    UserInnerComponent,
   ],
   imports: [
     CoreModule,
@@ -44,10 +41,9 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
     NgbProgressbarModule,
     NgbTooltipModule,
     RouterModule,
-    TranslateModule,
     TranslocoModule
   ],
-  // providers: [{ provide: TRANSLOCO_SCOPE, useValue: "role" }],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: "" }],
   exports: [],
 })
 export class TenantLayoutModule {

@@ -1,0 +1,60 @@
+{
+    "managerCustomerMenu": "Quản lý menu khách hàng",
+    "menuList": "Danh sách menu",
+    "menuPackage": "Gói menu",
+    "menuCode": "Mã menu",
+    "layoutApply": "Layout áp dụng",
+    "activity": "Hoạt động",
+    "enterNameCodeMenuPackage": "Nhập tên, mã gói menu",
+    "enterNameCodeMenu": "Nhập tên, mã menu",
+    "addMenu": "Thêm mới menu",
+    "updateMenu": "Cập nhật menu",
+    "menuName": "Tên menu",
+    "link": "Đường dẫn",
+    "icon": "Icon",
+    "category": "Danh mục",
+    "enterMenuName": "Nhập tên menu",
+    "enterMenuCode": "Nhập mã menu",
+    "enterMenuLink": "Nhập đường dẫn menu",
+    "enterPermissionCode":"Nhập mã quyền thao tác",
+    "menuType": "Loại menu",
+    "activated": "Kích hoạt",
+    "notActivated": "Không kích hoạt",
+    "subRoute":"Route con",
+    "permissionCode":"Mã quyền thao tác",
+    "addMenuPackage":"Thêm mới gói menu",
+    "updateMenuPackage":"Cập nhật gói menu",
+    "deleteMenuPackage":"Xóa gói menu",
+    "menuPackageName":"Tên gói menu",
+    "menuPackageCode":"Mã gói menu",
+    "enterMenuPackageName":"Nhập tên gói menu",
+    "enterMenuPackageCode":"Nhập mã gói menu",
+    "menuIsCategory":"Menu là danh mục",
+    "selectLayoutApply":"Chọn layout áp dụng",
+    "dragDropMenuAddMenu":"Kéo thả để thêm menu mới",
+    "validateMenupackageName":"Bạn chưa nhập tên gói menu",
+    "validateMenupackageCode":"Bạn chưa nhập mã gói menu",
+    "validateMenupackageLayout":"Bạn chưa chọn layout áp dụng",
+    "validateTitleMenuInpackage":"Bạn chưa nhập tiêu đề menu",
+    "validators":{
+        "name":{
+            "required":"Bạn chưa nhập tên menu"
+        },
+        "code":{
+            "required":"Bạn chưa nhập mã menu",
+            "pattern":"Mã không hợp lệ"
+        },
+        "permissionCode":{
+            "required":"Bạn chưa nhập mã quyền thao tác",
+            "pattern":"Mã quyền thao tác không hợp lệ"
+        },
+        "url":{
+            "required":"Bạn chưa nhập đường dẫn menu"
+        },
+        "icon":{
+            "required":"Bạn chưa chọn icon cho menu"
+        }
+    },
+    "assignMenuToSchool":"Gán menu cho trường",
+    "school":"Trường học"
+}

@@ -1,0 +1,27 @@
+.table-global th, .table-global tbody td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.icon-warming {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  padding: 2px 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffd7d7;
+  margin-right: 5px;
+}
+
+.form-control-custom {
+  border: none;
+  outline: none;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.so-checkbox-style-custom {
+  align-items: flex-start !important;
+}

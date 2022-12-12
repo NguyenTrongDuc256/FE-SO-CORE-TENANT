@@ -1,0 +1,242 @@
+<ng-container *ngIf="formGroup">
+  <ng-container [formGroup]="formGroup" *transloco="let t; scope: 'training'">
+    <div class="modal-header">
+      <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+      <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+        [hidden]="!dataModal?.isHiddenBtnClose">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body text-color-river-bed">
+      <div class="row mb-6">
+        <div class="col-md-2">
+          <label for="" class="fs-13 fw-600">{{t('training.title')}}:</label>
+        </div>
+        <div class="col-md-10">
+          <span class="fs-13 fw-700">{{t('training.absentDate')}} {{ fromDate | formatTime }} {{ toDate && toDate
+            !=
+            fromDate ? '-' : '' }} {{ toDate && toDate != fromDate ? (toDate | formatTime) : '' }}</span>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <div class="col-md-2 d-flex ">
+          <label for="" class="fs-13 fw-600 pt-2">{{t('training.student')}}:</label>
+        </div>
+        <div class="col-md-10">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" name="select-student"
+            formControlName="studentId" class="form-control so-form-control"
+            [class.is-invalid]="formGroup.get('studentId').invalid && (formGroup.get('studentId').dirty || formGroup.get('studentId').touched)"
+            [class.is-invalid-server]="validationMessagesServer?.studentId.hasOwnProperty('message') && formGroup.get('studentId').invalid">
+            <nz-option nzValue="" [nzLabel]="t(txtSelect)"></nz-option>
+            <nz-option *ngFor="let item of listStudent" [nzLabel]="item.FullName + ' (' + item.Code + ')'"
+              [nzValue]="item.UserId">
+            </nz-option>
+          </nz-select>
+
+          <!-- <div *ngFor="let item of validation_messages.studentId">
+            <span class="text-danger"
+              *ngIf="formGroup.get('studentId')?.hasError(item.type)  && formGroup.get('studentId')?.touched">
+              {{t(item.message)}}
+            </span>
+          </div> -->
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.studentId">
+            <app-field-error-display
+              [displayError]="formGroup.get('studentId').hasError(err.type) && (formGroup.get('studentId').dirty || formGroup.get('studentId').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.studentId">
+            <app-field-error-display [errorServer]="validationMessagesServer?.studentId"
+              [displayErrorServer]="!(formGroup.get('studentId').dirty || formGroup.get('studentId').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <div class="col-md-2 d-flex pt-2">
+          <img class="so-icon me-3 mt-1" src="assets/images/svg/calendar.svg" alt="">
+          <label for="" class="fs-13 fw-600">{{t('training.since')}}:</label>
+        </div>
+        <div class="col-md-10 d-flex justify-content-between">
+          <div class="w-date">
+            <app-single-date-picker name="date-time-picker-from" [timePicker]="timePicker"
+              [maxDate]="formGroup.value.toDate" [minDate]="dateNow" (dataTimeOutput)="dataFromDate($event)"
+              [currentDate]="this.formGroup.get('fromDate').value"
+              [class.is-invalid]="formGroup.get('fromDate').invalid && (formGroup.get('fromDate').dirty || formGroup.get('fromDate').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.fromDate.hasOwnProperty('message') && formGroup.get('fromDate').invalid">
+            </app-single-date-picker>
+
+            <!--  -->
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.fromDate">
+              <app-field-error-display
+                [displayError]="formGroup.get('fromDate').hasError(err.type) && (formGroup.get('fromDate').dirty || formGroup.get('fromDate').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.fromDate">
+              <app-field-error-display [errorServer]="validationMessagesServer?.fromDate"
+                [displayErrorServer]="!(formGroup.get('fromDate').dirty || formGroup.get('fromDate').touched)">
+              </app-field-error-display>
+            </div>
+            <!--  -->
+          </div>
+          <div class="d-flex">
+            <label class="pe-5 fs-13 fw-600 pt-2" for="">{{t('training.to')}}:</label>
+            <div class="w-date">
+              <app-single-date-picker name="date-time-picker-to" [timePicker]="timePicker"
+                [minDate]="formGroup.value.fromDate ? formGroup.value.fromDate : dateNow"
+                (dataTimeOutput)="dataToDate($event)" [currentDate]="this.formGroup.get('toDate').value"
+                [class.is-invalid]="formGroup.get('toDate').invalid && (formGroup.get('toDate').dirty || formGroup.get('toDate').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.toDate.hasOwnProperty('message') && formGroup.get('toDate').invalid">
+              </app-single-date-picker>
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.toDate">
+                <app-field-error-display
+                  [displayError]="formGroup.get('toDate').hasError(err.type) && (formGroup.get('toDate').dirty || formGroup.get('toDate').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.toDate">
+                <app-field-error-display [errorServer]="validationMessagesServer?.toDate"
+                  [displayErrorServer]="!(formGroup.get('toDate').dirty || formGroup.get('toDate').touched)">
+                </app-field-error-display>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div formArrayName="dataAbsent" class="fs-13 fw-600 pt-5">
+        <div class="so-item pb-5" *ngFor="let item of dataAbsent.controls; let i = index;" [formGroupName]="i">
+          <div class="coll-margin fs-13 fw-700">
+            <nz-collapse nzGhost>
+              <nz-collapse-panel class="fs-13 fw-600 text-color-river-bed"
+                [nzHeader]="'Ngày tháng: ' + dayMonthAbsent[i]" [nzActive]="true" [nzDisabled]="false">
+                <div class="fs-13 fw-600">
+                  <div class="row ">
+                    <div class="col-md-2 d-flex ">
+                      <img class="mt-3 me-3 so-icon" src="assets/images/svg/duotone.svg" alt="">
+                      <label class="mt-2">{{t('training.leaveSchool')}}</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="d-flex  justify-content-between">
+                        <div class="d-flex ">
+                          <label class="mt-2 set-height" nz-checkbox name="is-HocSongNgu" formControlName="allDay"
+                            (change)="checkedAll(i)">
+                          </label><span class="mt-2 ms-3 text-color-mountain-mist"> {{t('training.allDay')}}</span>
+                        </div>
+                        <div class=" w-80 d-flex  justify-content-end">
+                          <div class="mt-2">
+                            <img class="so-icon" src="assets/images/svg/duotone.svg" alt="">
+                            <label class="me-5 ms-3">{{t('training.lesson')}}</label>
+                          </div>
+                          <div class="w-80 fw-400" *ngIf="nodes && nodes.length > 0">
+                            <nz-tree-select [nzNodes]="nodes" formControlName="period" nzShowSearch nzCheckable
+                              [nzMaxTagCount]=2 [nzHideUnMatched]="true" nzPlaceHolder="Chọn tiết học"
+                              nzVirtualHeight="200px" class="so-tree-select" (ngModelChange)="selectTreedAll(i)"
+                              [class.is-invalid]="getFormGroupOfFormArray(i).get('period').invalid && (getFormGroupOfFormArray(i).get('period').dirty || getFormGroupOfFormArray(i).get('period').touched)"
+                              [class.is-invalid-server]="validationMessagesServer?.period.hasOwnProperty('message') && getFormGroupOfFormArray(i).get('period').invalid">
+                            </nz-tree-select>
+                            <div class="text-danger mt-2" *ngFor="let err of validationMessages.period">
+                              <app-field-error-display
+                                [displayError]="getFormGroupOfFormArray(i).get('period').hasError(err.type) && (getFormGroupOfFormArray(i).get('period').dirty || getFormGroupOfFormArray(i).get('period').touched)"
+                                errorMsg="{{ t(err.message) }}">
+                              </app-field-error-display>
+                            </div>
+                            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.period">
+                              <app-field-error-display [errorServer]="getMessageServer('period',i)"
+                                [displayErrorServer]="!(getFormGroupOfFormArray(i).get('period').dirty || getFormGroupOfFormArray(i).get('period').touched)">
+                              </app-field-error-display>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-6 d-none">
+                    <div class="col-md-2 d-flex align-items-center">
+                      <img class="me-3 so-icon" src="assets/images/svg/bus.svg" alt="">
+                      <label>{{t('training.busBreak')}}:</label>
+                    </div>
+                    <div class="col-md-10">
+
+                      <nz-select class="select-search w-25" name="select-bus" nzShowSearch formControlName="busId"
+                        [nzNotFoundContent]="t(nzNotFoundContent)">
+                        <nz-option selected nzValue="" [nzLabel]="t(select)"></nz-option>
+                        <nz-option *ngFor="let item of bus" [nzLabel]="item.busName" [nzValue]="item.busId">
+                        </nz-option>
+                      </nz-select>
+                    </div>
+                  </div>
+
+                  <div class="row pt-6  d-none">
+                    <div class="col-md-2 d-flex align-items-center">
+                      <img class="me-3 so-icon" src="assets/images/svg/food_menu.svg" alt="">
+                      <label>{{t('training.absentMeal')}}:</label>
+                    </div>
+                    <div class="col-md-10 d-flex justify-content-between" formArrayName="meal">
+                      <ng-container *ngFor="let meal of getMeal(item); let j = index;" [formGroupName]="j">
+                        <label class="" nz-checkbox name="is-HocSongNgu"
+                          formControlName="checked">{{meal.get('name').value}}</label>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </nz-collapse-panel>
+            </nz-collapse>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <div class="col-md-2 d-flex ">
+          <img class="mt-1 me-3 so-icon" src="assets/images/svg/document5.svg" alt="">
+          <label class="fs-13 fw-600">{{t('training.reason')}}:</label>
+        </div>
+        <div class="col-md-10  ">
+          <textarea class="w-100 custom-tag-of-form so-textarea" name="" id="" cols="30" rows="10"
+            formControlName="reason"></textarea>
+        </div>
+      </div>
+
+      <div class="row pt-6 pb-6">
+        <div class="col-md-2 d-flex align-items-center">
+          <label class="fs-13 fw-600">{{t('training.attachments')}}:</label>
+        </div>
+        <div class="col-md-10 d-flex align-items-center justify-content-between">
+          <div class=" px-0 input-import-units-custom">
+            <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden
+              id="input-file-upload-hoc-sinh" (change)="onFileChange($event)">
+            <img src="assets/images/svg/icon-word.svg" class="image-upload-import-custom ">
+            <div class="input-group pe-none">
+              <input readonly type="text" class="form-control form-control-custom " [(ngModel)]="fileName"
+                [ngModelOptions]="{standalone: true}" placeholder="{{t('warmingValidateFormImport')}}">
+            </div>
+          </div>
+          <div class="d-flex align-items-center upload-file" (click)="uploadFile()">
+            <div>
+              <img class="so-icon me-3" src="assets/images/svg/icon-upload.svg" alt="">
+            </div>
+            <div class="">
+              <p class="fs-13 fw-600">{{t('training.uploadFile')}}</p>
+              <p class="fs-11 fw-500">{{t('training.chooseFromPersonalComputer')}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+        (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+      <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+        (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+    </div>
+  </ng-container>
+</ng-container>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -17,7 +17,8 @@ import { StudentService } from 'src/app/_services/layout-tenant/student/student.
 import { StudentList } from 'src/app/_models/layout-tenant/student/student.model';
 import { GeneralService } from 'src/app/_services/general.service';
 import { ModalChangePasswordComponent } from 'src/app/_shared/modals/modal-change-password/modal-change-password.component';
-import { UpdateUsernameCodeTenantComponent } from '../../modals/update-username-code-tenant/update-username-code-tenant.component';
+import { ModalImportStudentTenantComponent } from '../../modals/modal-import-student-tenant/modal-import-student-tenant.component';
+import { ModalChangeUsernameCodeComponent } from 'src/app/_shared/modals/modal-change-username-code/modal-change-username-code.component';
 
 @Component({
   selector: 'app-student-tenant-list',
@@ -33,7 +34,6 @@ export class StudentTenantListComponent implements OnInit {
   pageSize: number = PAGE_SIZE_DEFAULT;
   keyWord: string = '';
   isLoading: boolean = false;
-
   statusValue: string = '';
   schoolValue: string = '';
   gradeValue: string = '';
@@ -43,9 +43,8 @@ export class StudentTenantListComponent implements OnInit {
   dataHomeroomClasses: any;
   studentDataRelate: any;
   studentStatus = STUDENT_STATUS_SELECT;
-
-
   dataSource: StudentList[];
+  oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
@@ -62,42 +61,47 @@ export class StudentTenantListComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.getDataStudent();
   }
 
   onChangeSchool() {
-    this.dataGrades = this.studentDataRelate.grades.filter(item => item.educationStage == this.dataSchools.educationStage);//get array Grade
-    if (this.schoolValue == '') {
-      this.gradeValue = '';
-      this.classValue = '';
-    }
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = 1;
+    let schoolSelected = this.studentDataRelate.schools.find(item => item.id == this.schoolValue);
+    this.dataGrades = this.studentDataRelate.grades.filter(item => item.educationStages == schoolSelected?.educationStages);
+    this.gradeValue = '';
+    this.classValue = '';
     this.getDataStudent();
   }
 
   onChangeGrade() {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = 1;
     this.dataHomeroomClasses = this.studentDataRelate.homeroomClasses.filter(item => item.schoolId == this.schoolValue && item.gradeId == this.gradeValue)//get homeroomClasses
-    if (this.gradeValue == '') {
-      this.classValue = '';
-    }
+    this.classValue = '';
     this.getDataStudent();
 
   }
 
   onChangeClass() {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = 1;
     this.getDataStudent();
   }
 
   onChangeStatus() {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = 1;
     this.getDataStudent();
   }
 
-  onClickSearch(valueSearch) {
-    this.keyWord = valueSearch;
-    this.getDataStudent();
-  }
 
-  onEventKeyupEnter(valueSearch) {
+  search(valueSearch): void {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = 1;
     this.keyWord = valueSearch;
     this.getDataStudent();
   }
@@ -111,24 +115,17 @@ export class StudentTenantListComponent implements OnInit {
       }
     }, TIME_OUT_LISTEN_FIREBASE);
     this.studentService.getStudentDataRelate().subscribe((res: any) => {
-      if (res.status === 1) {
-        this.studentDataRelate = res.data;
-        this.dataSchools = this.studentDataRelate.schools;
-        this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+      this.studentDataRelate = res.data;
+      this.dataSchools = this.studentDataRelate.schools;
+      this.isLoading = false;
     }, (_err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(_err);
     });
   }
 
   getDataStudent() {
     this.isLoading = true;
-
     setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
@@ -136,19 +133,36 @@ export class StudentTenantListComponent implements OnInit {
       }
     }, TIME_OUT_LISTEN_FIREBASE);
     this.studentService.getStudentList(this.pageSize, this.pageIndex, this.schoolValue, this.gradeValue, this.classValue, this.statusValue, this.keyWord).subscribe((res: any) => {
-      if (res.status === 1) {
-        this.collectionSize = res.data.totalItems;
-        this.dataSource = res.data.data;
-        this.isLoading = false;
-      }
-
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+      this.collectionSize = res.data.totalItems;
+      this.dataSource = res.data.data;
+      this.isLoading = false;
     }, (_err: any) => {
       this.isLoading = false;
+      this.generalService.showToastMessageError400(_err);
     });
+  }
+
+  import() {
+    const modalRef = this.modalService.open(ModalImportStudentTenantComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass',
+        keyboard: false,
+        backdrop: 'static', // prevent click outside modal to close modal
+        centered: true,
+        size: 'xl'
+      });
+
+    let data: any = {
+      title: 'titleImport',
+      isHiddenBtnClose: false, // hidden/show btn close modal
+      dataSchools: this.dataSchools
+    }
+    modalRef.componentInstance.dataModal = data;
+    modalRef.result.then((result) => {
+    }, (reason) => {
+    });
+
   }
 
   openModalComfirmDelete(item: any) {
@@ -157,6 +171,7 @@ export class StudentTenantListComponent implements OnInit {
         scrollable: true,
         windowClass: 'myCustomModalClass',
         keyboard: false,
+        backdrop: 'static', // prevent click outside modal to close modal
         centered: false,
         size: 'lg',
       });
@@ -197,6 +212,7 @@ export class StudentTenantListComponent implements OnInit {
       scrollable: true,
       windowClass: 'myCustomModalClass',
       keyboard: false,
+      backdrop: 'static', // prevent click outside modal to close modal
       centered: false,
       modalDialogClass: 'modal-md-plus',
     });
@@ -218,7 +234,7 @@ export class StudentTenantListComponent implements OnInit {
     modalRef.componentInstance.dataModal = data;
     modalRef.result.then(
       (result: boolean) => {
-        if (result == true) this.getDataStudent();
+        if (result) this.getDataStudent();
       },
       (reason) => { }
     );
@@ -230,6 +246,7 @@ export class StudentTenantListComponent implements OnInit {
         scrollable: true,
         windowClass: 'myCustomModalClass',
         keyboard: false,
+        backdrop: 'static', // prevent click outside modal to close modal
         centered: false,
         size: 'lg',
       });
@@ -240,12 +257,10 @@ export class StudentTenantListComponent implements OnInit {
       btnAccept: 'btnAction.save',
       isHiddenBtnClose: false,
       dataFromParent: {
-        //dataInput: {
         userId: item.studentUserId,
         account: item.fullName,
         code: item.code,
-        username: item.username,//chờ be thêm
-        //},
+        username: item.username,
         keyFirebaseAction: 'change-password',
         keyFirebaseModule: 'user',
         apiSubmit: (dataInput: any) => {
@@ -264,22 +279,32 @@ export class StudentTenantListComponent implements OnInit {
     });
   }
 
-  updateUsernameCode(item) {
-    const modalRef = this.modalService.open(UpdateUsernameCodeTenantComponent,
+  openModalChangeUsernameCode(item: any): void {
+    const modalRef = this.modalService.open(ModalChangeUsernameCodeComponent,
       {
         scrollable: true,
         windowClass: 'myCustomModalClass',
         keyboard: false,
         centered: false,
+        backdrop: 'static',
         size: 'lg',
       });
-
-    let data = {
-      titleModal: translate('student.updateUsernameCode'),
-      btnCancel: translate('btnAction.cancel'),
-      btnAccept: translate('btnAction.save'),
+    let data: any = {
+      titleModal: 'editUsernameCode',
+      btnCancel: 'btnAction.cancel',
+      btnAccept: 'btnAction.save',
       isHiddenBtnClose: false, // hidden/show btn close modal
-      dataFromParent: item,
+      dataFromParent: {
+        userId: item.studentUserId,
+        fullName: item.fullName,
+        code: item.code,
+        username: item.username,
+        keyFirebaseAction: 'update',
+        keyFirebaseModule: 'user',
+        apiSubmit: (dataInput: any) => {
+          return this.generalService.changeUsernameCodeUserLayoutTenant(dataInput)
+        }
+      },
     }
 
     modalRef.componentInstance.dataModal = data;
@@ -287,36 +312,20 @@ export class StudentTenantListComponent implements OnInit {
       if (result === true) {
         this.getDataStudent();
       }
-    }, (reason) => {
     });
   }
 
-
-
   getGenderName(value: number): string {
     if (value === 1)
-      return translate('genderName.male');
+      return 'genderName.male';
     else if (value === 2)
-      return translate('genderName.female');
+      return 'genderName.female';
     else
-      return translate('genderName.other');
+      return 'genderName.other';
   }
 
   getStatusStudent(value: string): string {
     return STUDENT_STATUS[value];
   }
 
-  getLoginName(value: number): string {
-    if (value === 1)
-      return translate('user.loginTrue');
-    else
-      return translate('user.loginFalse');
-  }
-
-  getPasswordName(value: number): string {
-    if (value === 1)
-      return translate('user.passwordTrue');
-    else
-      return translate('user.passwordFalse');
-  }
 }

@@ -1,0 +1,42 @@
+.custom-body-guide-comment{
+    margin: 0 !important;
+    padding: 0;
+    .header-guide{
+        background: #AFD9FF;
+        padding: 4rem 2rem;
+        position: relative;
+        .icon-close-guide{
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+        .image-guide{
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+    .content-guide{
+        padding: 2rem 3rem;
+        line-height: 3rem;
+        color: #000000;
+        .title-guide{
+            margin-bottom: 1rem;
+        }
+        .item-guide{
+            margin: 0;
+            .icon-item-guide{
+                background: #556EE6;
+                border-radius: 3px;
+                padding: 0.5rem 1rem;
+                color: #ffffff;
+                .icon-quick-comment{
+                    margin-bottom: 3px;
+                }
+            }
+        }
+    }
+}

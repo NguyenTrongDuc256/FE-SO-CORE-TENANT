@@ -36,7 +36,7 @@
   }
 }
 
-.btn-remote {
+.btn-remove {
   background: none;
   border: none;
   outline: none;
@@ -47,13 +47,14 @@
     height: 16px;
   }
 }
-.btn-remote:focus {
+.btn-remove:focus {
   outline: none;
 }
 
 .name-file-local, .name-file-local.active, .name-file-local:focus {
-  border: none;
+  border: none !important;
   box-shadow: none !important;
   cursor: default;
+  outline: none !important;
 }
 

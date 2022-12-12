@@ -1,0 +1,126 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-body p-0">
+    <form [formGroup]="formGroup" *ngIf="formGroup">
+      <div class="row mb-6">
+        <div class="col-md-12">
+          <span class="fs-16 fw-700">{{t('setting.cauHinhMatKhau')}}</span>
+        </div>
+      </div>
+      <div class="row mb-6 ps-4">
+        <div class="col-md-8">
+          <div class="d-flex align-items-center">
+            <img src="assets/images/svg/icon-v.svg" alt="icon">
+            <div class="d-flex ps-5">
+            <span>{{t('setting.toiThieu6KyTu')}}
+              <span class="text-color-picton-blue ps-5"> ({{t('setting.macDinh')}})</span>
+            </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label nz-checkbox class="so-checkbox fs-13" id="isContainsAtLeastOneNumeric"
+                 formControlName="isContainsAtLeastOneNumeric">{{t('setting.itNhat1So')}}</label>
+        </div>
+      </div>
+      <div class="row mb-6 ps-4">
+        <div class="col-md-8">
+          <div class="d-flex align-items-center">
+            <img src="assets/images/svg/icon-v.svg" alt="icon">
+            <div class="d-flex ps-5">
+              <span>{{t('setting.toiDa50KyTu')}} <span class="text-color-picton-blue ps-5">({{t('setting.macDinh')}})</span></span>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label nz-checkbox class="so-checkbox fs-13" id="isContainsAtLeastOneSpecial"
+                 formControlName="isContainsAtLeastOneSpecial">{{t('setting.itNhat1KytuDacBiet')}}</label>
+        </div>
+      </div>
+      <div class="row mb-6 ps-4">
+        <div class="col-md-8">
+          <div class="d-flex align-items-center">
+            <img src="assets/images/svg/icon-v.svg" alt="icon">
+            <div class="d-flex ps-5">
+              <span>{{t('setting.regexPass')}} <span class="text-color-picton-blue ps-5">({{t('setting.macDinh')}})</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label nz-checkbox class="so-checkbox fs-13" id="isContainsAtLeastOneUppercase"
+                 formControlName="isContainsAtLeastOneUppercase">{{t('setting.itNhat1KytuVietHoa')}}</label>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <div class="col-md-12">
+          <span class="fs-16 fw-700">{{t('setting.linkTaiAndroidIOS')}}</span>
+        </div>
+      </div>
+      <div class="row mb-6 ps-4">
+        <label class="col-md-3 col-form-label">
+          <div class="d-flex align-items-start">
+            <img src="assets/images/svg/list.svg" alt="" class="pe-2">
+            <span> {{t('setting.linkAndroid')}}</span>
+          </div>
+        </label>
+        <div class="col-md-9">
+          <input type="text" class="form-control so-form-control" name="linkAndroid"
+                 placeholder="{{ t('setting.nhaplinkAndroid') }}" formControlName="linkAndroid"
+                 [class.is-invalid]="formGroup.get('linkAndroid').invalid && (formGroup.get('linkAndroid').dirty || formGroup.get('linkAndroid').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.linkAndroid.hasOwnProperty('message') && formGroup.get('linkAndroid').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.linkAndroid">
+            <app-field-error-display
+              [displayError]="formGroup.get('linkAndroid').hasError(err.type) && (formGroup.get('linkAndroid').dirty || formGroup.get('linkAndroid').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.linkAndroid">
+            <app-field-error-display [errorServer]="validationMessagesServer?.linkAndroid"
+                                     [displayErrorServer]="!(formGroup.get('linkAndroid').dirty || formGroup.get('linkAndroid').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-6 ps-4">
+        <label class="col-md-3 col-form-label">
+          <div class="d-flex align-items-start">
+            <img src="assets/images/svg/list.svg" alt="" class="pe-2">
+            <span> {{t('setting.linkIOS')}}</span>
+          </div>
+        </label>
+        <div class="col-md-9">
+          <input type="text" class="form-control so-form-control" name="linkIOS"
+                 placeholder="{{ t('setting.nhaplinkIOS') }}" formControlName="linkIOS"
+                 [class.is-invalid]="formGroup.get('linkIOS').invalid && (formGroup.get('linkIOS').dirty || formGroup.get('linkIOS').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.linkIOS.hasOwnProperty('message') && formGroup.get('linkIOS').invalid" />
+
+          <div class="text-danger mt-2" *ngFor="let err of validationMessages.linkIOS">
+            <app-field-error-display
+              [displayError]="formGroup.get('linkIOS').hasError(err.type) && (formGroup.get('linkIOS').dirty || formGroup.get('linkIOS').touched)"
+              errorMsg="{{ t(err.message) }}">
+            </app-field-error-display>
+          </div>
+          <div class="text-danger mt-2" *ngIf="validationMessagesServer?.linkIOS">
+            <app-field-error-display [errorServer]="validationMessagesServer?.linkIOS"
+                                     [displayErrorServer]="!(formGroup.get('linkIOS').dirty || formGroup.get('linkIOS').touched)">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-6 mt-10">
+        <div class="col-md-12 action d-flex justify-content-end">
+          <button type="button" id="btnSubmit"
+                  class="so-btn so-btn-primary so-btn-primary--small"
+                  (click)="onSubmit(formGroup.value)"
+          >{{t('btnAction.save')}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

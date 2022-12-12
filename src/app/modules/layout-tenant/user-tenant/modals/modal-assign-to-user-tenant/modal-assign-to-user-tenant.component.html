@@ -17,18 +17,23 @@
               </div>
             </label>
             <div class="col-md-3">
-              <nz-select name="role" formControlName="roleId" ngModel=""
-                         (ngModelChange)="onChangeRole($event, i)">
+              <nz-select nzShowSearch nzAllowClear name="role" formControlName="roleId" ngModel="" class="form-control so-form-control" (ngModelChange)="onChangeRole($event, i)" 
+                [class.is-invalid]="roleForm.get('roleId')?.invalid && (roleForm.get('roleId').dirty || roleForm.get('roleId').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.roleId.hasOwnProperty('message') && roleForm.get('roleId').invalid">
                 <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
                 <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of roleToAssignList" [nzLabel]="item.name" [nzValue]="item.id">
                 </nz-option>
               </nz-select>
               <div class="text-danger mt-2" *ngFor="let err of validationMessages.roleId">
-                <div
-                  *ngIf="roleForm.get('roleId').hasError(err.type) && (roleForm.get('roleId').dirty || roleForm.get('roleId').touched)"
-                >
-                  {{ t(err.message) }}
-                </div>
+                <app-field-error-display
+                  [displayError]="roleForm.get('roleId').invalid && (roleForm.get('roleId').dirty || roleForm.get('roleId').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.roleId">
+                <app-field-error-display [errorServer]="validationMessagesServer?.roleId"
+                  [displayErrorServer]="!(roleForm?.get('roleId').dirty || roleForm?.get('roleId').touched)">
+                </app-field-error-display>
               </div>
             </div>
             <!-- BEGIN: chon campus -->
@@ -43,35 +48,44 @@
             <div class="col-md-4" >
               <!-- CAMPUS-->
               <div *ngIf="roleForm.value.isDisplay == 1">
-                <nz-select name="campusId" formControlName="campusId" ngModel=""
-                           (ngModelChange)="onChangeCampus()">
+                <nz-select nzShowSearch nzAllowClear name="campusId" formControlName="campusId" ngModel="" class="form-control so-form-control" (ngModelChange)="onChangeCampus()"
+                [class.is-invalid]="roleForm.get('campusId')?.invalid && (roleForm.get('campusId').dirty || roleForm.get('campusId').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.campusId.hasOwnProperty('message') && roleForm.get('campusId').invalid">
                   <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
                   <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of campusList" [nzLabel]="item.name" [nzValue]="item.id">
                   </nz-option>
                 </nz-select>
                 <div class="text-danger mt-2" *ngFor="let err of validationMessages.campusId">
-                  <div
-                    *ngIf="roleForm.get('campusId').hasError(err.type)"
-                  >
-                    {{ t(err.message) }}
-                  </div>
+                  <app-field-error-display
+                    [displayError]="roleForm.get('campusId').invalid && (roleForm.get('campusId').dirty || roleForm.get('campusId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.campusId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.campusId"
+                    [displayErrorServer]="!(roleForm?.get('campusId').dirty || roleForm?.get('campusId').touched)">
+                  </app-field-error-display>
                 </div>
               </div>
               <!-- School-->
               <div *ngIf="roleForm.value.isDisplay == 2">
-                <nz-select name="schoolId" formControlName="schoolId" ngModel=""
-                           (ngModelChange)="onChangeSchool($event, i)">
+                <nz-select nzShowSearch nzAllowClear name="schoolId" formControlName="schoolId" ngModel="" class="form-control so-form-control" (ngModelChange)="onChangeSchool($event, i)" 
+                [class.is-invalid]="roleForm.get('schoolId')?.invalid && (roleForm.get('schoolId').dirty || roleForm.get('schoolId').touched)"
+                [class.is-invalid-server]="validationMessagesServer?.schoolId.hasOwnProperty('message') && roleForm.get('schoolId').invalid">
                   <nz-option nzValue="" [nzLabel]="textSelect"></nz-option>
                   <nz-option [nzDisabled]="item?.disabled" *ngFor="let item of roleForm.value.schoolList" [nzLabel]="item.name" [nzValue]="item.id">
                   </nz-option>
                 </nz-select>
-
                 <div class="text-danger mt-2" *ngFor="let err of validationMessages.schoolId">
-                  <div
-                    *ngIf="roleForm.get('schoolId').hasError(err.type)"
-                  >
-                    {{ t(err.message) }}
-                  </div>
+                  <app-field-error-display
+                    [displayError]="roleForm.get('schoolId').invalid && (roleForm.get('schoolId').dirty || roleForm.get('schoolId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.schoolId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.schoolId"
+                    [displayErrorServer]="!(roleForm?.get('schoolId').dirty || roleForm?.get('schoolId').touched)">
+                  </app-field-error-display>
                 </div>
               </div>
             </div>
@@ -98,7 +112,7 @@
 <div class="modal-footer">
   <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
           (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
-  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" *ngIf="formGroup" [disabled]="formGroup.invalid || isSubmitForm"
+  <button type="button" class="so-btn so-btn-primary so-btn-primary--small" 
           (click)="submitForm(formGroup.value)">{{dataModal?.btnAccept}}</button>
 </div>
 <div class="spinner" *ngIf="isLoading">

@@ -1,270 +1,246 @@
 <!-- Dashboard -->
-<div class="menu-item">
-  <a class="so-menu-item" routerLink="/tenant/home" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-home.svg" alt="" />
+<div class="menu-item so-menu-item">
+  <a class="menu-link without-sub so-menu-link" routerLink="/staff/home" routerLinkActive="active">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-home.svg" alt="">
     </span>
-    <span class="menu-title">Trang chủ</span>
+    <span class="menu-title so-menu-title">Trang chủ</span>
   </a>
 </div>
+<!-- end dasboard -->
 
-<!-- Separator -->
-<div class="menu-item">
-  <div class="menu-content pt-8 pb-2">
-    <!--    <span class="group-item-menu-name ">Người dùng hệ thống</span>-->
-    <span
-      class="menu-section text-muted text-uppercase fs-8 ls-1 group-item-menu-name-custom"
-    >
-      Người dùng hệ thống
+<!-- quan ly thong bao -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
     </span>
-    <div class="separator mx-1 my-4"></div>
-  </div>
-  <a class="so-menu-item" routerLink="/tenant/school" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/school_icon.svg" alt="" />
-    </span>
-    <span class="menu-title">Trường học</span>
-  </a>
-  <a
-    class="so-menu-item"
-    routerLink="/staff/subject"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/school_icon.svg" alt="" />
-    </span>
-    <span class="menu-title">Danh sách môn học</span>
-  </a>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/customer-manager"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-khach-hang.svg" alt="" />
-    </span>
-    <span class="menu-title">Khách hàng</span>
-  </a>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/menu-manager"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img
-        src="assets/images/svg/icon-sidebar/icon-ql-menu-khach-hang.svg"
-        alt=""
-      />
-    </span>
-    <span class="menu-title">Menu khách hàng</span>
-  </a>
-</div>
-<!-- Pages -->
-
-<!-- Separator -->
-<div class="menu-item">
-  <div class="menu-content pt-8 pb-2">
-    <!--    <span class="group-item-menu-name ">Người dùng hệ thống</span>-->
-    <span
-      class="menu-section text-muted text-uppercase fs-8 ls-1 group-item-menu-name-custom"
-    >
-      Chức năng người dùng
-    </span>
-    <div class="separator mx-1 my-4"></div>
-  </div>
-  <a class="so-menu-item" routerLink="/tenant/module" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="" />
-    </span>
-    <span class="menu-title">Module</span>
-  </a>
-  <a class="so-menu-item" routerLink="/tenant/role" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="" />
-    </span>
-    <span class="menu-title">Phân quyền</span>
-  </a>
-  <div
-    class="menu-item menu-accordion"
-    data-kt-menu-trigger="click"
-    routerLinkActive="here show"
-  >
-    <span class="menu-link so-menu-item">
-      <span class="so-menu-item-icon">
-        <img
-          src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg"
-          alt=""
-        />
-      </span>
-      <span class="menu-title">Quản lí người dùng</span>
-    </span>
-    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
-      <span
-        class="menu-link"
-        routerLink="/tenant/student"
-        routerLinkActive="active"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">Học sinh</span>
-      </span>
-      <span
-        class="menu-link"
-        routerLinkActive="active"
-        routerLink="/staff/parent"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">Phụ huynh</span>
-      </span>
-      <span
-        class="menu-link"
-        routerLinkActive="active"
-        routerLink="/tenant/staff"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">CBNV</span>
-      </span>
+    <span class="menu-title so-menu-title" data-link="/staff/notification">Thông báo</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/notification/school"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Thông báo toàn trường</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/notification/sent"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Thông báo gửi</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/notification/received"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Thông báo nhận</span></a>
     </div>
   </div>
 </div>
+<!-- end quan ly thong bao -->
 
+<!-- quan ly du lieu he thong -->
 <!-- Separator -->
 <div class="menu-item">
-  <div class="menu-content pt-8 pb-2">
-    <!--    <span class="group-item-menu-name ">Người dùng hệ thống</span>-->
-    <span
-      class="menu-section text-muted text-uppercase fs-8 ls-1 group-item-menu-name-custom"
-    >
-      Học tập
-    </span>
-    <div class="separator mx-1 my-4"></div>
+  <div class="menu-content pt-8 pb-3">
+    <span class="menu-section ls-1 group-item-menu-name-custom">DỮ LIỆU HỆ THỐNG</span>
   </div>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/school-year"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-nam.svg" alt="" />
-    </span>
-    <span>Năm học</span>
-  </a>
-  <a class="so-menu-item" routerLink="/tenant/grade" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-khoi.svg" alt="" />
-    </span>
-    <span>Khối</span>
-  </a>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/subject"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-mon.svg" alt="" />
-    </span>
-    <span>Môn học</span>
-  </a>
 </div>
-<!-- Pages -->
-
-<!-- Separator -->
-<div class="menu-item">
-  <div class="menu-content pt-8 pb-2">
-    <!--    <span class="group-item-menu-name ">Người dùng hệ thống</span>-->
-    <span
-      class="menu-section text-muted text-uppercase fs-8 ls-1 group-item-menu-name-custom"
-    >
-      Khai báo hệ thống
+<!-- quản lý khai báo -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
     </span>
-    <div class="separator mx-1 my-4"></div>
-  </div>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/circulars-manager"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-thong-tu.svg" alt="" />
-    </span>
-    <span>Thông tư</span>
-  </a>
-  <a class="so-menu-item" routerLink="/tenant/user" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="" />
-    </span>
-    <span>Người dùng</span>
-  </a>
-  <a
-    class="so-menu-item"
-    routerLink="/tenant/employee"
-    routerLinkActive="active"
-  >
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="" />
-    </span>
-    <span>Nhân viên</span>
-  </a>
-  <a class="so-menu-item" routerLink="/tenant/moet" routerLinkActive="active">
-    <span class="so-menu-item-icon">
-      <img src="assets/images/svg/icon-sidebar/icon-csdl.svg" alt="" />
-    </span>
-    <span>CSDL</span>
-  </a>
-</div>
-<!-- Pages -->
-
-<div class="menu-item">
-  <div class="menu-content pb-2">
-    <div class="separator mx-1 mt-4"></div>
-  </div>
-  <div
-    class="menu-item menu-accordion"
-    data-kt-menu-trigger="click"
-    routerLinkActive="here show"
-  >
-    <span class="menu-link so-menu-item">
-      <span class="so-menu-item-icon">
-        <img src="assets/images/svg/icon-setting-blue.svg" alt="" />
-      </span>
-      <span class="menu-title">Cài đặt chung</span>
-    </span>
-    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
-      <span
-        class="menu-link"
-        routerLink="/staff/general-setting/info-setting"
-        routerLinkActive="active"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">Cài đặt thông tin trường</span>
-      </span>
-      <span
-        class="menu-link"
-        routerLinkActive="active"
-        routerLink="/tenant/parent"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">Cấu hình năm học</span>
-      </span>
-      <span
-        class="menu-link"
-        routerLinkActive="active"
-        routerLink="/tenant/staff"
-      >
-        <span class="menu-bullet">
-          <span class="bullet bullet-dot"></span>
-        </span>
-        <span class="menu-title">Cấu hình nhận xét</span>
-      </span>
+    <span class="menu-title so-menu-title" data-link="/staff/declare">Khai báo</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/declare/subject/list"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Danh sách môn học</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/declare/subject/subject-grade"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Môn học khối</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/staff/declare/infrastructure/building"><span class="menu-bullet"><span
+            class="bullet bullet-dot"></span></span><span class="menu-title so-menu-title-sub">Tòa nhà</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/staff/declare/infrastructure/classroom"><span class="menu-bullet"><span
+            class="bullet bullet-dot"></span></span><span class="menu-title so-menu-title-sub">Phòng học</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/declare/period"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Tiết học</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/declare/profile-category"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Danh mục hồ sơ học sinh</span></a>
     </div>
   </div>
 </div>
+<!-- end quan ly khai báo -->
+<!-- Phân công giáo viên -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title" data-link="/staff/assign-teacher">Phân công giáo viên</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/assign-teacher/homeroom-class"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Phân công lớp chủ nhiệm</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/assign-teacher/course-teacher"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Phân công lớp bộ môn</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/assign-teacher/grade-master"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Phân công trưởng khối</span></a>
+    </div>
+  </div>
+</div>
+<!-- Phân công giáo viên -->
+<!-- quản lý hồ sơ học sinh -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title" data-link="/staff/profile-student">Hồ sơ học sinh</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/staff/profile-student/manager-profile"><span class="menu-bullet"><span
+            class="bullet bullet-dot"></span></span><span class="menu-title so-menu-title-sub">Quản lý hồ sơ</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active"
+        routerLink="/staff/profile-student/approve-profile-student"><span class="menu-bullet"><span
+            class="bullet bullet-dot"></span></span><span class="menu-title so-menu-title-sub">Phê duyệt hồ
+          sơ</span></a>
+    </div>
+  </div>
+</div>
+<!-- end quan ly hồ sơ học sinh -->
+<!-- end quan ly du lieu he thong -->
+
+<!-- Separator -->
+<div class="menu-item">
+  <div class="menu-content pt-8 pb-3">
+    <span class="menu-section ls-1 group-item-menu-name-custom">NGƯỜI DÙNG HỆ THỐNG</span>
+  </div>
+</div>
+
+<!-- quản lý người dùng -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title" data-link="/staff/user">Quản lý người dùng</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/student"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Học sinh</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/parent"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Phụ huynh</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/employee"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Cán bộ nhân viên</span></a>
+    </div>
+  </div>
+</div>
+<!-- end quan ly nguoi dung -->
+
+<!-- quản ly dao tao -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title" data-link="/staff">Đào tạo</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/homeroom-class"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Lớp chủ nhiệm</span></a>
+    </div>
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/course"><span
+          class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+          class="menu-title so-menu-title-sub">Lớp môn học</span></a>
+    </div>
+  </div>
+</div>
+<!-- end quan ly dao tao -->
+
+<!-- begin quan ly dao tao -->
+<div class="menu-item menu-accordion so-menu-item" data-kt-menu-trigger="click" routerLinkActive="here show">
+  <span class="menu-link so-menu-link">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-sidebar/icon-ql-nguoi-dung.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title" data-link="/staff">Điểm hành vi</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/behavior/behavior-manager"><span
+        class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+        class="menu-title so-menu-title-sub">Quản lý tiêu chí</span></a>
+    </div>
+  </div>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/staff/behavior"><span
+        class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
+        class="menu-title so-menu-title-sub">Chấm điểm</span></a>
+    </div>
+  </div>
+</div>
+<!-- end diem hanh vi -->
+
+<!-- quan ly cai dat -->
+<div class="menu-item">
+  <div class="menu-content pt-4 pb-3">
+    <span class="menu-section ls-1 group-item-menu-name-custom">CÀI ĐẶT</span>
+  </div>
+</div>
+<div class="menu-item so-menu-item">
+  <a class="menu-link without-sub so-menu-link" routerLink="/staff/general-setting/info-setting"
+    routerLinkActive="active">
+    <span class="menu-icon so-menu-icon">
+      <img src="assets/images/svg/icon-setting-blue.svg" alt="">
+    </span>
+    <span class="menu-title so-menu-title">Cài đặt chung</span>
+  </a>
+</div>
+<!-- end quan ly cai dat -->

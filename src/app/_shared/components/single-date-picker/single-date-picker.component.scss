@@ -7,15 +7,22 @@
         border-radius: 6px;
         text-align: left;
         border: none;
-        height: 40px;
-        padding: 5px 20px 5px 10px;
-    }
 
-    input:focus {
-        background: #F5F8FA !important;
-        border-radius: 6px;
-        text-align: left;
-        border: none;
+        // height: 40px;
+        // padding: 5px 20px 5px 10px;
+        &:focus {
+            background: #F5F8FA;
+            border-color: #40a9ff !important;
+            box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
+            border-right-width: 1px !important;
+            outline: 0;
+            border-radius: 5px;
+            height: 35px !important;
+        }
+
+        &:disabled {
+            background: #E1E1E1;
+        }
     }
 
     .icon-date-picker {

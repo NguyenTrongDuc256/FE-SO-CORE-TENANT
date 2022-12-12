@@ -1,9 +1,10 @@
-<div class="card mb-5 mb-xxl-8" *transloco="let t; scope: 'parent'">
-
-  <div class="card-body pt-9 pb-0" *ngIf="parentInfo">
-    <div class="col-xl-12 mb-8 pb-8" style="border-bottom: 1px solid #ECECEC">
-      <span class="card-label fs-18 fw-700">{{ t('parent.detail') }}</span>
-    </div>
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'parent'">
+  <div class="card-header" *ngIf="parentInfo">
+    <h3 class="card-title fs-18 fw-700">{{ t('parent.detail') }}</h3>
+    <div class="card-toolbar"></div>
+  </div>
+  <div class="card-body py-5 pt-0 text-color-river-bed" *ngIf="parentInfo">
+    <hr class="mt-0 mb-8">
     <div class="d-flex flex-wrap flex-sm-nowrap">
       <div class="me-15 mb-5">
         <div class="symbol symbol-fixed position-relative avatar">
@@ -14,45 +15,49 @@
         <div class="d-flex justify-content-between align-items-start flex-wrap mb-5">
           <div class="d-flex flex-column">
             <div class="d-flex align-items-center mb-2">
-              <span class="text-gray-900 fs-20 fw-700">{{ parentInfo.name }}</span>
+              <span class="text-color-river-bed fs-17 fw-700">{{ parentInfo.name }}</span>
             </div>
             <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2"></div>
           </div>
           <div class="d-flex action-edit">
-            <a [routerLink]="['/staff/parent/edit', parentInfo.id]" class="btn fs-14">
-              <img class="action-icon pe-3" src="assets/images/svg/write1.svg" alt="">
+            <button class="so-btn so-btn-primary so-btn-primary--small" name="btn-action-update"
+              [routerLink]="['/staff/parent/edit', parentInfo.id]">
+              <img class="action-icon" src="assets/images/svg/write1.svg" alt="">
               <span>{{ t('btnAction.update') }}</span>
-            </a>
+            </button>
           </div>
         </div>
         <div class="d-flex flex-wrap flex-stack user-info fs-14">
           <div class="d-flex flex-column flex-grow-1 pe-8">
             <div class="d-flex flex-wrap">
               <div class="d-flex justify-content-start align-items-center me-20">
-                <img class="action-icon pe-3" src="assets/images/svg/user-3.svg" alt="">
-                <span class="fw-700">{{t('parent.code')}}: {{parentInfo.code}}</span>
+                <img class="action-icon me-2" src="assets/images/svg/user-3.svg" alt="">
+                <span class="fw-600">{{t('parent.code')}}: {{parentInfo.code}}</span>
               </div>
               <div class="d-flex justify-content-start align-items-center me-20">
-                <img class="action-icon pe-3" src="assets/images/svg/gender1.svg" alt="">
+                <img class="action-icon me-2" src="assets/images/svg/gender1.svg" alt="">
                 <div class="d-flex align-items-center">
-                  <span class="pe-2 fw-700">{{ t('gender') }}:</span>
-                  <span  class=" gender-{{ parentInfo.gender }}">
-                    {{ parentInfo.gender == 1 ? t('genderName.male') : (parentInfo.gender == 2 ? t('genderName.female') : t('other')) }}
+                  <span class="pe-2 fw-600">{{ t('gender') }}:</span>
+                  <span
+                    class="{{ parentInfo.gender == 1 ? 'gender-male' : (parentInfo.gender == 2 ? 'gender-fmale' : 'gender-other') }}">
+                    {{ parentInfo.gender == 1 ? t('genderName.male') : (parentInfo.gender == 2 ? t('genderName.female')
+                    : t('other')) }}
                   </span>
                 </div>
               </div>
               <div class="d-flex justify-content-start align-items-center me-20">
-                <img [src]="parentInfo.isAccessApp == 1 ? 'assets/images/svg/tick1.svg' : 'assets/images/svg/lock11.svg'" class="action-icon pe-3" alt="icon">
-                <!--                <img *ngIf="parentInfo.isAccessApp == 0" class="action-icon pe-3" src="assets/images/svg/lock11.svg"-->
-                <!--                     alt="icon">-->
-                <span class="fw-700">{{parentInfo.isAccessApp == 1 ? t('parent.accessApp') : t('parent.noAccessApp')}}</span>
+                <img
+                  [src]="parentInfo.isAccessApp == 1 ? 'assets/images/svg/tick1.svg' : 'assets/images/svg/lock11.svg'"
+                  class="action-icon me-2" alt="icon">
+                <span class="fw-600">{{parentInfo.isAccessApp == 1 ? t('parent.accessApp') :
+                  t('parent.noAccessApp')}}</span>
               </div>
               <div class="d-flex justify-content-start align-items-center me-20">
-                <img *ngIf="parentInfo.isActive == 1" class="action-icon pe-3" src="assets/images/svg/tick1.svg"
-                     alt="icon">
-                <img *ngIf="parentInfo.isActive == 0" class="action-icon pe-3" src="assets/images/svg/lock11.svg"
-                     alt="icon">
-                <span class="fw-700">{{parentInfo.isActive == 1 ? t('parent.active') : t('parent.noActive')}}</span>
+                <img *ngIf="parentInfo.isActive == 1" class="action-icon me-2" src="assets/images/svg/tick1.svg"
+                  alt="icon">
+                <img *ngIf="parentInfo.isActive == 0" class="action-icon me-2" src="assets/images/svg/lock11.svg"
+                  alt="icon">
+                <span class="fw-600">{{parentInfo.isActive == 1 ? t('parent.active') : t('parent.noActive')}}</span>
               </div>
             </div>
           </div>
@@ -62,164 +67,173 @@
     <div class="user-info1">
       <div class="row fs-14 mb-6 mt-5">
         <div class="col-md-4 row">
-          <div class="col-md-6">
-            <span class="text-color fw-700">{{t('parent.username')}}:</span>
+          <div class="col-md-5">
+            <span class="fw-700">{{t('parent.username')}}:</span>
           </div>
           <div class="col-md-6">
-            <span class="text-color-blue">{{parentInfo.username}}</span>
+            <span class="text-color-picton-blue fw-600">{{parentInfo.username}}</span>
           </div>
         </div>
-        <div class="col-md-6 row">
-          <div class="col-md-6">
-            <span class="text-color fw-700">{{t('email')}}:</span>
+        <div class="col-md-4 row">
+          <div class="col-md-5">
+            <span class="fw-700">{{t('email')}}:</span>
           </div>
           <div class="col-md-6">
-            <span class="text-color-blue">{{parentInfo.email}}</span>
+            <span class="text-color-picton-blue fw-600">{{parentInfo.email}}</span>
           </div>
         </div>
       </div>
       <div class="row fs-14">
         <div class="col-md-4 row">
-          <div class="col-md-6">
-            <span class="text-color fw-700">{{t('parent.dob')}}:</span>
+          <div class="col-md-5">
+            <span class="fw-700">{{t('parent.dob')}}:</span>
           </div>
           <div class="col-md-6">
-            <span class="text-color-blue">{{parentInfo.birthday | formatTime}}</span>
+            <span class="text-color-picton-blue fw-600">{{parentInfo.birthday | formatTime}}</span>
           </div>
         </div>
-        <div class="col-md-6 row">
-          <div class="col-md-6">
-            <span class="text-color fw-700">{{t('parent.phone')}}:</span>
+        <div class="col-md-4 row">
+          <div class="col-md-5">
+            <span class="fw-700">{{t('parent.phone')}}:</span>
           </div>
           <div class="col-md-6">
-            <span class="text-color-blue">{{parentInfo.phone}}</span>
+            <span class="text-color-picton-blue fw-600">{{parentInfo.phone}}</span>
           </div>
         </div>
       </div>
+      <hr class="mt-8 mb-0">
     </div>
-    <div class="role mt-10">
-      <div class="d-flex algin-items-center justify-content-between flex-wrap">
-        <span class="card-label fs-18 fw-700">{{t('parent.listChild')}}</span>
-      </div>
-      <div class="mt-12 table-responsive">
-        <table class="table align-middle gs-0 gy-3 my-0 ">
-          <thead>
-          <tr class="fs-14 fw-700 border-bottom border-gray-200">
-            <th class="pb-3 text-start">
-              {{ t('parent.fullName') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('gender') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('parent.dob') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('parent.class') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('grade') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('parent.school1') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('status') }}
-            </th>
-            <th class="pb-3 text-start">
-              {{ t('action') }}
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let item of dataSource">
-            <td class="text-start">
-              <div class="d-flex align-items-center">
-                <div class="symbol symbol-50px me-3">
-                  <img src="{{ item.avatar == '' ? avatarUser : item.avatar }}" class="border-radius-50" alt="">
-                </div>
-                <div class="d-flex justify-content-start flex-column">
-                  <a class="fw-700 color-50a5f1 mb-1 fs-13" [routerLink]="['/staff/student/info', item.studentId]">
-                    {{ item.fullname }}
-                  </a>
-                  <span class="d-block fs-12">
-                        <span class="color-50a5f1">ID: </span>
-                        <span>
-                          {{ item.code }}
+    <div class="role">
+      <div class="card card-flush shadow-none p-0 h-full">
+        <div class="card-header p-0">
+          <h3 class="card-title fs-16 fw-700">{{t('parent.listChild')}}</h3>
+          <div class="card-toolbar"></div>
+        </div>
+        <div class="card-body py-5 p-0 pt-0">
+          <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-300">
+              <caption></caption>
+              <thead>
+                <tr class="fs-14 fw-700 text-color-river-bed">
+                  <th class="w-4 text-center">{{ t('STT') }}</th>
+                  <th>
+                    {{ t('parent.fullName') }}
+                  </th>
+                  <th>
+                    {{ t('gender') }}
+                  </th>
+                  <th>
+                    {{ t('parent.dob') }}
+                  </th>
+                  <th>
+                    {{ t('parent.class') }}
+                  </th>
+                  <th>
+                    {{ t('grade') }}
+                  </th>
+                  <th>
+                    {{ t('parent.school1') }}
+                  </th>
+                  <th>
+                    {{ t('status') }}
+                  </th>
+                  <th class="text-center">
+                    {{ t('action') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of dataSource;let i=index" class="fs-13 fw-600 text-color-river-bed">
+                  <td class="text-center">{{i+1}}</td>
+                  <td class="text-start">
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-50px me-3">
+                        <img src="{{ item.avatar == '' ? avatarUser : item.avatar }}" class="border-radius-50" alt="">
+                      </div>
+                      <div class="d-flex justify-content-start flex-column">
+                        <a class="fw-700 text-color-picton-blue mb-1 fs-14"
+                          [routerLink]="['/tenant/student/info', item.studentId]" name="btn-action-detail-children">
+                          {{ item.fullname }}
+                        </a>
+                        <span class="d-block fs-13">
+                          <span class="fw-700 text-color-picton-blue">ID: </span>
+                          <span class="fw-600">
+                            {{ item.code }}
+                          </span>
                         </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-start">
+                    <span
+                      class="{{ item.gender == 1 ? 'gender-male' : (item.gender == 2 ? 'gender-fmale' : 'gender-other') }}">{{
+                      getGenderName(item.gender) }}</span>
+                  </td>
+                  <td class="text-start">
+                    <div class="d-flex align-items-center">
+                      <img class="me-2" src="assets/images/svg/dob.svg" alt="">
+                      <span class="fw-700">
+                        {{ item.birthday | formatTime }}
                       </span>
-                </div>
-              </div>
-            </td>
-            <td class="text-start">
-              <span class="gender-{{ item.gender }}">{{ getGenderName(item.gender) }}</span>
-            </td>
-            <td class="text-start">
-              <div class="d-flex align-items-center">
-                <img class="pe-1" src="assets/images/svg/dob.svg" alt="">
-                <span class="fw-700 fs-13">
-                      {{ item.birthday | formatTime }}
+                    </div>
+                  </td>
+                  <td class="text-start">
+                    <span class="fw-700 fs-13">
+                      {{ item. homeroomClassName }}
                     </span>
-              </div>
-            </td>
-            <td class="text-start">
-                  <span class="fw-700 fs-13">
-                    {{ item. homeroomClassName }}
-                  </span>
-            </td>
-            <td class="text-start">
-                  <span class="fw-700 fs-13">
-                    {{ item.gradeName }}
-                  </span>
-            </td>
-            <td class="text-start ">
-                  <span class="fw-700 fs-13">
-                    {{ item.schoolName }}
-                  </span>
-            </td>
-            <td class="text-start fs-11 fw-700">
-              <span class="status-{{item.status}}">{{ getStatusStudent(item.status) }}</span>
-            </td>
-            <td class="text-start ">
-              <div class="d-flex align-items-center justify-content-center">
-                    <span class="user-action">
-                      <img nz-button nz-dropdown [nzDropdownMenu]="menu" class="action-icon"
-                           src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  </td>
+                  <td class="text-start">
+                    <span class="fw-700 fs-13">
+                      {{ item.gradeName }}
+                    </span>
+                  </td>
+                  <td class="text-start ">
+                    <span class="fw-700 fs-13">
+                      {{ item.schoolName }}
+                    </span>
+                  </td>
+                  <td class="text-start fs-11 fw-700">
+                    <span
+                      class="badge so-badge {{ (item.status == 1 || item.status == 2 || item.status == 3 || item.status == 6 || item.status == 7 || item.status == 10) ? 'badge-primary so-badge--primary' : 'badge-danger so-badge--danger' }}">{{
+                      getStatusStudent(item.status) }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                      name="opend-so-action">
+                      <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
                       <nz-dropdown-menu #menu="nzDropdownMenu">
                         <ul nz-menu>
                           <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="changePassword(item)"
-                                name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/password.svg" alt="">
-                                {{ t('parent.btnAction.changedPassword') }}
-                              </span>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-change-password"
+                              (click)="changePassword(item)"><img class="so-action--icon"
+                                src="assets/images/svg/password.svg" alt="">{{ t('parent.btnAction.changedPassword') }}
                             </li>
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item"
-                                (click)="openModalConfirmDelete(item)" name="btn-comfirm">
-                              <span>
-                                <img class="action-icon pe-3" src="assets/images/svg/delete6.svg" alt="">
-                                {{ t('btnAction.delete') }}
-                              </span>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                              (click)="updateAccessAppStatus(item)" name="btn-change-pwd">
+                              <img class="so-action--icon"
+                                [src]="item.isAccessApp == 1 ? 'assets/images/svg/block_icon.svg' : 'assets/images/svg/block_icon.svg'"
+                                alt="">
+                              {{ item.isAccessApp == 1 ? t('parent.btnAction.lockedAccount') :
+                              t('parent.btnAction.unlockAppAccess')}}
                             </li>
-                            <li nz-menu-item class="fs-14 fw-600 custom-action-item"
-                                (click)="updateAccessAppStatus(item)" name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" [src]="item.isAccessApp == 1 ? 'assets/images/svg/block_icon.svg' : 'assets/images/svg/block_icon.svg'" alt="">
-                                {{ item.isAccessApp == 1 ? t('parent.btnAction.lockedAccount') : t('parent.btnAction.unlockAppAccess')}}
-                              </span>
+                            <li nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                              (click)="openModalConfirmDelete(item)" name="btn-delete">
+                              <img class="so-action--icon" src="assets/images/svg/delete6.svg" alt="">{{
+                              t('btnAction.delete') }}
                             </li>
                           </ng-template>
                         </ul>
-
                       </nz-dropdown-menu>
                     </span>
-              </div>
-
-            </td>
-          </tr>
-          </tbody>
-        </table>
+                  </td>
+                </tr>
+                <tr *ngIf="dataSource?.length == 0 || !dataSource">
+                  <td class="text-no-data" colspan="9">{{t('noData')}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; scope: 'auth'">
   <form>
-    <h4 class="mb-6 text-medium-global fw-700 so-auth-text-primary pt-12 pb-6">
+    <h4 class="mb-6 fs-18 fw-700 so-auth-text-primary pt-10 pb-6">
       {{t('auth.enterCode')}}
     </h4>
 
@@ -21,8 +21,12 @@
         class="so-auth-text-secondary">{{userName}}</strong></p> -->
     <!--begin::Form group-->
     <div class="fv-row mb-10">
-      <input class="form-control form-control-lg form-control-solid" type="text" placeholder="{{t('auth.enterCode')}}"
-        name="email" numbersOnly [(ngModel)]="code" autocomplete="off" />
+      <input class="so-form-control form-control" type="text" placeholder="{{t('auth.enterCode')}}"
+        name="email" numbersOnly [(ngModel)]="code" autocomplete="off" #codeInput="ngModel"
+        [class.is-invalid]="(!code || code.trim() == '') && (codeInput.dirty || codeInput.touched)"/>
+        <div *ngIf="(!code || code.trim() == '') && (codeInput.dirty || codeInput.touched)" class="mt-2">
+          <span class="text-danger">{{t('auth.requiredEnterCode')}}</span>
+        </div>
     </div>
     <!--end::Form group-->
     <!--begin::Form group-->
@@ -36,19 +40,13 @@
         {{t('auth.resendCode')}} ({{ timer | formatTimeToMinute }})
       </span>
       <div class="d-flex flex-wrap justify-content-end">
-        <a routerLink="/auth/forgot-password" id="kt_login_password_reset_form_cancel_button"
+        <a routerLink="/auth/forgot-password" [queryParams]="{userName: userName}" id="kt_login_password_reset_form_cancel_button"
           class="btn btn-lg btn-light-primary fw-bolder me-4 btn-auth-cancel disable">
           {{t('btnAction.cancel')}}
         </a>
         <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder btn-auth-submit"
-          [disabled]="hasError || !code" (click)="sendCode()">
+          (click)="sendCode()">
           <span class="indicator-label">{{t('btnAction.next')}}</span>
-          <ng-container *ngIf="isLoading$ | async">
-            <span class="indicator-progress">
-              {{t('auth.waite')}}
-              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          </ng-container>
         </button>
       </div>
     </div>

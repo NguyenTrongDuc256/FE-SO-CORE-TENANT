@@ -1,0 +1,104 @@
+<div class="card card-flush p-0" *transloco="let t; scope: 'infrastructure'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('infrastructure.buildingManager') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap algin-items-center text-color-river-bed">
+        <select name="btn-educationalStages " id="" [(ngModel)]="IsActive" class="fs-13 fw-600 so-select me-4 mb-3"
+          (change)="getListBuildingStaff()">
+          <option value="">{{ t('infrastructure.status') }}</option>
+          <option value="0">{{ t('infrastructure.stopUsing') }}</option>
+          <option value="1">{{ t('infrastructure.using') }}</option>
+        </select>
+        <div class="so-input-search me-4 mb-3">
+          <input type="text" class="fs-13 fw-600" [(ngModel)]="keyWord" (keyup.enter)="getListBuildingStaff()"
+            placeholder="{{ t('search') }}">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="getListBuildingStaff()" />
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.classroom_building_manager }}">
+          <button class="card-button so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-create"
+            (click)="createBuilding()">
+            <img class="add-icon" src="assets/images/svg/add.svg" alt="">
+            <span class="fs-13 fw-600"> {{ t('btnAction.add') }}</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-5">
+              {{ t('infrastructure.order') }}
+            </th>
+            <th class="w-25">
+              {{ t('infrastructure.buildingName') }}
+            </th>
+            <th class="w-25">
+              {{ t('infrastructure.buildingCode') }}
+            </th>
+            <th class="w-15">
+              {{ t('infrastructure.numberOfFloor') }}
+            </th>
+            <th class="w-20">
+              {{ t('infrastructure.status') }}
+            </th>
+            <th class="text-center w-10">
+              {{ t('infrastructure.action') }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="fw-bold">
+          <tr *ngFor="let item of listBuilding;let i = index" class="fs-13 fw-600 text-color-river-bed">
+            <td class="text-center">
+              <p class="webkit-box-1 mb-0" title="{{i+1}}"> {{i+1}}</p>
+            </td>
+            <td class=" ">
+              <p class="webkit-box-1 mb-0" title="{{item.Name}}"> {{item.Name}}</p>
+            </td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{ item.Code }}"> {{ item.Code }}</p>
+            </td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{ item.NumberOfFloor }}"> {{ item.NumberOfFloor }}</p>
+            </td>
+            <td class="">
+              <span *ngIf="item.IsActive == 0" class="badge so-badge text-color-white bg-color-bittersweet">{{ t('infrastructure.stopUsing') }}</span>
+              <span *ngIf="item.IsActive == 1" class="badge so-badge text-color-white bg-color-greenish-teal">{{ t('infrastructure.using') }}</span>
+            </td>
+
+            <td class="color-td fs-11 fw-700 text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.classroom_building_manager }}">
+                <span class="so-action " nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="updateBuilding(item)">
+                        <img class="so-action--icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-danger" (click)="removeBuilding(item.id)"><img
+                          class="so-action--icon" src="assets/images/svg/icon-delete.svg" alt="">{{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="listBuilding?.length == 0 || !listBuilding">
+            <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

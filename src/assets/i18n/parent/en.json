@@ -37,7 +37,7 @@
   "validators":{
     "fullName":{
       "required":"fullName is required",
-      "maxLength": "fullName can't have more than 50 characters"
+      "maxLength": "fullName can't have more than 255 characters"
     },
     "code":{
       "required":"code is required",
@@ -70,5 +70,9 @@
   },
   "avatar": "Avatar",
   "upload": "Upload image",
-  "close": "Close"
+  "close": "Close",
+  "deleteStudent": "Delete user",
+  "note1": "By importing parent data from file, the system will do the following:",
+  "note2": "1. Parent login name: Get by phone number",
+  "note3": "2. If the login information already exists on the system, it will be assigned a parent, not a new one"
 }

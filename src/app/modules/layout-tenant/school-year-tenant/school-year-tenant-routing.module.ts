@@ -35,4 +35,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 
-export class SchoolYearListTenantRoutingModule {}
+export class SchoolYearTenantRoutingModule {}

@@ -1,0 +1,53 @@
+<ng-container *transloco="let t; scope: 'student-records'">
+  <div class="modal-header">
+    <h5 class="title-modal-global fw-700 ">{{t('titleImport')}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')" name="btn-close"
+      [hidden]="true">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="fs-14 fw-600 text-danger">{{t('note')}}:</p>
+    <p class="fs-14 fw-600">
+      - {{t('studentRecords.note1')}}<br>
+      - {{t('studentRecords.note2')}}<br>
+      - {{t('studentRecords.note3')}}
+    </p>
+    <div class="row mt-4">
+      <label class="col-sm-2  fw-600 fs-14 d-flex align-items-center">{{t('fileFormat')}}</label>
+      <div class="col-sm-6 px-0 input-import-units-custom">
+        <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden
+          id="input-file-upload-hoc-sinh" (change)="onFileChange($event)">
+        <img src="assets/images/svg/icon-excel.svg" class="image-upload-import-custom cursor-pointer">
+        <div class="input-group cursor-pointer" (click)="uploadFile()" name="btn-upload-file">
+          <input readonly type="text" class="form-control form-control-custom cursor-pointer" [(ngModel)]="fileName"
+            placeholder="{{t('warmingValidateFormImport')}}">
+        </div>
+        <span class="span-image-upload-import-custom d-flex justify-content-center align-items-center cursor-pointer"
+          (click)="uploadFile()" name="btn-upload-file-icon">
+          <img src="/assets/images/svg/import6.svg">
+          Click to upload
+        </span>
+      </div>
+      <div class="col-sm-4  d-flex justify-content-end">
+        <a download="file-import-mau-upload-ho-so-hoc-sinh" href="assets/files/BM_Import_duong_dan_ho_so_hoc_sinh.xlsx"
+          type="text/plain" type="submit" name="btn-export-example"
+          class="btn btn-add-edit-custom  ml-2  d-flex justify-content-center align-items-center">
+          <img src="assets/images/svg/icon-import.svg" class='mr-2' style='height: 18px'>
+          {{t('studentRecords.downloadSampleFiles')}}
+        </a>
+        <button class="btn-add-edit-custom" (click)="exportExcel()" name="btn-export-example-code">
+          <img src="assets/images/svg/icon-import.svg" class='mr-2' style='height: 18px'>
+          {{t('studentRecords.downloadSampleFileWithCode')}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-flex justify-content-center">
+    <button type="button" class="so-btn btn-confirm-import-custom " [disabled]="!file || isLoading"
+      (click)="confirmUploadFile()" name="btn-confirm">{{t('btnAction.confirm')}}</button>
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</ng-container>

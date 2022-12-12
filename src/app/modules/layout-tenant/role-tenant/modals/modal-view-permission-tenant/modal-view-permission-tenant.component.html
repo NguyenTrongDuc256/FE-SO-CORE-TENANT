@@ -1,39 +1,46 @@
 <ng-container *transloco="let t; scope: 'role'">
   <div class="modal-header">
     <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
-    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
-      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="d-flex algin-items-center justify-content-end">
-      <div class="filter d-flex">
-        <div class="so-input-search mx-4">
-          <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" name="input-search" nz-input placeholder="{{t('role.search')}}" #searchInput
-              (keydown)="search($event, searchInput.value)" />
-          </nz-input-group>
-          <ng-template #suffixIconSearch>
-            <img src="assets/images/svg/search.svg" alt="" nzType="search">
-          </ng-template>
+    <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center justify-content-end me-8">
+        <div class="filter d-flex">
+          <div class="so-input-search">
+            <input type="text" placeholder="{{ t('role.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+          </div>
         </div>
       </div>
+      <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+        name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="mt-8">
+  </div>
+  <div class="modal-body">
+    <!-- <div class="d-flex align-items-center justify-content-end mb-4">
+      <div class="filter d-flex">
+        <div class="so-input-search">
+          <input type="text" placeholder="{{ t('role.search') }}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" />
+        </div>
+      </div>
+    </div> -->
+    <div class="mt-4">
       <div class="row">
         <ng-container *ngFor="let item of listPermission">
           <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3" style="margin-bottom: 15px">
             <div class="box">
               <div class="box-header">
                 <span>{{item.name}}</span>
-                <span class="text-link">({{item.code}})</span>
+                <span class="text-link text-break">({{item.code}})</span>
               </div>
               <div class="box-body">
                 <div *ngFor="let permission of item.permissions">
                   <img src="assets/images/svg/tich.svg" alt="">
                   <span>{{permission.name}}&nbsp;</span>
-                  <span class="text-link">({{permission.code}})</span>
+                  <span class="text-link text-break">({{permission.code}})</span>
                 </div>
               </div>
             </div>

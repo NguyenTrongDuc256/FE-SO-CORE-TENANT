@@ -1,0 +1,41 @@
+.list-period {
+    .so-title {
+        box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 1rem 0;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(54%) sepia(74%) saturate(1350%) hue-rotate(185deg) brightness(102%) contrast(89%);
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+        }
+
+    }
+
+    .so-item {
+        .ahihi {
+            box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        height: 8.5rem;
+
+        .period {
+            text-align: center;
+            padding: 1px;
+        }
+
+        .order {
+            position: absolute;
+            left: 10%;
+            top: 40%;
+        }
+    }
+}
+
+.so-footer {
+    border: none;
+}

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { translate } from '@ngneat/transloco';
-import { School } from 'src/app/_models/layout-tenant/school/school.model';
-import { GeneralService } from 'src/app/_services/general.service';
-import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { ShareDataUsingService } from 'src/app/_services/share-data.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
-import { DATA_PERMISSION, STATUS_ACTIVE } from 'src/app/_shared/utils/constant';
-import { ModalFormDiemTruongComponent } from '../../modals/modal-form-diem-truong/modal-form-diem-truong.component';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {translate} from '@ngneat/transloco';
+import {School} from 'src/app/_models/layout-tenant/school/school.model';
+import {GeneralService} from 'src/app/_services/general.service';
+import {SchoolService} from 'src/app/_services/layout-tenant/school/school.service';
+import {ShareDataUsingService} from 'src/app/_services/share-data.service';
+import {ShowMessageService} from 'src/app/_services/show-message.service';
+import {ModalDeleteComponent} from 'src/app/_shared/modals/modal-delete/modal-delete.component';
+import {DATA_PERMISSION, PAGE_INDEX_DEFAULT, STATUS_ACTIVE} from 'src/app/_shared/utils/constant';
+import {ModalFormDiemTruongComponent} from '../../modals/modal-form-diem-truong/modal-form-diem-truong.component';
 
 @Component({
   selector: 'app-danh-sach-diem-truong',
@@ -32,12 +32,13 @@ export class DanhSachDiemTruongComponent implements OnInit {
     private activatedRouter: ActivatedRoute,
     private shareDataUsingService: ShareDataUsingService,
     private generalService: GeneralService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.schoolId = this.activatedRouter.snapshot.params.id;
     this.shareDataUsingService.currentApprovalStageMessage.subscribe((res: any) => {
-      if(res.key == 'info-basic-school') {
+      if (res.key == 'info-basic-school') {
         this.infoBasicSchool = res.value;
       }
     })
@@ -50,23 +51,26 @@ export class DanhSachDiemTruongComponent implements OnInit {
       .danhSachDiemTruong(this.schoolId, this.keyword)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data && res.data != '' ? res.data : [];
-            this.arrList.forEach((item, index) => this.getNameDistrict(item.QuanHuyen, index));
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data && res.data != '' ? res.data : [];
+          this.arrList.forEach((item, index) => {
+            if (item.QuanHuyen != '' && item.QuanHuyen) {
+              this.getNameDistrict(item.QuanHuyen, index)
+            }
+          });
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
 
   getNameDistrict(codeDistrict: string, index: number) {
+    this.isLoading = true;
     this.generalService.getNameDistrict(codeDistrict).subscribe((res: any) => {
       this.arrList[index]['TenQuanHuyen'] = res.TEN;
+      this.isLoading = false;
     })
   }
 
@@ -111,29 +115,33 @@ export class DanhSachDiemTruongComponent implements OnInit {
       keyFirebaseModule: 'school-location',
       nameForm: 'create',
     };
-    this.generalService.getListDistrict(this.infoBasicSchool.CityCode).subscribe((res: any) => {
-      this.isLoading = false;
-      dataFromParent.arrDistrict = res;
-      const modalRef = this.openModal(
-        ModalFormDiemTruongComponent,
-        'school.titleDialogThemDiemTruong',
-        'btnAction.cancel',
-        'btnAction.save',
-        dataFromParent,
-        'xl', 'static'
-      );
-      modalRef.result.then(
-        (result: boolean) => {
-          if (result) {
-            this.getList();
+    if (this.infoBasicSchool?.CityCode && this.infoBasicSchool?.CityCode != '') {
+      this.generalService.getListDistrict(this.infoBasicSchool.CityCode).subscribe((res: any) => {
+        this.isLoading = false;
+        dataFromParent.arrDistrict = res;
+        const modalRef = this.openModal(
+          ModalFormDiemTruongComponent,
+          'school.titleDialogThemDiemTruong',
+          'btnAction.cancel',
+          'btnAction.save',
+          dataFromParent,
+          'xl', 'static'
+        );
+        modalRef.result.then(
+          (result: boolean) => {
+            if (result) {
+              this.getList();
+            }
+          },
+          (reason) => {
+            return;
           }
-        },
-        (reason) => {
-          return;
-        }
-      );
+        );
 
-    }, (err) => {
+      }, (err) => {
+        this.isLoading = false;
+      });
+    } else {
       this.isLoading = false;
       const modalRef = this.openModal(
         ModalFormDiemTruongComponent,
@@ -153,7 +161,8 @@ export class DanhSachDiemTruongComponent implements OnInit {
           return;
         }
       );
-    });
+    }
+
   }
 
   update(id: string, maDiemTruong: string, value: any) {
@@ -169,30 +178,35 @@ export class DanhSachDiemTruongComponent implements OnInit {
       keyFirebaseModule: 'school-location',
       nameForm: 'update',
     };
-    this.generalService.getListDistrict(this.infoBasicSchool.CityCode).subscribe((res: any) => {
-      this.isLoading = false;
-      dataFromParent.arrDistrict = res;
-      const modalRef = this.openModal(
-        ModalFormDiemTruongComponent,
-        'school.titleDialogSuaDiemTruong',
-        'btnAction.cancel',
-        'btnAction.save',
-        dataFromParent,
-        'xl', 'static'
-      );
-      modalRef.result.then(
-        (result: boolean) => {
-          if (result) {
-            this.getList();
+    if (this.infoBasicSchool?.CityCode && this.infoBasicSchool?.CityCode != '') {
+      this.generalService.getListDistrict(this.infoBasicSchool.CityCode).subscribe((res: any) => {
+        this.isLoading = false;
+        dataFromParent.arrDistrict = res;
+        const modalRef = this.openModal(
+          ModalFormDiemTruongComponent,
+          'school.titleDialogSuaDiemTruong',
+          'btnAction.cancel',
+          'btnAction.save',
+          dataFromParent,
+          'xl', 'static'
+        );
+        modalRef.result.then(
+          (result: boolean) => {
+            if (result) {
+              this.getList();
+            }
+          },
+          (reason) => {
+            return;
           }
-        },
-        (reason) => {
-          return;
-        }
-      );
+        );
 
-    }, (err) => {
+      }, (err) => {
+        this.isLoading = false;
+      });
+    } else {
       this.isLoading = false;
+      dataFromParent.diemTruong.QuanHuyen = null;
       const modalRef = this.openModal(
         ModalFormDiemTruongComponent,
         'school.titleDialogSuaDiemTruong',
@@ -211,7 +225,8 @@ export class DanhSachDiemTruongComponent implements OnInit {
           return;
         }
       );
-    });
+    }
+
   }
 
   delete(code: string, name: string) {
@@ -244,7 +259,8 @@ export class DanhSachDiemTruongComponent implements OnInit {
           this.getList();
         }
       },
-      (reason) => {}
+      (reason) => {
+      }
     );
   }
 
@@ -252,11 +268,22 @@ export class DanhSachDiemTruongComponent implements OnInit {
     return STATUS_ACTIVE.find((status) => status.value == value)?.label || '--';
   }
 
-  search(event: any, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.keyword = value.trim();
-      this.getList();
+  search(event, value: string) {
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.keyword = value.trim();
+    this.getList();
   }
 
 }

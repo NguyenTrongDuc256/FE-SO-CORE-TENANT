@@ -1,192 +1,173 @@
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'parent'">
-  <div class="col-xl-12">
-    <div class="card card-flush h-md-100">
-      <div class="card-header pt-7">
-        <h3 class="card-title d-flex align-items-start flex-column">
-          <span class="card-label fs-18 fw-700">{{ t('parent.title') }}</span>
-        </h3>
-        <div class="card-toolbar">
-          <div class="w-100 d-flex justify-content-between align-items-center">
-            <div class="w-100 d-flex justify-content-end align-items-center custom-search">
-              <div class="action-button d-flex align-items-center">
-                <img class="search-icon pe-2" src="assets/images/svg/export.svg" alt="">
-                <span class="fw-700">Export</span>
-              </div>
-              <div class="action-button d-flex align-items-center">
-                <img class="search-icon pe-2" src="assets/images/svg/import6.svg" alt="">
-                <span class="fw-700">Import</span>
-              </div>
-<!--              <div class="search-select-option-school">-->
-<!--                <select [(ngModel)]="valueDefaultSchool" (change)="onChangeSelect('school')"-->
-<!--                        class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">-->
-<!--                  <option value="" selected>{{ t('parent.school') }}</option>-->
-<!--                  <option value="{{item.id}}" *ngFor="let item of schoolList">{{item.name}}</option>-->
-<!--                </select>-->
-<!--              </div>-->
-              <div class="search-select-option-school">
-                <select [(ngModel)]="valueDefaultGrade" (change)="onChangeSelect('grade')"
-                        class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
-                  <option value="" selected>{{ t('parent.grade') }}</option>
-                  <option value="{{item?.id}}" *ngFor="let item of gradeList">{{item?.name}}</option>
-                </select>
-              </div>
-              <div class="search-select-option-school">
-                <select [(ngModel)]="valueDefaultClass" (change)="onChangeSelect()"
-                        class="form-select custom-select form-select form-select-solid form-select-lg text-formcontrol-global fs-14 fw-700">
-                  <option value="" selected>{{ t('parent.class') }}</option>
-                  <option value="{{item?.id}}" *ngFor="let item of classList">{{item?.name}}</option>
-                </select>
-              </div>
-              <div class="search-input">
-                <input type="text" name="keyword" class="form-control custom-tag-of-form fs-14" #searchInput
-                       placeholder="{{ t('search') }}" (keyup.enter)="onEventKeyupEnter(searchInput.value)">
-                <img class="search-icon" src="assets/images/svg/search.svg" alt=""
-                     (click)="onClickSearch(searchInput.value)">
-              </div>
-              <ng-template ngxPermissionsOnly="{{ permission.parent_modify }}">
-                <a [routerLink]="['/staff/parent/create']" id="add-user" class="add-action d-flex justify-content-center align-items-center fs-14">
-                  <img class="add-icon" src="assets/images/svg/plus.svg" alt="">
-                  {{ t('btnAction.add') }}
-                </a>
-              </ng-template>
-            </div>
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'parent'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('parent.title') }}</h3>
+    <div class="card-toolbar">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <div class="w-100 d-flex justify-content-end align-items-center custom-search">
+          <!-- <button class="action-button d-flex align-items-center" id="btn-export">
+            <img class="search-icon pe-2" src="assets/images/svg/export.svg" alt="">
+            <span class="fw-700">Export</span>
+          </button>
+          -->
+          <button class="so-btn so-btn-cancel me-4 mb-3" name="btn-export" (click)="openModalImport()">
+            <img class="pe-2" src="assets/images/svg/import6.svg" alt="icon">
+            {{t('btnAction.import')}}
+          </button>
+          <select [(ngModel)]="valueDefaultGrade" (change)="onChangeSelect('grade')"
+            class="so-form-control so-select fs-13 fw-600 text-color-river-bed me-4 mb-3" id="select-grade">
+            <option value="" selected>{{ t('parent.grade') }}</option>
+            <option value="{{item?.id}}" *ngFor="let item of gradeList">{{item?.name}}</option>
+          </select>
+          <select [(ngModel)]="valueDefaultClass" (change)="onChangeSelect()"
+            class="so-form-control so-select fs-13 fw-600 text-color-river-bed me-4 mb-3" id="select-class">
+            <option value="" selected>{{ t('parent.class') }}</option>
+            <option value="{{item?.id}}" *ngFor="let item of classList">{{item?.name}}</option>
+          </select>
+          <div class="so-input-search me-4 mb-3">
+            <input #searchInput type="text" name="input-search" class="form-control custom-tag-of-form fs-14"
+              placeholder="{{ t('search') }}" (keyup.enter)="onEventKeyupEnter(searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+              (click)="onEventKeyupEnter(searchInput.value)" />
           </div>
+          <ng-template ngxPermissionsOnly="{{ permission.parent_modify }}">
+            <button id="add-parent" class="so-btn so-btn-primary so-btn-primary--small mb-3"
+              [routerLink]="['/staff/parent/create']" name="btn-create">
+              <img src="assets/images/svg/add.svg" alt="icon">
+              {{t('btnAction.add')}}
+            </button>
+          </ng-template>
         </div>
       </div>
-      <div class="card-body pt-6">
-        <div class="table-responsive">
-          <table class="table align-middle gs-0 gy-3 my-0 table-global">
-            <thead>
-            <tr class="fs-14 border-bottom border-gray-200">
-              <th class="pb-3 text-header-table ">
-                {{ t('parent.fullName') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('gender') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('parent.username') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('parent.phone') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('email') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('parent.children') }}
-              </th>
-              <th class="pb-3 text-header-table">
-                {{ t('action') }}
-              </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of dataSource">
-              <td class="text-start fs-14 fw-600">
-                <div class="d-flex align-items-center">
-                  <div class="symbol symbol-50px me-3">
-                    <img *ngIf="item.avatar" src="{{ item.avatar }}" class="border-radius-50" alt="">
-                    <img *ngIf="!item.avatar" [src]="avatar" class="border-radius-50" alt="">
-                  </div>
-                  <div class="d-flex justify-content-start flex-column">
-                    <a [routerLink]="['/staff/parent/detail', item.id]" class="fw-700 color-50a5f1 mb-1 fs-14">{{ item.fullName }}</a>
-                    <span class="d-block fs-12">
-                        <span class="color-50a5f1">ID: </span>
-                        <span class="me-5">{{ item.code }}</span>
-                      </span>
-                  </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="">
+              {{ t('parent.fullName') }}
+            </th>
+            <th class="">
+              {{ t('gender') }}
+            </th>
+            <th class="">
+              {{ t('parent.username') }}
+            </th>
+            <th class="">
+              {{ t('parent.phone') }}
+            </th>
+            <th class="">
+              {{ t('email') }}
+            </th>
+            <th class="">
+              {{ t('parent.children') }}
+            </th>
+            <th class="text-center">
+              {{ t('action') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataSource" class="fs-13 fw-600 text-color-river-bed">
+            <td class="text-start fs-14 fw-600">
+              <div class="d-flex align-items-center">
+                <div class="symbol symbol-50px me-3">
+                  <img *ngIf="item.avatar" src="{{ item.avatar }}" class="border-radius-50" alt="">
+                  <img *ngIf="!item.avatar" [src]="avatar" class="border-radius-50" alt="">
                 </div>
-              </td>
-              <td class="text-start fs-12 fw-500">
-                <span class="gender-{{ item.gender }}">{{ item.genderName }}</span>
-              </td>
-              <td class="text-start fs-14 fw-500">
-                <span class="fw-700">{{ item.username }}</span>
-              </td>
-              <td class="text-start fs-14 fw-500">
-                <div class="d-flex align-items-center">
-                  <span>{{ item.phone }}</span>
+                <div class="d-flex justify-content-start flex-column">
+                  <a [routerLink]="['/staff/parent/detail', item.id]" class="fw-700 color-50a5f1 mb-1 fs-14"
+                    name="btn-action-detail">{{ item.fullName }}</a>
+                  <span class="d-block fs-13">
+                    <span class="color-50a5f1">ID: </span>
+                    <span class="me-5">{{ item.code }}</span>
+                  </span>
                 </div>
-              </td>
-              <td class="text-start fs-14 fw-500">
-                <div class="d-flex align-items-center">
-                  <span>{{ item.email }}</span>
-                </div>
-              </td>
-              <td class="text-start fs-14 fw-600 ">
-                <div class="row">
-                  <ng-container *ngFor="let student of item.childrens">
-                    <div class="col-6 d-flex align-items-center mt-2" >
-                      <div class="symbol symbol-50px me-3">
-                        <img *ngIf="student.avatar" src="{{ student.avatar }}" class="border-radius-50" alt="">
-                        <img *ngIf="!student.avatar" [src]="avatar" class="border-radius-50" alt="">
-                      </div>
-                      <div class="d-flex justify-content-start flex-column">
-                        <span  class="fw-700 mb-1 fs-14">{{ student.fullname }}</span>
-                        <span class="d-block fs-12">
+              </div>
+            </td>
+            <td class="text-start fs-12 fw-500">
+              <span class="gender-{{ item.gender }}">{{ t(item.genderName) }}</span>
+            </td>
+            <td class="text-start fs-14 fw-500">
+              <span class="fw-700">{{ item.username }}</span>
+            </td>
+            <td class="text-start fs-14 fw-500">
+              <div class="d-flex align-items-center">
+                <span>{{ item.phone }}</span>
+              </div>
+            </td>
+            <td class="text-start fs-14 fw-500">
+              <div class="d-flex align-items-center">
+                <span>{{ item.email }}</span>
+              </div>
+            </td>
+            <td class="text-start fs-14 fw-600 ">
+              <div class="row">
+                <ng-container *ngFor="let student of item.childrens">
+                  <div class="col-6 d-flex align-items-center mt-2">
+                    <div class="symbol symbol-50px me-3">
+                      <img *ngIf="student.avatar" src="{{ student.avatar }}" class="border-radius-50" alt="">
+                      <img *ngIf="!student.avatar" [src]="avatar" class="border-radius-50" alt="">
+                    </div>
+                    <div class="d-flex justify-content-start flex-column">
+                      <span class="fw-700 mb-1 fs-14">{{ student.fullname }}</span>
+                      <span class="d-block fs-13">
                         <span class="color-50a5f1">ID: </span>
                         <span class="me-5">{{ student.code }}</span>
                         <span class="color-50a5f1" *ngIf="student.email">E: </span>
                         <span>{{ student.email }}</span>
                       </span>
-                      </div>
                     </div>
-                  </ng-container>
-                </div>
-              </td>
-              <td class="text-start">
-                <div class=" d-flex justify-content-center align-items-center">
-                  <span class="user-action">
-                    <img nz-button nz-dropdown [nzDropdownMenu]="menu" class="action-icon" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
-                    <nz-dropdown-menu #menu="nzDropdownMenu">
-                      <ng-template ngxPermissionsOnly="{{ permission.parent_modify }}">
-                        <ul nz-menu>
-                          <li nz-menu-item class="fs-14 fw-600 custom-action-item"  [routerLink]="['/staff/parent/edit', item.id]">
-                            <span>
-                              <img class="action-icon pe-3" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update') }}
-                            </span>
-                          </li>
-                           <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="openModalSendNotification(item)">
-                            <span>
-                              <img class="action-icon pe-3" src="assets/images/svg/icon-email-noti-blue.svg" alt="">{{ t('parent.btnAction.send') }}
-                            </span>
-                          </li>
-                           <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="openModalChangePassword(item)">
-                            <span>
-                              <img class="action-icon pe-3" src="assets/images/svg/password.svg" alt="">{{ t('parent.btnAction.changedPassword') }}
-                            </span>
-                          </li>
-                          <li nz-menu-item class="fs-14 fw-600 custom-action-item"
-                              (click)="openModalBlockAccount(item)" name="btn-change-pwd">
-                              <span>
-                                <img class="action-icon pe-3" [src]="item.isAccessApp == 1 ? 'assets/images/svg/block_icon.svg' : 'assets/images/svg/block_icon.svg'" alt="">
-                                {{ item.isAccessApp == 1 ? t('parent.btnAction.lockedAccount') : t('parent.btnAction.unlockAppAccess')}}
-                              </span>
-                            </li>
-                          <li nz-menu-item class="fs-14 fw-600 custom-action-item" (click)="openModalConfirmDelete(item)">
-                            <span>
-                              <img class="action-icon pe-3" src="assets/images/svg/delete6.svg" alt="">{{ t('btnAction.delete') }}
-                            </span>
-                          </li>
-                        </ul>
-                      </ng-template>
-                    </nz-dropdown-menu>
-                  </span>
-                </div>
-              </td>
-            </tr>
-            <tr *ngIf="dataSource?.length == 0 || !dataSource">
-              <td class="text-no-data" colspan="10">{{t('noData')}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
-                        *ngIf="collectionSize > pageSize" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
-        </app-pagination>
-      </div>
+                  </div>
+                </ng-container>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                name="opend-so-action">
+                <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                      [routerLink]="['/staff/parent/edit', item.id]" name="btn-action-update">
+                      <img class="so-action--icon" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update') }}
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-action-send-notification"
+                      (click)="openModalSendNotification(item)"><img class="so-action--icon"
+                        src="assets/images/svg/icon-email-noti-blue.svg" alt="">{{ t('parent.btnAction.send') }}</li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-action-change-password"
+                      (click)="openModalChangePassword(item)"><img class="so-action--icon"
+                        src="assets/images/svg/password.svg" alt="">{{ t('parent.btnAction.changedPassword') }}
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="openModalBlockAccount(item)"
+                      name="btn-change-pwd">
+                      <img class="so-action--icon"
+                        [src]="item.isAccessApp == 1 ? 'assets/images/svg/block_icon.svg' : 'assets/images/svg/block_icon.svg'"
+                        alt="">
+                      {{ item.isAccessApp == 1 ? t('parent.btnAction.lockedAccount') :
+                      t('parent.btnAction.unlockAppAccess')}}
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="openModalConfirmDelete(item)"
+                      name="btn-action-delete">
+                      <img class="so-action--icon" src="assets/images/svg/delete6.svg" alt="">
+                      {{ t('btnAction.delete') }}
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="dataSource?.length == 0 || !dataSource">
+            <td class="text-no-data" colspan="10">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > pageSize" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
   </div>
 </div>
 <div class="spinner" *ngIf="isLoading">

@@ -1,0 +1,52 @@
+@mixin btn-item-attendance-device($mt,$ml,$ptb,$plr, $width) {
+    background: #556EE6;
+    border-radius: 5px;
+    display: block;
+    padding: $ptb $plr;
+    text-align: center;
+    cursor: pointer;
+    color: #FFFFFF;
+    width: $width;
+    margin-top: $mt;
+    margin-left: $ml;
+    border: none;
+}
+
+::ng-deep .custom-tab-attendance-device-config{
+    &-header{
+        h4{
+            margin: 0;
+        }
+    }
+    .lb-form-attendance-device-config{
+        display: block;
+        margin: 1rem 0;
+        color: #495057;
+    }
+    &-form{
+        .content-form-attendance-device{
+            .config-type-attendance{
+                position: relative;
+                .btn-remove-item{
+                    text-align: right;
+                    position: absolute;
+                    right: 5px;
+                    top: 10px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .btn-add-item-attendance-device{
+            @include btn-item-attendance-device(1.5rem,0.8rem,0.7rem,2rem,110px);
+        }
+        .btn-save-item-attendance-device{
+            @include btn-item-attendance-device(1rem,0.8rem,0.5rem,2rem,90px);
+        }
+    }
+}
+.checkboxHanet {
+  padding-left: 86px;
+}
+.border-none {
+  border: none;
+}

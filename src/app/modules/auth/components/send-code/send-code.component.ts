@@ -7,6 +7,7 @@ import { Observable, Subscriber } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Md5 } from 'ts-md5/dist/md5';
+import { GeneralService } from 'src/app/_services/general.service';
 @Component({
   selector: 'app-send-code',
   templateUrl: './send-code.component.html',
@@ -32,7 +33,8 @@ export class SendCodeComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private listenFirebaseService: ListenFirebaseService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private generalService: GeneralService,
   ) {}
 
   ngOnInit(): void {
@@ -71,16 +73,28 @@ export class SendCodeComponent implements OnInit {
     this.isLoading = true;
     this.isOverTime = true;
     this.authService.checkValidTimeCode(this.userId).subscribe((res: any) => {
-      if (res.status == 1) {
-        this.isOverTime = true;
-        this.seconds = res.data;
-        if (this.seconds > 0) {
-          this.countdownTimer(this.seconds);
-        } else {
-          this.isLoading = false;
-          this.isOverTime = false;
-        }
+      this.isOverTime = true;
+      this.seconds = res.data;
+      if (this.seconds > 0) {
+        this.countdownTimer(this.seconds);
+      } else {
+        this.isLoading = false;
+        this.isOverTime = false;
       }
+      // if (res.status == 1) {
+      //   this.isOverTime = true;
+      //   this.seconds = res.data;
+      //   if (this.seconds > 0) {
+      //     this.countdownTimer(this.seconds);
+      //   } else {
+      //     this.isLoading = false;
+      //     this.isOverTime = false;
+      //   }
+      // }
+    },
+    (err) => {
+      this.isLoading = false;
+      this.generalService.showToastMessageError400(err);
     });
   }
 
@@ -91,13 +105,12 @@ export class SendCodeComponent implements OnInit {
     let userId = md5.appendStr(this.code.trim()).end();
     localStorage.setItem('userAuthId', JSON.stringify(userId));
     this.listenFireBase('verify-code', 'forgot-password');
-    this.authService.sendCode(this.code.trim()).subscribe((res: any) => {
-      if (res.status == 0) {
-        this.hasError = true;
-        this.showMessage.error(res.msg);
-      }
+    this.authService.sendCode(this.code.trim()).subscribe(
+      (res: any) => {},
+      (err) => {
       this.isLoading = false;
-    });
+      this.generalService.showToastMessageError400(err);
+    })
   }
 
   resendCode() {
@@ -107,13 +120,11 @@ export class SendCodeComponent implements OnInit {
     };
     this.isLoading = true;
     this.listenFireBase('send-verification-code', 'forgot-password');
-    this.authService.sendVerifyCode(dataInputUser).subscribe((res: any) => {
-      if (res.status == 0) {
-        this.isLoading = false;
-        this.showMessage.error(res.msg);
-      }
+    this.authService.sendVerifyCode(dataInputUser).subscribe(
+      (res: any) => {}, (err) => {
       this.isLoading = false;
-    });
+      this.generalService.showToastMessageError400(err);
+    })
   }
 
   listenFireBase(action: string, module: string) {

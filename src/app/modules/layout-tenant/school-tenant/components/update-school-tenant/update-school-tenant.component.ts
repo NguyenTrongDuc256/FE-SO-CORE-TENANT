@@ -1,30 +1,29 @@
-import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin, Observable, Subscriber } from 'rxjs';
+import { School } from 'src/app/_models/layout-tenant/school/school.model';
+import { GeneralService } from 'src/app/_services/general.service';
 import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
+import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
 import { ValidatorNotEmptyString, ValidatorNotNull } from 'src/app/_services/validator-custom.service';
 import {
   DATA_PERMISSION,
+  INFO_ADVANCED_SCHOOL,
+  REGEX_NUMBER_POSITIVE,
   REGEX_PHONE,
   TIME_OUT_LISTEN_FIREBASE,
-  TRAINING_LEVEL,
+  TRAINING_LEVEL
 } from 'src/app/_shared/utils/constant';
-import { ADVANCED } from '../../constant';
-import { forkJoin, Observable, Subscriber } from 'rxjs';
-import { GeneralService } from 'src/app/_services/general.service';
-import { ResizeImageService } from 'src/app/_services/resize-image.service';
-import * as moment from 'moment';
-import { Location } from '@angular/common';
-import { School } from 'src/app/_models/layout-tenant/school/school.model';
+
 @Component({
   selector: 'app-update-school-tenant',
   templateUrl: './update-school-tenant.component.html',
   styleUrls: ['./update-school-tenant.component.scss', '../../helper.scss'],
 })
 export class UpdateSchoolTenantComponent implements OnInit {
-  arrInfoAdvanced = ADVANCED;
+  arrInfoAdvanced = INFO_ADVANCED_SCHOOL;
   isLoading = false;
   permission = DATA_PERMISSION;
   infoBasicSchool: School;
@@ -40,17 +39,85 @@ export class UpdateSchoolTenantComponent implements OnInit {
   districtCode: string;
   logo: string = '';
   fileName: string = '';
+  validationMessages = {
+    name: [
+      {type: "required", message: 'school.requiredName'},
+      {type: "maxlength", message: 'school.validateMaxLengthName'},
+      {type: "notEmpty", message: 'school.requiredName'},
+    ],
+    campus: [
+      {type: "required", message: 'school.requiredCampus'}
+    ],
+    trainingLevel: [
+      {type: "required", message: 'school.requiredCampus'}
+    ],
+    Email: [
+      {type: "email", message: 'school.patternEmail'}
+    ],
+    sendFromEmail: [
+      {type: "email", message: 'school.patternEmail'}
+    ],
+    phone: [
+      {type: "pattern", message: 'school.patternPhone'}
+    ],
+    hotline: [
+      {type: "pattern", message: 'school.patternHotline'}
+    ],
+    fax: [
+      {type: "pattern", message: 'school.patternFax'}
+    ],
+    tenHieuTruong: [
+      {type: "maxlength", message: 'school.validateMaxLengthName'}
+    ],
+    emailHieuTruong: [
+      {type: "email", message: 'school.patternEmail'}
+    ],
+    dienThoaiHieuTruong: [
+      {type: "pattern", message: 'school.patternPhone'}
+    ],
+    indexOrder: [
+      {type: "pattern", message: 'patternNumberInteger'}
+    ],
+    namThanhLap: [
+      {type: "maxlength", message: 'school.validateMaxLength'}
+    ],
+    dienTich: [
+      {type: "pattern", message: 'school.validateDienTich'}
+    ],
+    address: [
+      {type: "maxlength", message: 'school.validateMaxLength'}
+    ],
+
+
+  };
+  validationMessagesServer = {
+    name: {},
+    campus: {},
+    trainingLevel: {},
+    Email: {},
+    sendFromEmail: {},
+    phone: {},
+    hotline: {},
+    fax: {},
+    tenHieuTruong: {},
+    emailHieuTruong: {},
+    dienThoaiHieuTruong: {},
+    indexOrder: {},
+    namThanhLap: {},
+    dienTich: {},
+    address: {},
+  }
 
   constructor(
     private schoolService: SchoolService,
-    private showMessage: ShowMessageService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private generalService: GeneralService,
-    private resizeImageService: ResizeImageService,
     private listenFirebaseService: ListenFirebaseService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((res) => {
@@ -65,9 +132,9 @@ export class UpdateSchoolTenantComponent implements OnInit {
       // logo: '',
       name: ['', [Validators.required, Validators.maxLength(255), ValidatorNotEmptyString]],
       campus: [null, [Validators.required, ValidatorNotNull]],
-      trainingLevel: this.infoBasicSchool?.EducationalStages
+      trainingLevel: [this.infoBasicSchool?.EducationalStages
         ? this.infoBasicSchool?.EducationalStages
-        : null,
+        : null, [Validators.required, ValidatorNotNull]],
       loaiHinhTruong: '',
       loaiTruong: '',
       chinhSachVung: '',
@@ -75,7 +142,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
       khuVuc: '',
       districtCode: '',
       wardCode: '',
-      email: ['', Validators.email],
+      Email: ['', Validators.email],
       sendFromEmail: ['', Validators.email],
       phone: ['', Validators.pattern(REGEX_PHONE)],
       hotline: ['', Validators.pattern(REGEX_PHONE)],
@@ -83,7 +150,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
       tenHieuTruong: ['', [Validators.maxLength(255)]],
       emailHieuTruong: ['', Validators.email],
       dienThoaiHieuTruong: ['', Validators.pattern(REGEX_PHONE)],
-      indexOrder: '',
+      indexOrder: ['', Validators.pattern(REGEX_NUMBER_POSITIVE)],
       namThanhLap: ['', [Validators.maxLength(255)]],
       maDuAn: '',
       dienTich: ['', [Validators.maxLength(255)]],
@@ -133,7 +200,9 @@ export class UpdateSchoolTenantComponent implements OnInit {
         this.fileName = this.infoBasicSchool?.Logo;
         this.cityCode = this.infoBasicSchool?.CityCode;
         this.districtCode = this.infoBasicSchool?.DistrictCode;
-        this.getListDistrictFirst(this.cityCode);
+        if (this.cityCode) {
+          this.getListDistrictFirst(this.cityCode);
+        }
         this.patchValueFormGroup(this.infoBasicSchool);
         this.isLoading = false;
       }, err => {
@@ -158,7 +227,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
       khuVuc: valueForm?.KhuVuc ? valueForm?.KhuVuc : '',
       districtCode: valueForm?.DistrictCode ? valueForm?.DistrictCode : '',
       wardCode: valueForm?.WardCode ? valueForm?.WardCode : '',
-      email: valueForm?.Email ? valueForm?.Email : '',
+      Email: valueForm?.Email ? valueForm?.Email : '',
       sendFromEmail: valueForm?.SendFromEmail ? valueForm?.SendFromEmail : '',
       phone: valueForm?.Phone ? valueForm?.Phone : '',
       hotline: valueForm?.Hotline ? valueForm?.Hotline : '',
@@ -213,14 +282,13 @@ export class UpdateSchoolTenantComponent implements OnInit {
     this.isLoading = true;
     this.schoolService.getAnotherInfoToMapSchool().subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.moetCategories = res.data.MoetCategories;
-          this.arrCampus = res.data.Campuses;
-        }
+        this.moetCategories = res.data.MoetCategories;
+        this.arrCampus = res.data.Campuses;
         this.isLoading = false;
       },
       (err) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -229,13 +297,12 @@ export class UpdateSchoolTenantComponent implements OnInit {
     this.isLoading = true;
     this.generalService.getListCity().subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.arrCity = res.data;
-        }
+        this.arrCity = res.data;
         this.isLoading = false;
       },
       (err) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -244,11 +311,13 @@ export class UpdateSchoolTenantComponent implements OnInit {
     this.generalService.getListDistrict(cityCode).subscribe(
       (res: any) => {
         this.arrDistrict = res;
+        if(this.districtCode)
         this.getListWardFirst(this.districtCode);
         this.isLoading = false;
       },
       (err) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -270,6 +339,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
       },
       (err) => {
         this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -280,6 +350,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
         this.arrDistrict = res;
       },
       (err) => {
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -290,6 +361,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
         this.arrWard = res;
       },
       (err) => {
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -299,86 +371,128 @@ export class UpdateSchoolTenantComponent implements OnInit {
   }
 
   submit(valueForm: any) {
-    let dataInput:School = {
-      CampusId: valueForm.campus,
-      MoetUnitCode: this.infoBasicSchool.MoetUnitCode,
-      Name: valueForm.name.trim(),
-      EducationalStages: valueForm.trainingLevel,
-      IndexOrder: valueForm.indexOrder,
-      Email: valueForm.email,
-      Hotline: valueForm.hotline,
-      // Website: 'hongdang@edu.com.vn',
-      Logo: this.logo.trim(),
-      Phone: valueForm.phone,
-      SendFromEmail: valueForm.sendFromEmail,
-      WardCode: valueForm.wardCode,
-      DistrictCode: valueForm.districtCode,
-      CityCode: valueForm.cityCode,
-      Address: valueForm.address.trim(),
-      ChinhSachVung: valueForm.chinhSachVung,
-      MaLoaiHinhTruong: valueForm.loaiHinhTruong,
-      KhuVuc: valueForm.khuVuc,
-      MucChuanQuocGia: valueForm.mucChuanQuocGia,
-      MaLoaiTruong: valueForm.loaiTruong,
-      MaVungKhoKhan: valueForm.maVungKhoKhan,
-      MaDuAn: valueForm.maDuAn,
-      TenHieuTruong: valueForm.tenHieuTruong.trim(),
-      EmailHieuTruong: valueForm.emailHieuTruong,
-      DienThoaiHieuTruong: valueForm.dienThoaiHieuTruong,
-      IsCoChiBoDang: Number(valueForm.IsCoChiBoDang).toString(),
-      IsTruongQuocTe: Number(valueForm.IsTruongQuocTe).toString(),
-      IsHocSinhKhuyetTat: Number(valueForm.IsHocSinhKhuyetTat).toString(),
-      IsHocSinhBanTru: Number(valueForm.IsHocSinhKhuyetTat).toString(),
-      IsKhiHauThienTai: Number(valueForm.IsKhiHauThienTai).toString(),
-      IsKyNangSongGDXG: Number(valueForm.IsKyNangSongGDXG).toString(),
-      IsHocSinhNoiTru: Number(valueForm.IsHocSinhNoiTru).toString(),
-      IsVungDacBietKhoKhan: Number(valueForm.IsVungDacBietKhoKhan).toString(),
-      IsDatChatLuongToiThieu: Number(valueForm.IsDatChatLuongToiThieu).toString(),
-      // Is2BuoiNgay: Number(valueForm.Is2BuoiNgay).toString(),
-      DienTich: valueForm.dienTich.trim(),
-      NamThanhLap: valueForm.namThanhLap.trim(),
-      IsSuDungMayTinhDayHoc: Number(valueForm.IsSuDungMayTinhDayHoc).toString(),
-      IsKhaiThacInternetDayHoc: Number(valueForm.IsKhaiThacInternetDayHoc).toString(),
-      IsDienLuoi: Number(valueForm.IsDienLuoi).toString(),
-      IsNguonNuocSach: Number(valueForm.IsNguonNuocSach).toString(),
-      IsCongTrinhVeSinh: Number(valueForm.IsCongTrinhVeSinh).toString(),
-      IsCtGdvsDoiTay: Number(valueForm.IsCtGdvsDoiTay).toString(),
-      IsChuongTrinhGiaoDucCoBan: Number(valueForm.IsChuongTrinhGiaoDucCoBan).toString(),
-      IsCoHaTangTlhtPhuHopHskt: Number(valueForm.IsCoHaTangTlhtPhuHopHskt).toString(),
-      IsCongTacTuVanHocDuong: Number(valueForm.IsCongTacTuVanHocDuong).toString(),
-      IsTruongPtDtBanTru: Number(valueForm.IsTruongPtDtBanTru).toString(),
-      IsChuyenBietKhuyetTat: Number(valueForm.IsChuyenBietKhuyetTat).toString(),
-      IsCoNuocUong: Number(valueForm.IsCoNuocUong).toString(),
-      IsHocChuongTrinhSongNgu: Number(valueForm.IsHocChuongTrinhSongNgu).toString(),
-      IsActive: Number(valueForm.IsActive).toString()
-    };
-
     this.isLoading = true;
-    this.listenFireBase('update', 'school');
-    this.schoolService.update(this.schoolId, dataInput).subscribe(
-      (res: any) => {
-        if (res.status == 0) {
-          this.showMessage.error(res.msg);
+    if (this.formSchool.valid) {
+      let dataInput: School = {
+        CampusId: valueForm.campus,
+        MoetUnitCode: this.infoBasicSchool.MoetUnitCode,
+        Name: valueForm.name.trim(),
+        EducationalStages: valueForm.trainingLevel,
+        IndexOrder: valueForm.indexOrder,
+        Email: valueForm.Email,
+        Hotline: valueForm.hotline,
+        Logo: this.logo.trim(),
+        Phone: valueForm.phone,
+        SendFromEmail: valueForm.sendFromEmail,
+        WardCode: valueForm.wardCode,
+        DistrictCode: valueForm.districtCode,
+        CityCode: valueForm.cityCode,
+        Address: valueForm.address.trim(),
+        ChinhSachVung: valueForm.chinhSachVung,
+        MaLoaiHinhTruong: valueForm.loaiHinhTruong,
+        KhuVuc: valueForm.khuVuc,
+        MucChuanQuocGia: valueForm.mucChuanQuocGia,
+        MaLoaiTruong: valueForm.loaiTruong,
+        MaVungKhoKhan: valueForm.maVungKhoKhan,
+        MaDuAn: valueForm.maDuAn,
+        Fax: valueForm.fax,
+        TenHieuTruong: valueForm.tenHieuTruong.trim(),
+        EmailHieuTruong: valueForm.emailHieuTruong,
+        DienThoaiHieuTruong: valueForm.dienThoaiHieuTruong,
+        IsCoChiBoDang: Number(valueForm.IsCoChiBoDang).toString(),
+        IsTruongQuocTe: Number(valueForm.IsTruongQuocTe).toString(),
+        IsHocSinhKhuyetTat: Number(valueForm.IsHocSinhKhuyetTat).toString(),
+        IsHocSinhBanTru: Number(valueForm.IsHocSinhKhuyetTat).toString(),
+        IsKhiHauThienTai: Number(valueForm.IsKhiHauThienTai).toString(),
+        IsKyNangSongGDXG: Number(valueForm.IsKyNangSongGDXG).toString(),
+        IsHocSinhNoiTru: Number(valueForm.IsHocSinhNoiTru).toString(),
+        IsVungDacBietKhoKhan: Number(valueForm.IsVungDacBietKhoKhan).toString(),
+        IsDatChatLuongToiThieu: Number(valueForm.IsDatChatLuongToiThieu).toString(),
+        DienTich: valueForm.dienTich.trim(),
+        NamThanhLap: valueForm.namThanhLap.trim(),
+        IsSuDungMayTinhDayHoc: Number(valueForm.IsSuDungMayTinhDayHoc).toString(),
+        IsKhaiThacInternetDayHoc: Number(valueForm.IsKhaiThacInternetDayHoc).toString(),
+        IsDienLuoi: Number(valueForm.IsDienLuoi).toString(),
+        IsNguonNuocSach: Number(valueForm.IsNguonNuocSach).toString(),
+        IsCongTrinhVeSinh: Number(valueForm.IsCongTrinhVeSinh).toString(),
+        IsCtGdvsDoiTay: Number(valueForm.IsCtGdvsDoiTay).toString(),
+        IsChuongTrinhGiaoDucCoBan: Number(valueForm.IsChuongTrinhGiaoDucCoBan).toString(),
+        IsCoHaTangTlhtPhuHopHskt: Number(valueForm.IsCoHaTangTlhtPhuHopHskt).toString(),
+        IsCongTacTuVanHocDuong: Number(valueForm.IsCongTacTuVanHocDuong).toString(),
+        IsTruongPtDtBanTru: Number(valueForm.IsTruongPtDtBanTru).toString(),
+        IsChuyenBietKhuyetTat: Number(valueForm.IsChuyenBietKhuyetTat).toString(),
+        IsCoNuocUong: Number(valueForm.IsCoNuocUong).toString(),
+        IsHocChuongTrinhSongNgu: Number(valueForm.IsHocChuongTrinhSongNgu).toString(),
+        IsActive: Number(valueForm.IsActive).toString()
+      };
+      this.listenFireBase('update', 'school');
+      this.schoolService.update(this.schoolId, dataInput).subscribe(
+        (res: any) => {
+          this.isLoading = false;
+        },
+        (err) => {
+          this.isLoading = false;
+          this.validateAllFormFieldsErrorServer(err.errors);
         }
+      )
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formSchool);
+    }
+  }
 
-        this.isLoading = false;
-      },
-      (err) => {
-        this.isLoading = false;
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
       }
-    );
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      let arrKey = String(key).split('.');
+      let indexKey = '';
+      if (arrKey.length == 1) {
+        this.validationMessagesServer[arrKey[0]] = {
+          message: error[key]
+        }
+      } else {
+        arrKey.forEach((itemKey: any) => {
+          if (!isNaN(itemKey)) {
+            indexKey += `${itemKey}`;
+          }
+          Object.keys(this.validationMessagesServer).forEach(itemMessage => {
+            if (itemMessage == arrKey[arrKey.length - 1]) {
+              if (indexKey) {
+                this.validationMessagesServer[itemMessage][indexKey] = {
+                  message: error[key]
+                }
+              }
+            }
+          });
+        })
+      }
+    });
   }
 
   changeVerticalUnit(unitName: string) {
     let code = '';
-    switch(unitName) {
+    switch (unitName) {
       case 'city':
         this.arrDistrict = [];
         this.arrWard = [];
         this.formSchool.controls['districtCode'].setValue('');
         this.formSchool.controls['wardCode'].setValue('');
         code = this.formSchool.controls['cityCode'].value;
-        if(code != '') {
+        if (code != '') {
           this.getListDistrict(code);
         }
         break;
@@ -386,39 +500,13 @@ export class UpdateSchoolTenantComponent implements OnInit {
         this.arrWard = [];
         this.formSchool.controls['wardCode'].setValue('');
         code = this.formSchool.controls['districtCode'].value;
-        if(code != '') {
+        if (code != '') {
           this.getListWard(code);
         }
-      break;
+        break;
       case 'ward':
-      break;
+        break;
     }
-  }
-
-  onChangeFileInputLogo(event): void {
-    if (event.target.files.length > 0) {
-      const file = (event.target as HTMLInputElement).files[0];
-      let dataReadFile = new Observable((subscriber: Subscriber<any>) => {
-        this.resizeImageService.readFile(file, subscriber);
-      });
-      dataReadFile.subscribe((data) => {
-        let dataInput = {
-          base64Input: data,
-          fileName: `${moment().format('x')}-${file.name}`,
-        };
-        this.fileName = `${moment().format('x')}-${file.name}`;
-        this.generalService
-          .uploadFileBase64(dataInput)
-          .subscribe((res: any) => {
-            this.logo = res.data;
-          });
-      });
-    }
-  }
-
-  removeLogo() {
-    this.fileName = '';
-    this.logo = '';
   }
 
   listenFireBase(action: string, module: string) {
@@ -432,6 +520,7 @@ export class UpdateSchoolTenantComponent implements OnInit {
       if (ref.status === true) {
         clearTimeout(timeId);
         this.isLoading = false;
+        this.router.navigate(['/tenant/school/detail/' + this.schoolId])
       } else {
         this.isLoading = false;
       }

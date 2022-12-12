@@ -1,0 +1,36 @@
+<div class="card so-tab-horizontal shadow-sm h-100" *transloco="let t; scope: 'assign-teacher'">
+  <div class="card-header card-header-stretch justify-content-end">
+    <div class="card-toolbar">
+      <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == tabs.TAB_HOMEROOM_TEACHER ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab(tabs.TAB_HOMEROOM_TEACHER)">
+            <img src="assets/images/svg/school_code_icon.svg" alt="" class="me-3">
+            I. {{t('assignTeacher.assignHomeroomClass')}}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == tabs.TAB_MAIN_HOMEROOM_TEACHER ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab(tabs.TAB_MAIN_HOMEROOM_TEACHER)">
+            <img src="assets/images/svg/school_code_icon.svg" alt="" class="me-3">
+            II. {{t('assignTeacher.assignMainHomeroomTeacher')}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="myTabContent">
+      <ng-container *ngIf="tabActive == tabs.TAB_HOMEROOM_TEACHER">
+        <div class="tab-pane fade {{ tabActive == tabs.TAB_HOMEROOM_TEACHER ? 'show active' : '' }}" role="tabpanel">
+          <app-assign-homeroom-teacher></app-assign-homeroom-teacher>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="tabActive == tabs.TAB_MAIN_HOMEROOM_TEACHER">
+        <div class="tab-pane fade {{ tabActive == tabs.TAB_MAIN_HOMEROOM_TEACHER ? 'show active' : '' }}" role="tabpanel">
+          <app-assign-main-homeroom-teacher></app-assign-main-homeroom-teacher>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

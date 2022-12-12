@@ -1,0 +1,35 @@
+{
+  "profileCategory": "Profile Category",
+  "range": "Range",
+  "student": "Student",
+  "staff": "Staff",
+  "status": "Status",
+  "imperative": "Imperative",
+  "optional": "Optional",
+  "order": "Order",
+  "nameCategory": "Name category",
+  "codeCategory": "Code category",
+  "profileScope": "Profile scope",
+  "note": "Note",
+  "createProfileCategory": "Add new profile category",
+  "requiredProfile": "Required profile",
+  "editProfileCategory": "Edit profile category",
+  "deleteProfileCategory": "Delete profile category",
+  "btnAction": {
+    "send": "Send Notifications",
+    "changedPassword": "Change Password",
+    "lockedAccount": "App Access Lock",
+    "unlockAppAccess": "Unlock app access"
+  },
+  "validators": {
+    "fullName": {
+      "required": "fullName is required",
+      "maxLength": "fullName can't have more than 255 characters"
+    },
+    "code": {
+      "required": "code is required",
+      "pattern": "code invalid",
+      "maxlength": "Your code cannot exceed 50 characters"
+    }
+  }
+}

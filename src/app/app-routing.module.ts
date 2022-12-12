@@ -1,26 +1,30 @@
-import {CampusLayoutComponent} from './_layouts/campus-layout/campus-layout.component';
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {ComponentExampleComponent} from './_shared/components/component-example/component-example.component';
-import {AccessDeniedComponent} from "./_shared/components/access-denied/access-denied.component";
-import {StaffRouting} from "./_shared/routing/staff-routing";
-import {TenantRouting} from "./_shared/routing/tenant-routing";
-import {TeacherRouting} from "./_shared/routing/teacher-routing";
-import {ParentRouting} from "./_shared/routing/parent-routing";
-import {StudentRouting} from "./_shared/routing/student-routing";
-import {DepartmentRouting} from "./_shared/routing/department-routing";
-import {DivisionRouting} from "./_shared/routing/division-routing";
-import {SchoolRouting} from "./_shared/routing/school-routing";
-import {CampusRouting} from "./_shared/routing/campus-routing";
-import {TenantLayoutComponent} from "./_layouts/tenant-layout/tenant-layout.component";
-import {StaffLayoutComponent} from "./_layouts/staff-layout/staff-layout.component";
-import {TeacherLayoutComponent} from "./_layouts/teacher-layout/teacher-layout.component";
-import {ParentLayoutComponent} from "./_layouts/parent-layout/parent-layout.component";
-import {StudentLayoutComponent} from "./_layouts/student-layout/student-layout.component";
-import {DepartmentLayoutComponent} from "./_layouts/department-layout/department-layout.component";
-import {DivisionLayoutComponent} from "./_layouts/division-layout/division-layout.component";
-import {SchoolLayoutComponent} from "./_layouts/school-layout/school-layout.component";
-import {AuthGuard} from './_core/_helpers/guard/auth.guard';
+import { CampusLayoutComponent } from './_layouts/campus-layout/campus-layout.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ComponentExampleComponent } from './_shared/components/component-example/component-example.component';
+import { AccessDeniedComponent } from "./_shared/components/access-denied/access-denied.component";
+import { StaffRouting } from "./_shared/routing/staff-routing";
+import { TenantRouting } from "./_shared/routing/tenant-routing";
+import { TeacherRouting } from "./_shared/routing/teacher-routing";
+import { ParentRouting } from "./_shared/routing/parent-routing";
+import { StudentRouting } from "./_shared/routing/student-routing";
+import { DepartmentRouting } from "./_shared/routing/department-routing";
+import { DivisionRouting } from "./_shared/routing/division-routing";
+import { SchoolRouting } from "./_shared/routing/school-routing";
+import { CampusRouting } from "./_shared/routing/campus-routing";
+import { TenantLayoutComponent } from "./_layouts/tenant-layout/tenant-layout.component";
+import { StaffLayoutComponent } from "./_layouts/staff-layout/staff-layout.component";
+import { TeacherLayoutComponent } from "./_layouts/teacher-layout/teacher-layout.component";
+import { ParentLayoutComponent } from "./_layouts/parent-layout/parent-layout.component";
+import { StudentLayoutComponent } from "./_layouts/student-layout/student-layout.component";
+import { DepartmentLayoutComponent } from "./_layouts/department-layout/department-layout.component";
+import { DivisionLayoutComponent } from "./_layouts/division-layout/division-layout.component";
+import { SchoolLayoutComponent } from "./_layouts/school-layout/school-layout.component";
+import { AuthGuard } from './_core/_helpers/guard/auth.guard';
+import { PageNotFoundComponent } from './_shared/components/page-not-found/page-not-found.component';
+import { ServerErrorComponent } from './_shared/components/server-error/server-error.component';
+import { CommentComponent } from './_shared/components/comment/comment.component';
+import { FormExampleComponent } from './_shared/components/form-example/form-example.component';
 
 export const routes: Routes = [
   {
@@ -83,13 +87,24 @@ export const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
 
-  {path: '', redirectTo: '/auth/login', pathMatch: 'full'},
+  { path: 'form-example',component: FormExampleComponent },
 
-  {path: 'access-denied', component: AccessDeniedComponent},
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
 
-  {path: 'compo-example', component: ComponentExampleComponent},
+  { path: 'access-denied', component: AccessDeniedComponent },
 
-  {path: '**', redirectTo: 'error/404'}
+  { path: 'compo-example', component: ComponentExampleComponent },
+  
+  { path: 'comment', component: CommentComponent },
+
+  { path: 'compo-example', component: ComponentExampleComponent },
+
+  { path: 'page-not-found', component: PageNotFoundComponent },
+  
+  { path: 'server-error', component: ServerErrorComponent },
+
+  { path: '**', redirectTo: 'error/404' },
+
 ];
 
 @NgModule({

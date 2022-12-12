@@ -1,177 +1,176 @@
-<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'student-records'">
-  <!-- start header -->
-  <div class="d-flex algin-items-center justify-content-between flex-wrap">
-    <h3 class="title-compo-global mb-3">{{t('studentRecords.recordsDone')}} </h3>
-    <div class="filter d-flex flex-wrap algin-items-center mb-3">
-      <select name="cate" id="" [(ngModel)]="cateId" class="so-select mx-4" (ngModelChange)="filter()">
-        <option [value]="''">{{t('studentRecords.categoryRecords')}}</option>
-        <ng-container *ngFor="let cate of arrCategories">
-          <option [value]="cate.id">{{cate.name}}</option>
-        </ng-container>
-      </select>
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student-records'">
+  <div class="card-header" *ngIf="infoUser">
+    <h3 class="card-title fs-18 fw-700">{{t('studentRecords.recordsDone')}}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <select name="cate" id="" [(ngModel)]="cateId" class="so-select me-4 mb-3 fw-600" (ngModelChange)="filter()">
+          <option [value]="''">{{t('studentRecords.categoryRecords')}}</option>
+          <ng-container *ngFor="let cate of arrCategories">
+            <option [value]="cate.id">{{cate.name}}</option>
+          </ng-container>
+        </select>
 
-      <select name="status" id="" [(ngModel)]="statusRecords" class="so-select" (ngModelChange)="filter()">
-        <option [value]="''">{{t('status')}}</option>
-        <ng-container *ngFor="let status of arrStatus">
-          <option [value]="status.value">{{t(status.label)}}</option>
-        </ng-container>
-      </select>
+        <select name="status" id="" [(ngModel)]="statusRecords" class="so-select me-4 mb-3 fw-600" (ngModelChange)="filter()">
+          <option [value]="''">{{t('status')}}</option>
+          <ng-container *ngFor="let status of arrStatus">
+            <option [value]="status.value">{{t(status.label)}}</option>
+          </ng-container>
+        </select>
 
-      <div class="so-input-search mx-4">
-        <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" name="input-search" nz-input placeholder="{{t('studentRecords.search')}}" #searchInput
-            (keydown)="search($event, searchInput.value)" />
-        </nz-input-group>
-        <ng-template #suffixIconSearch>
-          <img src="assets/images/svg/search.svg" alt="" nzType="search">
+        <div class="so-input-search me-4 mb-3 fw-600">
+          <input type="text" placeholder="{{ t('search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
+
+        <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3"
+            (click)="openModalCreateUpdate('create', null)" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="">
+            {{t('btnAction.add')}}
+          </button>
         </ng-template>
       </div>
-      <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
-        <button class="so-btn so-btn-primary so-btn-primary--small" (click)="openModalCreateUpdate('create', null)"
-          name="btn-create">
-          <img src="assets/images/svg/add.svg" alt="">
-          {{t('btnAction.add')}}
-        </button>
-      </ng-template>
     </div>
   </div>
-  <!-- end header -->
-
-  <!-- content -->
-  <div class="mt-12">
+  <div class="card-body py-5 pt-0" *ngIf="infoUser">
     <div class="d-flex info-user mb-6">
       <img [src]="infoUser?.avatar || avatarDefault" alt="">
       <div>
-        <h4>{{infoUser?.studentName || '--'}}</h4>
-        <div>
-          <span>
-            {{t('birthday')}}:
-            <span class="text-link">{{infoUser?.birthday | formatTime}}</span>
+        <h4 class="fw-700 mb-2 fs-16">{{infoUser?.studentName || '--'}}</h4>
+        <div class="d-flex justify-content-start">
+          <span class="d-flex align-items-center fw-500 me-8">
+            <img src="assets/images/svg/icon-avatar-profile.svg" class="me-2" alt="">
+            <span class="me-2 color-828282">{{ t('birthday') }}: </span>
+            <span class="color-50a5f1">{{infoUser?.birthday | formatTime}}</span>
           </span>
-          <span class="mx-8">
-            {{t('class')}}:
-            <span class="text-link">{{infoUser?.className || '--'}}</span>
+          <span class="d-flex align-items-center fs-14 fw-500 me-8">
+            <img src="assets/images/svg/icon-class.svg" class="me-2" alt="">
+            <span class="me-2 color-828282">{{t('class')}}:</span>
+            <span class="color-50a5f1">{{infoUser?.className || '--'}}</span>
           </span>
-          <span>
-            {{t("studentRecords.complete")}}:
-            <span class="text-link">{{infoUser?.countFileUserImperativeReceived}}/{{infoUser?.countFileUserImperative}}
-              {{t('studentRecords.records')}}</span>
+          <span class="d-flex align-items-center fs-14 fw-500 me-8">
+            <span class="me-2 color-828282">{{t("studentRecords.complete")}}:</span>
+            <span
+              class="color-50a5f1">{{infoUser?.countFileUserImperativeReceived}}/{{infoUser?.countFileUserImperative}}
+              {{ t('studentRecords.categoryRecords') }}</span>
           </span>
         </div>
       </div>
     </div>
-    <table class="table-global w-full mb-4">
-      <caption></caption>
-      <thead>
-        <th style="width: 3%;" class="text-header-table text-center"> {{t('STT')}}</th>
-        <th style="width: 15%;" class="text-header-table"> {{t('studentRecords.nameRecord')}}</th>
-        <th style="width: 12%;" class="text-header-table"> {{t('studentRecords.categoryRecords')}} </th>
-        <th style="width: 10%;" class="text-header-table"> {{t('studentRecords.createdAt')}} </th>
-        <th style="width: 14%;" class="text-header-table"> {{t('studentRecords.createdByName')}} </th>
-        <th style="width: 10%;" class="text-header-table"> {{t('status')}} </th>
-        <th style="width: 15%;" class="text-header-table"> {{t('studentRecords.fileAttachs')}} </th>
-        <th style="width: 15%;" class="text-header-table"> {{t('btnAction.approve')}} </th>
-        <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
-          <th style="width: 10%;" class="text-header-table text-center"> {{t('action')}} </th>
-        </ng-template>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let item of arrList; let i=index">
-          <tr>
-            <td class="text-center">
-              {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
-            </td>
-            <td class="text-content-table text-link fw-600">
-              {{item?.name}}
-              <span class="icon-mark" *ngIf="item.isImportant == 1">
-                <img src="assets/images/svg/icon-mark.svg" alt="">
-              </span>
-            </td>
-            <td>
-              {{item?.fileCategoryName}}
-            </td>
-            <td>
-              {{item?.createdAt | formatTime}}
-            </td>
-            <td>
-              {{item?.createByName}}
-            </td>
-            <td>
-              <span class="so-badge so-badge-status so-badge-status-{{item?.approveStatus}}">
-                {{t(item?.approveStatusName)}}
-              </span>
-            </td>
-            <td>
-              <ng-container *ngFor="let file of item?.fileAttachs">
-                <div class="mb-1">
-                  <a href="{{file?.url}}" target="_blank" class="text-underline">{{file?.name}}</a>
-                </div>
-              </ng-container>
-            </td>
-            <td>
-              <div class="d-flex flex-wrap">
-                <span class="so-badge so-badge-action so-badge-action--approve me-3 mb-2" id="btn-approve"
-                  (click)="changeStatusRecords(item, 'approve')"
-                  *ngIf="item?.approveStatus != constStatusRecords.APPROVED">
-                  <img src="assets/images/svg/icon-check-square-white.svg" alt="">
-                  {{t('btnAction.approve')}}
-                </span>
-                <span class="so-badge so-badge-action so-badge-action--refuse mb-2" id="btn-refuse"
-                  (click)="changeStatusRecords(item, 'refuse')"
-                  *ngIf="item?.approveStatus != constStatusRecords.REFUSE">
-                  <img src="assets/images/svg/icon-close-white.svg" alt="">
-                  {{t('btnAction.refuse')}}
-                </span>
-              </div>
-            </td>
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 so-table w-full mb-4 so-table-th-custom--grey">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-4"> {{t('STT')}}</th>
+            <th class="w-14"> {{t('studentRecords.nameRecord')}}</th>
+            <th class="w-10"> {{t('studentRecords.categoryRecords')}} </th>
+            <th class="w-10"> {{t('studentRecords.createdAt')}} </th>
+            <th class="w-14"> {{t('studentRecords.createdByName')}} </th>
+            <th class="w-10"> {{t('status')}} </th>
+            <th class="w-14"> {{t('studentRecords.fileAttachs')}} </th>
+            <th class="w-14"> {{t('btnAction.approve')}} </th>
             <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
-              <td class="text-center">
-                <div class="d-flex justify-content-center">
-                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
-                    class="so-btn-open-drop-menu so-btn-open-drop-menu-no-border d-flex align-items-center justify-content-center"
-                    name="btn-open-menu">
-                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
-                  </span>
-                </div>
-                <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">
-                  <ul nz-menu>
-                    <li nz-menu-item (click)="openModalCreateUpdate('update', item)"
-                      class="d-flex align-items-center so-item-drop-menu" name="btn-update-role">
-                      <img src="assets/images/svg/write.svg" alt="">
-                      {{t('btnAction.update')}}
-                    </li>
-                    <li nz-menu-item (click)="changeMarkRecords(item, 'mark')" *ngIf="item?.isImportant == 0"
-                      class="d-flex align-items-center so-item-drop-menu" name="btn-update-role">
-                      <img src="assets/images/svg/icon-mark-blue.svg" alt="">
-                      {{t('btnAction.markImportantRecords')}}
-                    </li>
-                    <li nz-menu-item (click)="changeMarkRecords(item, 'unmark')" *ngIf="item?.isImportant == 1"
-                      class="d-flex align-items-center so-item-drop-menu" name="btn-update-role">
-                      <img src="assets/images/svg/icon-mark-blue.svg" alt="">
-                      {{t('btnAction.unmarkImportantRecords')}}
-                    </li>
-                    <li nz-menu-item (click)="delete(item?.id, item?.name)"
-                      class="d-flex align-items-center so-item-drop-menu text-danger" name="btn-delete">
-                      <img src="assets/images/svg/icon-delete.svg" alt="">
-                      {{t('btnAction.delete')}}
-                    </li>
-                  </ul>
-                </nz-dropdown-menu>
-              </td>
+              <th class="w-10" class="text-center"> {{t('action')}} </th>
             </ng-template>
           </tr>
-        </ng-container>
-        <tr *ngIf="arrList?.length == 0 || !arrList">
-          <td class="text-no-data" colspan="7">{{t('noData')}}</td>
-        </tr>
-      </tbody>
-    </table>
-
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i=index">
+            <tr class="fs-13 fw-600 text-color-river-bed">
+              <td class="text-center fw-700">
+                {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+              </td>
+              <td class="fw-700">
+                {{item?.name}}
+                <span class="icon-mark" *ngIf="item.isImportant == 1">
+                  <img src="assets/images/svg/icon-mark.svg" alt="">
+                </span>
+              </td>
+              <td class="fw-700">
+                {{item?.fileCategoryName}}
+              </td>
+              <td class="fw-700">
+                {{item?.createdAt | formatTime}}
+              </td>
+              <td class="fw-700">
+                {{item?.createByName}}
+              </td>
+              <td>
+                <span class="badge so-badge so-badge-status so-badge-status-{{item?.approveStatus}}">
+                  {{t(item?.approveStatusName)}}
+                </span>
+              </td>
+              <td>
+                <ng-container *ngFor="let file of item?.fileAttachs">
+                  <div class="d-flex fs-12 fw-600 mb-2 align-items-start">
+                    <img src="assets/images/svg/icon-attached-files.svg" class="me-1 mt-1" alt="">
+                    <a href="{{file?.url}}" target="_blank" class="text-underline">{{file?.name}}</a>
+                  </div>
+                </ng-container>
+              </td>
+              <td>
+                <div class="d-flex flex-wrap">
+                  <span class="so-badge so-badge-action so-badge-action--approve me-3 mb-2" id="btn-approve"
+                    (click)="changeStatusRecords(item, 'approve')"
+                    *ngIf="item?.approveStatus != constStatusRecords.APPROVED">
+                    <img src="assets/images/svg/icon-check-square-white.svg" alt="">
+                    {{t('btnAction.approve')}}
+                  </span>
+                  <span class="so-badge so-badge-action so-badge-action--refuse mb-2" id="btn-refuse"
+                    (click)="changeStatusRecords(item, 'refuse')"
+                    *ngIf="item?.approveStatus != constStatusRecords.REFUSE">
+                    <img src="assets/images/svg/icon-close-white.svg" alt="">
+                    {{t('btnAction.refuse')}}
+                  </span>
+                </div>
+              </td>
+              <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
+                <td class="text-center">
+                  <div class="d-flex justify-content-center">
+                    <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="so-action" name="btn-open-menu">
+                      <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" class="so-action--icon-opend">
+                    </span>
+                  </div>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="openModalCreateUpdate('update', item)"
+                        class="fs-13 fw-600 text-color-river-bed" name="btn-update-role">
+                        <img src="assets/images/svg/write.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.update')}}
+                      </li>
+                      <li nz-menu-item (click)="changeMarkRecords(item, 'mark')" *ngIf="item?.isImportant == 0"
+                        class="fs-13 fw-600 text-color-river-bed" name="btn-update-role">
+                        <img src="assets/images/svg/icon-mark-blue.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.markImportantRecords')}}
+                      </li>
+                      <li nz-menu-item (click)="changeMarkRecords(item, 'unmark')" *ngIf="item?.isImportant == 1"
+                        class="fs-13 fw-600 text-color-river-bed" name="btn-update-role">
+                        <img src="assets/images/svg/icon-mark-blue.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.unmarkImportantRecords')}}
+                      </li>
+                      <li nz-menu-item (click)="delete(item?.id, item?.name)" class="fs-13 fw-600 text-danger"
+                        name="btn-delete">
+                        <img src="assets/images/svg/icon-delete2.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+              </ng-template>
+            </tr>
+          </ng-container>
+          <tr *ngIf="arrList?.length == 0 || !arrList">
+            <td class="text-no-data" colspan="9">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
       *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
     </app-pagination>
   </div>
-  <!-- end content -->
 </div>
 
 <div class="spinner" *ngIf="isLoading">

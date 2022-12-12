@@ -37,6 +37,7 @@ export class DialogFileManagerComponent implements OnInit {
   hasChild = (_: number, node: any): boolean => node.expandable;
 
   ngOnInit(): void {
+    console.log(22222222)
     this.type = this.dataModal.type;
     this.dragAreaClass = 'dragarea';
     this.loadFolder();

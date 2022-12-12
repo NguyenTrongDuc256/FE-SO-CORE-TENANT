@@ -1,0 +1,234 @@
+<ng-container *transloco="let t; scope: 'role'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form action="" [formGroup]="formSubmit">
+      <div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
+            <div class="d-flex flex-wrap">
+              <div class="me-8 mt-3">
+                {{formSubmit.get('Name').value}} <span class="text-link fw-600">({{formSubmit.get('Code').value}})</span>
+              </div>
+              <div class="flex-grow-1">
+                <div class="form-group so-form-group">
+                  <input type="text" name="other-name" id="other-name" placeholder="{{t('enterName')}}"
+                  class="form-control so-form-control"
+                    formControlName="OtherName" autocomplete="off">
+                  <div class="text-danger mt-2">
+                    <app-field-error-display
+                      [displayError]="formSubmit.get('OtherName').hasError('required') && (formSubmit.get('OtherName').dirty || formSubmit.get('OtherName').touched)"
+                      errorMsg="{{ t('requiredName') }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2">
+                    <app-field-error-display
+                      [displayError]="formSubmit.get('OtherName').hasError('maxlength') && (formSubmit.get('OtherName').dirty || formSubmit.get('OtherName').touched)"
+                      errorMsg="{{ t('maxLengthName') }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2">
+                    <app-field-error-display
+                      [displayError]="formSubmit.get('OtherName').hasError('notEmpty') && (formSubmit.get('OtherName').dirty || formSubmit.get('OtherName').touched)"
+                      errorMsg="{{ t('requiredName') }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.OtherName">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.OtherName"
+                      [displayErrorServer]="!formSubmit.get('OtherName')?.dirty || formSubmit.get('OtherName')?.touched">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-6">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="d-flex justify-content-end flex-wrap">
+                  <div class="form-group so-form-group">
+                    <select name="grading-type" id="grading-type" class="so-select form-control so-form-control" (ngModelChange)="changeGradingType()"
+                      formControlName="GradebookType">
+                      <ng-container *ngFor="let fi of arrGradingType">
+                        <option [value]="fi.value">{{ t(fi.label) }}</option>
+                      </ng-container>
+                    </select>
+                    <div class="text-danger mt-2">
+                      <app-field-error-display
+                        [displayError]="formSubmit.get('GradebookType').hasError('notNull') && (formSubmit.get('GradebookType').dirty || formSubmit.get('GradebookType').touched)"
+                        errorMsg="{{ t('declare.requiredGradingType') }}">
+                      </app-field-error-display>
+                    </div>
+                    <div class="text-danger mt-2" *ngIf="validationMessagesServer?.GradebookType">
+                      <app-field-error-display [errorServer]="validationMessagesServer?.GradebookType"
+                        [displayErrorServer]="!formSubmit.get('GradebookType')?.dirty || formSubmit.get('GradebookType')?.touched">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                  <label nz-checkbox class="so-checkbox so-checkbox-style-custom ms-7 mt-3"
+                    *ngIf="formSubmit.controls['GradebookType'].value == arrGradingType[0].value"
+                    name="checkbox-is-private-gradebook" (ngModelChange)="changePrivateGradebook($event)"
+                    formControlName="IsPrivateGradebook">
+                    {{t('declare.isPrivateGradebook')}}
+                  </label>
+                  <label nz-checkbox class="so-checkbox so-checkbox-style-custom ms-7 mt-3"
+                    name="is-active"
+                    formControlName="IsActive">
+                    {{t('activated')}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bg-custom px-4 py-5"
+          *ngIf="formSubmit.controls['GradebookType'].value == arrGradingType[0].value
+          && formSubmit.controls['IsPrivateGradebook'].value">
+          <p class="fw-600">{{t('declare.thietLapSoRieng')}}</p>
+          <div class="row">
+            <div class="d-flex">
+              <div class="d-flex">
+                <span class="mt-3">{{t('declare.reportType')}} <span class="text-danger">*</span></span>
+                <div class="form-group so-form-group mx-3">
+                  <select name="ReportTypeId" id="ReportTypeId" class="so-select form-control so-form-control"
+                    (ngModelChange)="changeReportType()"
+                    formControlName="ReportTypeId">
+                    <option [value]="''" disabled>{{t('declare.chooseReportType')}}</option>
+                    <ng-container *ngFor="let fi of arrReportTypes">
+                      <option [value]="fi.id">{{ t(fi.Name) }}</option>
+                    </ng-container>
+                  </select>
+                  <div class="text-danger mt-2">
+                    <app-field-error-display
+                      [displayError]="formSubmit.get('ReportTypeId').hasError('required') && (formSubmit.get('ReportTypeId').dirty || formSubmit.get('ReportTypeId').touched)"
+                      errorMsg="{{ t('declare.requiredReportTypeId') }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.ReportTypeId">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.ReportTypeId"
+                      [displayErrorServer]="!formSubmit.get('ReportTypeId')?.dirty || formSubmit.get('ReportTypeId')?.touched">
+                    </app-field-error-display>
+                  </div>
+                </div>
+              </div>
+              <label nz-checkbox class="so-checkbox so-checkbox-style-custom mt-3 mx-3" name="checkbox-is-sync-moet"
+                (ngModelChange)="changeSyncMoet($event)" formControlName="IsSyncMoet"
+                [nzDisabled]="formSubmit.controls['ReportTypeId'].value ==''">
+                {{t('declare.isSyncMoet')}}
+              </label>
+            </div>
+            <div class="mt-6" *ngIf="formSubmit.controls['IsSyncMoet'].value">
+              <div class="d-flex">
+                <div class="ps-15">
+                  <ng-container formArrayName="ConvertMethod">
+                    <ng-container *ngFor="let frg of getFormArray.controls; let j = index;">
+                      <ng-container [formGroupName]="j">
+                        <div class="d-flex mb-6">
+                          <span class="mt-3">
+                            {{t('declare.convertMethod')}} <span class="text-danger">*</span>
+                          </span>
+                          <div class="form-group so-form-group mx-3">
+                            <select name="ReportTypeId" id="ReportTypeId" class="so-select form-control so-form-control"
+                              formControlName="ReportTypeFormulaCode">
+                              <option [value]="''" disabled>{{t('select')}}
+                              </option>
+                              <ng-container
+                                *ngFor="let fi of arrConvertMethod">
+                                <option [value]="fi.ReportTypeFormulaCode">{{ fi.ReportTypeFormulaName }}
+                                  ({{ fi.ReportTypeFormulaCode }})</option>
+                              </ng-container>
+                            </select>
+                            <div class="text-danger mt-2">
+                              <app-field-error-display
+                                [displayError]="getFormGroupOfFormArray(j).get('ReportTypeFormulaCode').hasError('required') && (getFormGroupOfFormArray(j).get('ReportTypeFormulaCode').dirty || getFormGroupOfFormArray(j).get('ReportTypeFormulaCode').touched)"
+                                errorMsg="{{ t('declare.requiredReportTypeFormulaCode') }}">
+                              </app-field-error-display>
+                            </div>
+                            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.ReportTypeFormulaCode">
+                              <app-field-error-display [errorServer]="getMessageServerLv1('ReportTypeFormulaCode',j)"
+                                [displayErrorServer]="!getFormGroupOfFormArray(j).get('ReportTypeFormulaCode')?.dirty || getFormGroupOfFormArray(j).get('ReportTypeFormulaCode')?.touched">
+                              </app-field-error-display>
+                            </div>
+                          </div>
+                          <div class="d-flex mx-6">
+                            <span class="mt-3">
+                              {{t('declare.subjectConvert')}} <span class="text-danger">*</span>
+                            </span>
+                            <div class="form-group so-form-group mx-3">
+                              <select name="ReportTypeId" id="ReportTypeId" class="so-select form-control so-form-control"
+                                formControlName="MoetSubjectCode">
+                                <option [value]="''" disabled>{{t('select')}}</option>
+                                <ng-container *ngFor="let fi of arrSubjectMOET">
+                                  <option [value]="fi.Code">{{ fi.Name }} ({{ fi.Code }})</option>
+                                </ng-container>
+                              </select>
+                              <div class="text-danger mt-2">
+                                <app-field-error-display
+                                  [displayError]="getFormGroupOfFormArray(j).get('MoetSubjectCode').hasError('required') && (getFormGroupOfFormArray(j).get('MoetSubjectCode').dirty || getFormGroupOfFormArray(j).get('MoetSubjectCode').touched)"
+                                  errorMsg="{{ t('declare.requiredMoetSubjectCode') }}">
+                                </app-field-error-display>
+                              </div>
+                              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.MoetSubjectCode">
+                                <app-field-error-display [errorServer]="getMessageServerLv1('MoetSubjectCode',j)"
+                                  [displayErrorServer]="!getFormGroupOfFormArray(j).get('MoetSubjectCode')?.dirty || getFormGroupOfFormArray(j).get('MoetSubjectCode')?.touched">
+                                </app-field-error-display>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <button class="btn-remove mt-3" (click)="remove(j)" name="btn-remove">
+                              <img src="assets/images/svg/icon-delete2.svg" alt="">
+                            </button>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </div>
+
+              </div>
+              <div class="mt-3 ps-15">
+                <span class="text-underline btn-add-item-form-control cursor-pointer" name="btn-add-method"
+                  (click)="create(null)">
+                  <img src="assets/images/svg/icon-add-white.svg" alt="">
+                  {{t('declare.addNewConvertMethod')}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- error -->
+    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+          <span role="alert">
+            <div class="err-form text-danger fw-600">
+              <span>&nbsp;{{ message }}</span>
+            </div>
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <!-- end err template -->
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+      (click)="submit(formSubmit.value)">
+      {{t(dataModal?.btnAccept)}}
+    </button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

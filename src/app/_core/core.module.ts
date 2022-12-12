@@ -18,6 +18,15 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { SwitchInfomationLayoutComponent } from '../_shared/components/switch-infomation-layout/switch-infomation-layout.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { OnlyNumberDirective } from 'src/app/_shared/directive/only-number-interger.directive';
+import { UserInnerComponent } from '../_shared/components/user-inner/user-inner.component';
+import { RangeDatePickerComponent } from '../_shared/components/range-date-picker/range-date-picker.component';
+import {DialogFileManagerComponent} from "../_shared/modals/dialog-file-manager/dialog-file-manager.component";
+import {CkeditorComponent} from "../_shared/components/ckeditor/ckeditor.component";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
+import { TimeagoPipe } from '../_shared/pipe/timeago.pipe';
+import {AppTextareaAutoresizeDirective} from "../_shared/directive/app-textarea-autoresize.directive";
+import { FieldErrorDisplayComponent } from '../_shared/components/field-error-display/field-error-display.component';
+
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -27,7 +36,14 @@ import { OnlyNumberDirective } from 'src/app/_shared/directive/only-number-inter
     SingleDatePickerComponent,
     SwitchLayoutComponent,
     SwitchInfomationLayoutComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    UserInnerComponent,
+    RangeDatePickerComponent,
+    DialogFileManagerComponent,
+    CkeditorComponent,
+    TimeagoPipe,
+    AppTextareaAutoresizeDirective,
+    FieldErrorDisplayComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +57,8 @@ import { OnlyNumberDirective } from 'src/app/_shared/directive/only-number-inter
     TranslocoModule,
     NgxPermissionsModule.forChild(),
     NzDropDownModule,
-    NzSelectModule
+    NzSelectModule,
+    CKEditorModule,
   ],
   exports: [
     LoadingComponent,
@@ -59,7 +76,16 @@ import { OnlyNumberDirective } from 'src/app/_shared/directive/only-number-inter
     NgxPermissionsModule,
     SwitchLayoutComponent,
     SwitchInfomationLayoutComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    UserInnerComponent,
+    TranslocoModule,
+    RangeDatePickerComponent,
+    DialogFileManagerComponent,
+    CkeditorComponent,
+    CKEditorModule,
+    TimeagoPipe,
+    AppTextareaAutoresizeDirective,
+    FieldErrorDisplayComponent
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: '' }

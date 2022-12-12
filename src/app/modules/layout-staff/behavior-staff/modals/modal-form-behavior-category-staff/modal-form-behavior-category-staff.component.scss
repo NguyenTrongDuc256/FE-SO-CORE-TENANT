@@ -1,0 +1,43 @@
+.form-behavior {
+    .choose-icon {
+        background-color: var(--bs-white-smoke);
+        width: 11rem;
+        height: 8rem;
+        border-radius: 9px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+
+        .avatar {
+            width: 4.5rem;
+            height: 4.5rem;
+        }
+
+        .text-label {
+            background-color: var(--bs-picton-blue);
+            width: 100%;
+            text-align: center;
+            margin-top: 0.5rem;
+            border-radius: 0px 0px 9px 9px;
+        }
+
+
+
+    }
+}
+
+
+
+.dropdown-popup {
+    max-width: 220px;
+
+    li {
+        width: fit-content;
+    }
+
+    .drop-icon {
+        width: 20px;
+        height: 20px;
+    }
+}

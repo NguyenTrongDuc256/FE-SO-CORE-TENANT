@@ -62,11 +62,11 @@ export class SchoolService {
   getListSubject(id: string, keyWord: string, subjectType: number |'null', pageSize: number, pageIndex: number) {
     if(subjectType && subjectType != 'null') {
       return this.http.get(
-        `${environment.apiUrl2}/api/${this.tenantId}/school/${id}/subject?pageSize=${pageSize}$pageIndex=${pageIndex}&keyWord=${keyWord}&subjectType=${subjectType}`
+        `${environment.apiUrl2}/api/${this.tenantId}/school/${id}/subject?pageSize=${pageSize}&pageIndex=${pageIndex}&keyWord=${keyWord}&subjectType=${subjectType}`
       );
     }
     return this.http.get(
-      `${environment.apiUrl2}/api/${this.tenantId}/school/${id}/subject?keyWord=${keyWord}`
+      `${environment.apiUrl2}/api/${this.tenantId}/school/${id}/subject?keyWord=${keyWord}&pageSize=${pageSize}&pageIndex=${pageIndex}`
     );
 
   }

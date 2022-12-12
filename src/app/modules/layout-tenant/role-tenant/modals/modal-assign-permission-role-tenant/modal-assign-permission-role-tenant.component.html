@@ -8,20 +8,16 @@
   </div>
   <div class="modal-body text-normal-global">
     <!-- tam an chuc nang tim kiem -->
-    <!-- <div class="d-flex algin-items-center justify-content-end">
+    <!-- <div class="d-flex align-items-center justify-content-end">
       <div class="filter d-flex">
         <div class="so-input-search">
-          <nz-input-group [nzSuffix]="suffixIconSearch">
-            <input type="text" name="input-search" nz-input placeholder="{{t('role.search')}}" #searchInput
-              (keydown)="search($event, searchInput.value)" />
-          </nz-input-group>
-          <ng-template #suffixIconSearch>
-            <img src="assets/images/svg/search.svg" alt="" nzType="search">
-          </ng-template>
+          <input type="text" placeholder="{{ t('role.search') }}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
         </div>
       </div>
     </div> -->
-    <div class="mt-8">
+    <div>
       <div class="row">
         <ng-container *ngFor="let item of listAllPermission; let i=index">
           <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-5">
@@ -30,7 +26,7 @@
                 <label nz-checkbox class="so-checkbox" name="checkbox-module" [(ngModel)]="item.isChecked"
                   [nzValue]="item.id" (ngModelChange)="checkedAll(i)">
                   <span>{{item.name}}</span>
-                  <span class="text-link">({{item.code}})</span>
+                  <span class="text-link text-break">({{item.code}})</span>
                 </label>
               </div>
               <div class="box-body mt-2">
@@ -38,7 +34,7 @@
                   <label nz-checkbox class="so-checkbox" name="checkbox-permission" [(ngModel)]="permission.isChecked"
                     (ngModelChange)="isCheckCheckedAll(item, i, listAllPermission)" [nzValue]="permission.id">
                     <span>{{permission.name}}&nbsp;</span>
-                    <span class="text-link">({{permission.code}})</span>
+                    <span class="text-link text-break">({{permission.code}})</span>
                   </label>
                 </div>
               </div>

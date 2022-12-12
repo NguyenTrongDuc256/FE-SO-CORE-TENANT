@@ -1,0 +1,67 @@
+<div class="card shadow-none card-flush p-0 h-full" *transloco="let t; scope: 'setting'">
+  <form [formGroup]="formGroup" *ngIf="formGroup">
+    <div class="card-header border-none p-0">
+      <h3 class="card-title fs-18 fw-700">
+        {{ t('setting.attendanceConfig.hanetAttendanceConfig') }}
+        <label nz-checkbox formControlName="isUseHanet" class="so-checkbox fs-14 fw-700 checkboxHanet">{{
+          t('setting.attendanceConfig.schowColumnImageAttendance') }}</label>
+      </h3>
+    </div>
+    <div class="card-body p-0">
+      <div class="lb-form-attendance-device-config fs-15 fw-700 mb-9">
+          {{ t('setting.attendanceConfig.attendanceTimeFrame') }} <span class="text-danger">*</span>
+      </div>
+      <div class="custom-tab-attendance-device-config-form">
+        <div class="col-md-12 row mt-5 mb-5">
+          <div class="col-md-3 fs-14 fw-700">{{ t('setting.attendanceConfig.from') }}</div>
+          <div class="col-md-3 fs-14 fw-700">{{ t('setting.attendanceConfig.to') }}</div>
+          <div class="col-md-3 fs-14 fw-700">{{ t('status') }}</div>
+          <div class="col-md-3 fs-14 fw-700">{{ t('setting.attendanceConfig.attendanceType') }}</div>
+        </div>
+        <div formArrayName="data">
+          <div *ngFor="let item of formGroup.get('data')['controls'];let i = index">
+            <div class="col-md-12 row content-form-attendance-device mt-5 mb-5" [formGroupName]="i">
+              <div class="col-md-3">
+                <input class="form-control so-form-control w-80" type="time" name="input-time-start"
+                       formControlName="from">
+              </div>
+              <div class="col-md-3">
+                <input class="form-control so-form-control w-80" type="time" name="input-time-end"
+                       formControlName="to">
+              </div>
+              <div class="col-md-3">
+                <select class="form-control so-form-control w-80" name="select-status-attendance" formControlName="typeStatus">
+                  <ng-container *ngFor="let itemStatus of statusAttendance">
+                    <option value="{{itemStatus.value}}">{{ t(getNameStatusAttendance(itemStatus.value)) }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="col-md-3 config-type-attendance">
+                <select class="form-control so-form-control w-80" name="select-type-attendance" formControlName="typeAttendance">
+                  <option value="1">{{ t('setting.attendanceConfig.attendanceCome') }}</option>
+                  <option value="2">{{ t('setting.attendanceConfig.attendanceCheckout') }}</option>
+                </select>
+                <span class="btn-remove-item" name="btn-remove-item" (click)="removeItem(i)"
+                      title="{{ t('btnAction.delete') }}">
+                  <img src="assets/images/svg/icon-delete.svg" alt=""/>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 row">
+          <span class="btn-add-item-attendance-device fs-12 fw-600" name="btn-add-item-attendance-device"
+                (click)="addItem()">{{ t('btnAction.add') }}</span>
+        </div>
+        <div class="col-md-12 row d-flex justify-content-end">
+          <button class="btn-save-item-attendance-device fs-12 fw-600" name="btn-save-item-attendance-device"
+                  (click)="saveFormAttendanceDeviceConfig()">{{ t('btnAction.save') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -13,9 +13,10 @@ export class CategoryStudentRecordsTeacherService {
     keyword: string,
     pageSize: number,
     pageIndex: number,
+    type: number
   ) {
     return this.http.get(
-      `${environment.apiIdentityService}/api/file-user/get-list-file-category?PageSize=${pageSize}&PageIndex=${pageIndex}&Keyword=${keyword}`
+      `${environment.apiIdentityService}/api/file-user/get-list-file-category?PageSize=${pageSize}&PageIndex=${pageIndex}&Keyword=${keyword}&Type=${type}`
     );
   }
 }

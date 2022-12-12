@@ -1,5 +1,5 @@
 .so-auth-text-primary {
-  color: #495057;
+  color: var(--bs-river-bed);
 }
 
 .so-auth-text-secondary {
@@ -7,7 +7,7 @@
 }
 
 .so-auth-text-danger {
-  color: #f46a6a;
+  color: var(--bs-bittersweet);
 }
 
 .err-login {
@@ -81,27 +81,8 @@
   font-size: 1.3rem;
 }
 
-/* ============ start style so-select ============== */
-.so-select {
-  min-width: 12rem;
-  max-height: 3.6rem;
-  height: 100%;
-  border-radius: 6px;
-  border: none;
-  padding: 0 10px;
-  outline: none;
-}
-
-.so-select:focus {
-  outline: none;
-  border-color: #40a9ff;
-  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
-  border-right-width: 1px !important;
-}
-/* ============ end style so-select ============ */
-
 .select-language {
-  border: 1px solid #556ee6;
+  border: 1px solid var(--bs-blue-lotus);
   border-radius: 6px;
   width: 148px;
   height: 44px;

@@ -83,8 +83,8 @@ export interface School {
 export interface DIEMTRUONG {
   TenDiemTruong: string;
   MaDiemTruong: string;
-  DienTich?: number;
-  KhoangCach?: number;
+  DienTich?: string;
+  KhoangCach?: string;
   Email?: string;
   DienThoai?: string;
   TrangThai?: number;

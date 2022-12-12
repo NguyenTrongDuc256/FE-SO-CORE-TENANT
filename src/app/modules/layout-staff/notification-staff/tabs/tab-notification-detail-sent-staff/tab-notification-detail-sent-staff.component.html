@@ -1,0 +1,82 @@
+<div *transloco="let t; scope: 'notification'">
+  <div class="d-flex justify-content-start">
+    <div *ngIf="dataNotification?.avatar">
+      <div class="symbol symbol-150px me-8" >
+        <img src="{{dataNotification?.avatar}}"  alt="">
+      </div>
+    </div>
+    <div class="d-flex justify-content-start flex-column w-100" *ngIf="dataNotification?.description">
+      <div class="d-flex flex-column mb-2">
+        <span class="color-556EE6 fw-700 fs-15">
+          {{t('notification.description')}}
+        </span>
+        <span class="mt-3 fw-500 fs-14 color-6E798C" [innerHTML]="dataNotification?.description"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-10">
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+      <img src="assets/images/svg/bank.svg" class="mb-2 me-1" alt="">
+      <span class="fw-600 color-464E5F mb-1 fs-14">
+        {{t('notification.scope')}}:
+        <span class="fw-700 color-495057">{{t(dataNotification?.sendingScopeName)}}</span>
+      </span>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14">{{t('notification.recipientGroup')}}:
+        <span class="fw-700 color-5014D0" *ngFor="let label of dataNotification?.recipientGroupsLabel, let i = index">
+          {{t(label)}}<ng-container *ngIf="i !== dataNotification?.recipientGroupsLabel.length-1 ">, </ng-container>
+        </span>
+      </span>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14">{{t('notification.receiver')}}: <span class="fw-700 color-5014D0"> {{dataNotification?.recipientNumber}} <span class="color-6E798C fs-13 fw-500">{{t('notification.people')}}</span></span></span>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14">{{t('notification.read')}}: <span class="fw-700 color-5014D0">{{dataNotification?.readUserNumber}} <span class="color-6E798C fs-13 fw-500">{{t('notification.people')}}</span></span></span>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14">{{t(dataNotification?.sendingScopeName)}}:
+        <span class="fw-500 ms-2 color-6E798C" *ngFor="let item of dataNotification?.objects, let i = index">
+          {{item?.name}}<ng-container *ngIf="i !== dataNotification?.objects.length-1 ">, </ng-container>
+        </span>
+      </span>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14 d-flex justify-content-start align-items-center">{{t('notification.sentBy')}}:
+        <span class="fw-500 ms-2 color-6E798C"> {{dataNotification?.sendAt | formatTime: 'HH:mm'}} - {{dataNotification?.sendAt | formatTime: 'dd/MM/YYYY'}}</span>
+      </span>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14 d-flex justify-content-start align-items-center">{{t('notification.sent')}}:
+        <span class="fw-700 color-5014D0 ms-2"> {{dataNotification?.receivedUserNumber}} <span class="color-6E798C fs-13 fw-500">{{t('notification.people')}}</span></span>
+      </span>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+      <span class="fw-600 color-000000 mb-1 fs-14 d-flex justify-content-start align-items-center">{{t('status')}}:
+        <span class="ms-3 badge so-badge {{dataNotification?.status == 1 ? 'so-badge--primary' : 'so-badge--warning'}} mb-2">{{ t(dataNotification?.statusLabel) }}</span>
+      </span>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <span class="fw-700 color-000000 mb-2 fs-14">{{t('notification.content')}}</span>
+    <p class="insertHtml fw-500 text-color-river-bed mt-1" [innerHTML]="dataNotification?.content"></p>
+  </div>
+  <div class="row mt-5">
+    <ng-container *ngFor="let item of dataNotification?.files;">
+      <div class="row w-100 mt-5 col-xl-12 row get-info pb-2" >
+        <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center justify-content-center">
+            <img src="assets/images/svg/icon-upload.svg" alt="" style="height: 20px">
+            <a href="{{item}}" class="ms-5"  target="_blank">
+              {{item}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+

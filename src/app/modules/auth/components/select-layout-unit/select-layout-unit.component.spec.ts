@@ -3,11 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   NgxPermissionsConfigurationStore,
   NgxPermissionsStore,
-  NgxRolesStore,
+  NgxRolesStore
 } from 'ngx-permissions';
 import { getTranslocoModule } from 'src/app/transloco-testing.module';
 import { AuthModule } from '../../auth.module';
-import { AuthService } from '../../services/auth.service';
 
 import { SelectLayoutUnitComponent } from './select-layout-unit.component';
 
@@ -150,7 +149,12 @@ describe('SelectLayoutUnitComponent', () => {
         Permissions: ['manager_access', 'student_manager', 'bus_manager'],
       },
       StudentLayout: {
-        SchoolId: '00000000-0000-0000-0000-000000000000',
+        SchoolYearSchools: [
+          {
+            SchoolId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            SchoolYearId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          }
+        ],
         Permissions: ['student_view', 'student_modify'],
       },
       AppType: 0,

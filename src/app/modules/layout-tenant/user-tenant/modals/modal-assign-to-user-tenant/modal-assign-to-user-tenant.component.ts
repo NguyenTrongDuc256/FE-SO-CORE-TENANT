@@ -1,14 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from "src/app/_services/layout-tenant/user/user.service";
-import {ShowMessageService} from "../../../../../_services/show-message.service";
-import {CampusList, RoleToAssignList, SchoolList} from "src/app/_models/layout-tenant/user/user.model";
-import {MESSAGE_ERROR_CALL_API, TIME_OUT_LISTEN_FIREBASE} from "../../../../../_shared/utils/constant";
-import {translate} from "@ngneat/transloco";
-import {Observable, Subscriber} from "rxjs";
-import {ListenFirebaseService} from "../../../../../_services/listen-firebase.service";
-import {ValidateUser} from "src/app/_models/layout-tenant/user/validate.model";
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from "src/app/_services/layout-tenant/user/user.service";
+import { ShowMessageService } from "../../../../../_services/show-message.service";
+import { CampusList, RoleToAssignList, SchoolList } from "src/app/_models/layout-tenant/user/user.model";
+import { MESSAGE_ERROR_CALL_API, TIME_OUT_LISTEN_FIREBASE } from "../../../../../_shared/utils/constant";
+import { translate } from "@ngneat/transloco";
+import { Observable, Subscriber } from "rxjs";
+import { ListenFirebaseService } from "../../../../../_services/listen-firebase.service";
+import { ValidateUser } from "src/app/_models/layout-tenant/user/validate.model";
 
 @Component({
   selector: 'app-modal-assign-to-user-tenant',
@@ -50,6 +50,12 @@ export class ModalAssignToUserTenantComponent implements OnInit {
     ]
   };
 
+  validationMessagesServer = {
+    roleId: {},
+    schoolId: {},
+    campusId: {}
+  }
+
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
@@ -85,11 +91,19 @@ export class ModalAssignToUserTenantComponent implements OnInit {
     this.activeModal.close(sendData);
   }
 
-  submitForm(dataForm): void {
-    this.isSubmitForm = true;
+  submitForm(dataForm: any): void {
     this.isLoading = true;
-    let roleList: any[] = [];
+    if (this.formGroup.valid) {
+      this.saveForm(dataForm);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
+  }
 
+  saveForm(dataForm: any) {
+    this.isSubmitForm = true;
+    let roleList: any[] = [];
     if (dataForm.roles.length > 0) {
       dataForm.roles.forEach((element: any) => {
         if (element.isDisplay == 1) {
@@ -126,6 +140,9 @@ export class ModalAssignToUserTenantComponent implements OnInit {
     }, (_err: any) => {
       this.isSubmitForm = false;
       this.isLoading = false;
+      if (_err.status == 400) {
+        this.validateAllFormFieldsErrorServer(_err.errors);
+      }
     })
   }
 
@@ -325,23 +342,18 @@ export class ModalAssignToUserTenantComponent implements OnInit {
 
   getSchoolList(): void {
     this.userService.getSchoolList().subscribe((res: any): void => {
-        if (res.status == 1) {
-          this.schoolList = res.data.map(item => {
-            return {
-              id: item.id,
-              name: item.name,
-              code: item.code,
-              unitCode: item.unitCode,
-              unitName: item.unitName,
-              isActive: item.isActive,
-              disabled: false
-            }
-          });
-        } else {
-          this.showMessageService.error(res.msg);
+      this.schoolList = res.data.map(item => {
+        return {
+          id: item.id,
+          name: item.name,
+          code: item.code,
+          unitCode: item.unitCode,
+          unitName: item.unitName,
+          isActive: item.isActive,
+          disabled: false
         }
-
-      },
+      });
+    },
       (err: any) => {
       }
     );
@@ -349,19 +361,15 @@ export class ModalAssignToUserTenantComponent implements OnInit {
 
   getCampusList(): void {
     this.userService.getCampusList().subscribe((res: any): void => {
-        if (res.status == 1) {
-          this.campusList = res.data.map(item => {
-            return {
-              id: item.id,
-              name: item.name,
-              code: item.code,
-              disabled: false
-            }
-          });
-        } else {
-          this.showMessageService.error(res.msg);
+      this.campusList = res.data.map(item => {
+        return {
+          id: item.id,
+          name: item.name,
+          code: item.code,
+          disabled: false
         }
-      },
+      });
+    },
       (err: any) => {
       }
     );
@@ -387,6 +395,34 @@ export class ModalAssignToUserTenantComponent implements OnInit {
         this.isLoading = false;
         this.isSubmitForm = false;
       }
+    });
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      Object.keys(this.validationMessages).forEach(itemMessage => {
+        if (key == itemMessage || (key[0].toLowerCase() + key.substring(1)) == itemMessage) {
+          this.validationMessagesServer[itemMessage] = {
+            type: "errorServer",
+            message: error[key]
+          }
+        }
+      });
     });
   }
 }

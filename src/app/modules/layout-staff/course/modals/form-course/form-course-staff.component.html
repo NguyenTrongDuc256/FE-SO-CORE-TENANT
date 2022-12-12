@@ -1,0 +1,274 @@
+<form action="" [formGroup]="formSubmit" *transloco="let t; scope: 'training'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-normal-global">
+    <div class="row mb-6" *ngIf="dataFromParent?.isEnableClassAvatar == 1">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+            <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-logo-user-blue.svg" alt=""
+                class="box-icon" />&ensp;{{t('img')}}</span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 fw-600 form-group so-form-group">
+            <div class="so-input-upload-img postion-relative">
+              <img src="{{logo}} " alt="">
+              <span name="btn-change-logo" class="btn-click-change-logo fs-12 fw-500" (click)="fileInputAvatar.click()">
+                <img class="logo-change-avatar" src="assets/images/svg/icon-upload-img.svg" alt="">
+                {{t('uploadImg')}}
+              </span>
+              <span name="btn-remove-logo" class="btn-click-remove-logo fs-12 fw-500"
+                *ngIf="(fileName && fileName !='') || logo !=''" (click)="removeLogo()">
+                <img src="assets/images/svg/close.svg" alt="">
+              </span>
+              <input #fileInputAvatar type="file" name="logo" id="logo" class="d-none"
+                accept="image/png, image/jpeg, image/jpg" (change)="onChangeFileInputLogo($event)">
+              <div class="loading-upload-avatar" *ngIf="isLoadingUploadImg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-6">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('grade')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <div class="form-group so-form-group">
+              <select name="grade" id="grade" class="w-full so-form-control form-control" formControlName="gradeId"
+              [class.is-invalid]="formSubmit.get('gradeId').invalid && (formSubmit.get('gradeId').dirty || formSubmit.get('gradeId').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.gradeId.hasOwnProperty('message') && formSubmit.get('gradeId').invalid">
+                <option [value]="''">{{t('chooseOption')}}</option>
+                <ng-container *ngFor="let grade of arrGrades">
+                  <option [value]="grade.id">{{grade.name}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.gradeId">
+              <app-field-error-display
+                [displayError]="formSubmit.get('gradeId').hasError(err.type) && (formSubmit.get('gradeId').dirty || formSubmit.get('gradeId').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.gradeId">
+              <app-field-error-display [errorServer]="validationMessagesServer?.gradeId"
+                [displayErrorServer]="!(formSubmit.get('gradeId').dirty || formSubmit.get('gradeId').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('name')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <input type="text" name="name" id="name" placeholder="{{t('enterName')}}" class="so-form-control form-control"
+              formControlName="name" autocomplete="off"
+              [class.is-invalid]="formSubmit.get('name').invalid && (formSubmit.get('name').dirty || formSubmit.get('name').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formSubmit.get('name').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('name').hasError(err.type) && (formSubmit.get('name').dirty || formSubmit.get('name').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+                <app-field-error-display [errorServer]="validationMessagesServer?.name"
+                  [displayErrorServer]="!(formSubmit.get('name').dirty || formSubmit.get('name').touched)">
+                </app-field-error-display>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-6">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('training.homeroomClass')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <div class="form-group so-form-group">
+              <select name="homeroomClassId" id="homeroomClassId" class="w-full so-form-control form-control" formControlName="homeroomClassId"
+              [class.is-invalid]="formSubmit.get('gradeId').invalid && (formSubmit.get('gradeId').dirty || formSubmit.get('gradeId').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.gradeId.hasOwnProperty('message') && formSubmit.get('gradeId').invalid">
+                <option [value]="''">{{t('chooseOption')}}</option>
+                <ng-container *ngFor="let it of arrHomeroomClasses">
+                  <option [value]="it.id">{{it.Name}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.homeroomClassId">
+              <app-field-error-display
+                [displayError]="formSubmit.get('homeroomClassId').hasError(err.type) && (formSubmit.get('homeroomClassId').dirty || formSubmit.get('homeroomClassId').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.homeroomClassId">
+              <app-field-error-display [errorServer]="validationMessagesServer?.homeroomClassId"
+                [displayErrorServer]="!(formSubmit.get('homeroomClassId').dirty || formSubmit.get('homeroomClassId').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('code')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <input type="text" name="code" id="code" placeholder="{{t('enterCode')}}" class="so-form-control form-control"
+              formControlName="code" autocomplete="off" *ngIf="nameForm =='create'"
+              [class.is-invalid]="formSubmit.get('code').invalid && (formSubmit.get('code').dirty || formSubmit.get('code').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.code.hasOwnProperty('message') && formSubmit.get('code').invalid">
+            <span class="so-form-control form-control disabled fs-13 d-flex align-items-center" *ngIf="nameForm =='update'">{{dataFromParent.course?.code}}</span>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.code">
+              <app-field-error-display
+                [displayError]="formSubmit.get('code').hasError(err.type) && (formSubmit.get('code').dirty || formSubmit.get('code').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.code">
+              <app-field-error-display [errorServer]="validationMessagesServer?.code"
+                [displayErrorServer]="!(formSubmit.get('code').dirty || formSubmit.get('code').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-6">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('subject')}} <span class="text-danger">*</span></span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <div class="form-group so-form-group">
+              <select name="subjectId" id="subjectId" class="w-full so-form-control form-control" formControlName="subjectId"
+              [class.is-invalid]="formSubmit.get('subjectId').invalid && (formSubmit.get('subjectId').dirty || formSubmit.get('subjectId').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.gradeId.hasOwnProperty('message') && formSubmit.get('subjectId').invalid">
+                <option [value]="''">{{t('chooseOption')}}</option>
+                <ng-container *ngFor="let it of arrSubjects">
+                  <option [value]="it.id">{{it.name}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.subjectId">
+              <app-field-error-display
+                [displayError]="formSubmit.get('subjectId').hasError(err.type) && (formSubmit.get('subjectId').dirty || formSubmit.get('subjectId').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.subjectId">
+              <app-field-error-display [errorServer]="validationMessagesServer?.subjectId"
+                [displayErrorServer]="!(formSubmit.get('subjectId').dirty || formSubmit.get('subjectId').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('startDate')}}</span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <app-single-date-picker name="date-time-picker-from" [currentDate]="formSubmit.get('startDate').value"
+              [timePicker]="false" [maxDate]="formSubmit.get('endDate').value"
+              (dataTimeOutput)="getDate($event, 'start')" class="date-picker-custom-height"></app-single-date-picker>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.startDate">
+              <app-field-error-display [errorServer]="validationMessagesServer?.startDate"
+                [displayErrorServer]="!(formSubmit.get('startDate').dirty || formSubmit.get('startDate').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('status')}}</span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <div class="form-group so-form-group">
+              <select name="status" id="status" class="w-full so-form-control form-control" formControlName="status">
+                <option [value]="''">{{t('chooseOption')}}</option>
+                <ng-container *ngFor="let it of arrStatus">
+                  <option [value]="it.value">{{ t(it.label) }}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4 col-xl-3">
+            <span class="d-flex align-items-center fw-600 mt-3"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                class="box-icon" />&ensp;{{t('endDate')}}</span>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-9 fw-600 form-group so-form-group">
+            <app-single-date-picker name="date-time-picker-to" [currentDate]="formSubmit.get('endDate').value"
+              [timePicker]="false" [minDate]="formSubmit.get('startDate').value"
+              (dataTimeOutput)="getDate($event, 'end')" class="date-picker-custom-height"></app-single-date-picker>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.endDate">
+              <app-field-error-display [errorServer]="validationMessagesServer?.endDate"
+                [displayErrorServer]="!(formSubmit.get('endDate').dirty || formSubmit.get('endDate').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- error -->
+    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+          <span role="alert">
+            <div class="err-form text-danger">
+              <span>&nbsp;{{ message }}</span>
+            </div>
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <div class="so-checkbox-style2 d-flex m-right-20">
+      <label nz-checkbox [(ngModel)]="isContinueCreate"
+        [ngModelOptions]="{standalone: true}"
+        *ngIf="dataFromParent.nameForm == 'create'">{{ t('keepGeneratingData') }}</label>
+    </div>
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+      (click)="submit(formSubmit.value)">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</form>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

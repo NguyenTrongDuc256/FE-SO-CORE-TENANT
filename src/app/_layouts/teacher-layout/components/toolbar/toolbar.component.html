@@ -7,19 +7,51 @@
           </span>
           <span>Trang chủ</span>
       </a>
-      <a class="so-menu-item" routerLink="/tenant/school-year" routerLinkActive="active">
+      <div class="menu-item menu-lg-down-accordion me-lg-1" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+           data-kt-menu-placement="bottom-start">
+        <a class="so-menu-item"  routerLinkActive="active">
           <span class="so-menu-item-icon">
           <img src="assets/images/svg/notification.svg" alt="">
           </span>
-        <span>Thông báo</span>
-      </a>
+          <span>Thông báo</span>
+        </a>
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-lg-200px" data-kt-menu='true'>
+          <!--begin:Dashboards menu-->
+          <div class="menu-active-bg pt-1 pb-3 px-3 " >
+            <div class='menu-item px-3 my-0'>
+              <a class="menu-link px-3 py-2 so-menu-item-custom-teacher" routerLink="/teacher/notification/received" routerLinkActive="active">
+                <span class="so-menu-item-custom-teacher-icon">
+                  <img src="assets/images/svg/notification.svg" alt="">
+                </span>
+                <span>Thông báo gửi đến</span>
+              </a>
+            </div>
+            <div class='menu-item px-3 my-0'>
+              <a class="menu-link px-3 py-2 so-menu-item-custom-teacher" routerLink="/teacher/notification/sent" routerLinkActive="active">
+                <span class="so-menu-item-custom-teacher-icon">
+                  <img src="assets/images/svg/icon-email-noti-blue.svg" alt="">
+                </span>
+                <span>Thông báo đã gửi</span>
+              </a>
+            </div>
+            <div class='menu-item px-3 my-0'>
+              <a class="menu-link px-3 py-2 so-menu-item-custom-teacher" routerLink="/teacher/records/list" routerLinkActive="active">
+                <span class="so-menu-item-custom-teacher-icon">
+                  <img src="assets/images/svg/icon-library.svg" alt="">
+                </span>
+                <span>Nội quy & Quy định</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
       <a class="so-menu-item" routerLink="/tenant/school-year" routerLinkActive="active">
           <span class="so-menu-item-icon">
           <img src="assets/images/svg/timetable.svg" alt="">
           </span>
         <span>Thời khóa biểu</span>
       </a>
-      <a class="so-menu-item" routerLink="/tenant/school-year" routerLinkActive="active">
+      <a class="so-menu-item" routerLink="class-manager/list" routerLinkActive="active">
           <span class="so-menu-item-icon">
           <img src="assets/images/svg/home.svg" alt="">
           </span>
@@ -43,6 +75,12 @@
           </span>
         <span>Khảo sát</span>
       </a>
+      <a class="so-menu-item" routerLink="/teacher/behavior" routerLinkActive="active">
+          <span class="so-menu-item-icon">
+          <img src="assets/images/svg/home.svg" alt="">
+          </span>
+        <span>Điểm hành vi</span>
+      </a>
       <div class="menu-item menu-lg-down-accordion me-lg-1" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
            data-kt-menu-placement="bottom-start">
         <a class="so-menu-item" routerLink="/teacher/records" routerLinkActive="active">
@@ -51,7 +89,7 @@
           </span>
           <span>Hồ sơ HS </span>
         </a>
-        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-100 w-lg-200px" data-kt-menu='true'>
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown p-0 w-lg-200px" data-kt-menu='true'>
           <!--begin:Dashboards menu-->
           <div class="menu-active-bg pt-1 pb-3 px-3 " >
             <div class='menu-item px-3 my-0'>

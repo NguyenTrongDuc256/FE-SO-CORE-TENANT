@@ -18,7 +18,6 @@ import { TranslocoService } from '@ngneat/transloco';
   styleUrls: ['./login.component.scss', '../../helper-auth.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
   isLoading = false;
   loginForm: FormGroup;
   hasError: boolean = true;
@@ -132,6 +131,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       error => {
         // handle error here
+        this.isLoading = false;
       }
     );
   }
@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     let data = {
       titleModal: '',
-      btnAccept: 'Đóng',
+      btnAccept: 'btnAction.close',
       isHiddenBtnClose: false, // hidden/show btn close modal
       dataFromParent: this.dataResponse.data.blockedRemainingTime,
       isCenterBtn: true

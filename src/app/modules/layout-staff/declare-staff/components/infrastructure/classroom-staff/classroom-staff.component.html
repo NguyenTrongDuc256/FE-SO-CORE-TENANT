@@ -1,0 +1,134 @@
+<div class="card card-flush p-0" *transloco="let t; scope: 'infrastructure'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('infrastructure.classroomManager') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap algin-items-center text-color-river-bed">
+        <select class="so-select me-4 mb-3 fs-13 fw-600" name="btn-classroomType" id="classroomType "
+          [(ngModel)]="isRoomType" (change)="changeIsActie()">
+          <option value="">{{ t('infrastructure.classroomType') }}</option>
+          <option value="0">{{ t('infrastructure.functionRoom') }}</option>
+          <option value="1">{{ t('infrastructure.classroom') }}</option>
+        </select>
+        <select class="so-select me-4 mb-3 fs-13 fw-600" name="btn-status" id="status" [(ngModel)]="IsActive"
+          (change)="changeIsActie()">
+          <option value="">{{ t('infrastructure.status') }}</option>
+          <option value="0">{{ t('infrastructure.stopUsing') }}</option>
+          <option value="1">{{ t('infrastructure.using') }}</option>
+        </select>
+        <div class="so-input-search me-4 mb-3 fs-13 fw-600">
+          <input type="text" class="fs-13 fw-600" [(ngModel)]="keyWord" (keyup.enter)="changeIsActie()"
+            placeholder="{{ t('infrastructure.search') }}">
+          <img class="search-icon" src="assets/images/svg/search.svg" alt="" (click)="changeIsActie()">
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.classroom_manager }}">
+          <button class="card-button so-btn so-btn-primary so-btn-primary--small mb-3" name="btn-create"
+            (click)="getBuildingStaff()">
+            <div class="d-flex align-items-center justify-content-center">
+              <img class="add-icon" src="assets/images/svg/add.svg" alt="">
+              <span class="fs-13 fw-600"> {{ t('btnAction.add') }}</span>
+            </div>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class="text-center w-5">
+              {{ t('infrastructure.order') }}
+            </th>
+            <th class="w-15">
+              {{ t('infrastructure.classroomName') }}
+            </th>
+            <th class="w-10">
+              {{ t('infrastructure.classroomCode') }}
+            </th>
+            <th class="w-15">
+              {{ t('infrastructure.classroomType') }}
+            </th>
+            <th class="w-10">
+              {{ t('infrastructure.capacity') }}
+            </th>
+            <th class="w-10">
+              {{ t('infrastructure.floor') }}
+            </th>
+            <th class="w-15">
+              {{ t('infrastructure.buildingName') }}
+            </th>
+            <th class="w-10">
+              {{ t('infrastructure.status') }}
+            </th>
+            <th class="text-center w-10">
+              {{ t('infrastructure.action') }}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of listClassroom;let i = index" class="fs-13 fw-600 text-color-river-bed">
+            <td class="text-center">
+              <p class="webkit-box-1 mb-0" title="{{ (pageSize * (pageIndex - 1)) + i+1 }}"> 
+                {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+              </p>
+            </td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{item.Name}}"> {{item.Name}}</p>
+            </td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{ item.Code }}"> {{ item.Code }}</p>
+            </td>
+            <td class="">
+              <span *ngIf="item.IsRoom == 0" class="badge so-badge subject-functionRoom">{{
+                t('infrastructure.functionRoom') }}</span>
+              <span *ngIf="item.IsRoom == 1" class="badge so-badge subject-classroom">{{ t('infrastructure.classroom')
+                }}</span>
+            </td>
+            <td class="">{{ item.NumberOfSeats }} người</td>
+            <td class="">Tầng {{ item.Floor }}</td>
+            <td class="">
+              <p class="webkit-box-1 mb-0" title="{{ item.BuildingName }}"> {{ item.BuildingName }}</p>
+            </td>
+            <td class="">
+              <span *ngIf="item.IsActive == 0" class="badge so-badge subject-active">{{ t('infrastructure.stopUsing')
+                }}</span>
+              <span *ngIf="item.IsActive == 1" class="badge so-badge subject-inactive">{{ t('infrastructure.using')
+                }}</span>
+            </td>
+            <td class="color-td fs-11 fw-700 text-center">
+              <ng-template ngxPermissionsOnly="{{ permission.classroom_manager }}">
+                <span class="so-action " nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+                  <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="getBuildingStaff(item)">
+                        <img class="so-action--icon" src="assets/images/svg/edit.svg" alt="">{{ t('btnAction.update') }}
+                      </li>
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="removeClassroom(item.id)"><img
+                          class="so-action--icon" src="assets/images/svg/icon-delete.svg"
+                          alt="">{{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </ng-template>
+            </td>
+          </tr>
+          <tr *ngIf="listClassroom?.length == 0 || !listClassroom">
+            <td class="text-no-data" colspan="9">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)" *ngIf="collectionSize >= sizeOption[0]">
+      </app-pagination>
+    </div>
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <app-loading></app-loading>
+  </div>
+</div>

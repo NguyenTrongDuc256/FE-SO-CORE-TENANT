@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
 import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
@@ -21,11 +21,11 @@ export class ModalDiemNgoaiNguComponent implements OnInit {
   currentDate: any = null;
   timePicker: boolean = false;
   dataTemporary: any[] = []; // biến lưu dữ liệu tạm thời để xử lý logic
-  validationMsg: Validate = {
+  validationMessages: Validate = {
     ngoaiNgu: [
       {
         type: "required",
-        message: translate('employee.validators.ngoaiNgu.required'),
+        message: 'employee.validators.ngoaiNgu.required',
       },
     ],
   };
@@ -94,8 +94,8 @@ export class ModalDiemNgoaiNguComponent implements OnInit {
       diem: [data ? data.diem : ''],
       date: [data ? data.date : this.currentDate],
       note: [data ? data.note : ''],
-      isInput: [data ? data.isInput : 1],
-      isUpdate: [data ? data.isUpdate : 0],
+      isInput: data && data.isInput == undefined ? 0 : [data ? data.isInput : 1],
+      isUpdate: data && data.isInput == undefined ? 0 : [data ? data.isUpdate : 0],
       trinhDoNgoaiNguList: [],
     })
     this.ngoaiNgu.push(itemForm);
@@ -105,30 +105,58 @@ export class ModalDiemNgoaiNguComponent implements OnInit {
     this.ngoaiNgu.removeAt(index);
   }
 
-  store(dataForm: any, index: number): void {
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    if (this.dataTemporary[index]) {
-      this.dataTemporary[index] = dataForm;
+  getFormGroupOfFormArray(index: number) {
+    return this.ngoaiNgu.controls[index] as FormGroup;
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  store(dataForm: FormGroup, index: number): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      if (this.dataTemporary[index]) {
+        this.dataTemporary[index] = dataForm.value;
+      } else {
+        this.dataTemporary.push(dataForm.value);
+      }
     } else {
-      this.dataTemporary.push(dataForm);
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
     }
   }
 
   edit(item: any, index: number): void {
-    console.log(item);
     ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('date').patchValue(item.date);
     ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isInput').patchValue(1);
     ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(1);
   }
 
-  update(dataForm, index): void {
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('ngoaiNgu').patchValue(dataForm.ngoaiNgu);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue(dataForm.trinhDo);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('diem').patchValue(dataForm.diem);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.date);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('note').patchValue(dataForm.note);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
-    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+  update(dataForm: FormGroup, index): void {
+    if (dataForm.valid) {
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('ngoaiNgu').patchValue(dataForm.value.ngoaiNgu);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue(dataForm.value.trinhDo);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('diem').patchValue(dataForm.value.diem);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('date').patchValue(dataForm.value.date);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('note').patchValue(dataForm.value.note);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isInput').patchValue(0);
+      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('isUpdate').patchValue(0);
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formGroup);
+    }
   }
 
   cancel(index: number): void {
@@ -171,9 +199,6 @@ export class ModalDiemNgoaiNguComponent implements OnInit {
     } else {
       ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('trinhDoNgoaiNguList').patchValue([]);
     }
-
-    if (event != ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('ngoaiNgu').value) {
-      ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue('');
-    }
+    ((this.formGroup.get('ngoaiNgu') as FormArray).at(index) as FormGroup).get('trinhDo').patchValue('');
   }
 }

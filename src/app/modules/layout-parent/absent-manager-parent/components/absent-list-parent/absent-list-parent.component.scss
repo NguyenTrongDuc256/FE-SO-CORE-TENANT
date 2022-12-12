@@ -1,0 +1,21 @@
+.so-icon {
+    margin-right: 0.7rem;
+    width: 15px;
+    height: 15px;
+    filter: brightness(0) saturate(100%) invert(55%) sepia(79%) saturate(626%) hue-rotate(182deg) brightness(96%) contrast(98%);
+}
+
+.item-border {
+    display: flex;
+    align-items: center;
+    border: 1px dashed #E4E6EF;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+}
+
+.so-content {
+    border-bottom: 0.5px solid #DEDEDE;
+    margin: 3rem 2rem 1.5rem 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}

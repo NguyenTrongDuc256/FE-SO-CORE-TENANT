@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryStudentRecordsTeacherService } from 'src/app/_services/layout-teacher/category-student-records-teacher/category-student-records-teacher.service';
+import { GeneralService } from 'src/app/_services/general.service';
 import { StudentRecordsTeacherService } from 'src/app/_services/layout-teacher/student-records/student-records.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { AVATAR_DEFAULT, DATA_PERMISSION, GENDER, MESSAGE_ERROR_CALL_API, PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT, PAGE_SIZE_OPTIONS_DEFAULT } from 'src/app/_shared/utils/constant';
+import { AVATAR_DEFAULT, DATA_PERMISSION, GENDER, PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT, PAGE_SIZE_OPTIONS_DEFAULT } from 'src/app/_shared/utils/constant';
 
 @Component({
   selector: 'app-list-student-teacher',
@@ -28,8 +27,7 @@ export class ListStudentComponent implements OnInit {
 
   constructor(
     private studentRecordsTeacherService: StudentRecordsTeacherService,
-    private showMessage: ShowMessageService,
-    private categoryStudentRecordsTeacherService: CategoryStudentRecordsTeacherService
+    private generalService: GeneralService
   ) {}
 
   ngOnInit(): void {
@@ -48,55 +46,63 @@ export class ListStudentComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-            this.arrList.forEach((element: any) => {
-              element['genderName'] =
-                this.arrGender.find(
-                  (gender) => gender.id == element.gender
-                )?.name || '--';
-            });
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data.data;
+          this.collectionSize = res.data?.totalItems;
+          this.arrList.forEach((element: any) => {
+            element['genderName'] =
+              this.arrGender.find(
+                (gender) => gender.id == element.gender
+              )?.name || '--';
+          });
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
 
   getListClasses() {
+    this.isLoading = true;
     this.studentRecordsTeacherService
       .getListClasses('', 9999999, 1)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrClasses = res.data.data;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrClasses = res.data.data;
+          this.isLoading = false;
         },
-        (err: any) => this.showMessage.error(MESSAGE_ERROR_CALL_API)
+        (err: any) => {
+          this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
+        }
       );
   }
 
   import() {return;}
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.oldPageIndex = this.pageIndex;
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList();
+  }
+
   filter() {
-    this.pageIndex = 1;
-    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getList();
   }
 

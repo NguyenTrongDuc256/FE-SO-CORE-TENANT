@@ -1,0 +1,344 @@
+.status-send-notifiaction {
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+
+    .icon-status-send-notification {
+        width: 16px;
+        height: 16px;
+        object-fit: cover;
+        filter: brightness(0) saturate(100%) invert(71%) sepia(65%) saturate(7496%) hue-rotate(215deg) brightness(93%) contrast(94%);
+        margin-right: 0.5rem;
+    }
+
+    span {
+        color: #3F4254;
+
+        b {
+            color: #50A5F1;
+        }
+    }
+}
+
+.tab-daily-comment-student {
+    padding-bottom: 3rem;
+    position: relative;
+    height: 100%;
+
+    &-title {
+        padding: 1.5rem 1.5rem 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+
+        .homeroom-class-name {
+            color: #2D3748;
+            margin: 0;
+        }
+    }
+
+    &-filter {
+        display: flex;
+        align-items: center;
+
+        .item-filter {
+            display: flex;
+            align-items: center;
+
+            .lb-filter {
+                color: #3F4254;
+                margin-right: 1rem;
+            }
+        }
+
+        .item-filter.search {
+            position: relative;
+            flex-grow: 1;
+
+            .icon-search {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                filter: brightness(0) saturate(100%) invert(45%) sepia(98%) saturate(2752%) hue-rotate(214deg) brightness(92%) contrast(95%);
+                right: 10px;
+                top: 8px;
+            }
+        }
+
+        .btn-action {
+            color: #556EE6;
+            display: flex;
+            align-items: center;
+            background: #F5F8FA;
+            height: 40px;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+
+            .icon-action {
+                width: 16px;
+                height: 16px;
+                object-fit: cover;
+                filter: brightness(0) saturate(100%) invert(45%) sepia(98%) saturate(2752%) hue-rotate(214deg) brightness(92%) contrast(95%);
+                margin-right: 0.8rem;
+            }
+        }
+
+        .icon-support {
+            cursor: pointer;
+        }
+
+        .btn-quick-comment {
+            cursor: pointer;
+            background: #556EE6;
+            border-radius: 5px;
+            height: 40px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #FFFFFF;
+
+            .icon-quick-comment {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    &-quick-comment {
+        .container-quick-comment {
+            display: flex;
+            flex-direction: column;
+
+            .content-quick-comment {
+                flex-grow: 1;
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 0.5rem !important;
+
+                .custom-text-area-of-form {
+                    height: 100%;
+                }
+            }
+
+            .upload-file-comment {
+                display: flex;
+                align-items: center;
+
+                .btn-choose-file {
+                    display: flex;
+                    align-items: center;
+                    background: #F1FAFF;
+                    border: 1px dashed #00A3FF;
+                    box-shadow: 0px 0px 20px rgba(76, 87, 125, 0.02);
+                    border-radius: 5px;
+                    height: 40px;
+                    width: 270px;
+                    margin-left: 0.5rem;
+                    padding: 0 0.5rem;
+                    cursor: pointer;
+
+                    .icon-upload {
+                        width: 16px;
+                        height: 17px;
+                        margin-right: 0.5rem;
+                    }
+
+                    .lb-choose-file {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        flex-grow: 1;
+
+                        span.text-center {
+                            font-size: 7px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .lb-quick-comment {
+            color: var(--bs-river-bed);
+            width: 100px;
+        }
+
+        .container-note-quick-comment {
+            padding-left: 1.5rem !important;
+
+            .content-note {
+                color: #F46A6A;
+                margin-top: 0.5rem !important;
+                line-height: 25px;
+            }
+        }
+    }
+
+    &-data-daily-comment {
+        .custom-table-daily-comment {
+            .thead-table-daily-comment {
+                background: #50A5F1;
+                color: #FFFFFF;
+            }
+
+            .student-info {
+                padding: 0 1rem;
+
+                .info-item {
+                    margin-bottom: 1rem;
+
+                    .student-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        margin-right: 1rem;
+                    }
+                }
+
+                .box-item {
+                    background: #FFFFFF;
+                    border: 1px dashed #50A5F1;
+                    border-radius: 6px;
+                    padding: 0.5rem 1rem;
+
+                    &-icon {
+                        width: 15px;
+                        height: 15px;
+                        object-fit: cover;
+                        filter: brightness(0) saturate(100%) invert(60%) sepia(65%) saturate(2178%) hue-rotate(183deg) brightness(100%) contrast(90%);
+                        margin-right: 0.5rem;
+                    }
+
+                    &-lb {
+                        color: #5E6278;
+                        margin-right: 0.5rem;
+                    }
+
+                    &-code {
+                        color: #50A5F1;
+                    }
+
+                    &-gender-1 {
+                        background: #DBDFF5;
+                        border-radius: 6px;
+                        padding: 0 0.5rem;
+                        color: #556EE6;
+                    }
+
+                    &-gender-2 {
+                        background: #FCDDEC;
+                        border-radius: 6px;
+                        padding: 0 0.5rem;
+                        color: #EF5DA8;
+                    }
+                }
+            }
+
+            .comment-advice {
+                position: relative;
+
+                .action-comment {
+                    position: absolute;
+                    bottom: 0;
+                    background: #D7E6FE;
+                    border-radius: 0 0 5px 5px;
+                    padding: 0.2rem;
+
+                    .action-coment-item {
+                        &-icon {
+                            width: 12px;
+                            height: 12px;
+                            object-fit: cover;
+                            filter: brightness(0) saturate(100%) invert(54%) sepia(72%) saturate(867%) hue-rotate(183deg) brightness(100%) contrast(90%);
+                            margin-right: 0.5rem;
+                        }
+
+                        &-value {
+                            color: #50A5F1;
+                            margin-right: 0.5rem;
+                        }
+
+                        &-lb {
+                            color: #495057;
+                            margin-right: 0.5rem;
+                        }
+                    }
+                }
+            }
+
+            .status-send-notification-1 {
+                display: block;
+                background: #50A5F1;
+                border-radius: 6px;
+                color: #FFFFFF;
+                padding: 0.5rem 1rem;
+            }
+
+            .status-send-notification-0 {
+                display: block;
+                background: #F69220;
+                border-radius: 6px;
+                color: #FFFFFF;
+                padding: 0.5rem 1rem;
+            }
+
+            .attach-file {
+                &-lb {
+                    color: #495057;
+                }
+
+                &-name {
+                    text-decoration-line: underline;
+                    color: #50A5F1;
+                    cursor: pointer;
+                    word-break: break-word;
+                }
+
+                &-upload {
+                    color: #495057;
+                    cursor: pointer;
+
+                    &-icon {
+                        width: 17px;
+                        height: 17px;
+                        object-fit: cover;
+                        filter: brightness(0) saturate(100%) invert(64%) sepia(40%) saturate(4675%) hue-rotate(186deg) brightness(103%) contrast(89%);
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &-action {
+        position: absolute;
+        bottom: 0;
+        background: #A9D6FF;
+        padding: 1rem;
+
+        .btn-cancel {
+            background: #F5F8FA;
+            border-radius: 6px;
+            padding: 0.3rem 2rem;
+            margin: 0 1rem;
+            color: #7E8299;
+            cursor: pointer;
+        }
+
+        .btn-accept {
+            background: #556EE6;
+            border-radius: 6px;
+            padding: 0.3rem 2rem;
+            margin: 0 1rem;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+    }
+}
+
+.flex-grow-1{
+    flex-grow: 1;
+}

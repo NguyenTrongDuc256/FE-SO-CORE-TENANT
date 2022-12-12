@@ -1,0 +1,16 @@
+{
+  "classList": "Class list",
+  "subjectClass": "Subject class",
+  "status": "Status",
+  "grade": "Grade",
+  "homeroomClass": "Homeroom class",
+  "numberOfStudents": "Number of student",
+  "homeroomTeacher": "Homeroom teacher",
+  "subjectTeacher": "Subject teacher",
+  "attendance": "Attendance",
+  "schedule": "Schedule",
+  "listOfTeachers": "List of teachers",
+  "studentList": "Student list",
+  "sendNotifications": "Send notifications",
+  "studentComments": "Student comments"
+}

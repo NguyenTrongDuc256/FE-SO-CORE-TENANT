@@ -62,7 +62,6 @@ export class ModalUpdateStatusComponent implements OnInit {
       this.listenFirebaseService.checkFireBase(action, module, subscriber);
     });
     listenFb.subscribe((ref) => {
-      console.log(ref)
       if (ref.status) {
         this.isLoading = false;
         this.activeModal.close(true);

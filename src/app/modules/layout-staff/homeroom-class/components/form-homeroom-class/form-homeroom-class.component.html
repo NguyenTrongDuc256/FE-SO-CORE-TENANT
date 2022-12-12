@@ -1,0 +1,553 @@
+
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'training'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">
+      {{ nameForm == 'update' ? t("training.updateHomeroomClass") : t("training.createHomeroomClass") }}
+    </h3>
+  </div>
+  <hr class="homeroom-class-hr-custom">
+
+  <div class="card-body py-5">
+    <div>
+      <form action="" [formGroup]="formSubmit" *ngIf="!isLoading">
+        <div class="row mb-3" *ngIf="isEnableClassAvatar == 1">
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-logo-user-blue.svg" alt=""
+                    class="box-icon" />&ensp;{{t('img')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="so-input-upload-img postion-relative">
+                  <img src="{{logo}} " alt="">
+                  <span name="btn-change-logo" class="btn-click-change-logo fs-12 fw-500"
+                    (click)="fileInputAvatar.click()">
+                    <img class="logo-change-avatar" src="assets/images/svg/icon-upload-img.svg" alt="">
+                    {{t('uploadImg')}}
+                  </span>
+                  <span name="btn-remove-logo" class="btn-click-remove-logo fs-12 fw-500"
+                    *ngIf="(fileName && fileName !='') || logo !=''" (click)="removeLogo()">
+                    <img src="assets/images/svg/close.svg" alt="">
+                  </span>
+                  <input #fileInputAvatar type="file" name="logo" id="logo" class="d-none"
+                    accept="image/png, image/jpeg, image/jpg" (change)="onChangeFileInputLogo($event)">
+                  <div class="loading-upload-avatar" *ngIf="isLoadingUpImg"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-12">
+          <!-- row 1 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('grade')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="grade" id="grade" class="w-full so-form-control form-control" formControlName="GradeId"
+                    [class.is-invalid]="formSubmit.get('GradeId').invalid && (formSubmit.get('GradeId').dirty || formSubmit.get('GradeId').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.GradeId.hasOwnProperty('message') && formSubmit.get('GradeId').invalid"
+                    [attr.disabled]="nameForm == 'update' ? 'disabled' : null">
+                    <option [value]="''" disabled>{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let grade of arrGrades">
+                      <option [value]="grade.id">{{grade.name}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.GradeId">
+                  <app-field-error-display
+                    [displayError]="formSubmit.get('GradeId').hasError(err.type) && (formSubmit.get('GradeId').dirty || formSubmit.get('GradeId').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.GradeId">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.GradeId"
+                    [displayErrorServer]="!(formSubmit.get('GradeId').dirty || formSubmit.get('GradeId').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('code')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <input type="text" name="code" id="code" placeholder="{{t('enterCode')}}" class="so-form-control form-control"
+                  formControlName="Code" autocomplete="off" *ngIf="nameForm =='create'"
+                  [class.is-invalid]="formSubmit.get('Code').invalid && (formSubmit.get('Code').dirty || formSubmit.get('Code').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.Code.hasOwnProperty('message') && formSubmit.get('Code').invalid">
+                  <span class="form-control form-control-disable" *ngIf="nameForm =='update'">{{dataDetail?.Code}}</span>
+                  <div class="text-danger mt-2" *ngFor="let err of validationMessages.Code">
+                    <app-field-error-display
+                      [displayError]="formSubmit.get('Code').hasError(err.type) && (formSubmit.get('Code').dirty || formSubmit.get('Code').touched)"
+                      errorMsg="{{ t(err.message) }}">
+                    </app-field-error-display>
+                  </div>
+                  <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Code">
+                    <app-field-error-display [errorServer]="validationMessagesServer?.Code"
+                      [displayErrorServer]="!(formSubmit.get('Code').dirty || formSubmit.get('Code').touched)">
+                    </app-field-error-display>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 2 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.buoiHocTrenTuan')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="SoBuoiHocTrenTuan" id="SoBuoiHocTrenTuan" class="w-full so-form-control form-control"
+                    formControlName="SoBuoiHocTrenTuan"
+                    [class.is-invalid]="formSubmit.get('SoBuoiHocTrenTuan').invalid && (formSubmit.get('SoBuoiHocTrenTuan').dirty || formSubmit.get('SoBuoiHocTrenTuan').touched)"
+                    [class.is-invalid-server]="validationMessagesServer?.SoBuoiHocTrenTuan.hasOwnProperty('message') && formSubmit.get('SoBuoiHocTrenTuan').invalid">
+                    <option [value]="''" disabled>{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.SoBuoiHocTrenTuan">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.SoBuoiHocTrenTuan">
+                  <app-field-error-display
+                    [displayError]="formSubmit.get('SoBuoiHocTrenTuan').hasError(err.type) && (formSubmit.get('SoBuoiHocTrenTuan').dirty || formSubmit.get('SoBuoiHocTrenTuan').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.SoBuoiHocTrenTuan">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.SoBuoiHocTrenTuan"
+                    [displayErrorServer]="!(formSubmit.get('SoBuoiHocTrenTuan').dirty || formSubmit.get('SoBuoiHocTrenTuan').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('name')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <input type="text" name="name" id="name" placeholder="{{t('enterName')}}" class="so-form-control form-control"
+                  formControlName="Name" autocomplete="off"
+                  [class.is-invalid]="formSubmit.get('Name').invalid && (formSubmit.get('Name').dirty || formSubmit.get('Name').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.Name.hasOwnProperty('message') && formSubmit.get('Name').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.Name">
+                  <app-field-error-display
+                    [displayError]="formSubmit.get('Name').hasError(err.type) && (formSubmit.get('Name').dirty || formSubmit.get('Name').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Name">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.Name"
+                    [displayErrorServer]="!(formSubmit.get('Name').dirty || formSubmit.get('Name').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 3 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.diemTruong')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="diem-truong" id="diem-truong" class="w-full so-form-control form-control" formControlName="DiemTruong">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of arrDiemTruong">
+                      <option [value]="it.MaDiemTruong">{{it.TenDiemTruong}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.ganGVCN')}} </span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="HomeroomTeacherId" id="HomeroomTeacherId" class="w-full so-form-control form-control"
+                    formControlName="HomeroomTeacherId">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let user of arrTeachers">
+                      <option [value]="user.userId">{{user.fullName}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 4 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.indexOrder')}} <span class="text-danger">*</span></span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <input type="text" name="IndexOrder" id="IndexOrder" placeholder="{{t('training.enterIndexOrder')}}" class="so-form-control form-control"
+                  formControlName="IndexOrder"
+                  [class.is-invalid]="formSubmit.get('IndexOrder').invalid && (formSubmit.get('IndexOrder').dirty || formSubmit.get('IndexOrder').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.IndexOrder.hasOwnProperty('message') && formSubmit.get('IndexOrder').invalid">
+                <div class="text-danger mt-2" *ngFor="let err of validationMessages.IndexOrder">
+                  <app-field-error-display
+                    [displayError]="formSubmit.get('IndexOrder').hasError(err.type) && (formSubmit.get('IndexOrder').dirty || formSubmit.get('IndexOrder').touched)"
+                    errorMsg="{{ t(err.message) }}">
+                  </app-field-error-display>
+                </div>
+                <div class="text-danger mt-2" *ngIf="validationMessagesServer?.IndexOrder">
+                  <app-field-error-display [errorServer]="validationMessagesServer?.IndexOrder"
+                    [displayErrorServer]="!(formSubmit.get('IndexOrder').dirty || formSubmit.get('IndexOrder').touched)">
+                  </app-field-error-display>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.ghepLop')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="d-flex h-full">
+                  <div>
+                    <label nz-checkbox class="so-checkbox checkbox-info-advanced mb-0" id="IsLopGhep"
+                      style="margin-top: 0.8rem"
+                      formControlName="IsLopGhep" (ngModelChange)="changeCompoundClass($event)">
+                      <span class="fw-600">{{t('IsLopGhep')}}</span>
+                    </label>
+                  </div>
+                  <div class="form-group so-form-group flex-grow-1" *ngIf="formSubmit.get('IsLopGhep').value == true">
+                    <select name="GhepVaoLop" id="GhepVaoLop" class="w-full so-form-control form-control" formControlName="GhepVaoLop"
+                      [class.is-invalid]="formSubmit.get('GhepVaoLop').invalid && (formSubmit.get('GhepVaoLop').dirty || formSubmit.get('GhepVaoLop').touched)"
+                      [class.is-invalid-server]="validationMessagesServer?.GhepVaoLop.hasOwnProperty('message') && formSubmit.get('GhepVaoLop').invalid">
+                      <option [value]="''" disabled>{{t('training.chooseCompoundClass')}}</option>
+                      <ng-container *ngFor="let it of arrLopGhep">
+                        <option [value]="it.id">{{it.Name}}</option>
+                      </ng-container>
+                    </select>
+                    <div class="text-danger mt-2" *ngFor="let err of validationMessages.GhepVaoLop">
+                      <app-field-error-display
+                        [displayError]="formSubmit.get('GhepVaoLop').hasError(err.type) && (formSubmit.get('GhepVaoLop').dirty || formSubmit.get('GhepVaoLop').touched)"
+                        errorMsg="{{ t(err.message) }}">
+                      </app-field-error-display>
+                    </div>
+                    <div class="text-danger mt-2" *ngIf="validationMessagesServer?.GhepVaoLop">
+                      <app-field-error-display [errorServer]="validationMessagesServer?.GhepVaoLop"
+                        [displayErrorServer]="!(formSubmit.get('GhepVaoLop').dirty || formSubmit.get('GhepVaoLop').touched)">
+                      </app-field-error-display>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 5 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.sachGiaoKhoa')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="SachGiaoKhoa" id="SachGiaoKhoa" class="w-full so-form-control form-control" formControlName="SachGiaoKhoa">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.BoSachGiaoKhoaSuDung">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.tietHocTrenTuan')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="SoTietHocTrenTuan" id="SoTietHocTrenTuan" class="w-full so-form-control form-control"
+                    formControlName="SoTietHocTrenTuan">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.SoTietHocTrenTuan">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 6 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.soTietNN1')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="SoTietNN1" id="SoTietNN1" class="w-full so-form-control form-control" formControlName="SoTietNN1">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.SoTietNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.chuongTrinhNN1')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="ChuongTrinhNN1" id="ChuongTrinhNN1" class="w-full so-form-control form-control" formControlName="ChuongTrinhNN1">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.ChuongTrinhHocNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 7 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.soTietNN2')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="SoTietNN2" id="SoTietNN2" class="w-full so-form-control form-control" formControlName="SoTietNN2">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.SoTietNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.chuongTrinhNN2')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="ChuongTrinhNN2" id="ChuongTrinhNN2" class="w-full so-form-control form-control" formControlName="ChuongTrinhNN2">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.ChuongTrinhHocNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 8 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.maDanhMucNgoaiNgu1')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="MaDanhMucNgoaiNgu1" id="MaDanhMucNgoaiNgu1" class="w-full so-form-control form-control"
+                    formControlName="MaDanhMucNgoaiNgu1">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.HocNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.hocBanTru')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="HocBanTru" id="HocBanTru" class="w-full so-form-control form-control" formControlName="HocBanTru">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.HocBanTru">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 9 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.typeClass2')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="IsFreeDom" id="IsFreeDom" class="w-full so-form-control form-control" formControlName="IsFreeDom">
+                    <ng-container *ngFor="let it of arrTypeHomeroomClass">
+                      <option [value]="it.value">{{t(it.label)}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.maDanhMucNgoaiNgu2')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="MaDanhMucNgoaiNgu2" id="MaDanhMucNgoaiNgu2" class="w-full so-form-control form-control"
+                    formControlName="MaDanhMucNgoaiNgu2">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let it of dataMoet?.HocNgoaiNgu">
+                      <option [value]="it.MA">{{it.TEN}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- row 10 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field" *ngIf="nameForm == 'update'">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.classLeader')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="ClassLeaderId" id="ClassLeaderId" class="w-full so-form-control form-control" formControlName="ClassLeaderId">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let user of arrStudents">
+                      <option [value]="user.userId">{{user.name}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field" *ngIf="nameForm == 'update'">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.parentLeader')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <select name="ParentLeaderId" id="ParentLeaderId" class="w-full so-form-control form-control" formControlName="ParentLeaderId">
+                    <option [value]="''">{{t('chooseOption')}}</option>
+                    <ng-container *ngFor="let user of arrParents">
+                      <option [value]="user.id">{{user.name}}</option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row 11 -->
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('training.lopXoaMuChu')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="IsXoaMuChu"
+                    formControlName="IsXoaMuChu">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 box-field">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-5 col-xl-4">
+                <span class="d-flex align-items-center fw-600"><img src="assets/images/svg/icon-layer-group.svg" alt=""
+                    class="box-icon" />&ensp;{{t('IsActive')}}</span>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-7 col-xl-8 fw-600 form-group so-form-group">
+                <div class="form-group so-form-group">
+                  <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="IsActive"
+                    formControlName="IsActive">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <ng-container *ngFor="let item of arrInfoAdvanced">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4">
+              <label nz-checkbox class="so-checkbox checkbox-info-advanced" id="{{item.key}}"
+               formControlName="{{item.key}}">
+                <span class="fw-600">{{ t(item.label) }}</span>
+              </label>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="action d-flex justify-content-end mt-4">
+          <button type="button" class="so-btn so-btn-cancel" name="btn-cancel"
+          (click)="cancel()">{{t('btnAction.cancel')}}</button>
+          <button type="button" class="so-btn so-btn-primary so-btn-primary--small mx-4" name="btn-accept"
+            (click)="submit(formSubmit.value)">{{t('btnAction.save')}}</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -1,58 +1,43 @@
-<div class="d-flex bg-white h-100" *transloco="let t; scope: 'student'">
-  <!-- aside menu -->
-  <div class="aside-menu fs- 14 fw-700">
-    <a class="so-menu-item" [ngClass]="{'active': tab == 1}" (click)="changeTab(1)">
-      <span class="so-menu-item-icon">
-        <img src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
-      </span>
-      <span>{{ t('student.studentInfo') }}</span>
-    </a>
-
-    <a class="so-menu-item" [ngClass]="{'active': tab == 2}" (click)="changeTab(2)">
-      <span class="so-menu-item-icon">
-        <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
-      </span>
-      <span>Gia đình học sinh</span>
-    </a>
-
-    <a class="so-menu-item" [ngClass]="{'active': tab == 3}" (click)="changeTab(3)">
-      <span class="so-menu-item-icon">
-        <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
-      </span>
-      <span>Danh sách lớp học</span>
-    </a>
-
-    <a class="so-menu-item" [ngClass]="{'active': tab == 14}" (click)="changeTab(14)">
-      <span class="so-menu-item-icon">
-        <img src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
-      </span>
-      <span>Hồ sơ học sinh</span>
-    </a>
-  </div>
-  <!-- end aside menu -->
-
-  <!-- tab chi tiết học sinh -->
-  <div class="so-content">
-    <ng-container *ngIf="tab == 1">
-      <!-- Thông tin cá nhân học sinh -->
-      <app-tab-student-person-info-staff [studentId]="studentId"></app-tab-student-person-info-staff>
+<div class="d-flex flex-row so-tab-vertical shadow-sm h-100" *transloco="let t; scope: 'student'">
+  <ul class="card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 me-3 mb-md-0 min-w-lg-200px w-20">
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'student-detail' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('student-detail')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
+        </span>
+        <span class="d-flex flex-column align-items-start">
+          <span class="fs-14 fw-700">{{ t('student.studentInfo') }}</span>
+          <!-- <span class="fs-11">Description</span> -->
+        </span>
+      </a>
+    </li>
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'tab2' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('tab2')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/home.svg" alt="">
+        </span>
+        <span class="d-flex flex-column align-items-start">
+          <span class="fs-14 fw-700">{{t('student.studentRecords')}}</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+  <div class="card tab-content w-80" id="myTabContent">
+    <ng-container *ngIf="tabActive == 'student-detail'">
+      <div class="tab-pane fade {{ tabActive == 'student-detail' ? 'show active' : '' }}" role="tabpanel">
+        <app-tab-student-person-info-staff [studentId]="studentId"></app-tab-student-person-info-staff>
+      </div>
     </ng-container>
-
-    <ng-container *ngIf="tab == 2">
-      <!-- Gia đình học sinh -->
-    </ng-container>
-
-    <ng-container *ngIf="tab == 3">
-      <!-- Danh sách lớp học -->
-    </ng-container>
-
-    <ng-container *ngIf="tab == 14">
-      <!-- Hồ sơ học sinh -->
-      <ng-template ngxPermissionsOnly="{{ permission.student_file_user_view }}">
-        <app-student-records-list></app-student-records-list>
-      </ng-template>
+    <ng-container *ngIf="tabActive == 'tab2'">
+      <div class="tab-pane fade {{ tabActive == 'tab2' ? 'show active' : '' }}" role="tabpanel">
+        <app-student-records-list [studentId]="studentId" [studentUserId]="studentUserId"></app-student-records-list>
+      </div>
     </ng-container>
   </div>
-  <!-- hết tab chi tiết học sinh -->
-
 </div>
+
+
+
+

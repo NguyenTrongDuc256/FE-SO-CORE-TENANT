@@ -1,0 +1,120 @@
+<div *transloco="let t; scope: 'behavior'">
+  <div class="modal-header">
+    <div class="d-flex align-items-center">
+      <h4 class="title-modal-global me-4 fw-700">{{studentInfo.fullName}}</h4>
+      <div class="d-flex align-items-center me-12">
+        <div class="item-title d-flex align-items-center">
+          <img src="assets/images/svg/icon-grade-blue.svg" alt="">
+          <p class="text-color-mountain-mist fw-700">{{ t('behavior.title.studentID') }}</p>
+        </div>
+        <span class="text-color-picton-blue fw-700">{{studentInfo.code}}</span>
+      </div>
+      <div class="d-flex align-items-center me-12">
+        <div class="item-title d-flex align-items-center">
+          <img src="assets/images/svg/gender.svg" alt="">
+          <p class="text-color-mountain-mist fw-700">{{ t('gender') }}:</p>
+        </div>
+        <ng-container *ngFor="let gender of genders">
+          <span *ngIf="studentInfo.gender == gender.id"
+                [class]="(studentInfo.gender == 1) ? 'gender-male' : (studentInfo.gender == 2) ? 'gender-fmale' : 'gender-other'">
+            {{ t(gender.name) }}</span>
+        </ng-container>
+      </div>
+    </div>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+            [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="historyOneStudent">
+    <div class="d-flex align-items-center flex-space-between flex-wrap mb-10">
+      <div class="box__point d-flex align-items-center">
+        <div class="box__point--left d-flex align-items-center">
+          <h5 class="fs-16 fw-700">{{t('behavior.title.scoreBehavior')}}</h5>
+          <span class="fs-34 fw-600 text-color-picton-blue">{{ historyOneStudent['pointDetail']?.totalPoint }}</span>
+        </div>
+        <div class="box__point--right d-table">
+          <div class="item-point  d-table-row ">
+            <p class="d-table-cell text-color-mountain-mist">{{ t('behavior.title.diemBanDau') }}</p>
+            <span class="text-center d-table-cell fw-700">{{historyOneStudent['pointDetail']?.initialPoint }}</span>
+          </div>
+          <div class="item-point  d-table-row text-color-mountain-mist">
+            <p class="d-table-cell">{{ t('behavior.title.diemDaCong') }}</p>
+            <span class="text-center d-table-cell fw-700">{{historyOneStudent['pointDetail']?.plusPoint }}</span>
+          </div>
+          <div class="item-point d-table-row text-color-mountain-mist">
+            <p class="d-table-cell">{{ t('behavior.title.diemDaTru') }}</p>
+            <span class="text-center d-table-cell fw-700">{{historyOneStudent['pointDetail']?.minusPoint }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="box__action d-flex align-items-center flex-space-between">
+        <p class="fw-700">{{ t('behavior.title.chooseDate') }}</p>
+        <app-range-date-picker class="w-70 me-8 datetimeHistory" [startDate]="startDate" [endDate]="endDate"
+                               [timePicker]="timePicker"
+                               (dataTimeOutput)="dataTimeOutput($event)">
+        </app-range-date-picker>
+      </div>
+    </div>
+    <div class="box__history p-8 bg-color-white-smoke">
+      <h5 class="fs-16 fw-700 mb-10">{{dataModal?.titleModal}}</h5>
+      <ng-container *ngFor="let item of historyOneStudent['histories']">
+        <div class="box__history--item pt-6 pb-6 border-bottom-05" [class]="(item.isCancelled == 1) ? 'opacity05' : ''">
+          <div class="item-top d-flex align-items-center">
+            <div class="item-top--icon">
+              <img class="img-cover" src="{{ item.behaviorCategoryAvatar }}" alt="">
+            </div>
+            <div class="item-top--content ps-8  flex-grow-1">
+              <h6 class="fs-13 fw-700 webkit-box-1">{{ item.behaviorName }}</h6>
+              <p class="webkit-box-2 fw-600 text-color-mountain-mist">{{ t('behavior.title.comment') }}
+                : {{ item.comment }}</p>
+            </div>
+          </div>
+          <div class="item-bottom d-flex align-items-center flex-space-between mt-6">
+            <div class="item-bottom--left">
+              <span class="badge so-badge text-color-white bg-color-picton-blue">{{ item.behaviorCategoryName }}</span>
+            </div>
+            <div class="item-bottom--right d-flex align-items-center fw-700">
+              <div class="d-flex align-items-center text-color-boulder">
+                <span class="icon-size">
+                  <img src="assets/images/svg/bx_time.svg" alt="">
+                </span>
+                <span class="time me-2 text-color-boulder">
+                  {{ item.time | formatTime :'HH:mm dd/MM/yyyy' }} -  by: {{ item.createdBy.fullName }}
+                </span>
+                <span class="code text-color-picton-blue">({{ item.createdBy.code }})</span>
+              </div>
+              <ng-container *ngIf="item.isApplyTimeNumber == 1; then solancham , else diem"></ng-container>
+              <ng-template #solancham>
+                <div class="d-flex align-items-center">
+                  <span [class]="(item.behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                        class="point fw-700">
+                    {{ t('behavior.title.numberOfTimes') }} {{ item.timeNumber }}: {{ item.point }}
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template #diem>
+                <span [class]="(item.behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                      class="point fw-700"> {{ t('behavior.title.point') }}: {{ item.point }}</span>
+              </ng-template>
+              <!-- <ng-template> -->
+
+              <button *ngIf="item.canCancel == 1"
+                      class="button-costurm badge so-badge text-color-white bg-color-butterscotch" name="btn-cancel"
+                      (click)="cancelResultScoreBehavior(item)">
+                <img class="add-icon" src="assets/images/svg/History_white.svg" alt="">
+                <span class="fs-12 fw-600">{{ t('behavior.title.cancel') }}</span>
+              </button>
+              <!-- </ng-template> -->
+              <span *ngIf="item.isCancelled == 1"
+                    class="badge so-badge text-color-white bg-color-red">{{ t('behavior.title.canceled') }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

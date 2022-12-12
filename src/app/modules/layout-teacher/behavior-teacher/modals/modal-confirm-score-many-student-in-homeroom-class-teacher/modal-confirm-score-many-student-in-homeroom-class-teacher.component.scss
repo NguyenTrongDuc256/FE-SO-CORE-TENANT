@@ -1,0 +1,47 @@
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+}
+
+.fs-34 {
+  font-size: 34px;
+}
+
+.img-cover{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@mixin webkit-box($value) {
+  -webkit-line-clamp: $value;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+
+.webkit-box-1 {
+  @include webkit-box($value: 1);
+}
+
+.webkit-box-2 {
+  @include webkit-box($value: 2);
+}
+.icon-size{
+  width: 2rem;
+  height: 2rem;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-cover{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+

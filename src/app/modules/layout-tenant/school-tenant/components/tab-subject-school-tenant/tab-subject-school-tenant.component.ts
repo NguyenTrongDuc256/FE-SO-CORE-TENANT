@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { translate } from '@ngneat/transloco';
-import { Subject } from 'src/app/_models/layout-tenant/subject/subject.model';
-import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {translate} from '@ngneat/transloco';
+import {Subject} from 'src/app/_models/layout-tenant/subject/subject.model';
+import {SchoolService} from 'src/app/_services/layout-tenant/school/school.service';
+import {ShowMessageService} from 'src/app/_services/show-message.service';
+import {ModalDeleteComponent} from 'src/app/_shared/modals/modal-delete/modal-delete.component';
 import {
   DATA_PERMISSION, PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
-  TYPE_OF_SUBJECT
+  ARR_TYPE_OF_SUBJECT
 } from 'src/app/_shared/utils/constant';
-import { ModalAssignSubjectComponent } from '../../modals/modal-assign-subject/modal-assign-subject.component';
+import {ModalAssignSubjectComponent} from '../../modals/modal-assign-subject/modal-assign-subject.component';
+import {GeneralService} from "../../../../../_services/general.service";
 
 @Component({
   selector: 'app-tab-subject-school-tenant',
@@ -33,14 +34,17 @@ export class TabSubjectSchoolTenantComponent implements OnInit {
   permission = DATA_PERMISSION;
   schoolId: string;
   typeSubject: number = null;
-  arrTypeSubjects = TYPE_OF_SUBJECT;
+  arrTypeSubjects = ARR_TYPE_OF_SUBJECT;
+  oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
     private schoolService: SchoolService,
     private showMessage: ShowMessageService,
     private activatedRoute: ActivatedRoute,
-  ) {}
+    private generalService: GeneralService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((res) => {
@@ -55,23 +59,18 @@ export class TabSubjectSchoolTenantComponent implements OnInit {
       .getListSubject(this.schoolId, this.keyword, this.typeSubject, this.pageSize, this.pageIndex)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data.data;
-            this.arrList.forEach((item) => {
-              item['subjectTypeName'] =
-                this.arrTypeSubjects.find((i) => i.value == item.subjectType)
-                  .label || '--';
-            });
-            this.collectionSize = res.data?.totalItems;
-            this.isLoading = false;
-          } else {
-            this.isLoading = false;
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data.data;
+          this.arrList.forEach((item) => {
+            item['subjectTypeName'] =
+              this.arrTypeSubjects.find((i) => i.value == item.subjectType)
+                .label || '--';
+          });
+          this.collectionSize = res.data?.totalItems;
+          this.isLoading = false;
         },
         (err) => {
           this.isLoading = false;
-          this.showMessage.error(err.msg);
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -80,61 +79,60 @@ export class TabSubjectSchoolTenantComponent implements OnInit {
     this.isLoading = true;
     this.schoolService.getListSubjectToAssign(this.schoolId, '', null).subscribe(
       (res: any) => {
-        if (res.status == 1) {
-          this.isLoading = false;
-          const modalRef = this.modalService.open(ModalAssignSubjectComponent, {
-            scrollable: true,
-            windowClass: 'myCustomModalClass',
-            keyboard: false,
-            backdrop: 'static', // prevent click outside modal to close modal
-            centered: false, // vị trí hiển thị modal ở giữa màn hình
-            size: 'xl', // 'sm' | 'md' | 'lg' | 'xl',
-          });
 
-          let data = {
-            titleModal: 'school.assignSubject',
-            btnCancel: 'btnAction.cancel',
-            btnAccept: 'btnAction.save',
-            isHiddenBtnClose: false, // hidden/show btn close modal
-            dataFromParent: {
-              schoolId: this.schoolId,
-              service: this.schoolService,
-              arrList: res.data,
-              apiGetList: (
-                schoolId: string,
-                subjectType: number | null,
-                keyWord: string = ''
-              ) =>
-                this.schoolService.getListSubjectToAssign(
-                  schoolId,
-                  keyWord,
-                  subjectType
-                ),
-              apiSubmit: (schoolId: string, dataInput: any) =>
-                this.schoolService.assignSubject(schoolId, dataInput),
-              keyFirebaseAction: 'create',
-              keyFirebaseModule: 'school-subject',
-            },
-          };
+        this.isLoading = false;
+        const modalRef = this.modalService.open(ModalAssignSubjectComponent, {
+          scrollable: true,
+          windowClass: 'myCustomModalClass',
+          keyboard: false,
+          backdrop: 'static', // prevent click outside modal to close modal
+          centered: false, // vị trí hiển thị modal ở giữa màn hình
+          size: 'xl', // 'sm' | 'md' | 'lg' | 'xl',
+        });
 
-          modalRef.componentInstance.dataModal = data;
-          modalRef.result.then(
-            (result: boolean) => {
-              if (result) {
-                this.pageIndex = 1;
-                this.getList();
-              }
-            },
-            (reason) => {}
-          );
-        } else {
-          this.isLoading = false;
-          this.showMessage.error(res.msg);
-        }
+        let data = {
+          titleModal: 'school.assignSubject',
+          btnCancel: 'btnAction.cancel',
+          btnAccept: 'btnAction.save',
+          isHiddenBtnClose: false, // hidden/show btn close modal
+          dataFromParent: {
+            schoolId: this.schoolId,
+            service: this.schoolService,
+            arrList: res.data,
+            apiGetList: (
+              schoolId: string,
+              subjectType: number | null,
+              keyWord: string = ''
+            ) =>
+              this.schoolService.getListSubjectToAssign(
+                schoolId,
+                keyWord,
+                subjectType
+              ),
+            apiSubmit: (schoolId: string, dataInput: any) =>
+              this.schoolService.assignSubject(schoolId, dataInput),
+            keyFirebaseAction: 'create',
+            keyFirebaseModule: 'school-subject',
+          },
+        };
+
+        modalRef.componentInstance.dataModal = data;
+        modalRef.result.then(
+          (result: boolean) => {
+            if (result) {
+              this.pageIndex = PAGE_INDEX_DEFAULT;
+              this.oldPageIndex = this.pageIndex;
+              this.getList();
+            }
+          },
+          (reason) => {
+          }
+        );
+
       },
       (err) => {
         this.isLoading = false;
-        this.showMessage.error(err.msg);
+        this.generalService.showToastMessageError400(err);
       }
     );
   }
@@ -154,7 +152,7 @@ export class TabSubjectSchoolTenantComponent implements OnInit {
       btnAccept: 'btnAction.delete',
       isHiddenBtnClose: false, // hidden/show btn close modal
       dataFromParent: {
-        dataInput: { schoolId: this.schoolId, subjectId: id },
+        dataInput: {schoolId: this.schoolId, subjectId: id},
         service: this.schoolService,
         apiSubmit: (dataInput: any) =>
           this.schoolService.deleteSubject(dataInput),
@@ -173,29 +171,46 @@ export class TabSubjectSchoolTenantComponent implements OnInit {
     modalRef.result.then(
       (result: boolean) => {
         if (result) {
-          this.pageIndex = 1;
+          this.pageIndex = PAGE_INDEX_DEFAULT;
+          this.oldPageIndex = this.pageIndex;
           this.getList();
         }
       },
-      (reason) => {}
+      (reason) => {
+      }
     );
   }
 
-  search(event: any, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getList();
+  search(event, value: string) {
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.oldPageIndex = this.pageIndex;
+    this.keyword = value.trim();
+    this.getList();
+  }
+
   filter() {
-    this.pageIndex = 1;
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.oldPageIndex = this.pageIndex;
     this.getList();
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.getList();
   }
 }

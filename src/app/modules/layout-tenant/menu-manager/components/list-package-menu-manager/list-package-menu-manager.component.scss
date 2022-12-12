@@ -1,0 +1,29 @@
+.custom-icon-menu {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) saturate(100%) invert(82%) sepia(40%) saturate(7358%) hue-rotate(182deg) brightness(98%) contrast(93%);
+}
+
+.custom-name-package-menu {
+    background: var(--bs-picton-blue);
+    border-radius: 8px;
+    color: #FFFFFF;
+    width: 60%;
+    display: block;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.color-layout-apply {
+    color: var(--bs-picton-blue);
+}
+
+.custom-action-update {
+    color: #556EE6;
+    cursor: pointer;
+
+    .custom-action-menu {
+        margin-right: 5px;
+    }
+}

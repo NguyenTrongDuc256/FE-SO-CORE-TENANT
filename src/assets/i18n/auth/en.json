@@ -63,6 +63,7 @@
   "sendBy": "Send code by",
   "codeSendToPhone": "Password verification code sent via phone number",
   "codeSendToEmail": "Password verification code sent via email",
-  "requiredEnterUserName": "Please enter email/phone number!",
-  "requiredEnterCode": "Please enter code!"
+  "requiredEnterUserName": "Please enter email/ phone number!",
+  "requiredEnterCode": "Please enter code!",
+  "backLogin": "Back to login"
 }

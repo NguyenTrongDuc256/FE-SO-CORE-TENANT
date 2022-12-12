@@ -1,4 +1,3 @@
-import { layouts } from 'chart.js';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -58,7 +57,7 @@ describe('ModalCreateRoleComponent', () => {
   it('Should create a form with controls', () => {
     expect(component.formRole.contains('name')).toBeTruthy();
     expect(component.formRole.contains('code')).toBeTruthy();
-    expect(component.formRole.contains('layoutCode')).toBeTruthy();
+    expect(component.formRole.contains('requestLayout')).toBeTruthy();
     expect(component.formRole.contains('desc')).toBeTruthy();
   });
 
@@ -67,7 +66,7 @@ describe('ModalCreateRoleComponent', () => {
     form.patchValue({
       name: 'Role 1',
       code: 'OMT01',
-      layoutCode: 'staff',
+      requestLayout: 'staff',
       desc: 'mô tả'
     });
     expect(form.valid).toBeTrue();
@@ -106,7 +105,7 @@ describe('ModalCreateRoleComponent', () => {
   });
 
   it('Should layout required', () => {
-    const control = component.formRole.controls['layoutCode'];
+    const control = component.formRole.controls['requestLayout'];
     let input = null || 'null';
     control.setValue(input);
     expect(control.invalid).toBeTruthy();

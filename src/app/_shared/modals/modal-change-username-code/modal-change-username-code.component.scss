@@ -1,0 +1,13 @@
+
+.info-user{
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  .lb-info{
+    margin-right: 30px;
+    color: #495057;
+    .value-info{
+      color: #50A5F1;
+    }
+  }
+}

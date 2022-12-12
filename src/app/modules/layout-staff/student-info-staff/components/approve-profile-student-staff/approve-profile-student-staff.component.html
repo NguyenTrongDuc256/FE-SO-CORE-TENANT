@@ -1,0 +1,186 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'student-records'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{t('studentRecords.approveAcademicRecords')}}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <select [(ngModel)]="valueDefaultClass" (change)="filter()" name="select-class" class="so-select me-4 mb-3 fw-600">
+          <option value="" selected>{{t('studentRecords.class')}}</option>
+          <option value="{{item?.id}}" *ngFor="let item of classList">{{item?.Name}}</option>
+        </select>
+        <select [(ngModel)]="statusRecords" (change)="filter()" name="select-status" class="so-select me-4 mb-3 fw-600">
+          <option value="" selected>{{t('status')}}</option>
+          <option value="{{status?.value}}" *ngFor="let status of arrStatus">{{status?.label}}</option>
+        </select>
+        <div class="so-input-search mb-3 fw-600">
+          <input type="text" placeholder="{{t('studentRecords.search')}}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 so-table-th-custom--grey">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th class=" text-center" style="width: 5%;">
+              {{t('STT')}}
+            </th>
+            <th class="w-15">
+              {{ t('studentRecords.nameRecord') }}
+            </th>
+            <th class="" style="width: 15%;">
+              {{ t('fullName') }}
+            </th>
+            <th class="" style="width: 15%;">
+              {{ t('studentRecords.categoryRecords') }}
+            </th>
+            <th class="" style="width: 10%;">
+              {{ t('studentRecords.createdAt') }}
+            </th>
+            <th class="" style="width: 10%;">
+              {{ t('studentRecords.createdByName') }}
+            </th>
+            <th class="" style="width: 15%;">
+              {{t('studentRecords.fileAttachs')}}
+            </th>
+            <ng-template ngxPermissionsOnly="{{ permission.student_file_user_approve }}">
+              <th class="" style="width: 10%;">
+                {{t('btnAction.approve')}}
+              </th>
+            </ng-template>
+            <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
+              <th class="text-center w-5"></th>
+            </ng-template>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataSource; let i=index" class="fs-13 fw-600 text-color-river-bed">
+            <td class="text-center">
+              <span class="color-464E5F">
+                {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+              </span>
+            </td>
+            <td class="text-start">
+              <span class="fw-700">{{item?.fileUserName}}</span>
+              <span class="icon-mark" *ngIf="item.isImportant == 1">
+                <img src="assets/images/svg/icon-mark.svg" alt="">
+              </span>
+            </td>
+            <td class="text-start">
+              <div class="d-flex justify-content-start flex-column ms-2">
+                <span class="fw-700 color-3F4254 mb-1">{{item.studentName}}</span>
+                <span class="d-flex align-items-center fs-12 fw-500 me-8">
+                  <span class="me-2 color-B5B5C3">{{t('code')}}:</span>
+                  <span class="color-50a5f1">{{item.code}} </span>
+                </span>
+              </div>
+            </td>
+            <td class="text-start  ">
+              <span class="color-495057 fw-700">
+                {{item?.fileCategoryName}}
+              </span>
+            </td>
+            <td class="text-start">
+              <span class="color-50a5f1 ms-2">
+                {{item?.createdAt | formatTime}}
+              </span>
+            </td>
+            <td class="text-start  ">
+              <span class="color-495057">
+                {{item?.createdBy}}
+              </span>
+            </td>
+            <td>
+              <ng-container *ngFor="let file of item?.fileAttachs">
+                <div class="d-flex fs-12 fw-600 mb-2 align-items-start">
+                  <img src="assets/images/svg/icon-attached-files.svg" class="me-1 mt-1" alt="">
+                  <a href="{{file?.url}}" target="_blank" class="text-underline">{{file?.name}}</a>
+                </div>
+              </ng-container>
+            </td>
+            <ng-template ngxPermissionsOnly="{{ permission.student_file_user_approve }}">
+              <td>
+                <ng-container *ngIf="item?.approveStatus === 2">
+                  <span class="so-badge so-badge-status btn-accept-profile-staff so-badge-action"
+                    (click)="changeStatusRecords(item, 'approve')" name="btn-accept">
+                    <img src="assets/images/svg/Solid/Vector.svg" alt=""> {{t('btnAction.approve')}}
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="item?.approveStatus === 1">
+                  <span class="so-badge so-badge-status btn-cancel-accept-profile-staff so-badge-action"
+                    (click)="changeStatusRecords(item, 'refuse')" name="btn-refuse">
+                    <img src="assets/images/svg/Solid/Vector.svg" alt=""> {{t('btnAction.refuse')}}
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="item?.approveStatus === 0">
+                  <span class="so-badge so-badge-status btn-accept-profile-staff so-badge-action"
+                    (click)="changeStatusRecords(item, 'approve')" name="btn-accept">
+                    <img src="assets/images/svg/Solid/Vector.svg" alt=""> {{t('btnAction.approve')}}
+                  </span>
+                  <span class="so-badge so-badge-status btn-cancel-accept-profile-staff so-badge-action"
+                    (click)="changeStatusRecords(item, 'refuse')" name="btn-refuse">
+                    <img src="assets/images/svg/Solid/Vector.svg" alt=""> {{t('btnAction.refuse')}}
+                  </span>
+                </ng-container>
+              </td>
+            </ng-template>
+            <ng-template ngxPermissionsOnly="{{ permission.student_file_user_modify }}">
+              <td class="text-center">
+                <div class="d-flex justify-content-center">
+                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="so-action" name="btn-open-menu">
+                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" class="so-action--icon-opend">
+                  </span>
+                </div>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="update(item)"
+                      name="btn-action-update">
+                      <span>
+                        <img class="so-action--icon" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update')
+                        }}
+                      </span>
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" (click)="changeMarkRecords(item, 'mark')"
+                      *ngIf="item?.isImportant == 0" name="btn-action-mark">
+                      <span>
+                        <img class="so-action--icon" src="assets/images/svg/write.svg"
+                          alt="">{{t('btnAction.markImportantRecords')}}
+                      </span>
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed"
+                      (click)="changeMarkRecords(item, 'unmark')" *ngIf="item?.isImportant == 1" name="btn-action-mark">
+                      <span>
+                        <img class="so-action--icon" src="assets/images/svg/write.svg" alt="">
+                        {{t('btnAction.unmarkImportantRecords')}}
+                      </span>
+                    </li>
+                    <li nz-menu-item class="fs-13 fw-600 text-danger"
+                      (click)="delete(item?.fileUserId, item?.name)" name="btn-action-delete">
+                      <span>
+                        <img class="so-action--icon" src="assets/images/svg/delete6.svg" alt="">{{ t('btnAction.delete')
+                        }}
+                      </span>
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </td>
+            </ng-template>
+          </tr>
+          <tr *ngIf="dataSource?.length == 0 || !dataSource">
+            <td class="text-no-data" colspan="10">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+      *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

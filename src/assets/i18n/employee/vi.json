@@ -42,7 +42,6 @@
   "select": "Chọn",
   "nhap": "Nhập",
   "notFoundContent": "Không có dữ liệu",
-
   "1ViTriViecLam": "I. Vị trí việc làm, TCCD",
   "2PhuCap": "II. Phụ cấp",
   "3DaoTaoBoiDuong": "III. Đào tạo, Bồi dưỡng",
@@ -53,7 +52,7 @@
   "soTietDayTrenTuan": "S.tiết dạy trên tuần",
   "ngayBoNhiem": "Ngày bổ nhiệm",
   "soTietKhongNhiemTrenTuan": "S.tiết k.nhiệm trên tuần",
-  "soLanBoNhiem": "Số lần bổ nhiệm nhiệm",
+  "soLanBoNhiem": "Số lần bổ nhiệm",
   "ngach": "Ngạch/Hạng",
   "hinhThucHopDong": "Hình thức hợp đồng",
   "ngayTuyenDung": "Ngày tuyển dụng",
@@ -150,11 +149,16 @@
   "namSinh": "Năm sinh",
   "contentQhGiaDinh": "Quê quán, nghề nghiệp, chức danh, đơn vị công tác, học tập, nơi ở",
   "khongTimThayTieuChiDanhgia": "Không tìm thấy tiêu chí đánh giá nào với Nhóm chức vụ: ",
-  "nhomChucVuRequired": "Bạn chưa chọn Nhóm chức vụ [32] ở mục I. Vị trí việc làm, TCCD",
+  "nhomChucVuRequired": "Bạn chưa chọn Nhóm chức vụ [31] ở mục I. Vị trí việc làm, TCCD",
   "tieuChi": "Tiêu chí",
-  "modalEmployeeEdit": "Chọn trường để cập nhật Nhân viên tương ứng",
-
-
+  "modalEmployeeEdit": "Chọn trường để cập nhật nhân viên tương ứng",
+  "vaQuyenKhac": "quyền khác",
+  "and": "và",
+  "roleName": "Tên phân quyền",
+  "roleCode": "Mã phân quyền",
+  "layout": "Layout",
+  "role": "Phân quyền",
+  "donVi": "Đơn vị",
   "btnAction": {
     "send": "Gửi thông báo",
     "changedPassword": "Đổi mật khẩu",
@@ -163,38 +167,39 @@
     "huy": "Hủy"
   },
   "validators": {
-    "fullName":{
-      "required":"Bạn chưa nhập họ và tên",
-      "maxlength":"Họ và tên của bạn không được vượt quá 255 ký tự"
+    "fullName": {
+      "required": "Bạn chưa nhập họ và tên",
+      "maxlength": "Họ và tên của bạn không được vượt quá 255 ký tự"
     },
-    "code":{
-      "required":"Bạn chưa nhập mã",
-      "pattern":"Mã chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
-      "maxlength":"Mã của bạn không được vượt quá 50 ký tự"
+    "code": {
+      "required": "Bạn chưa nhập mã",
+      "pattern": "Mã chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength": "Mã của bạn không được vượt quá 50 ký tự"
     },
-    "username":{
-      "required":"Bạn chưa nhập tên đăng nhập",
-      "pattern":"Tên đăng nhập chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
-      "maxlength":"Tên đăng nhập của bạn không được vượt quá 50 ký tự"
+    "username": {
+      "required": "Bạn chưa nhập tên đăng nhập",
+      "pattern": "Tên đăng nhập chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength": "Tên đăng nhập của bạn không được vượt quá 50 ký tự"
     },
-    "password":{
-      "required":"Bạn chưa nhập mật khẩu",
-      "pattern":"Mật khẩu chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự đặc biệt",
-      "maxlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50",
-      "minlength":"Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50"
+    "password": {
+      "required": "Bạn chưa nhập mật khẩu",
+      "pattern": "Mật khẩu chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự đặc biệt",
+      "maxlength": "Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50",
+      "minlength": "Mật khẩu của bạn phải nằm trong khoảng độ dài ký tự giữa 6 và 50"
     },
-    "email":{
-      "required":"Bạn chưa nhập email",
-      "email":"Email không hợp lệ"
+    "email": {
+      "required": "Bạn chưa nhập email",
+      "email": "Email không hợp lệ",
+      "pattern": "Email không hợp lệ"
     },
-    "phone":{
-      "required":"Bạn chưa nhập số điện thoại",
-      "pattern":"Số điện thoại không hợp lệ"
+    "phone": {
+      "required": "Bạn chưa nhập số điện thoại",
+      "pattern": "Số điện thoại không hợp lệ"
     },
-    "codeMoet": {
-      "required":"Bạn chưa nhập mã Moet",
-      "pattern":"Mã Moet chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
-      "maxlength":"Mã Moet của bạn không được vượt quá 50 ký tự"
+    "moetCode": {
+      "required": "Bạn chưa nhập mã Moet",
+      "pattern": "Mã Moet chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9), và ký tự (-, _)",
+      "maxlength": "Mã Moet của bạn không được vượt quá 50 ký tự"
     },
     "roleId": {
       "required": "Bạn chưa chọn phân quyền"
@@ -218,10 +223,10 @@
       "required": "Bạn chưa chọn ngoại ngữ"
     },
     "truong": {
-      "required": "Bạn chưa chọn trường"
+      "required": "Bạn chưa nhập trường"
     },
     "chuyenNganhDaoTao": {
-      "required": "Bạn chưa chọn chuyên nghành ĐT, bồi dưỡng"
+      "required": "Bạn chưa nhập chuyên nghành ĐT, bồi dưỡng"
     },
     "hinhThucDaoTao": {
       "required": "Bạn chưa chọn hình thức đào tạo"
@@ -243,6 +248,61 @@
     },
     "moiQuanHe": {
       "required": "Bạn chưa chọn mối quan hệ"
+    },
+    "socialInsuranceNumber": {
+      "pattern": "Số BHXH chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9)"
+    },
+    "idNumber": {
+      "pattern": "CMND/CC chỉ được phép sử dụng các chữ cái (a-z), (A-Z), số (0-9)"
     }
-  }
+  },
+  "locNangCao": "Lọc nâng cao",
+  "hopDong": "Hình thức hợp đồng",
+  "gioiTinh": "Giới tính",
+  "trangThaiDangNhap": "Trạng thái đăng nhập",
+  "daDangNhap": "Đã đăng nhập",
+  "chuaDangNhap": "Chưa đăng nhập",
+  "import": "Import",
+  "export": "Export",
+  "note1": "Thao tác nhập dữ liệu CBNV từ file excel, hệ thống sẽ thực hiện các thao tác:",
+  "note2": "1. Tạo tài khoản cho CBNV với tên đăng nhập là username, mật khẩu mặc định là username.",
+  "note3": "2. Gán quyền truy cập cho CBNV vào hệ thống với quyền được nhập trong file upload (cột role)",
+  "search": "Nhập họ và tên hoặc mã để tìm kiếm",
+  "fullNamePlaceholder": "Nhập họ và tên",
+  "codePlaceholder": "Nhập mã",
+  "codeMoetPlaceholder": "Nhập mã Moet",
+  "usernamePlaceholder": "Nhập tên đăng nhập",
+  "passwordPlaceholder": "Nhập mật khẩu",
+  "emailPlaceholder": "Nhập email",
+  "phonePlaceholder": "Nhập số điện thoại",
+  "bhxhPlaceholder": "Nhập số BHXH",
+  "diaChiPlaceholder": "Nhập địa chỉ",
+  "hkttPlaceholder": "Nhập HKTT",
+  "ccPlaceholder": "Nhập CMND/CC",
+  "placeOfBirthPlaceholder": "Nhập nơi sinh",
+  "soTietDayTrenTuanPlaceholder": "Nhập s.tiết dạy trên tuần",
+  "soTietKhongNhiemTrenTuanPlaceholder": "Nhập s.tiết k.nhiệm trên tuần",
+  "soLanBoNhiemPlaceholder": "Nhập số lần bổ nhiệm",
+  "coQuanTuyenDungPlaceholder": "Nhập cơ quan tuyển dụng",
+  "namVaoTruongPlaceholder": "Nhập năm vào trường",
+  "ngheNghiepKhiDuocTuyenDungPlaceholder": "Nhập n.nghiệp khi được t.dụng",
+  "danhHieuPhongTangCaoNhatPlaceholder": "Nhập d.hiệu phong tặng cao nhất",
+  "phuCapThuHutNghePlaceholder": "Nhập mức p.cấp thu hút n.nghiệp",
+  "bacLuongPlaceholder": "Nhập Bậc lương",
+  "phuCapThamNienPlaceholder": "Nhập mức phụ cấp thâm niên (%)",
+  "phanTramVuotKhungPlaceholder": "Nhập",
+  "phuCapUuDaiNghePlaceholder": "Nhập mức p.cấp ưu đãi n.nghiệp",
+  "heSoLuongPlaceholder": "Nhập hệ số lương",
+  "phuCapChucVuLanhDaoPlaceholder": "Nhập mức p.cấp c.vị lãnh đạo (%)",
+  "diemNgoaiNguPlaceholder": "Nhập điểm ngoại ngữ",
+  "danhHieuPhongTangPlaceholder": "Nhập danh hiệu phong tặng",
+  "chuThichPlaceholder": "Nhập chú thích",
+  "truongPlaceholder": "Nhập trường",
+  "nhapChuyenNganhDTBDPlaceholder": "Nhập",
+  "capKhenThuongPlaceholder": "Nhập cấp khen thưởng",
+  "soQuyetDinhPlaceholder": "Nhập số quyết định",
+  "noiDungPlaceholder": "Nhập nội dung",
+  "capKyQuyetDinhPlaceholder": "Nhập cấp ký quyết định",
+  "chucDanhChucVuDonViCongTacPlaceholder": "Nhập chức danh, chức vụ, đơn vị công tác",
+  "contentQhGiaDinhPlaceholder": "Nhập"
 }

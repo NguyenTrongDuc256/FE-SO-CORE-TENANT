@@ -1,15 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AVATAR_DEFAULT,
   DATA_PERMISSION,
-  LAYOUTS_TENANT,
-  MESSAGE_ERROR_CALL_API, STUDENT_STATUS,
-  TIME_OUT_LISTEN_FIREBASE
+  STUDENT_STATUS,
 } from "../../../../../_shared/utils/constant";
 import {ParentInfo} from "../../../../../_models/layout-staff/user/parent.model";
-import {ShowMessageService} from "../../../../../_services/show-message.service";
-import {FormBuilder} from "@angular/forms";
-import {ListenFirebaseService} from "../../../../../_services/listen-firebase.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ParentService} from "../../../../../_services/layout-staff/parent/parent.service";
@@ -38,9 +33,6 @@ export class ParentDetailStaffComponent implements OnInit {
   parentInfo: ParentInfo;
   dataSource: any;
   constructor(
-    private showMessageService: ShowMessageService,
-    private fb: FormBuilder,
-    private listenFirebaseService: ListenFirebaseService,
     private router: Router,
     private activeRouter: ActivatedRoute,
     private modalService: NgbModal,
@@ -76,16 +68,12 @@ export class ParentDetailStaffComponent implements OnInit {
   getParentDetail(id: string): void {
     this.isLoading = true;
     this.parentService.show(id).subscribe((res: any): void => {
-        if (res.status == 1 && res.status != undefined) {
           this.parentInfo = res.data;
           this.dataSource = res.data.childrens;
-        } else {
-          this.showMessageService.error(res.msg);
-          this.router.navigate(['/staff/parent']);
-        }
         this.isLoading = false;
       },
-      (err: any) => {
+      (_err: any) => {
+        this.generalService.showToastMessageError400(_err)
         this.router.navigate(['/staff/parent']);
         this.isLoading = false;
       }
@@ -168,11 +156,12 @@ export class ParentDetailStaffComponent implements OnInit {
         windowClass: 'myCustomModalClass',
         keyboard: false,
         centered: false,
-        size: 'lg',
+        size: 'md',
+        modalDialogClass: 'modal-md-plus'
       });
 
     let data = {
-      titleModal: 'student.deleteUser',
+      titleModal: 'parent.deleteStudent',
       btnCancel: 'btnAction.cancel',
       btnAccept: 'btnAction.save',
       isHiddenBtnClose: false, // hidden/show btn close modal
@@ -207,7 +196,7 @@ export class ParentDetailStaffComponent implements OnInit {
       });
 
     let data = {
-      titleModal: 'student.changePassword',
+      titleModal: 'changePassword',
       btnCancel: 'btnAction.cancel',
       btnAccept: 'btnAction.save',
       isHiddenBtnClose: false,
@@ -231,8 +220,6 @@ export class ParentDetailStaffComponent implements OnInit {
       if (result === true) {
         this.getParentDetail(this.userId);
       }
-    }, (reason) => {
-
     });
   }
 

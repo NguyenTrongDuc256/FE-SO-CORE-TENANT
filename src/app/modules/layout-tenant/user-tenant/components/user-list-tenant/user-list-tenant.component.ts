@@ -1,23 +1,23 @@
-import {translate} from '@ngneat/transloco';
-import {ShowMessageService} from 'src/app/_services/show-message.service';
+import { translate } from '@ngneat/transloco';
+import { ShowMessageService } from 'src/app/_services/show-message.service';
 
 import {
   AVATAR_DEFAULT, DATA_PERMISSION, MESSAGE_ERROR_CALL_API, PAGE_SIZE_DEFAULT,
-  PAGE_SIZE_OPTIONS_DEFAULT, TIME_OUT_LISTEN_FIREBASE
+  PAGE_SIZE_OPTIONS_DEFAULT, TIME_OUT_LISTEN_FIREBASE, GENDER
 } from 'src/app/_shared/utils/constant';
 
-import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {RoleList, UserList} from 'src/app/_models/layout-tenant/user/user.model';
-import {UserService} from 'src/app/_services/layout-tenant/user/user.service';
-import {ModalDeleteComponent} from 'src/app/_shared/modals/modal-delete/modal-delete.component';
-import {SchoolList} from "src/app/_models/layout-tenant/school/school.model";
-import {ModalUpdateStatusComponent} from "../../modals/modal-update-status/modal-update-status.component";
-import {ModalRoleListTenantComponent} from "../../modals/modal-role-list-tenant/modal-role-list-tenant.component";
+import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RoleList, UserList } from 'src/app/_models/layout-tenant/user/user.model';
+import { UserService } from 'src/app/_services/layout-tenant/user/user.service';
+import { ModalDeleteComponent } from 'src/app/_shared/modals/modal-delete/modal-delete.component';
+import { SchoolList } from "src/app/_models/layout-tenant/school/school.model";
+import { ModalUpdateStatusComponent } from "../../modals/modal-update-status/modal-update-status.component";
+import { ModalRoleListTenantComponent } from "../../modals/modal-role-list-tenant/modal-role-list-tenant.component";
 import {
   ModalChangePasswordComponent
 } from "../../../../../_shared/modals/modal-change-password/modal-change-password.component";
-import {GeneralService} from "../../../../../_services/general.service";
+import { GeneralService } from "../../../../../_services/general.service";
 
 @Component({
   selector: 'app-user-list-tenant',
@@ -39,6 +39,8 @@ export class UserListTenantComponent implements OnInit {
   dataSource: UserList[];
   schoolList: SchoolList[];
   roleList: RoleList[];
+  arrGender = GENDER;
+  oldPageIndex = this.pageIndex;
 
   constructor(
     private modalService: NgbModal,
@@ -54,6 +56,7 @@ export class UserListTenantComponent implements OnInit {
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getDataUser();
@@ -69,20 +72,21 @@ export class UserListTenantComponent implements OnInit {
 
   onClickSearch(valueSearch) {
     this.keyWord = valueSearch;
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = 1;
     this.getDataUser();
   }
 
   onEventKeyupEnter(valueSearch) {
     this.keyWord = valueSearch;
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = 1;
     this.getDataUser();
   }
 
   getDataUser() {
     this.isLoading = true;
-
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -91,17 +95,13 @@ export class UserListTenantComponent implements OnInit {
 
     this.userService.getUserList(this.pageIndex, this.pageSize, this.valueDefaultSchool, this.isActive, this.keyWord)
       .subscribe((res: any): void => {
-        if (res.status != undefined && res.status === 1) {
-          this.collectionSize = res.data.totalItems;
-          this.dataSource = res.data.data;
-          this.isLoading = false;
-        }
-
-        if (res.status != undefined && res.status === 0) {
-          this.isLoading = false;
-          this.showMessageService.error(res.msg);
-        }
+        this.collectionSize = res.data.totalItems;
+        this.dataSource = res.data.data;
+        this.isLoading = false;
+        clearTimeout(timeoutCallAPI);
       }, (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       });
   }
@@ -160,7 +160,7 @@ export class UserListTenantComponent implements OnInit {
       btnAccept: 'btnAction.save',
       isHiddenBtnClose: false, // hidden/show btn close modal
       dataFromParent: {
-        dataInput: {userId: item.id},
+        dataInput: { userId: item.id },
         keyFirebaseAction: 'delete',
         keyFirebaseModule: 'user',
         apiSubmit: (dataInput: any) => this.userService.deleteUser(dataInput)
@@ -263,8 +263,7 @@ export class UserListTenantComponent implements OnInit {
 
   getSchoolList() {
     this.isLoading = true;
-
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -272,16 +271,12 @@ export class UserListTenantComponent implements OnInit {
     }, TIME_OUT_LISTEN_FIREBASE);
 
     this.userService.getSchoolList().subscribe((res: any): void => {
-      if (res.status === 1 && res.status != undefined) {
-        this.schoolList = res.data;
-        this.isLoading = false;
-      }
-
-      if (res.status === 0 && res.status != undefined) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+      this.schoolList = res.data;
+      this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err);
+      clearTimeout(timeoutCallAPI);
       this.isLoading = false;
     });
   }

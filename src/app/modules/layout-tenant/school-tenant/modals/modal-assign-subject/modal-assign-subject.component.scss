@@ -28,15 +28,15 @@ hr {
 
 .so-badge-status-1 {
   background: rgba(132, 181, 255, 0.37) !important;
-  color: #50a5f1 !important;
+  color: var(--bs-picton-blue);
 }
 
 .so-badge-status-2 {
   background: rgba($color: #f69220, $alpha: 0.37) !important;
-  color: #F69220 !important;
+  color: var(--bs-carrot-orange);
 }
 
 .so-badge-status-3 {
   background: rgba($color: #34c38f, $alpha: 0.37) !important;
-  color: #34c38f !important;
+  color: var(--bs-greenish-teal);
 }

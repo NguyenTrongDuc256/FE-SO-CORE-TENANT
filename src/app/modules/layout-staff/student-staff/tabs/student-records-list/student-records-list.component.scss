@@ -1,28 +1,13 @@
-.so-badge {
-  font-size: 1.1rem;
-  padding: 6px 8px;
-  min-width: 3rem;
-}
-
 .so-badge-status-0 {
-  background: #F69220;
+  background: var(--bs-carrot-orange);
 }
 
 .so-badge-status-1 {
-  background: #34C38F;
+  background: var(--bs-greenish-teal);
 }
 
 .so-badge-status-2 {
-  background: #F46A6A;
-}
-
-.so-badge-status {
-  font-size: 1.1rem;
-  min-width: 10rem;
-  color: #fff;
-  border-radius: 5px;
-  display: inline-block;
-  text-align: center;
+  background: var(--bs-bittersweet);
 }
 
 .icon-mark {
@@ -32,4 +17,8 @@
     width: 11px;
     height: 14px;
   }
+}
+
+.card {
+  box-shadow: none;
 }

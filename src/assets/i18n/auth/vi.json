@@ -63,6 +63,7 @@
   "sendBy": "Gửi mã xác minh qua",
   "codeSendToPhone": "Mã xác minh mật khẩu được gửi qua số điện thoại",
   "codeSendToEmail": "Mã xác minh mật khẩu được gửi qua email",
-  "requiredEnterUserName": "Vui lòng nhập email/số điện thoại!",
-  "requiredEnterCode": "Vui lòng nhập mã xác minh!"
+  "requiredEnterUserName": "Vui lòng nhập email/ số điện thoại!",
+  "requiredEnterCode": "Vui lòng nhập mã xác minh!",
+  "backLogin": "Quay lại đăng nhập"
 }

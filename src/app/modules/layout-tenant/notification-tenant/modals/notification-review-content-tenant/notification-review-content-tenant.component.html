@@ -1,0 +1,28 @@
+<div class="modal-header" *transloco="let t; scope: 'notification'">
+
+    <h5 class="title-modal-global" [class]="view === 1 ? '' : 'fs-14 w-45'">{{t('notification.previewTheOutputData')}}</h5>
+    <div class="action-review">
+      <img (click)="click(1)" [class]="view === 1 ? '' : 'h-15'"  class="cursor-pointer" src="assets/images/svg/icon-computer.svg">
+      <img  (click)="click(2)" [class]="view === 1 ? '' : 'h-15'"  class="cursor-pointer" src="assets/images/svg/icon-phone.svg">
+      <img  (click)="click(3)" [class]="view === 1 ? '' : 'h-15'"  class="cursor-pointer" src="assets/images/svg/icon-phone-horizontal.svg">
+    </div>
+  <div *ngIf="view === 1" style="width: 33%" ></div>
+</div>
+<div class="modal-body" *transloco="let t; scope: 'notification'">
+  <div class="d-flex mt-3">
+    <img src="{{dataModal.avatar}}" style="width: 98px;height: 74px;" *ngIf="dataModal.avatar">
+    <div class="d-flex flex-column ms-7">
+      <span class="fw-700 fs-16">
+        {{dataModal?.title}}
+      </span>
+      <span class="fw-400 fs-14" *ngIf="dataModal?.description">
+        <span class="fw-500 fs-15">{{t('notification.description')}}</span>: {{dataModal?.description}}
+      </span>
+    </div>
+  </div>
+  <div class="mt-7" *ngIf="dataModal.content">
+    <span class="fw-500 fs-15">{{t('notification.content')}}</span>
+    <div class="insertHtml" [innerHTML]="dataModal.content"></div>
+  </div>
+</div>
+

@@ -17,6 +17,10 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {TranslocoModule} from "@ngneat/transloco";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NgxPermissionsModule} from "ngx-permissions";
+import {
+  ResultImportParentStaffComponent
+} from "./components/result-import-parent-staff/result-import-parent-staff.component";
+import {ModalImportParentStaffComponent} from "./modals/modal-import-parent-staff/modal-import-parent-staff.component";
 
 
 @NgModule({
@@ -25,7 +29,9 @@ import {NgxPermissionsModule} from "ngx-permissions";
     ParentDetailStaffComponent,
     ParentEditStaffComponent,
     ParentListStaffComponent,
-    ModalUpdateStatusComponent
+    ModalUpdateStatusComponent,
+    ResultImportParentStaffComponent,
+    ModalImportParentStaffComponent
   ],
   imports: [
     CommonModule,

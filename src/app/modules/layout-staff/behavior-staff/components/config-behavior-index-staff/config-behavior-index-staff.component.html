@@ -1,0 +1,46 @@
+
+<div class="card so-tab-horizontal h-100">
+  <div class="card-header card-header-stretch">
+    <h3 class="card-title fs-18 fw-700">Cấu hình điểm văn minh</h3>
+    <div class="card-toolbar">
+      <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == 'config-behavior' ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab('config-behavior')">Cấu hình chấm điểm</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == 'lock-grading-week' ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab('lock-grading-week')">Khóa chấm điểm theo tuần</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == 'gen-point' ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab('gen-point')">Sinh điểm ban đầu</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade {{ tabActive == 'config-behavior' ? 'show active' : '' }}" role="tabpanel">
+        <ng-container *ngIf="tabActive == 'config-behavior'">
+          <app-tab-config-behavior-staff id="tab-config-behavior">
+          </app-tab-config-behavior-staff>
+        </ng-container>
+      </div>
+
+      <div class="tab-pane fade {{ tabActive == 'lock-grading-week' ? 'show active' : '' }}" role="tabpanel">
+        <ng-container *ngIf="tabActive == 'lock-grading-week'">
+          <app-tab-behavior-lock-grading-week-staff id="tab-lock-grading-week">
+          </app-tab-behavior-lock-grading-week-staff>
+        </ng-container>
+      </div>
+
+      <div class="tab-pane fade {{ tabActive == 'gen-point' ? 'show active' : '' }}" role="tabpanel">
+        <ng-container *ngIf="tabActive == 'gen-point'">
+          <app-tab-gen-initial-point-staff id="tab-gen-point">
+          </app-tab-gen-initial-point-staff>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

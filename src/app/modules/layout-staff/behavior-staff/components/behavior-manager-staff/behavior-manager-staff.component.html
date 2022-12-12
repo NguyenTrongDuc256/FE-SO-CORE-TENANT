@@ -1,0 +1,200 @@
+<div class="behavior-manager card so-tab-horizontal h-100" *transloco="let t; scope: 'behavior'">
+  <div class="card-header card-header-stretch border-0">
+    <h3 class="card-title fs-18 fw-700">{{t('behavior.title.criteriaManagement')}}</h3>
+    <div class="card-toolbar">
+      <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == 'point-pluses' ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab('point-pluses', 1)">
+            <img class="tab-icon" src="assets/images/svg/point.svg" alt="">
+            <span class="ms-3">{{t('behavior.title.plusMark')}}</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-14 fw-600 {{ tabActive == 'point-minuses' ? 'active' : '' }}" data-bs-toggle="tab"
+            (click)="activeTab('point-minuses', 2)">
+            <img class="tab-icon" src="assets/images/svg/minus-point.svg" alt="">
+            <span class="ms-3">{{t('behavior.title.minusMark')}}</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="h-100 tab-content" id="myTabContent">
+      <ng-container>
+        <!-- *ngIf="tabActive == 'point-pluses'" -->
+        <div class="h-100 tab-pane fade show active " role="tabpanel">
+          <!-- {{ tabActive == 'point-pluses' ? 'show active' : '' }} -->
+          <!-- nội dung tab điểm cộng -->
+
+          <div class="d-flex flex-row  h-100">
+            <!-- danh sách danh mục  -->
+            <ul
+              class="behavior-category card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 me-3 mb-md-0 min-w-lg-200px w-25">
+              <li class="border-bottom">
+                <div class=" d-flex  justify-content-between mb-3 ">
+                  <h3 class="card-title fs-16 fw-700">{{t('behavior.label.categories')}}</h3>
+                  <div class="me-3">
+                    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+                      (click)="modalFormBehaviorCategory()">
+                      {{t('btnAction.add') }}
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="border-bottom position-relative nav-item w-100 me-0 mb-md-2"
+                *ngFor="let item of behaviorCategoryData;let i = index">
+                <a class="pe-14 aside-item d-flex justify-content-between order-bottom nav-link w-100 {{ tabActive2 == i ? 'active-tab' : '' }} btn btn-flex"
+                  data-bs-toggle="tab" (click)="changeBehaviorCategory(i, item.id)">
+                  <div class="d-flex align-items-center">
+                    <span class="svg-icon svg-icon-2 me-5">
+                      <img class="avatar so-tab-icon" src={{item.avatar}} alt="">
+                    </span>
+                    <span class="d-flex flex-column align-items-start">
+                      <span class="behavior-name fs-14 fw-700">{{item.name}}</span>
+                    </span>
+                  </div>
+
+                  <span class=" behavior-number ms-5 badge-circle badge">{{item.behaviorNumber}}</span>
+                  <span class="position-absolute action-btn so-action" nz-button nz-dropdown nzTrigger="click"
+                    [nzDropdownMenu]="menu" name="opend-so-action">
+                    <img class="so-action--icon-opend" src="assets/images/svg/icon_action.svg" alt="">
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                          (click)="modalFormBehaviorCategory(item)"><img class="so-action--icon"
+                            src="assets/images/svg/school_icon.svg" alt="">{{
+                          t('btnAction.update') }}
+                        </li>
+                        <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                          (click)="deleteBehaviorCategory(item)"><img class="so-action--icon"
+                            src="assets/images/svg/icon-delete.svg" alt="">{{
+                          t('btnAction.delete') }}
+                        </li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <!-- hết danh sách danh mục  -->
+
+            <!-- danh sách tiêu chí -->
+            <div class="behavior card tab-content w-75" id="myTabContent">
+              <ng-container>
+                <!-- *ngIf="tabActive2 == 'tab1'" -->
+                <div class="h-100 tab-pane fade show active" role="tabpanel">
+                  <!-- {{ tabActive2 == 'tab1' ? 'show active' : '' }} -->
+                  <!-- 1 -->
+                  <div class="bg-color-white-smoke card card-flush p-0 h-full">
+                    <div class="card-header">
+                      <h3 class="card-title fs-14 fw-700">{{t('behavior.listBehavior')}} <h3
+                          class="text-color-picton-blue ms-1 me-1"> {{collectionSize}} </h3> tiêu chí</h3>
+                      <div class="card-toolbar">
+                        <div class="filter d-flex flex-wrap ">
+                          <select class="cursor-pointer bg-color-white me-4 so-form-control so-select"
+                            (change)="changeAppliedObjectTypes()" [(ngModel)]="appliedObjectTypes">
+                            <option value="">{{t('behavior.applyRange')}}</option>
+                            <ng-container *ngFor="let item of listAppliedObjectTypes">
+                              <option [value]="item.key">{{t(item.label)}}</option>
+                            </ng-container>
+                          </select>
+                          <div class="so-input-search me-4 mb-3">
+                            <input #searchInput class="bg-color-white" type="text" name="input-search"
+                              placeholder="{{ t('search') }}" (keyup.enter)="search(searchInput.value)">
+                            <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+                              (click)="search(searchInput.value)" />
+                          </div>
+                          <div class="me-3">
+                            <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+                              (click)="modalFormBehavior()">
+                              <img src="assets/images/svg/add.svg" alt="">
+                              {{t('btnAction.add') }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body py-5">
+                      <!-- Nội dung -->
+                      <div class="behavior-item bg-color-white fw-700 ps-8 pe-8 pt-4 pb-3 mb-6"
+                        *ngFor="let item of behaviorData">
+                        <div class="mb-3 d-flex justify-content-between">
+                          <span class="fs-16 fw-700">{{item.name}} <span
+                              class="text-color-picton-blue fs-16 fw-500">[{{item.code}}]</span></span>
+                          <span class=" so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                            name="opend-so-action">
+                            <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg"
+                              alt="">
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                              <ul nz-menu>
+                                <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                                  (click)="modalFormBehavior(item)"><img class="so-action--icon"
+                                    src="assets/images/svg/school_icon.svg" alt="">{{
+                                  t('btnAction.update') }}
+                                </li>
+                                <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                                  (click)="removeBehavior(item.id)"><img class="so-action--icon"
+                                    src="assets/images/svg/icon-delete.svg" alt="">{{
+                                  t('btnAction.delete') }}
+                                </li>
+                              </ul>
+                            </nz-dropdown-menu>
+                          </span>
+                        </div>
+                        <div class="mb-3 ">
+                          <span class="me-5">Mô tả:</span>
+                          <span class="fs-13 fw-400 text-color-boulder">{{item.description}}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <div class="d-flex">
+                            <div class="mb-3 ">
+                              <span class="me-5">Áp dụng</span>
+                              <span *ngIf="item.isApplyStudent" class="me-5 text-color-picton-blue">Học sinh</span>
+                              <span *ngIf="item.isApplyTeacher" class="me-5 text-color-picton-blue">Giáo viên</span>
+                              <span *ngIf="item.isApplyHomeroomClass" class="me-5 text-color-picton-blue">Lớp học</span>
+                            </div>
+                            <div class="ms-20 mb-3 " *ngFor="let i of item.pointByTimeNumbers">
+                              <span class="me-3">Lần {{i.timeNumber}}:</span>
+                              <span
+                                [ngClass]="type == 1 ? 'text-color-greenish-teal' : 'text-color-bittersweet'"><span>{{type
+                                  == 1 ? '+' : ''}}</span>{{i.point}}</span>
+                            </div>
+                          </div>
+                          <div class="mb-3 ">
+                            <span class="badge so-badge so-badge--primary">{{item.categoryName}}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)"
+                        *ngIf="collectionSize >= sizeOption[0]">
+                      </app-pagination>
+                    </div>
+                  </div>
+                  <!-- 1 -->
+                </div>
+              </ng-container>
+
+              <!-- <ng-container *ngIf="tabActive2 == 'tab2'">
+                <div class="tab-pane fade {{ tabActive2 == 'tab2' ? 'show active' : '' }}" role="tabpanel">
+                  Nội dung 2
+                </div>
+              </ng-container> -->
+            </div>
+            <!-- hết danh sách tiêu chí -->
+          </div>
+        </div>
+      </ng-container>
+      <!-- <ng-container *ngIf="tabActive == 'point-minuses'">
+        <div class="tab-pane fade {{ tabActive == 'point-minuses' ? 'show active' : '' }}" role="tabpanel">
+          Nội dung tab điểm trừ
+        </div>
+      </ng-container> -->
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

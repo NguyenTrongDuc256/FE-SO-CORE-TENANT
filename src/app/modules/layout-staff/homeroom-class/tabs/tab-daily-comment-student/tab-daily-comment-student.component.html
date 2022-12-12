@@ -1,0 +1,192 @@
+<ng-container *transloco="let t; scope: 'daily-comment'">
+  <div class="card card-flush shadow-sm p-0 h-full">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700">{{ infomationHomeroomClass?.name }}
+        <div class="status-send-notifiaction ms-4" *ngIf="statusNotification">
+          <img class="icon-status-send-notification" src="assets/images/svg/bx_time.svg" alt="">
+          <span class="fs-14 fw-700">{{ t('dailyComment.notificationSent') }}: <b>{{ currentDateSentNotification | formatTime:'hh:mm - dd/MM/yyyy' }}</b></span>
+        </div>
+      </h3>
+      <div class="card-toolbar"></div>
+    </div>
+    <div class="card-body py-5 pt-0">
+      <div class="tab-daily-comment-student">
+        <div class="tab-daily-comment-student-filter mb-6">
+          <div class="filter d-flex flex-wrap justify-content-end w-100 text-color-river-bed">  
+            <div class="item-filter me-4 mb-3">
+              <span class="lb-filter fs-14 fw-700">{{ t('dailyComment.bookTimeToSent') }}</span>
+              <app-single-date-picker [disabled]="statusNotification ? true : false" [currentDate]="currentDateSentNotification" [timePicker]="timePicker" [minDate]="minDate"
+                (dataTimeOutput)="dataTimeOutputSentNotificationAt($event)"></app-single-date-picker>
+            </div>
+            <div class="item-filter me-4 mb-3">
+              <span class="lb-filter fs-14 fw-700">{{ t('filter') }}</span>
+              <app-single-date-picker [currentDate]="currentDateFilter" [timePicker]="false" (dataTimeOutput)="dataTimeOutputFilter($event)"></app-single-date-picker>
+            </div>
+            <button class="so-btn so-btn-cancel me-4 mb-3 fw-700" name="btn-export">
+              <img class="pe-2" src="assets/images/svg/export.svg" alt="icon">
+              {{t('btnAction.export')}}
+            </button>
+            <button class="so-btn so-btn-cancel me-4 mb-3 fw-700" name="btn-import" (click)="openModalImport()">
+              <img class="pe-2" src="assets/images/svg/import6.svg" alt="icon">
+              {{t('btnAction.import')}}
+            </button>
+            <div class="so-input-search me-4 mb-3 flex-grow-1">
+              <input type="text" class="fw-600" name="input-search" placeholder="{{ t('search') }}"
+                     (keyup.enter)="getDataDailyComment()" [(ngModel)]="keyWord">
+              <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer" (click)="getDataDailyComment()"/>
+            </div>   
+            <div class="item-filter me-4 mb-3">
+              <img class="icon-support" src="assets/images/svg/icon_support.svg" alt="" name="btn-view-guide-comment" (click)="opendGuideComment()">
+            </div>
+            <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="openFormQuickDailyComment()" name="btn-quick-comment">
+              <img src="assets/images/svg/icon-pen-white.svg" alt="icon">
+              {{ t('dailyComment.quickComment') }}
+            </button>
+          </div>
+        </div>
+        <div class="tab-daily-comment-student-quick-comment mb-6" *ngIf="checkIsQuickDailyComment">
+          <div class="row col-md-12 p-0 m-0">
+            <div class="col-md-6 row p-0 m-0 container-quick-comment">
+              <div class="col-md-12 content-quick-comment p-0 m-0">
+                <span class="lb-quick-comment fs-14 fw-700 col-md-2">{{ t('dailyComment.content') }}</span>
+                <textarea class="so-form-control form-control custom-text-area-of-form fs-14 fw-500" [(ngModel)]="contentQuickDailyComment"
+                  (keyup)="changeContentQuickComment($event)"></textarea>
+              </div>
+              <div class="col-md-12 upload-file-comment p-0 m-0">
+                <span class="lb-quick-comment fs-14 fw-700 col-md-2">{{ t('dailyComment.uploadFile') }}</span>
+                <input type="text" class="so-form-control form-control" [(ngModel)]="fileNameGeneral" readonly>
+                <div class="btn-choose-file" (click)="fileInputAvatar.click()">
+                  <img class="icon-upload" src="assets/images/svg/icon-upload.svg" alt="">
+                  <div class="lb-choose-file">
+                    <span class="fs-11 fw-700">{{ t('dailyComment.uploadFile') }}</span>
+                    <span class="fw-500 text-center">{{ t('dailyComment.chooseFileFromComputer') }}</span>
+    
+                  </div>
+                </div>
+                <input #fileInputAvatar type="file" name="fileInputAvatar" class="d-none" value=""
+                  accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" (change)="onChangeFileInput($event)">
+              </div>
+            </div>
+            <div class="col-md-6 row p-0 m-0 container-note-quick-comment">
+              <div class="col-md-12 p-0 m-0">
+                <span class="lb-quick-comment fs-14 fw-700 col-md-2">{{ t('dailyComment.note') }}</span>
+              </div>
+              <div class="col-md-12 p-0 m-0 content-note fs-14 fw-500">
+                <p class="m-0">{{ t('dailyComment.note1') }}</p>
+                <p class="m-0">{{ t('dailyComment.note2') }}</p>
+                <p class="m-0">{{ t('dailyComment.note3') }}</p>
+                <p class="m-0">{{ t('dailyComment.note4') }}</p>
+                <p class="m-0">{{ t('dailyComment.note5') }}</p>
+                <p class="m-0">{{ t('dailyComment.note6') }}</p>
+                <p class="m-0">{{ t('dailyComment.note7') }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-daily-comment-student-data-daily-comment text-color-river-bed">
+          <div class="table-responsive">
+            <table class="table table-row-bordered table-row-gray-300 custom-table-daily-comment">
+              <caption></caption>
+              <thead class="thead-table-daily-comment">
+                <tr class="text-center">
+                  <th *ngIf="checkIsQuickDailyComment" class="fs-14 fw-700 color-thhead text-left-th w-5">
+                    <label nz-checkbox [ngModel]="checkAll" (nzCheckedChange)="checkedAllItem($event)"></label>
+                  </th>
+                  <th class="fs-14 fw-700 color-thhead text-left-th w-30">
+                    {{ t('dailyComment.student') }}
+                  </th>
+                  <th class="fs-14 fw-700 color-thhead text-left-th w-45">
+                    {{ t('dailyComment.comment/advice') }}
+                  </th>
+                  <th class="fs-14 fw-700 color-thhead text-left-th w-10">
+                    {{ t('dailyComment.sentNotification') }}
+                  </th>
+                  <th class="fs-14 fw-700 color-thhead w-10">
+                    {{ t('dailyComment.attachFile') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="dataSource && dataSource.students.length > 0">
+                  <tr *ngFor="let item of dataSource.students">
+                    <td *ngIf="checkIsQuickDailyComment" class="text-center w-5"><label nz-checkbox
+                        [ngModel]="dataCheckQuickComment[item.id]" (nzCheckedChange)="checkedItem($event,item.id)"></label>
+                    </td>
+                    <td class="w-30">
+                      <div class="student-info d-flex flex-column">
+                        <div class="info-item w-100 d-flex align-items-center">
+                          <img class="student-avatar" src="assets/images/png/bus.png" alt="">
+                          <span class="text-color-river-bed fs-16 fw-700">{{ item.name }}</span>
+                        </div>
+                        <div class="info-item w-100 d-flex align-items-center">
+                          <div class="box-item fs-12 fw-700 d-flex align-items-center me-5">
+                            <img class="box-item-icon" src="assets/images/svg/icon-grade-blue.svg" alt="">
+                            <span class="box-item-lb">{{ t('dailyComment.studentCode') }}:</span>
+                            <span class="box-item-code">{{ item.code }}</span>
+                          </div>
+                          <div class="box-item fs-12 fw-700 d-flex align-items-center">
+                            <img class="box-item-icon" src="assets/images/svg/gender.svg" alt="">
+                            <span class="box-item-lb">{{ t('gender') }}</span>
+                            <span class="box-item-gender-{{item.gender}}">{{ t(getGenderName(item.gender)) }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="w-45">
+                      <div class="comment-advice">
+                        <textarea class="so-form-control form-control fs-14 fw-600"
+                          *ngIf="dataCheckQuickComment[item.id]" rows="5"
+                          [(ngModel)]="dataQuickCommentStudent[item.id]"></textarea>
+                        <textarea class="so-form-control form-control fs-14 fw-600"
+                          *ngIf="!dataCheckQuickComment[item.id]" rows="5"
+                          [(ngModel)]="dataCommentStudent[item.id]"></textarea>
+                        <div class="action-comment d-flex justify-content-end w-100">
+                          <div class="action-coment-item d-flex align-items-center fs-12 fw-500">
+                            <img class="action-coment-item-icon" src="assets/images/svg/icon-grade-blue.svg" alt="">
+                            <span class="action-coment-item-value">{{ item.feedbackNumber }}</span>
+                            <span class="action-coment-item-lb">{{ t('dailyComment.comment') }}</span>
+                            <img class="action-coment-item-icon" src="assets/images/svg/icon-grade-blue.svg" alt="">
+                            <span class="action-coment-item-lb">{{ t('dailyComment.reply') }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-center w-10">
+                      <span class="status-send-notification-{{item.statusNotification}} fs-12 fw-700">{{ t(getNameStatusSendNotifiaction(item.statusNotification)) }}</span>
+                    </td>
+                    <td class="w-10">
+                      <div class="attach-file d-flex flex-column">
+                        <ng-container *ngIf="dataFileStudent[item.id] || dataQuickFileStudent[item.id]">
+                          <span class="attach-file-lb fs-13 fw-700">{{ t('dailyComment.attachFile') }}</span>
+                          <span class="attach-file-name fs-13 fw-600">{{ dataCheckQuickComment[item.id] ?
+                            convertFileName(dataQuickFileStudent[item.id]) : convertFileName(dataFileStudent[item.id])
+                            }}</span>
+                        </ng-container>
+                        <ng-container *ngIf="!dataFileStudent[item.id] && !dataQuickFileStudent[item.id]">
+                          <span class="attach-file-upload d-flex align-items-center fs-14 fw-700"
+                            (click)="singleFileInput.click()">
+                            <img class="attach-file-upload-icon" src="assets/images/svg/icon-upload.svg" alt=""> {{ t('dailyComment.uploadFile') }}
+                          </span>
+                          <input #singleFileInput type="file" name="singleFileInput" class="d-none" value=""
+                            accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+                            (change)="onChangeSingleFile($event,item.id)">
+                        </ng-container>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tab-daily-comment-student-action w-100 d-flex justify-content-center align-items-center">
+          <span class="btn-accept d-flex justify-content-center align-items-center fs-12 fw-700"
+            (click)="saveFormDailyComment()">{{ t('btnAction.save') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

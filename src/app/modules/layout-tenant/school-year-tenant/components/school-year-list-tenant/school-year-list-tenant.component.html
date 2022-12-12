@@ -1,4 +1,4 @@
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10" *transloco="let t; scope: 'school-year'">
+<div class="row g-5 g-xl-10 mb-5 mb-xl-10 h-100" *transloco="let t; scope: 'school-year'">
   <div class="col-xl-12">
     <div class="card card-flush h-md-100">
       <div class="card-header pt-7">
@@ -85,11 +85,14 @@
                   </span>
                 </td>
                 <td class="text-center d-flex align-items-center justify-content-center fs-12">
-                  <span class="status-{{item.status}}">{{ getStatusName(item.status) }}</span>
+                  <span class="status-{{item.status}}">
+                    {{ item.status == 0 ? t('schoolYear.lock0') :
+                    (item.status == 1 ? t('schoolYear.lock1') : t('schoolYear.lock2') )}}
+                  </span>
                 </td>
                 <td class="text-center">
                   <span class="department-action">
-                    <img nz-button nz-dropdown [nzDropdownMenu]="menu" class="action-icon"
+                    <img nz-button nz-dropdown [nzDropdownMenu]="menu" class="custom-icon-three-vertical-dot"
                       src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                       <ng-template ngxPermissionsOnly="{{ permission.school_year_manager }}">

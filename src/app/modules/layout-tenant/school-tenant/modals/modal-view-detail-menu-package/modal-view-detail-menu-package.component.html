@@ -1,0 +1,59 @@
+<ng-container *transloco="let t; scope: 'school'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal()"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="style-detail-menu-manager fs-13 text-color-river-bed">
+      <div class="container-detail-menu-manager">
+        <div class="content-left-menu-manager">
+          <div class="menu-items" *ngIf="dataMenuLeft && dataMenuLeft.length > 0">
+            <div class="item" *ngFor="let item of dataMenuLeft">
+              <img class="menu-icon" src="{{item.icon}}" alt="">
+              <span class="menu-name fs-13 fw-600">{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-rigth-menu-manager">
+          <h4 class="menu-title fs-16 fw-600">{{ menuInfo.menuPackageName }} </h4>
+          <div class="menu-more">
+            <div class="menu-infomation">
+              <div class="item-infomation">
+                <img class="info-icon" src="assets/images/svg/school_code_icon.svg" alt="">
+                <span class="lb-info fs-13 fw-700">Layout</span>
+                <span class="value-info fs-13 fw-700">{{ menuInfo.layoutApply }} layout</span>
+              </div>
+              <div class="item-infomation">
+                <img class="info-icon" src="assets/images/svg/school_code_icon.svg" alt="">
+                <span class="lb-info fs-13 fw-700">{{ t('school.menuPackageCode') }}</span>
+                <span class="value-info fs-13 fw-700">{{ menuInfo.menuPackageCode }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="detail-tree-menu">
+            <nz-tree nzBlockNode [nzExpandAll]="true" [nzData]="dataMenuRight" [nzSearchValue]="searchValue"
+              (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)" (nzSearchValueChange)="nzEvent($event)"
+              [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+            <ng-template #nzTreeTemplate let-node let-origin="origin">
+              <span class="custom-node">
+                <span class="tree-menu-item">
+                  <span class="custom-menu-icon"><img class="menu-icon" [src]="node.icon" alt=""></span>
+                  <span class="custom-menu-order fs-13 fw-600">{{ node.key }}</span>
+                  <span class="custom-menu-title fs-13 fw-600">{{ node.title }}</span>
+                  <span class="custom-menu-router fs-13 fw-600">{{ origin.menuRouter }}</span>
+                </span>
+              </span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel fw-600" data-dismiss="modal"
+      (click)="closeModal()">{{dataModal?.btnCancel}}</button>
+  </div>
+</ng-container>

@@ -8,17 +8,6 @@ import { ListStudentComponent } from './components/list-student/list-student.com
 
 const routes: Routes = [
   {
-    path: '',
-    component: ListStudentComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: [DATA_PERMISSION.student_file_user_view],
-        redirectTo: "/access-denied"
-      },
-    },
-  },
-  {
     path: 'list',
     component: ListStudentComponent,
     canActivate: [NgxPermissionsGuard],

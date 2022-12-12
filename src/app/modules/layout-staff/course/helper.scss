@@ -1,0 +1,53 @@
+.text-link {
+  color: #3289f3;
+}
+
+.text-underline,
+.text-underline:hover {
+  text-decoration: underline !important;
+}
+
+.so-badge-status-0 {
+  background: #f46a6a;
+}
+
+.so-badge-status-1 {
+  background: #50a5f1;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 3px;
+  cursor: pointer;
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+.btn-remove:focus {
+  outline: none;
+}
+
+::ng-deep table caption {
+  display: none;
+}
+
+::ng-deep .so-checkbox-style2 .ant-checkbox-checked .ant-checkbox-inner{
+  background-color: #556ee6;
+  border-color: #556ee6;
+}
+
+.table tbody tr.tr-no-border, .table tbody tr.tr-no-border:last-child {
+  border-bottom: none !important;
+}
+
+.so-btn-primary--small {
+  max-height: 3.6rem;
+}
+
+.so-table-th-custom--white thead > tr {
+  background: var(--bs-picton-blue);
+  color: var(--bs-white);
+}

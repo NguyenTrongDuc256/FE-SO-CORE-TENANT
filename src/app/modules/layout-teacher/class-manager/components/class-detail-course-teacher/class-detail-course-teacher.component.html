@@ -1,0 +1,46 @@
+<div *transloco="let t; scope: 'training'" class="h-100">
+  <div class="so-header d-flex fs-14 fw-500">
+    <div class="h-item active d-flex justify-content-center align-items-end">
+      <div>
+        <div class="d-flex align-items-center justify-content-center">
+          <img src="assets/images/svg/icon-sidebar/icon-ql-module.svg" alt="">
+          <span class="ms-3 fs-15 fw-700">LỚP 1A1</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <img src="assets/images/svg/people.svg" alt="">
+          <span class="ms-3 ">Sĩ số: 18 học sinh</span>
+        </div>
+        <div class="attendance">
+          <span class="fw-700 fs-12">Đã điểm danh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex h-100 custom-detail-homeroom-class">
+    <div class="d-flex flex-row so-tab-vertical shadow-sm h-100 w-100">
+      <ul class="card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 mb-md-0 min-w-lg-200px w-20">
+        <li class="nav-item w-100 me-0 mb-md-2">
+          <a class="nav-link w-100 {{ tabActive == 'comment' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+            (click)="activeTab('comment')">
+            <span class="svg-icon svg-icon-2 me-5">
+              <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-ql-role.svg" alt="">
+            </span>
+            <span class="d-flex flex-column align-items-start">
+              <span class="fs-14 fw-600">Nhận xét học sinh</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+      <div class="card tab-content w-80 mt-5 ms-7 me-7" id="myTabContent">
+        <ng-container *ngIf="tabActive == 'comment'">
+          <div class="h-100 tab-pane fade {{ tabActive == 'comment' ? 'show active' : '' }}" role="tabpanel">
+            <app-tab-daily-comment-student-course-teacher></app-tab-daily-comment-student-course-teacher>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <!-- tab -->
+  </div>
+
+</div>

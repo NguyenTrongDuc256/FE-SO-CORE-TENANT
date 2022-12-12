@@ -1,22 +1,18 @@
+import { REGEX_EMAIL } from './../../../../_shared/utils/constant';
 import { Component, OnInit } from '@angular/core';
-import {ADVANCED} from "../../../layout-staff/general-setting-staff/constant";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { forkJoin, Observable, Subscriber } from "rxjs";
+import { ValidatorNotEmptyString, ValidatorNotNull } from "src/app/_services/validator-custom.service";
 import {
-  DATA_PERMISSION,
-  REGEX_PHONE,
+  DATA_PERMISSION, INFO_ADVANCED_SCHOOL,
+  REGEX_NUMBER_POSITIVE, REGEX_PHONE,
   TIME_OUT_LISTEN_FIREBASE,
   TRAINING_LEVEL
-} from "../../../../_shared/utils/constant";
-import {School} from "../../../../_models/layout-staff/school/school.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SchoolService} from "../../../../_services/layout-staff/school/school.service";
-import {ShowMessageService} from "../../../../_services/show-message.service";
-import {ActivatedRoute} from "@angular/router";
-import {GeneralService} from "../../../../_services/general.service";
-import {ResizeImageService} from "../../../../_services/resize-image.service";
-import {ListenFirebaseService} from "../../../../_services/listen-firebase.service";
-import {Location} from "@angular/common";
-import {ValidatorNotEmptyString, ValidatorNotNull} from "../../../../_services/validator-custom.service";
-import {forkJoin, Observable, Subscriber} from "rxjs";
+} from 'src/app/_shared/utils/constant';
+import { School } from "../../../../_models/layout-staff/school/school.model";
+import { GeneralService } from "../../../../_services/general.service";
+import { SchoolService } from "../../../../_services/layout-staff/school/school.service";
+import { ListenFirebaseService } from "../../../../_services/listen-firebase.service";
 
 @Component({
   selector: 'app-info-setting-school-staff',
@@ -24,7 +20,7 @@ import {forkJoin, Observable, Subscriber} from "rxjs";
   styleUrls: ['./info-setting-school-staff.component.scss']
 })
 export class InfoSettingSchoolStaffComponent implements OnInit {
-  arrInfoAdvanced = ADVANCED;
+  arrInfoAdvanced = INFO_ADVANCED_SCHOOL;
   isLoading = false;
   permission = DATA_PERMISSION;
   infoBasicSchool: School;
@@ -37,14 +33,76 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
   districtCode: string;
   logo: string = '';
   fileName: string = '';
+  validationMessages = {
+    Name: [
+      {type: "required", message: 'school.requiredName'},
+      {type: "maxlength", message: 'school.validateMaxLengthName'},
+      {type: "notEmpty", message: 'school.requiredName'},
+    ],
+    Campus: [
+      {type: "required", message: 'school.requiredCampus'}
+    ],
+    TrainingLevel: [
+      {type: "required", message: 'school.requiredCampus'}
+    ],
+    Email: [
+      {type: "pattern", message: 'school.patternEmail'}
+    ],
+    SendFromEmail: [
+      {type: "pattern", message: 'school.patternEmail'}
+    ],
+    Phone: [
+      {type: "pattern", message: 'school.patternPhone'}
+    ],
+    Hotline: [
+      {type: "pattern", message: 'school.patternHotline'}
+    ],
+    Fax: [
+      {type: "pattern", message: 'school.patternFax'}
+    ],
+    TenHieuTruong: [
+      {type: "maxlength", message: 'school.validateMaxLengthName'}
+    ],
+    EmailHieuTruong: [
+      {type: "pattern", message: 'school.patternEmail'}
+    ],
+    DienThoaiHieuTruong: [
+      {type: "pattern", message: 'school.patternPhone'}
+    ],
+    IndexOrder: [
+      {type: "pattern", message: 'patternNumberInteger'}
+    ],
+    NamThanhLap: [
+      {type: "maxlength", message: 'school.validateMaxLength'}
+    ],
+    DienTich: [
+      {type: "maxlength", message: 'school.validateMaxLength'}
+    ],
 
+
+
+  };
+  validationMessagesServer = {
+    Name: {},
+    Campus: {},
+    TrainingLevel: {},
+    Email: {},
+    SendFromEmail: {},
+    Phone: {},
+    Hotline: {},
+    Fax: {},
+    TenHieuTruong: {},
+    EmailHieuTruong: {},
+    DienThoaiHieuTruong: {},
+    IndexOrder: {},
+    NamThanhLap: {},
+    DienTich: {},
+
+  }
   constructor(
     private schoolService: SchoolService,
-    private showMessage: ShowMessageService,
-    private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private generalService: GeneralService,
-    private resizeImageService: ResizeImageService,
     private listenFirebaseService: ListenFirebaseService,
   ) {}
 
@@ -56,34 +114,27 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
 
   initForm() {
     this.formSchool = this.fb.group({
-      // logo: '',
-      name: ['', [Validators.required, Validators.maxLength(255), ValidatorNotEmptyString]],
-      campus: [null, [Validators.required, ValidatorNotNull]],
-      trainingLevel: this.infoBasicSchool?.EducationalStages
-        ? this.infoBasicSchool?.EducationalStages
-        : null,
-      loaiHinhTruong: '',
-      loaiTruong: '',
-      chinhSachVung: '',
-      // cityCode: '',
-      // districtCode: '',
-      // wardCode: '',
-      // address: ['', [Validators.maxLength(255)]],
-      khuVuc: '',
-      email: ['', Validators.email],
-      sendFromEmail: ['', Validators.email],
-      phone: ['', Validators.pattern(REGEX_PHONE)],
-      hotline: ['', Validators.pattern(REGEX_PHONE)],
-      fax: ['', Validators.pattern(REGEX_PHONE)],
-      tenHieuTruong: ['', [Validators.maxLength(255)]],
-      emailHieuTruong: ['', Validators.email],
-      dienThoaiHieuTruong: ['', Validators.pattern(REGEX_PHONE)],
-      indexOrder: '',
-      namThanhLap: ['', [Validators.maxLength(255)]],
-      maDuAn: '',
-      dienTich: ['', [Validators.maxLength(255)]],
-      mucChuanQuocGia: '',
-      maVungKhoKhan: '',
+      Name: ['', [Validators.required, Validators.maxLength(255), ValidatorNotEmptyString]],
+      Campus: [null, [Validators.required, ValidatorNotNull]],
+      TrainingLevel: [null,[Validators.required, ValidatorNotNull]],
+      LoaiHinhTruong: '',
+      LoaiTruong: '',
+      ChinhSachVung: '',
+      KhuVuc: '',
+      Email: ['', Validators.pattern(REGEX_EMAIL)],
+      SendFromEmail: ['', Validators.pattern(REGEX_EMAIL)],
+      Phone: ['', Validators.pattern(REGEX_PHONE)],
+      Hotline: ['', Validators.pattern(REGEX_PHONE)],
+      Fax: ['', Validators.pattern(REGEX_PHONE)],
+      TenHieuTruong: ['', [Validators.maxLength(255)]],
+      EmailHieuTruong: ['', Validators.pattern(REGEX_EMAIL)],
+      DienThoaiHieuTruong: ['', Validators.pattern(REGEX_PHONE)],
+      IndexOrder: ['', Validators.pattern(REGEX_NUMBER_POSITIVE)],
+      NamThanhLap: ['', [Validators.maxLength(255)]],
+      MaDuAn: '',
+      DienTich: ['', [Validators.maxLength(255)]],
+      MucChuanQuocGia: '',
+      MaVungKhoKhan: '',
 
       IsCoChiBoDang: false,
       IsTruongQuocTe: false,
@@ -132,42 +183,27 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
 
   patchValueFormGroup(valueForm: any) {
     this.formSchool.setValue({
-      name: valueForm?.Name,
-      campus: valueForm?.CampusId ? valueForm?.CampusId : null,
-      trainingLevel: valueForm?.EducationalStages
-        ? valueForm?.EducationalStages
-        : null,
-      loaiHinhTruong: valueForm?.MaLoaiHinhTruong
-        ? valueForm?.MaLoaiHinhTruong
-        : '',
-      loaiTruong: valueForm?.MaLoaiTruong ? valueForm?.MaLoaiTruong : '',
-      chinhSachVung: valueForm?.ChinhSachVung ? valueForm?.ChinhSachVung : '',
-      // cityCode: valueForm?.CityCode ? valueForm?.CityCode : '',
-      // districtCode: valueForm?.DistrictCode ? valueForm?.DistrictCode : '',
-      // wardCode: valueForm?.WardCode ? valueForm?.WardCode : '',
-      // address: valueForm?.Address ? valueForm?.Address : '',
-      khuVuc: valueForm?.KhuVuc ? valueForm?.KhuVuc : '',
-      email: valueForm?.Email ? valueForm?.Email : '',
-      sendFromEmail: valueForm?.SendFromEmail ? valueForm?.SendFromEmail : '',
-      phone: valueForm?.Phone ? valueForm?.Phone : '',
-      hotline: valueForm?.Hotline ? valueForm?.Hotline : '',
-      fax: valueForm?.Fax ? valueForm?.Fax : '',
-      tenHieuTruong: valueForm?.TenHieuTruong ? valueForm?.TenHieuTruong : '',
-      emailHieuTruong: valueForm?.EmailHieuTruong
-        ? valueForm?.EmailHieuTruong
-        : '',
-      dienThoaiHieuTruong: valueForm?.DienThoaiHieuTruong
-        ? valueForm?.DienThoaiHieuTruong
-        : '',
-      indexOrder: valueForm?.IndexOrder ? valueForm?.IndexOrder : '',
-      namThanhLap: valueForm?.NamThanhLap ? valueForm?.NamThanhLap : '',
-      maDuAn: valueForm?.MaDuAn ? valueForm?.MaDuAn : '',
-      dienTich: valueForm?.DienTich ? valueForm?.DienTich : '',
-      mucChuanQuocGia: valueForm?.MucChuanQuocGia
-        ? valueForm?.MucChuanQuocGia
-        : '',
-      maVungKhoKhan: valueForm?.MaVungKhoKhan ? valueForm?.MaVungKhoKhan : '',
-
+      Name: valueForm?.Name,
+      Campus: valueForm?.CampusId ? valueForm?.CampusId : null,
+      TrainingLevel: valueForm?.EducationalStages ? valueForm?.EducationalStages : null,
+      LoaiHinhTruong: valueForm?.MaLoaiHinhTruong ? valueForm?.MaLoaiHinhTruong : '',
+      LoaiTruong: valueForm?.MaLoaiTruong ? valueForm?.MaLoaiTruong : '',
+      ChinhSachVung: valueForm?.ChinhSachVung ? valueForm?.ChinhSachVung : '',
+      KhuVuc: valueForm?.KhuVuc ? valueForm?.KhuVuc : '',
+      Email: valueForm?.Email ? valueForm?.Email : '',
+      SendFromEmail: valueForm?.SendFromEmail ? valueForm?.SendFromEmail : '',
+      Phone: valueForm?.Phone ? valueForm?.Phone : '',
+      Hotline: valueForm?.Hotline ? valueForm?.Hotline : '',
+      Fax: valueForm?.Fax ? valueForm?.Fax : '',
+      TenHieuTruong: valueForm?.TenHieuTruong ? valueForm?.TenHieuTruong : '',
+      EmailHieuTruong: valueForm?.EmailHieuTruong ? valueForm?.EmailHieuTruong : '',
+      DienThoaiHieuTruong: valueForm?.DienThoaiHieuTruong ? valueForm?.DienThoaiHieuTruong : '',
+      IndexOrder: valueForm?.IndexOrder ? valueForm?.IndexOrder : '',
+      NamThanhLap: valueForm?.NamThanhLap ? valueForm?.NamThanhLap : '',
+      MaDuAn: valueForm?.MaDuAn ? valueForm?.MaDuAn : '',
+      DienTich: valueForm?.DienTich ? valueForm?.DienTich : '',
+      MucChuanQuocGia: valueForm?.MucChuanQuocGia ? valueForm?.MucChuanQuocGia : '',
+      MaVungKhoKhan: valueForm?.MaVungKhoKhan ? valueForm?.MaVungKhoKhan : '',
       IsCoChiBoDang: Boolean(Number(valueForm.IsCoChiBoDang)),
       IsTruongQuocTe: Boolean(Number(valueForm.IsTruongQuocTe)),
       IsHocSinhKhuyetTat: Boolean(Number(valueForm.IsHocSinhKhuyetTat)),
@@ -201,10 +237,8 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
     this.isLoading = true;
     this.schoolService.getAnotherInfoToMapSchool().subscribe(
       (res: any) => {
-        if (res.status == 1) {
           this.moetCategories = res.data.MoetCategories;
           this.arrCampus = res.data.Campuses;
-        }
         this.isLoading = false;
       },
       (err) => {
@@ -219,32 +253,29 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
   }
 
   submit(valueForm: any) {
+    if (this.formSchool.valid) {
     let dataInput:School = {
-      CampusId: valueForm.campus,
+      CampusId: valueForm.Campus,
       MoetUnitCode: this.infoBasicSchool.MoetUnitCode,
-      Name: valueForm.name.trim(),
-      EducationalStages: valueForm.trainingLevel,
-      IndexOrder: valueForm.indexOrder,
-      Email: valueForm.email,
-      Hotline: valueForm.hotline,
-      Fax: valueForm.fax.trim(),
+      Name: valueForm.Name.trim(),
+      EducationalStages: valueForm.TrainingLevel,
+      IndexOrder: valueForm.IndexOrder,
+      Email: valueForm.Email,
+      Hotline: valueForm.Hotline,
+      Fax: valueForm.Fax.trim(),
       Logo: this.logo.trim(),
-      Phone: valueForm.phone,
-      SendFromEmail: valueForm.sendFromEmail,
-      // WardCode: valueForm.wardCode,
-      // DistrictCode: valueForm.districtCode,
-      // CityCode: valueForm.cityCode,
-      // Address: valueForm.address.trim(),
-      ChinhSachVung: valueForm.chinhSachVung,
-      MaLoaiHinhTruong: valueForm.loaiHinhTruong,
-      KhuVuc: valueForm.khuVuc,
-      MucChuanQuocGia: valueForm.mucChuanQuocGia,
-      MaLoaiTruong: valueForm.loaiTruong,
-      MaVungKhoKhan: valueForm.maVungKhoKhan,
-      MaDuAn: valueForm.maDuAn,
-      TenHieuTruong: valueForm.tenHieuTruong.trim(),
-      EmailHieuTruong: valueForm.emailHieuTruong,
-      DienThoaiHieuTruong: valueForm.dienThoaiHieuTruong,
+      Phone: valueForm.Phone,
+      SendFromEmail: valueForm.SendFromEmail,
+      ChinhSachVung: valueForm.ChinhSachVung,
+      MaLoaiHinhTruong: valueForm.LoaiHinhTruong,
+      KhuVuc: valueForm.KhuVuc,
+      MucChuanQuocGia: valueForm.MucChuanQuocGia,
+      MaLoaiTruong: valueForm.LoaiTruong,
+      MaVungKhoKhan: valueForm.MaVungKhoKhan,
+      MaDuAn: valueForm.MaDuAn,
+      TenHieuTruong: valueForm.TenHieuTruong.trim(),
+      EmailHieuTruong: valueForm.EmailHieuTruong,
+      DienThoaiHieuTruong: valueForm.DienThoaiHieuTruong,
       IsCoChiBoDang: Number(valueForm.IsCoChiBoDang).toString(),
       IsTruongQuocTe: Number(valueForm.IsTruongQuocTe).toString(),
       IsHocSinhKhuyetTat: Number(valueForm.IsHocSinhKhuyetTat).toString(),
@@ -255,8 +286,8 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
       IsVungDacBietKhoKhan: Number(valueForm.IsVungDacBietKhoKhan).toString(),
       IsDatChatLuongToiThieu: Number(valueForm.IsDatChatLuongToiThieu).toString(),
       // Is2BuoiNgay: Number(valueForm.Is2BuoiNgay).toString(),
-      DienTich: valueForm.dienTich.trim(),
-      NamThanhLap: String(valueForm.namThanhLap).trim(),
+      DienTich: valueForm.DienTich.trim(),
+      NamThanhLap: String(valueForm.NamThanhLap).trim(),
       IsSuDungMayTinhDayHoc: Number(valueForm.IsSuDungMayTinhDayHoc).toString(),
       IsKhaiThacInternetDayHoc: Number(valueForm.IsKhaiThacInternetDayHoc).toString(),
       IsDienLuoi: Number(valueForm.IsDienLuoi).toString(),
@@ -276,16 +307,59 @@ export class InfoSettingSchoolStaffComponent implements OnInit {
     this.listenFireBase('update', 'school');
     this.schoolService.update(this.schoolId, dataInput).subscribe(
       (res: any) => {
-        if (res.status == 0) {
-          this.showMessage.error(res.msg);
-        }
-
         this.isLoading = false;
       },
       (err) => {
         this.isLoading = false;
+        this.validateAllFormFieldsErrorServer(err.errors);
       }
     );
+    } else {
+      this.isLoading = false;
+      this.validateAllFormFields(this.formSchool);
+    }
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({onlySelf: true});
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else if (control instanceof FormArray) {
+        control.controls.forEach((item: FormGroup) => {
+          this.validateAllFormFields(item);
+        })
+      }
+    });
+  }
+
+  validateAllFormFieldsErrorServer(error: any) {
+    Object.keys(error).forEach(key => {
+      let arrKey = String(key).split('.');
+      let indexKey = '';
+      if (arrKey.length == 1) {
+        this.validationMessagesServer[arrKey[0]] = {
+          message: error[key]
+        }
+      } else {
+        arrKey.forEach((itemKey: any) => {
+          if (!isNaN(itemKey)) {
+            indexKey += `${itemKey}`;
+          }
+          Object.keys(this.validationMessagesServer).forEach(itemMessage => {
+            if (itemMessage == arrKey[arrKey.length - 1]) {
+              if (indexKey) {
+                this.validationMessagesServer[itemMessage][indexKey] = {
+                  message: error[key]
+                }
+              }
+            }
+          });
+        })
+      }
+    });
   }
 
 

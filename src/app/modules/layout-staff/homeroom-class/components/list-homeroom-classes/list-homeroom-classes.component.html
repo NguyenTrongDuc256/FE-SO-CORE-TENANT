@@ -1,0 +1,259 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'training'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t("training.listHomeroomClass") }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center text-color-river-bed">
+        <div class="so-input-search me-4 mb-3">
+          <input class="fw-600" type="text" placeholder="{{ t('training.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)" />
+        </div>
+
+        <ng-template ngxPermissionsOnly="{{ permission.homeroom_class_manager }}">
+          <button class="so-btn so-btn-light so-btn-light--small mb-3 me-4" (click)="import()" id="import">
+            <img class="search-icon pe-2" src="assets/images/svg/import6.svg" alt="">
+            <span class="fw-700">Import</span>
+          </button>
+        </ng-template>
+
+        <button class="so-btn so-btn-primary so-btn-primary--small mb-3 me-4" nz-dropdown [nzDropdownMenu]="filterTemp"
+          nzPlacement="bottomRight" nzTrigger="click">
+          <img src="assets/images/svg/icon-filter-white.svg" alt="" />
+          {{ t("btnAction.filterAdvanced") }}
+        </button>
+        <nz-dropdown-menu #filterTemp="nzDropdownMenu">
+          <div class="filterTemp p-6">
+            <p class="filterTemp-title fs-15 mb-5 fw-700">{{ t("btnAction.filterAdvanced") }}:</p>
+            <div class="filterTemp-body">
+              <div class="fw-600 fs-13 mb-6">
+                <div class="mb-3 fw-700">{{ t("grade") }} </div>
+                <select name="gradeId" id="gradeId" [(ngModel)]="gradeId" class="so-select fw-600 w-full">
+                  <option [value]="''">{{ t("grade") }}</option>
+                  <ng-container *ngFor="let grade of arrGrades">
+                    <option [value]="grade.id">{{ grade.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="fs-13 mb-6">
+                <div class="mb-3 fw-700">{{ t("training.statusClass") }}</div>
+                <div>
+                  <label nz-checkbox class="so-checkbox" id="status1" [(ngModel)]="arrStatus[0].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrStatus[0].label)}}</span>
+                  </label>
+                  <label nz-checkbox class="so-checkbox" id="status2" [(ngModel)]="arrStatus[1].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrStatus[1].label)}}</span>
+                  </label>
+                </div>
+              </div>
+              <div class="fs-13 mb-6">
+                <div class="mb-3 fw-700">{{ t("training.typeClass") }}</div>
+                <div>
+                  <label nz-checkbox class="so-checkbox" id="status3" [(ngModel)]="arrHomeroomClassType[0].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrHomeroomClassType[0].label)}}</span>
+                  </label>
+                  <label nz-checkbox class="so-checkbox" id="status4" [(ngModel)]="arrHomeroomClassType[1].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrHomeroomClassType[1].label)}}</span>
+                  </label>
+                </div>
+              </div>
+              <div class="fs-13 mb-6">
+                <div class="mb-3 fw-700">{{ t("training.statusAttend") }}</div>
+                <div>
+                  <label nz-checkbox class="so-checkbox" id="status5" [(ngModel)]="arrAttendancesStatus[0].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrAttendancesStatus[0].label)}}</span>
+                  </label>
+                  <label nz-checkbox class="so-checkbox" id="status6" [(ngModel)]="arrAttendancesStatus[1].isChecked">
+                    <span class="fw-600 fs-13">{{t(arrAttendancesStatus[1].label)}}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="filterTemp-footer mt-5">
+              <div class="d-flex align-items-center justify-content-end">
+                <button class="so-btn so-btn-primary so-btn-cancel-filter me-3"
+                  (click)="unFilter()">{{t('btnAction.cancelFilter')}} </button>
+                <button class="so-btn so-btn-primary so-btn-accept-filter" (click)="filter()">{{t('btnAction.filter')}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </nz-dropdown-menu>
+
+        <ng-template ngxPermissionsOnly="{{ permission.homeroom_class_manager }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="create()" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="" />
+            {{ t("btnAction.add") }}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+          <tr>
+            <th style="display: none"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i = index">
+            <tr>
+              <td style="width: 5%" *ngIf="isEnableClassAvatar == 1">
+                <div class="avatar">
+                  <img [src]="item?.Avatar || avatarDefault" alt="" />
+                </div>
+              </td>
+
+              <td [ngStyle]="{'width': isEnableClassAvatar == 1 ? '95%' : '100%'}">
+                <div class="d-flex flex-column w-100">
+                  <div class="tr-no-border w-100">
+                    <div colspan="5" style="padding-top: 0; padding-bottom: 0">
+                      <div class="info-item">
+                        <img src="assets/images/svg/icon-star.svg" alt="" class="icon" />
+                        <span class="text-link fw-700 cursor-pointer fs-15"
+                          [routerLink]="['/staff/homeroom-class/detail', item.id]">{{
+                          item.Name }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tr-no-border fw-600 w-100">
+                    <div class="d-flex w-100">
+                      <div style="width: 25%">
+                        <div class="info-item">
+                          <span>
+                            <img src="assets/images/svg/icon-user-class-blue.svg" alt="" class="icon" />
+                            <span class="color-tertiary">{{ t("training.GVCN") }}: &nbsp;</span>
+                          </span>
+                          <div class="fw-600 d-flex align-items-center py-3">
+                            <div class="avatar" *ngIf="item?.TeacherName && item?.TeacherName !=''">
+                              <img src="{{ item?.TeacherAvatar || avatarDefault }}" alt="" />
+                            </div>
+                            {{ item?.TeacherName || '--'}}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="width: 15%">
+                        <div class="info-item py-3">
+                          <img src="assets/images/svg/icon-grade2-blue.svg" alt="" class="icon" />
+                          <span class="color-tertiary">{{ t("grade") }}: &nbsp;</span>
+                          <div class="fw-600">{{ item?.GradeName }}</div>
+                        </div>
+                      </div>
+                      <div style="width: 22%">
+                        <div class="info-item py-3">
+                          <img src="assets/images/svg/icon-grade2-blue.svg" alt="" class="icon" />
+                          <span class="color-tertiary">{{ t("school") }}: &nbsp;</span>
+                          <div class="fw-600">{{ currentUnit?.name }}</div>
+                        </div>
+                      </div>
+                      <div style="width: 18%">
+                        <div class="info-item py-3">
+                          <img src="assets/images/svg/people.svg" alt="" class="icon" />
+                          <span class="color-tertiary">{{ t("training.siSo") }}: &nbsp;</span>
+                          <div class="fw-600">
+                            {{ item.NumberStudentTotal}} {{ t("student") }}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="width: 16%">
+                        <div class="info-item py-3">
+                          <img src="assets/images/svg/icon-group2-blue.svg" alt="" class="icon" />
+                          <span class="color-tertiary">{{ t("training.typeClass") }}: &nbsp;</span>
+                          <div class="fw-600 text-status-{{ item.IsBilingual }}">
+                            {{
+                            item.IsBilingual == 1
+                            ? t("training.typeGroupHomeroomClass1")
+                            : t("training.typeGroupHomeroomClass0")
+                            }}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="width: 10%">
+                        <span class="my-3 badge so-badge so-badge-status so-badge-status-0 so-badge-status-{{
+                                  item.AttendancesStatus
+                                }}">
+                          {{
+                          item.AttendancesStatus == 1
+                          ? t("attended")
+                          : t("noAttendance")
+                          }}
+                        </span>
+                      </div>
+                      <ng-template ngxPermissionsOnly="{{
+                                permission.homeroom_class_access
+                              }}">
+                        <div class="text-center" style="width: 3%">
+                          <div class="my-5">
+                            <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="so-action"
+                              name="btn-open-menu">
+                              <img src="assets/images/svg/three_vertical_dot_icon.svg" alt=""
+                                class="so-action--icon-opend" />
+                            </span>
+                          </div>
+                          <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu>
+                              <ng-template ngxPermissionsOnly="{{ permission.homeroom_class_manager }}">
+                                <li nz-menu-item (click)="update(item.id)" class="fs-13 fw-600 text-color-river-bed"
+                                  name="btn-update">
+                                  <img src="assets/images/svg/write.svg" alt="" class="so-action--icon" />
+                                  {{ t("btnAction.update") }}
+                                </li>
+                              </ng-template>
+                              <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-sendNoti">
+                                <img src="assets/images/svg/icon-email-noti-blue.svg" alt="" class="so-action--icon" />
+                                {{ t("training.sendNoti") }}
+                              </li>
+                              <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="view-student"
+                                [routerLink]="[
+                                        '/staff/homeroom-class/' + item.id + '/student'
+                                      ]">
+                                <img src="assets/images/svg/icon-user-2-blue.svg" alt="" class="so-action--icon" />
+                                {{ t("student") }}
+                              </li>
+                              <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="view-class2">
+                                <img src="assets/images/svg/user_group_2.svg" alt="" class="so-action--icon" />
+                                {{ t("training.lopBoMon") }}
+                              </li>
+                              <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="view-teacher"
+                                [routerLink]="[
+                                        '/staff/homeroom-class/' + item.id + '/teacher'
+                                      ]">
+                                <img src="assets/images/svg/user-check.svg" alt="" class="so-action--icon" />
+                                {{ t("training.assignTeacher") }}
+                              </li>
+                              <ng-template ngxPermissionsOnly="{{ permission.homeroom_class_manager }}">
+                                <li nz-menu-item (click)="delete(item.id, item.Name)" class="fs-13 fw-600 text-danger"
+                                  name="btn-delete">
+                                  <img src="assets/images/svg/icon-delete.svg" alt="" class="so-action--icon" />
+                                  {{ t("btnAction.delete") }}
+                                </li>
+                              </ng-template>
+                            </ul>
+                          </nz-dropdown-menu>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="(arrList?.length == 0 || !arrList) && !isLoading" class="tr-no-border">
+            <td class="text-no-data py-3" colspan="2">{{ t("noData") }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

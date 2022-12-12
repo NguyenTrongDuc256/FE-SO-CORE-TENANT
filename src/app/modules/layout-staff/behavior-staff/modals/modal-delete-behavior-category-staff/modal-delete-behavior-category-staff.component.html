@@ -1,0 +1,44 @@
+<ng-container *transloco="let t;">
+  <div class="modal-header border-0">
+    <h5 class="title-modal-global fw-700">{{t(dataModal?.titleModal)}} <span class="text-color-picton-blue">Chấm điểm
+        văn minh phòng thể chất</span></h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="ps-4 pe-3">
+      <div class="d-flex justify-content-center">
+        <img src="assets/images/png/deleteBehaviorCategory.png" alt="">
+      </div>
+      <div class="mt-6">
+        <span class="text-color-bittersweet fs-14 fw-700">Ghi chú: Nếu không chọn di chuyển tất cả tiêu chí đánh giá
+          sang danh mục khác thì tất cả các tiêu chí đánh giá của danh mục sẽ bị xóa</span>
+      </div>
+      <div class="mt-6  fs-14 fw-500">
+        <label nz-checkbox [(ngModel)]="isMoveBehaviors">Di chuyển tất cả tiêu chí đánh giá của danh mục sang danh mục
+          khác</label>
+      </div>
+      <div *ngIf="isMoveBehaviors" class="mt-6  fs-14 fw-700">
+        <label for="">Chọn danh mục chuyển tiêu chí</label>
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="behaviorCategoryId"
+          class="mt-3 form-control so-form-control">
+          <ng-container *ngFor="let item of dataModal.dataFromParent.listBehaviorCategory">
+            <nz-option [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
+          </ng-container>
+        </nz-select>
+      </div>
+      <div class="mt-20 d-flex align-items-center justify-content-center">
+        <button type="button" class="me-5 so-btn so-btn-cancel cf-button" data-dismiss="modal" name="btn-accept"
+          (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+        <button type="button" class="so-btn so-btn-danger" name="btn-cancel"
+          (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

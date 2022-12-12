@@ -1,0 +1,68 @@
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.webkit-box-1 {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+}
+
+.header-card {
+  margin-bottom: 2rem;
+  .add-action {
+    .add-icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 12%;
+    }
+
+    height: 4rem;
+    background: var(--bs-blue-lotus);
+    border-radius: 6px;
+    padding: 0.3rem 1rem;
+    color: var(--bs-white);
+    border: none;
+  }
+
+  .add-action:hover {
+    background: #3c5ae9;
+  }
+
+  .card-button {
+    width: 9.5%;
+    min-width: 105px;
+  }
+}
+
+.card-body {
+  .badge {
+    min-width: 13rem;
+  }
+
+  .subject-active {
+    color: var(--bs-white);
+    background: var(--bs-bittersweet);
+  }
+
+  .subject-inactive {
+    color: var(--bs-white);
+    background: var(--bs-greenish-teal);
+  }
+
+  .subject-functionRoom {
+    color: var(--bs-blue-lotus);
+    background: var(--bs-hawkes-blue);
+  }
+
+  .subject-classroom {
+    color: var(--bs-carrot-orange);
+    background: var(--bs-light-apricot);
+  }
+
+
+
+}
+

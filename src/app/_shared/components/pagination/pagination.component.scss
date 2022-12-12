@@ -1,0 +1,10 @@
+::ng-deep.custom-page-index{
+    .pagination{
+        li.page-item.disabled{
+            width: 29px !important;
+            height: 29px !important;
+            border-radius: 4px !important;
+            background: #e1e1e196 !important;
+        }
+    }
+}

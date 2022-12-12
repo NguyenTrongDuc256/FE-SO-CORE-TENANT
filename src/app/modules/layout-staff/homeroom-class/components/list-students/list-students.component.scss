@@ -1,0 +1,24 @@
+.avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  &--small {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.so-badge {
+  padding: 8px 10px;
+  background: #50a5f1;
+}
+.so-badge-0 {
+  background: #fff8dd !important;
+  color: #f1bc00 !important;
+}
+.so-badge-1 {
+  background: #f1faff !important;
+  color: #50a5f1 !important;
+}

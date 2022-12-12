@@ -1,0 +1,70 @@
+<ng-container *transloco="let t; scope: 'behavior'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formGroup">
+      <div class="form-behavior fs-14 ">
+        <div class="mb-6 d-flex cursor-pointer">
+          <span class="fw-700">{{t('behavior.iconDanhMuc')}} </span><span class="text-danger"> *</span>
+          <div class="choose-icon ms-20" nz-button nz-dropdown nzTrigger="click" nzTrigger="click"
+            [nzDropdownMenu]="menu">
+            <img class="avatar" [src]="formGroup.value.avatar" alt="">
+            <div class="text-label">
+              <span>{{t('behavior.chooseIcon')}}</span>
+            </div>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu class="row dropdown-popup">
+                <li *ngFor="let item of listIcon" nz-menu-item
+                  class="d-flex align-items-center col-3  fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                  (click)="getIcon(item)"><img class="drop-icon" [src]=item alt="">
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <span class="fw-700">{{t('behavior.behaviorCategorie')}}</span><span class="text-danger"> *</span>
+          <div>
+            <input type="text" class="so-form-control form-control" name="input-behavior" placeholder="Nhập"
+              formControlName="name"
+              [class.is-invalid]="formGroup.get('name').invalid && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+              [class.is-invalid-server]="validationMessagesServer?.name.hasOwnProperty('message') && formGroup.get('name').invalid" />
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.name">
+              <app-field-error-display
+                [displayError]="formGroup.get('name').hasError(err.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)"
+                errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.name">
+              <app-field-error-display [errorServer]="validationMessagesServer?.name"
+                [displayErrorServer]="!(formGroup.get('name').dirty || formGroup.get('name').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <span class="fw-700">{{t('description')}}</span>
+          <div>
+            <input type="text" class="so-form-control form-control" name="input-description" placeholder="Nhập"
+              formControlName="description" />
+
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal('cancel')">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+  </div>
+</ng-container>

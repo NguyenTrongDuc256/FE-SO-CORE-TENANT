@@ -1,0 +1,59 @@
+::ng-deep .custom-tab-attendance-config{
+    &-title{
+        color: #2D3748;
+    }
+    &-form{
+        .form-attendance-config{
+            .data-attendance-config{
+                .lb-is-current{
+                    color: #3F4254;
+                }
+                .lb-is-current.active{
+                    color: #34C38F;
+                }
+                .status-attendance-config{
+                    color: #495057;
+                }
+                .ant-radio-checked .ant-radio-inner {
+                    border-color: #34C38F;
+                }
+            
+                .ant-radio-inner::after {
+                    background-color: #34C38F;
+                }
+                .name-attendance-config{
+                    color: #495057;
+                }
+                &-status{
+                    position: relative;
+                    .lb-status-attendance.active{
+                        color: #50A5F1;
+                    }
+                    .lb-status-attendance{
+                        color: #D5D5D5;
+                    }
+                    .lb-status-attendance{
+                        padding-left: 2rem;
+                        text-align: right;
+                    }
+                    nz-switch{
+                        position: absolute;
+                        right: 11rem;
+                    }
+                }
+            }
+            .btn-action{
+                .custom-btn-save{
+                    border: none;
+                    margin-top: 2rem;
+                    background: #556EE6;
+                    border-radius: 3px;
+                    padding: 0.3rem 2rem;
+                    color: #ffffff;
+                    text-align: center;
+                    margin-right: 2rem;
+                }
+            }
+        }
+    }
+}

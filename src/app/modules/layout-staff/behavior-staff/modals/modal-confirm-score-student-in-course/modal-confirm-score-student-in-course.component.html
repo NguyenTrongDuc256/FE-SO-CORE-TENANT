@@ -1,0 +1,53 @@
+<div *transloco="let t; scope: 'behavior'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+            [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h6 class="modal-body-title fs-16 fw-700">{{t('behavior.label.ngayCham')}}: <span
+      class="text-color-picton-blue fw-600">{{formValue.date | formatTime :'dd/MM/yyyy'}}</span></h6>
+    <div class="box__history">
+      <div class="box__history--item pt-6 pb-6 border-bottom-05" *ngFor="let item of behaviorList">
+        <div class="item-top d-flex align-items-center">
+          <div class="item-top--icon">
+            <img class="img-cover" src="{{item.avatar}}" alt="">
+          </div>
+          <div class="item-top--content ms-6 flex-grow-1">
+            <div class="d-flex align-items-baseline mb-4">
+              <p class="fw-700 webkit-box-2 pe-1">{{item.name}}</p>
+              <span class="code text-color-picton-blue">[{{item.code}}]</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <span
+                class="badge so-badge text-color-white bg-color-picton-blue me-4">{{item.behaviorCategoryName}}</span>
+              <div class="d-flex align-items-center">
+                <p class="ms-10 fs-14 text-color-greenish-teal" *ngIf="formValue.type == 1">
+                  <span class="fw-700">{{t('behavior.title.point')}} + {{item.displayPoint}}</span>
+                </p>
+                <p class="ms-10 fs-14 text-color-bittersweet" *ngIf="formValue.type == 2">
+                  <span class="fw-700">{{t('behavior.title.point')}} {{item.displayPoint}}</span>
+                </p>
+                <span class="point fs-14 fw-600 ps-4">{{t('behavior.label.lanCongTru')}}: <span class="fw-700">{{item.number}}</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item-bottom mt-6">
+          <p class="fw-700">{{t('behavior.title.comment')}}: <span class="fw-600 text-color-mountain-mist">{{item.comment}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+            (click)="closeModal(false)">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+            (click)="onSubmit()">{{dataModal?.btnAccept}}</button>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

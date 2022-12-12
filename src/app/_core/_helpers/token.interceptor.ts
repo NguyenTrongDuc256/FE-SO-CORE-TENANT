@@ -13,7 +13,6 @@ export class TokenInterceptor implements HttpInterceptor {
   currentLayout = localStorage.getItem('currentLayout');
   currentLanguage = localStorage.getItem('language') || 'vi';
   currentUnit = localStorage.getItem('currentUnit') ? JSON.parse(localStorage.getItem('currentUnit')) : null;
-  currentStudent = localStorage.getItem('currentStudent') ? JSON.parse(localStorage.getItem('currentStudent')) : null;
   currentSchoolYear = localStorage.getItem('currentSchoolYear');
   currentTerm = localStorage.getItem('currentTerm');
 
@@ -22,10 +21,10 @@ export class TokenInterceptor implements HttpInterceptor {
     this.currentUser = localStorage.getItem('Token');
     this.currentLayout = localStorage.getItem('currentLayout');
     this.currentUnit = localStorage.getItem('currentUnit') ? JSON.parse(localStorage.getItem('currentUnit')) : null;
-    this.currentStudent = localStorage.getItem('currentStudent') ? JSON.parse(localStorage.getItem('currentStudent')) : null;
     this.currentLanguage = localStorage.getItem('language') || 'vi';
-
-    if (request.url.includes('/login') || request.url.includes('/forgot-password') || request.url.includes('/confirm-code') || request.url.includes('/check-reset-code') || request.url.includes('/check-change-password')) {
+    this.currentSchoolYear = localStorage.getItem('currentSchoolYear');
+    this.currentTerm = localStorage.getItem('currentTerm');
+    if (request.url.endsWith('/authentication/login') || request.url.includes('/forgot-password') || request.url.includes('/confirm-code') || request.url.includes('/check-reset-code') || request.url.includes('/check-change-password')) {
       request = request.clone({
         setHeaders: {
           'Access-Control-Allow-Origin':'*',
@@ -69,8 +68,8 @@ export class TokenInterceptor implements HttpInterceptor {
         header['Term'] = this.currentTerm;
         break;
       case 'parent':
-        header['StudentId'] = this.currentStudent?.id;
-        header['SchoolId'] = this.currentStudent?.schoolId;
+        header['StudentUserId'] = this.currentUnit?.id;
+        header['SchoolId'] = this.currentUnit?.schoolId;
         header['SchoolYearId'] = this.currentSchoolYear;
         header['Term'] = this.currentTerm;
         break;
@@ -84,7 +83,7 @@ export class TokenInterceptor implements HttpInterceptor {
       header['SchoolId'] = 'a7e3a37d-c9a8-4534-94b1-ce9b7283aece';
       header['UnitCode'] = 'a7e3a37d-c9a8-4534-94b1-ce9b7283aece';
       header['SchoolYearId'] = 'a7e3a37d-c9a8-4534-94b1-ce9b7283aece';
-      header['StudentId'] = 'a7e3a37d-c9a8-4534-94b1-ce9b7283aece';
+      header['StudentUserId'] = 'a7e3a37d-c9a8-4534-94b1-ce9b7283aece';
       header['Term'] = '1';
     } else {
       if(!this.currentLayout) delete header['Layout'];

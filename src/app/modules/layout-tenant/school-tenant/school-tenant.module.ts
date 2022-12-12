@@ -23,6 +23,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { TabGradeSchoolTenantComponent } from './components/tab-grade-school-tenant/tab-grade-school-tenant.component';
 import { TabSubjectSchoolTenantComponent } from './components/tab-subject-school-tenant/tab-subject-school-tenant.component';
 import { ModalAssignSubjectComponent } from './modals/modal-assign-subject/modal-assign-subject.component';
+import { ListMenuPackageComponent } from './components/list-menu-package/list-menu-package.component';
+import { ModalViewDetailMenuPackageComponent } from './modals/modal-view-detail-menu-package/modal-view-detail-menu-package.component';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,8 @@ import { ModalAssignSubjectComponent } from './modals/modal-assign-subject/modal
     TabGradeSchoolTenantComponent,
     TabSubjectSchoolTenantComponent,
     ModalAssignSubjectComponent,
+    ListMenuPackageComponent,
+    ModalViewDetailMenuPackageComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +55,8 @@ import { ModalAssignSubjectComponent } from './modals/modal-assign-subject/modal
     TranslocoModule,
     NzCollapseModule,
     NzCheckboxModule,
-    NzTabsModule
+    NzTabsModule,
+    NzTreeModule
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: "school" }],
 })

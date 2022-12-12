@@ -1,0 +1,165 @@
+<div class="card card-flush  p-0" *transloco="let t; scope: 'behavior'">
+    <div class="card-body p-0 pt-0 behavior-lock">
+        <div class="gen-initial-point  fw-700">
+            <ng-container *ngFor="let item of genInitialPointInfoData">
+                <div *ngIf="item.objectType == 1" class="mt-6 ms-1">
+                    <!-- Sinh điểm ban đầu cho Học sinh -->
+                    <span>{{t('behavior.sinhDiemBanDauChoHocSinh')}}</span>
+                    <ng-container *ngFor="let i of item.arrSemester">
+                        <div class="flex-wrap d-flex mt-10 ms-1">
+                            <span class="mt-2 text-color-picton-blue">{{t('behavior.semester')}} {{i.semester}}</span>
+                            <span
+                                [ngClass]="i.isInitializedPoint == 1 ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                                class="mt-2 ms-20 initialized-point">{{i.isInitializedPoint == 1 ?
+                                t('behavior.daSinhDiem') :
+                                t('behavior.chuaSinhDiem')}}</span>
+                            <div class="d-flex align-items-center">
+                                <div class="gen-point mt-2" *ngIf="i.isInitializedPoint == 1">
+                                    <span class="mt-2 me-2 text-color-picton-blue">{{i.initializedPoint}}</span><span
+                                        class="mt-2">{{t('behavior.title.point')}}</span>
+                                </div>
+                                <div class="gen-point" *ngIf="i.isInitializedPoint == 0">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="point so-form-control form-control" id="name"
+                                            name="name" required pattern="^[0-9][0-9]*$"
+                                            [(ngModel)]="i.initializedPoint" #name="ngModel" />
+                                        <div class="ms-11">
+                                            <button class="so-btn so-btn-primary so-btn-primary--small"
+                                                [disabled]="name.invalid ? 'disabled': null"
+                                                (click)="genInitialPoint(i)" *ngIf="i.isInitializedPoint == 0"
+                                                name="btn-gen-point">{{t('behavior.genPoint')}}</button>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                        class="fs-12 fw-600 text-danger">
+                                        <div *ngIf="name.errors?.['required']">
+                                            {{t('behavior.banChuaNhapDiem')}}
+                                        </div>
+                                        <div *ngIf="name.errors?.['pattern']">
+                                            {{t('behavior.pointErrorsPattern')}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-new-point so-btn so-btn-primary so-btn-primary--small"
+                                    (click)="genInitialPoint(i)"
+                                    *ngIf="i.isInitializedPoint == 1 && i.hasNewObject == 1"
+                                    name="btn-gen-point-student">{{t('behavior.sinhDiemChoHocSinhMoi')}}</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <ng-container *ngFor="let item of genInitialPointInfoData">
+                <div *ngIf="item.objectType == 2" class="gen-point-item mt-6 ms-1">
+                    <!-- Sinh điểm ban đầu cho Giáo viên -->
+                    <span>{{t('behavior.sinhDiemBanDauChoGiaoVien')}}</span>
+                    <ng-container *ngFor="let i of item.arrSemester">
+                        <div class="flex-wrap d-flex mt-10 ms-1">
+                            <span class="mt-2 text-color-picton-blue">{{t('behavior.semester')}} {{i.semester}}</span>
+                            <span
+                                [ngClass]="i.isInitializedPoint == 1 ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                                class="mt-2 ms-20 initialized-point">{{i.isInitializedPoint == 1 ?
+                                t('behavior.daSinhDiem') :
+                                t('behavior.chuaSinhDiem')}}</span>
+                            <div class="d-flex align-items-center">
+                                <div class="gen-point mt-2" *ngIf="i.isInitializedPoint == 1">
+                                    <span class="mt-2 me-2 text-color-picton-blue">{{i.initializedPoint}}</span><span
+                                        class="mt-2">{{t('behavior.title.point')}}</span>
+                                </div>
+                                <div class="gen-point" *ngIf="i.isInitializedPoint == 0">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="point so-form-control form-control" id="name"
+                                            name="name" required pattern="^[0-9][0-9]*$"
+                                            [(ngModel)]="i.initializedPoint" #name="ngModel" />
+                                        <div class="ms-11">
+                                            <button class="so-btn so-btn-primary so-btn-primary--small"
+                                                [disabled]="name.invalid ? 'disabled': null"
+                                                (click)="genInitialPoint(i)" *ngIf="i.isInitializedPoint == 0"
+                                                name="btn-gen-point">{{t('behavior.genPoint')}}</button>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                        class="fs-12 fw-600 text-danger">
+                                        <div *ngIf="name.errors?.['required']">
+                                            {{t('behavior.banChuaNhapDiem')}}
+
+                                        </div>
+                                        <div *ngIf="name.errors?.['pattern']">
+                                            {{t('behavior.pointErrorsPattern')}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-new-point so-btn so-btn-primary so-btn-primary--small"
+                                    (click)="genInitialPoint(i)"
+                                    *ngIf="i.isInitializedPoint == 1 && i.hasNewObject == 1"
+                                    name="btn-gen-point-student">{{t('behavior.sinhDiemChoHocSinhMoi')}}</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <ng-container *ngFor="let item of genInitialPointInfoData">
+                <div *ngIf="item.objectType == 3" class="gen-point-item mt-6 ms-1">
+                    <!-- Sinh điểm ban đầu cho Lớp chủ nhiệm -->
+                    <span>{{t('behavior.sinhDiemBanDauChoLopChuNhiem')}}</span>
+                    <ng-container *ngFor="let i of item.arrSemester">
+                        <div class="flex-wrap d-flex mt-10 ms-1">
+                            <span class="mt-2 text-color-picton-blue">{{t('behavior.semester')}} {{i.semester}}</span>
+                            <span
+                                [ngClass]="i.isInitializedPoint == 1 ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                                class="mt-2 ms-20 initialized-point">{{i.isInitializedPoint == 1 ?
+                                t('behavior.daSinhDiem') :
+                                t('behavior.chuaSinhDiem')}}</span>
+                            <div class="d-flex align-items-center">
+                                <div class="gen-point mt-2" *ngIf="i.isInitializedPoint == 1">
+                                    <span class="mt-2 me-2 text-color-picton-blue">{{i.initializedPoint}}</span><span
+                                        class="mt-2">{{t('behavior.title.point')}}</span>
+                                </div>
+                                <div class="gen-point" *ngIf="i.isInitializedPoint == 0">
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" class="point so-form-control form-control" id="name"
+                                            name="name" required pattern="^[0-9][0-9]*$"
+                                            [(ngModel)]="i.initializedPoint" #name="ngModel" />
+                                        <div class="ms-11">
+                                            <button class="so-btn so-btn-primary so-btn-primary--small"
+                                                [disabled]="name.invalid ? 'disabled': null"
+                                                (click)="genInitialPoint(i)" *ngIf="i.isInitializedPoint == 0"
+                                                name="btn-gen-point">{{t('behavior.genPoint')}}</button>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                        class="fs-12 fw-600 text-danger">
+                                        <div *ngIf="name.errors?.['required']">
+                                            {{t('behavior.banChuaNhapDiem')}}
+
+                                        </div>
+                                        <div *ngIf="name.errors?.['pattern']">
+                                            {{t('behavior.pointErrorsPattern')}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-new-point so-btn so-btn-primary so-btn-primary--small"
+                                    (click)="genInitialPoint(i)"
+                                    *ngIf="i.isInitializedPoint == 1 && i.hasNewObject == 1"
+                                    name="btn-gen-point-student">{{t('behavior.sinhDiemChoHocSinhMoi')}}</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

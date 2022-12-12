@@ -14,23 +14,11 @@ export class TopbarComponent implements OnInit {
   toolbarUserAvatarHeightClass = 'symbol-md-16px';
   toolbarButtonIconSizeClass = 'svg-icon-1';
   headerLeft: string = 'menu';
+  isToggle = false;
 
   constructor(private layout: LayoutService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.headerLeft = this.layout.getProp('header.left') as string;
-  }
-
-  logout() {
-    this.authService.logout().subscribe((res: any) => {
-      if(res.status == 1) {
-        let lang = localStorage.getItem('language');
-        localStorage.clear();
-        localStorage.setItem('language', lang);
-        this.router.navigate(['/auth/login'],{
-          queryParams: {},
-        });
-      }
-    })
   }
 }

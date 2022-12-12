@@ -1,0 +1,16 @@
+
+$widthTitle : 20%;
+$marginLeft : 0px;
+
+.input-text {
+  width: calc(100% - $widthTitle);
+}
+
+.label-input {
+  width: $widthTitle;
+}
+
+.pl-error {
+  color: red;
+  padding-left: calc($widthTitle + $marginLeft );
+}

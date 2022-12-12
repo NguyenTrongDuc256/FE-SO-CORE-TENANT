@@ -54,31 +54,7 @@
     }
   }
 
-  .get-info {
-    padding-bottom: 2.5rem;
 
-    .label-info {
-      height: 40px;
-      width: auto;
-
-      img {
-        margin-right: 1rem;
-      }
-
-      .text-label {
-        width: 14.5rem;
-      }
-    }
-
-    .input-custom {
-      //flex-grow: 1;
-      padding-left: 2rem;
-    }
-
-    .gender {
-      flex-grow: 1;
-    }
-  }
 
   .date-picker {
     width: 100%;
@@ -106,4 +82,29 @@
 ::ng-deep.ant-select-multiple .ant-select-selection-search {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.get-info {
+  margin-bottom: 10px;
+  .label-info {
+    width: auto;
+
+    img {
+      margin-right: 5px;
+      width: 16px;
+    height: 15px;
+    }
+
+    .text-label {
+      width: 14.5rem;
+    }
+  }
+
+  .input-custom {
+    flex-grow: 1;
+  }
+
+  .gender {
+    flex-grow: 1;
+  }
 }

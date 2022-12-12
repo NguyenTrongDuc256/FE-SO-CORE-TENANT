@@ -1,0 +1,86 @@
+$widthTitle : 25%;
+$marginLeft : 0px;
+
+.card-dialog {
+  .input-custom {
+    padding: 0 2rem;
+    height: 4rem;
+    /* padding: 5rem; */
+    border: none;
+    outline: none;
+    background-color: #F5F8FA;
+    border-radius: 6px;
+  }
+
+  .margin-top {
+    margin-top: 2.5rem;
+  }
+
+  .input-text {
+    width: calc(100% - $widthTitle);
+  }
+
+  .label-input {
+    width: $widthTitle;
+  }
+
+  .footer {
+    padding-top: 1.8rem;
+
+  }
+
+  .save {
+    margin-left: 1.3rem;
+  }
+
+  .status {
+    width: 18%;
+  }
+
+  .pl-error {
+    color: red;
+    padding-left: calc($widthTitle + $marginLeft );
+  }
+
+}
+
+.icon-arrow-right {
+  margin-left: 10px;
+  margin-top: -2px;
+}
+
+:host ::ng-deep .ant-select-selector {
+  height: 1rem;
+}
+
+.m-right-20 {
+  margin-right: 20px;
+}
+
+.m-left {
+  margin-left: $marginLeft;
+}
+
+.m-t-30 {
+  margin-top: 30px;
+}
+
+.p-left-15 {
+  padding-left: 15px;
+}
+
+.p-right-15 {
+  padding-right: 15px;
+}
+
+.m-l-r-20 {
+  margin: 0 20px;
+}
+
+:host ::ng-deep .ant-select-selector {
+  height: 1rem;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}

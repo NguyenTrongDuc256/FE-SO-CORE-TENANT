@@ -45,7 +45,7 @@
         "app/data/*"
       ]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

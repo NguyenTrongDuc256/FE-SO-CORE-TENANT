@@ -1,0 +1,154 @@
+<div *transloco="let t; scope: 'declare'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal()"
+      [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="card-dialog row" [formGroup]="infoForm">
+      <div class="col-6 p-right-15">
+        <div class=" d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input">{{ t('declare.periodName') }}<span class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('declare.periodName') }}"
+            name="input-periodName" type="text" formControlName="Name"
+            [class.is-invalid]="infoForm.get('Name').invalid && (infoForm.get('Name').dirty || infoForm.get('Name').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.Name.hasOwnProperty('message') && infoForm.get('Name').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.Name">
+          <app-field-error-display
+            [displayError]="infoForm.get('Name').hasError(err.type) && (infoForm.get('Name').dirty || infoForm.get('Name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.Name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.Name"
+                                   [displayErrorServer]="!(infoForm.get('Name').dirty || infoForm.get('Name').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class=" d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input ">{{ t('declare.periodCode') }}<span class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('declare.periodCode') }}" type="text"
+            formControlName="Code" name="input-periodCode"
+            [class.is-invalid]="infoForm.get('Code').invalid && (infoForm.get('Code').dirty || infoForm.get('Code').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.Code.hasOwnProperty('message')">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.Code">
+          <app-field-error-display
+            [displayError]="infoForm.get('Code').hasError(err.type) && (infoForm.get('Code').dirty || infoForm.get('Code').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.Code">
+          <app-field-error-display [errorServer]="validationMessagesServer?.Code"
+                                   [displayErrorServer]="validationMessagesServer?.Code.hasOwnProperty('message')">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-right-15">
+        <div class=" margin-top d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input">{{ t('declare.periodMoet') }}</span>
+          <select class="so-form-control so-select input-text" name="btn-periodMoet" id="periodMoet"
+            formControlName="MoetPeriod"
+                  [class.is-invalid-server]="validationMessagesServer?.MoetPeriod.hasOwnProperty('message')">
+            <option value="null" [selected]="(infoForm.get('MoetPeriod').value != null) ? false : true">{{
+              t('declare.periodMoet') }}</option>
+            <option *ngFor="let itemMoet of arrMoetPeriod" value="{{itemMoet.key}}">{{itemMoet.label}}</option>
+          </select>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.MoetPeriod">
+          <app-field-error-display [errorServer]="validationMessagesServer?.MoetPeriod"
+                                   [displayErrorServer]="validationMessagesServer?.MoetPeriod.hasOwnProperty('message')">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class=" margin-top d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input ">{{ t('declare.displayOrder') }}<span
+              class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('declare.displayOrder') }}"
+            type="number" onlyNumber min="1" formControlName="DisplayOrder" name="input-DisplayOrder"
+            [class.is-invalid]="infoForm.get('DisplayOrder').invalid && (infoForm.get('DisplayOrder').dirty || infoForm.get('DisplayOrder').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.DisplayOrder.hasOwnProperty('message') && infoForm.get('DisplayOrder').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.DisplayOrder">
+          <app-field-error-display
+            [displayError]="infoForm.get('DisplayOrder').hasError(err.type) && (infoForm.get('DisplayOrder').dirty || infoForm.get('DisplayOrder').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.DisplayOrder">
+          <app-field-error-display [errorServer]="validationMessagesServer?.DisplayOrder"
+                                   [displayErrorServer]="!(infoForm.get('DisplayOrder').dirty || infoForm.get('DisplayOrder').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-right-15">
+        <div class=" margin-top d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input">{{ t('declare.Time') }}</span>
+          <div class="m-left d-flex align-items-center input-text">
+            <input class="so-form-control form-control input-text  w-100" type="time" formControlName="TimeStart"
+              (change)="setTime(this)" name="input-TimeStart"
+              [class.is-invalid]="infoForm.get('TimeStart').invalid && (infoForm.get('TimeStart').dirty || infoForm.get('TimeStart').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.TimeStart.hasOwnProperty('message') && infoForm.get('TimeStart').invalid">
+            <span class="m-l-r-20">{{ t('declare.To') }}</span>
+            <input class="so-form-control form-control input-text  w-100" type="time" formControlName="TimeEnd"
+              (change)="setTime(this)" name="input-TimeEnd"
+              [class.is-invalid]="infoForm.get('TimeEnd').invalid && (infoForm.get('TimeEnd').dirty || infoForm.get('TimeEnd').touched)"
+                   [class.is-invalid-server]="validationMessagesServer?.TimeEnd.hasOwnProperty('message') && infoForm.get('TimeEnd').invalid">
+          </div>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.TimeStart">
+          <app-field-error-display
+            [displayError]="infoForm.get('TimeStart').hasError(err.type) && (infoForm.get('TimeStart').dirty || infoForm.get('TimeStart').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.TimeStart">
+          <app-field-error-display [errorServer]="validationMessagesServer?.TimeStart"
+                                   [displayErrorServer]="!(infoForm.get('TimeStart').dirty || infoForm.get('TimeStart').touched)">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.TimeEnd">
+          <app-field-error-display
+            [displayError]="infoForm.get('TimeEnd').hasError(err.type) && (infoForm.get('TimeEnd').dirty || infoForm.get('TimeEnd').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.TimeEnd">
+          <app-field-error-display [errorServer]="validationMessagesServer?.TimeEnd"
+                                   [displayErrorServer]="!(infoForm.get('TimeEnd').dirty || infoForm.get('TimeEnd').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class=" margin-top d-flex align-items-center">
+          <span class="fs-14 fw-700 label-input ">{{ t('declare.showOnApp') }}</span>
+          <input class="so-form-control form-control input-text " placeholder="{{ t('declare.showOnApp') }}"
+            type="number" onlyNumber min="1" formControlName="ShowOnApp" name="input-showOnApp">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <div *ngIf="dataModal.nameForm == 'create'" class="checkbox-create-data d-flex m-right-20">
+      <label nz-checkbox [(ngModel)]="isChecked">{{ t('keepGeneratingData') }}</label>
+    </div>
+    <button name="btnCancel" type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal()">{{ t('btnAction.cancel') }}</button>
+    <button name="btnSubmit" type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="onSubmit(infoForm.value)">{{ t('btnAction.save') }}</button>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

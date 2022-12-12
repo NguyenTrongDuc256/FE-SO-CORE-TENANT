@@ -1,67 +1,16 @@
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: #40a9ff;
-  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%) !important;
-  border-right-width: 1px !important;
-  border: 1px;
+
+$widthTitle : 20%;
+$marginLeft : 0px;
+
+.input-text {
+  width: calc(100% - $widthTitle);
 }
 
-.card-dialog {
- /*  padding: 2.5rem 3.5rem; */
-  .input-custom {
-    padding: 0 2rem;
-    height: 4rem;
-    border: none;
-    outline: none;
-    background-color: #F5F8FA;
-    border-radius: 6px;
-  }
-
-  .margin-top {
-    margin-top: 2.5rem;
-  }
-
-  .label-code {
-    width: 20%;
-  }
-
-  .code-color {
-    color: #50A5F1;
-  }
-
-  .input-text {
-    width: 100%;
-  }
-
-  /* .activated {
-    padding-left: 2rem;
-  } */
-
-  .label-input {
-    width: 25%;
-  }
-
-  .footer {
-    padding-top: 1.8rem;
-
-  }
-
-  .save {
-    margin-left: 1.3rem;
-  }
-
-  .status {
-    width: 20%;
-  }
-
-  .warning {
-    color: red;
-    padding-left: 18%;
-  }
+.label-input {
+  width: $widthTitle;
 }
 
-:host ::ng-deep .ant-select-selector {
-  height: 1rem;
+.pl-error {
+  color: red;
+  padding-left: calc($widthTitle + $marginLeft );
 }

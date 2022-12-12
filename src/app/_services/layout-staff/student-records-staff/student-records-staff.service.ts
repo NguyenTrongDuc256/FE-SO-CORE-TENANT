@@ -54,4 +54,55 @@ export class StudentRecordsStaffService {
       `${environment.apiIdentityService}/api/file-user/${id}`
     );
   }
+
+  // 6. danh sách hồ sơ học sinh
+  getListStudentOfRecords(
+    homeroomClassId: string,
+    keyword: string,
+    pageSize: number,
+    pageIndex: number
+  ) {
+    return this.http.get(
+      `${environment.apiIdentityService}/api/file-user/get-list-student?homeroomClassId=${homeroomClassId}&keyword=${keyword}&PageSize=${pageSize}&PageIndex=${pageIndex}`
+    );
+  }
+
+  // 7. upload file danh sách hồ sơ học sinh
+  uploadFileProfileStudent(file) {
+    return this.http.post(`${environment.apiIdentityService}/api/file-user/upload-file-user`, file);
+  }
+
+
+  // 8. Danh sách lớp chủ nhiệm
+  getListClass() {
+    return this.http.get(`${environment.apiStaff}/api/homeroom-class`);
+  }
+
+  // 9. Danh sách phê duyệt học của trường
+  getListStudentOfRecordsApprove(
+    homeroomClassId: string,
+    keyword: string,
+    approveStatus: string,
+    pageSize: number,
+    pageIndex: number) {
+    return this.http.get(`${environment.apiIdentityService}/api/file-user/get-list-file-user?approveStatus=${approveStatus}&homeroomClassId=${homeroomClassId}&keyword=${keyword}&PageSize=${pageSize}&PageIndex=${pageIndex}`);
+  }
+
+
+  // 10. Danh sách dữ liệu result
+  getListResultImportFile(
+    sessionId: string,
+    keyword: string,
+    status: number|'',
+    pageSize: number,
+    pageIndex: number) {
+    return this.http.get(`${environment.apiIdentityService}/api/file-user/get-upload-temp?sessionId=${sessionId}&status=${status}&keyword=${keyword}&PageSize=${pageSize}&PageIndex=${pageIndex}`);
+  }
+
+  // 10. Danh sách dữ liệu result
+  saveListResultImportFile(data) {
+    return this.http.post(`${environment.apiIdentityService}/api/file-user/confirm-upload`, data);
+  }
+
+
 }

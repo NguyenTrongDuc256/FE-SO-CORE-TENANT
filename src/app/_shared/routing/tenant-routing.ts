@@ -1,6 +1,6 @@
-import { SchoolTenantModule } from './../../modules/layout-tenant/school-tenant/school-tenant.module';
 import {Routes} from "@angular/router";
 import { AuthGuard } from "src/app/_core/_helpers/guard/auth.guard";
+import {SettingTenantModule} from "../../modules/layout-tenant/setting-tenant/setting-tenant.module";
 
 export const TenantRouting: Routes = [
   {
@@ -22,7 +22,7 @@ export const TenantRouting: Routes = [
       import('src/app/modules/layout-tenant/module-manager/module-manager.module').then((m) => m.ModuleManagerModule),
   },
   {
-    path: 'menu-manager',
+    path: 'menu',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('src/app/modules/layout-tenant/menu-manager/menu-manager.module').then((m) => m.MenuManagerModule),
@@ -82,9 +82,15 @@ export const TenantRouting: Routes = [
       import('src/app/modules/layout-tenant/parent-tenant/parent-tenant.module').then((m) => m.ParentTenantModule)
   },
   {
-    path: 'school',
+    path: 'setting',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('src/app/modules/layout-tenant/school-tenant/school-tenant.module').then((m) => m.SchoolTenantModule)
+      import('src/app/modules/layout-tenant/setting-tenant/setting-tenant.module').then((m) => m.SettingTenantModule)
+  },
+  {
+    path: 'notification',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('src/app/modules/layout-tenant/notification-tenant/notification-tenant.module').then((m) => m.NotificationTenantModule)
   },
 ]

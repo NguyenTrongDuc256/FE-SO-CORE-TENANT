@@ -1,0 +1,87 @@
+<div class="d-flex flex-row so-tab-vertical shadow-sm h-100" *transloco="let t; scope: 'training'">
+  <ul class="card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 me-3 mb-md-0 w-20">
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'absent' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('absent')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/document.svg" alt="">
+        </span>
+        <span class="title-hover">
+          <span class="fs-14 fw-700 webkit-box-1">{{t('training.absent')}}</span>
+          <!-- <span class="fs-11">Description</span> -->
+        </span>
+      </a>
+    </li>
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'attendance' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('attendance')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/attendance.svg" alt="">
+        </span>
+        <span class="title-hover">
+          <span class="fs-14 fw-700 webkit-box-1">{{t('training.diemDanh')}}</span>
+        </span>
+      </a>
+    </li>
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'comment' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('comment')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/u_edit.svg" alt="">
+        </span>
+        <span class="title-hover">
+          <span class="fs-14 fw-700 webkit-box-1">{{t('training.commentStudent')}}</span>
+        </span>
+      </a>
+    </li>
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'behavior' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+        (click)="activeTab('behavior')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-diem-hanh-vi.svg" alt="">
+        </span>
+        <span class="title-hover">
+          <span class="fs-14 fw-700 webkit-box-1">Chấm điểm hành vi</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+  <div class="card tab-content w-80" id="myTabContent">
+    <ng-container *ngIf="tabActive == 'absent'">
+      <div class="tab-pane fade {{ tabActive == 'absent' ? 'show active' : '' }} h-100" role="tabpanel">
+        <app-absent-list-staff [infomationHomeroomClass]="infomationHomeroomClass"></app-absent-list-staff>
+      </div>
+    </ng-container>
+    <!-- điểm danh-->
+    <ng-container *ngIf="tabActive == 'attendance'">
+      <div class="tab-pane fade {{ tabActive == 'attendance' ? 'show active' : '' }} h-100" role="tabpanel">
+        <app-tab-attendance-staff [homeroomClassId]="homeroomClassId"></app-tab-attendance-staff>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="tabActive == 'comment'">
+      <div class="tab-pane fade {{ tabActive == 'comment' ? 'show active' : '' }} h-100" role="tabpanel">
+        <app-tab-daily-comment-student [infomationHomeroomClass]="infomationHomeroomClass"></app-tab-daily-comment-student>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="tabActive == 'behavior'">
+      <div class="tab-pane fade {{ tabActive == 'behavior' ? 'show active' : '' }} h-100" role="tabpanel">
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == null">
+          <app-tab-scoring-behavior-homeroom-class-staff></app-tab-scoring-behavior-homeroom-class-staff>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'all-history'">
+          <app-history-score-homeroom-class-staff></app-history-score-homeroom-class-staff>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 1 || subtab == 2 ">
+          <app-score-student-in-homeroom-class-staff></app-score-student-in-homeroom-class-staff>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'history' ">
+          <app-history-score-student-in-homeroom-class-staff></app-history-score-student-in-homeroom-class-staff>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'all-score' ">
+         <app-score-many-student-in-homeroom-class-staff></app-score-many-student-in-homeroom-class-staff>
+        </ng-container>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

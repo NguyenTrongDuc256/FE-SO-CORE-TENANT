@@ -110,7 +110,8 @@
             <!--        cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
             <div class="col-md-2 pr-0" >
                 <button class="btn btn-outline-success" (click)="insertFileManager()" *ngIf="type === 1">Thêm Ảnh<i class="fa fa-caret-right "></i></button>
-                <div class="mt-2" style="max-height: 450px;overflow-y: auto" [sortablejs]="filesChoose">
+<!--                <div class="mt-2" style="max-height: 450px;overflow-y: auto" [sortablejs]="filesChoose">-->
+                <div class="mt-2" style="max-height: 450px;overflow-y: auto" >
                     <div class="image-wrapper ui-sortable-handle d-flex justify-content-start" *ngFor="let item of filesChoose, let i = index" style="width: 100%; height: 150px; overflow: hidden;">
                         <div  class="mr-2">
                             <button class="btn btn-sm btn-success">{{i + 1}}</button>

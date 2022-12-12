@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {translate} from "@ngneat/transloco";
 import {MoetCategories} from "src/app/_models/layout-tenant/employee/employee.model";
-import {Validate} from "src/app/_models/layout-tenant/employee/validate.model";
 
 @Component({
   selector: 'app-modal-danh-gia-chuan-nghe-nghiep',
@@ -35,10 +34,9 @@ export class ModalDanhGiaChuanNgheNghiepComponent implements OnInit {
     this.tieuChiDanhGiaNhanSu = this.dataModal.tieuChiDanhGiaNhanSu;
     this.nhomChucVu = this.dataModal.nhomChucVu;
     this.initForm();
-
     if (this.dataModal.duLieuDanhGiaChuanNgheNghiep.length > 0) {
       this.dataModal.duLieuDanhGiaChuanNgheNghiep.forEach((item: any) => {
-        this.themDanhGiaChuanNgheNghiep(item);
+        this.themDanhGiaChuanNgheNghiep(item, true);
       });
     } else {
       this.tieuChiDanhGiaNhanSu.forEach(el => {
@@ -61,15 +59,28 @@ export class ModalDanhGiaChuanNgheNghiepComponent implements OnInit {
     return this.formGroup.get('danhGiaChuanNgheNghiep') as FormArray;
   }
 
-  themDanhGiaChuanNgheNghiep(data): void {
-    const itemForm = this.fb.group({
-      indexOrder: data.indexOrder,
-      code: [data.code],
-      name: [data.name],
-      tuDanhGia: [data.tuDanhGia || ''],
-      capTrenDanhGia: [data.capTrenDanhGia || ''],
-    });
-    this.danhGiaChuanNgheNghiep.push(itemForm);
+  themDanhGiaChuanNgheNghiep(data, isDuLieuDanhGiaChuanNgheNghiep: boolean = false): void {
+    if (isDuLieuDanhGiaChuanNgheNghiep) {
+      let itemTieuChi = this.tieuChiDanhGiaNhanSu.find(el => el.code == data.tieuChi);
+      const itemForm = this.fb.group({
+        indexOrder: [itemTieuChi.indexOrder],
+        tieuChi: [data.tieuChi],
+        name: [itemTieuChi.name],
+        tuDanhGia: [data.tuDanhGia || ''],
+        capTrenDanhGia: [data.capTrenDanhGia || ''],
+      });
+      this.danhGiaChuanNgheNghiep.push(itemForm);
+
+    } else {
+      const itemForm = this.fb.group({
+        indexOrder: [data.indexOrder],
+        tieuChi: [data.code],
+        name: [data.name],
+        tuDanhGia: [data.tuDanhGia || ''],
+        capTrenDanhGia: [data.capTrenDanhGia || ''],
+      });
+      this.danhGiaChuanNgheNghiep.push(itemForm);
+    }
   }
 
   save(dataForm: any): void {

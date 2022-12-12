@@ -30,4 +30,18 @@ export class SchoolService {
       dataUpdate
     );
   }
+
+  // 5. danh sách khối
+  getListGrade(id: string, keyword: string) {
+    return this.http.get(
+      `${environment.apiUrl2}/api/${this.tenantId}/school/${id}/grade?keyWord=${keyword}`
+    );
+  }
+
+  // 6. danh sách điểm trường
+  danhSachDiemTruong(schoolId: string, keyword: string) {
+    return this.http.get(
+      `${environment.apiUrl2}/api/${this.tenantId}/school/${schoolId}/location?keyWord=${keyword}`
+    );
+  }
 }

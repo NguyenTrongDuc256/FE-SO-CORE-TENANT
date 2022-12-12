@@ -16,6 +16,8 @@ import { UpdateUsernameCodeTenantComponent } from './modals/update-username-code
 import { StudentDetailTenantComponent } from './components/student-detail-tenant/student-detail-tenant.component';
 import { TabStudentPersonInfoTenantComponent } from './tabs/tab-student-person-info-tenant/tab-student-person-info-tenant.component';
 import { UpdateStudentTenantComponent } from './components/update-student-tenant/update-student-tenant.component';
+import { ModalImportStudentTenantComponent } from './modals/modal-import-student-tenant/modal-import-student-tenant.component';
+import { ResultImportFileStudentTenantComponent } from './components/result-import-file-student-tenant/result-import-file-student-tenant.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { UpdateStudentTenantComponent } from './components/update-student-tenant
     StudentDetailTenantComponent,
     TabStudentPersonInfoTenantComponent,
     UpdateStudentTenantComponent,
-    
+    ModalImportStudentTenantComponent,
+    ResultImportFileStudentTenantComponent,
+
   ],
   imports: [
     CommonModule,

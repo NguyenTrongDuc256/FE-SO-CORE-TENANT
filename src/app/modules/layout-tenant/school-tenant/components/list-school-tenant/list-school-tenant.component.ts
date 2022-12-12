@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { School } from 'src/app/_models/layout-tenant/school/school.model';
-import { SchoolService } from 'src/app/_services/layout-tenant/school/school.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { DATA_PERMISSION, PAGE_INDEX_DEFAULT, PAGE_SIZE_DEFAULT, PAGE_SIZE_OPTIONS_DEFAULT } from 'src/app/_shared/utils/constant';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {School} from 'src/app/_models/layout-tenant/school/school.model';
+import {SchoolService} from 'src/app/_services/layout-tenant/school/school.service';
+import {ShowMessageService} from 'src/app/_services/show-message.service';
+import {
+  DATA_PERMISSION,
+  PAGE_INDEX_DEFAULT,
+  PAGE_SIZE_DEFAULT,
+  PAGE_SIZE_OPTIONS_DEFAULT
+} from 'src/app/_shared/utils/constant';
+import {GeneralService} from "../../../../../_services/general.service";
 
 @Component({
   selector: 'app-list-school-tenant',
@@ -20,11 +26,15 @@ export class ListSchoolTenantComponent implements OnInit {
   sizeOption = PAGE_SIZE_OPTIONS_DEFAULT; // Thay đổi pageSize
   isLoading = false;
   permission = DATA_PERMISSION;
+  oldPageIndex = this.pageIndex;
+
   constructor(
     private schoolService: SchoolService,
     private showMessage: ShowMessageService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private generalService: GeneralService
+  ) {
+  }
 
   ngOnInit(): void {
     this.getList();
@@ -36,16 +46,13 @@ export class ListSchoolTenantComponent implements OnInit {
       .getList(this.keyword, this.pageIndex, this.pageSize)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.arrList = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.arrList = res.data.data;
+          this.collectionSize = res.data?.totalItems;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
@@ -55,8 +62,7 @@ export class ListSchoolTenantComponent implements OnInit {
   }
 
   viewList(id: string) {
-    // xem danh sách điểm trường
-    return;
+    this.router.navigate([`tenant/school/detail/${id}/diem-truong`], {queryParams: {tab: 5}});
   }
 
   sendNoti(id: string) {
@@ -69,15 +75,28 @@ export class ListSchoolTenantComponent implements OnInit {
     return;
   }
 
-  search(event: any, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getList();
+  search(event, value: string) {
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
   }
 
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.oldPageIndex = this.pageIndex;
+    this.keyword = value.trim();
+    this.getList();
+  }
+
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getList();

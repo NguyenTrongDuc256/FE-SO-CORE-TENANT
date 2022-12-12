@@ -1,0 +1,53 @@
+<div class="card card-flush  p-0" *transloco="let t; scope: 'behavior'">
+  <div class="card-header p-0">
+    <h3 class="card-title fs-16 fw-600">{{t('behavior.weekGradingCourse')}}</h3>
+    <div class="card-toolbar">
+      <div class="so-input-search ms-4 mb-3">
+        <input #searchInput type="text" name="input-search" placeholder="Tìm kiếm"
+          (keyup.enter)="search(searchInput.value)">
+        <img src="assets/images/svg/search.svg" class="cursor-pointer" alt="icon" (click)="search(searchInput.value)" />
+      </div>
+    </div>
+  </div>
+  <div *ngIf="dataItem" class=" card-body p-0 pt-0 behavior-lock">
+    <!--  -->
+    <div class="table-responsive">
+      <table class="table table-global align-middle">
+        <thead>
+          <tr class="fs-14 fw-700 border-bottom border-gray-200">
+            <th class="text-center" style="width: 11%;">{{t('STT')}}</th>
+            <th style="flex-grow: 1;">{{t('behavior.week')}}</th>
+            <th style="width: 20%;">{{t('behavior.fromDate')}}</th>
+            <th style="width: 20%;">{{t('behavior.toDate')}}</th>
+            <th style="width: 17%;">{{t('action')}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fs-13 fw-600" *ngFor="let item of dataItem; let i = index">
+            <td class="text-center">{{i+1}}</td>
+            <td>Tuần/ Week {{item.week}}( {{ (item.startDate | formatTime).substring(0, 5)}} - {{ (item.endDate |
+              formatTime).substring(0, 5)}} ) </td>
+            <td>{{ item.startDate | formatTime}}</td>
+            <td>{{ item.endDate | formatTime}}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <nz-switch [(ngModel)]="indexWeek[item.week] " (ngModelChange)="changeIslocked(item)"></nz-switch><span
+                  [ngClass]="isLocked ? 'text-color-picton-blue' : 'text-color-mercury' "
+                  class="ms-3">{{indexWeek[item.week] ? t('behavior.openGrading') : t('behavior.turnOffGrading')}}</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template ngxPermissionsOnly="{{ permission.behavior_manager }}">
+      <div class="behavior-footer d-flex algin-items-center justify-content-center">
+        <button class="so-btn so-btn-primary so-btn-primary--small mb-2 mt-2" (click)="updateLockGradingWeeks()"
+          name="btn-update">
+          {{t('btnAction.save')}}
+        </button>
+      </div>
+    </ng-template>
+    <!--  -->
+  </div>
+</div>

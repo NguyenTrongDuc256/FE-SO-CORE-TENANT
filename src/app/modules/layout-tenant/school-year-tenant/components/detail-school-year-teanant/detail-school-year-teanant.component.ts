@@ -59,7 +59,7 @@ export class DetailSchoolYearTenantComponent implements OnInit {
 
   getDataRelationship() {
     this.isLoading = true;
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -68,8 +68,10 @@ export class DetailSchoolYearTenantComponent implements OnInit {
     this.schoolYearService.getDataRelationship(this.tenantId).subscribe((res: any) => {
       this.openModalUpdate(this.dataDetailSchoolYear, res);
       this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     }, (_err: any) => {
       this.isLoading = false;
+      clearTimeout(timeoutCallAPI);
     });
   }
 

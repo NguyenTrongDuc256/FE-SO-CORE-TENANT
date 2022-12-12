@@ -1,71 +1,8 @@
-.custom-search {
-  .action-button {
-    background: #f5f8fa;
-    border-radius: 8px;
-    color: #556ee6;
-    height: 4rem;
-    margin-right: 1rem;
-    padding: 5px 15px;
-    cursor: pointer;
-  }
-  .search-select-option-school {
-    width: 18rem;
-    margin-right: 1rem;
-    select{
-      height: 4rem;
-    }
-  }
-  .search-select-option {
-    width: 16rem;
-    margin-right: 1rem;
-    select{
-      height: 4rem;
-    }
-  }
-
-  .search-input {
-    min-width: 20rem;
-    position: relative;
-    input {
-      height: 40px;
-      padding-right: 40px;
-    }
-    .search-icon {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-    }
-  }
-
-  .add-action {
-    .add-icon {
-      width: 10px;
-      height: 10px;
-      margin-right: 5px;
-    }
-    margin-left: 1rem;
-    height: 40px;
-    background: #556ee6;
-    border-radius: 5px;
-    padding: 5px 10px;
-    font-weight: 500;
-    font-size: 1.1rem;
-    line-height: 18px;
-    color: #ffffff;
-    cursor: pointer;
-  }
-}
-
-
 .color-495057 {
   color: #495057;
 }
 
 .table-responsive {
-  padding-bottom: 15px;
   thead {
     tr {
       th {

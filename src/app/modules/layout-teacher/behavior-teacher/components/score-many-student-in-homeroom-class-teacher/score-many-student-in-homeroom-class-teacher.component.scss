@@ -1,0 +1,22 @@
+.guide-action {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--bs-white);
+  &::after {
+    border-radius: 50%;
+  }
+}
+
+.w-50px {
+  width: 50px;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.table td {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}

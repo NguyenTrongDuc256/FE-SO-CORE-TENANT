@@ -18,19 +18,9 @@ export class AuthService implements OnDestroy {
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
   // public fields
-  currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
-  currentUserSubject: BehaviorSubject<UserType>;
   public currentPermissions: Observable<any>;
   isLoadingSubject: BehaviorSubject<boolean>;
-
-  get currentUserValue(): UserType {
-    return this.currentUserSubject.value;
-  }
-
-  set currentUserValue(user: UserType) {
-    this.currentUserSubject.next(user);
-  }
 
   constructor(
     private authHttpService: AuthHTTPService,
@@ -39,13 +29,6 @@ export class AuthService implements OnDestroy {
     private cookieService: CookieService
   ) {
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
-    this.currentUserSubject = new BehaviorSubject<UserType>(JSON.parse(localStorage.getItem('User')));
-    this.currentUser$ = this.currentUserSubject.asObservable();
-    let currentPermission = localStorage.getItem('currentUnit')
-      ? JSON.parse(localStorage.getItem('currentUnit')).permissions
-      : [];
-    const currentUserElement = new BehaviorSubject<any>(currentPermission);
-    this.currentPermissions = currentUserElement.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
@@ -57,6 +40,8 @@ export class AuthService implements OnDestroy {
           let tokenLoginData = JSON.parse(
             this.decodeTokenLogin(res.data.token)
           );
+          console.log(tokenLoginData);
+
           this.setLocalStorageToken(tokenLoginData);
           localStorage.setItem('Token', res.data.token);
           localStorage.setItem('userIdMd5', res.data.userIdMd5);
@@ -84,10 +69,6 @@ export class AuthService implements OnDestroy {
               localStorage.setItem('currentLayout', tokenLoginData.Layouts[0]);
               localStorage.setItem('currentUnit', JSON.stringify(currentUnit));
             }
-            const currentUserElement = new BehaviorSubject<any>(
-              JSON.parse(localStorage.getItem('currentUnit')).permissions
-            );
-            this.currentPermissions = currentUserElement.asObservable();
             this.permissionsService.loadPermissions(
               JSON.parse(localStorage.getItem('currentUnit')).permissions,
               (permissionName, permissionsObject) => {
@@ -159,8 +140,8 @@ export class AuthService implements OnDestroy {
       .pipe(finalize(() => this.isLoadingSubject.next(false)));
   }
 
-  getDataConfig(){
-    return this.authHttpService.getDataConfig();
+  getDataConfig(layout: string){
+    return this.authHttpService.getDataConfig(layout);
   }
 
   ngOnDestroy() {

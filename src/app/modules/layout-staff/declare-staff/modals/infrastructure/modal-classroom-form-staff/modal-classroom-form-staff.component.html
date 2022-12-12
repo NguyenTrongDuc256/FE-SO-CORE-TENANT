@@ -1,0 +1,198 @@
+<div *transloco="let t; scope: 'infrastructure'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal()"
+            [hidden]="!dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="card-dialog row" [formGroup]="infoForm">
+      <div class="col-6 p-right-15 mb-6">
+        <div class="d-flex align-items-center  flex-space-between">
+          <span class="fs-14 fw-700 label-input">{{ t('infrastructure.classroomName') }}<span
+            class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('infrastructure.classroomName') }}"
+                 name="input-name" type="text" formControlName="Name"
+                 [class.is-invalid]="infoForm.get('Name').invalid && (infoForm.get('Name').dirty || infoForm.get('Name').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.Name.hasOwnProperty('message') && infoForm.get('Name').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.Name">
+          <app-field-error-display
+            [displayError]="infoForm.get('Name').hasError(err.type) && (infoForm.get('Name').dirty || infoForm.get('Name').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.Name">
+          <app-field-error-display [errorServer]="validationMessagesServer?.Name"
+                                   [displayErrorServer]="!(infoForm.get('Name').dirty || infoForm.get('Name').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input m-left-10">{{ t('infrastructure.classroomCode') }}<span
+            class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('infrastructure.classroomCode') }}"
+                 type="text" formControlName="Code" name="input-Code"
+                 [class.is-invalid]="infoForm.get('Code').invalid && (infoForm.get('Code').dirty || infoForm.get('Code').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.Code.hasOwnProperty('message')">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.Code">
+          <app-field-error-display
+            [displayError]="infoForm.get('Code').hasError(err.type) && (infoForm.get('Code').dirty || infoForm.get('Code').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.Code">
+          <app-field-error-display [errorServer]="validationMessagesServer?.Code"
+                                   [displayErrorServer]="validationMessagesServer?.Code.hasOwnProperty('message')">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-right-15 mb-6">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input">{{ t('infrastructure.classroomType') }}<span
+            class="text-danger">*</span></span>
+          <select class="so-form-control so-select input-text" name="select-classroomType" id="classroomType"
+                  formControlName="IsRoom"
+                  [class.is-invalid]="infoForm.get('IsRoom').invalid && (infoForm.get('IsRoom').dirty || infoForm.get('IsRoom').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.IsRoom.hasOwnProperty('message') && infoForm.get('IsRoom').invalid">
+            <option value="" [selected]="(infoForm.get('IsActive').value != null) ? false : true">{{
+              t('infrastructure.classroomType') }}</option>
+            <option value="0">{{ t('infrastructure.functionRoom') }}</option>
+            <option value="1">{{ t('infrastructure.classroom') }}</option>
+          </select>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.IsRoom">
+          <app-field-error-display
+            [displayError]="infoForm.get('IsRoom').hasError(err.type) && (infoForm.get('IsRoom').dirty || infoForm.get('IsRoom').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.IsRoom">
+          <app-field-error-display [errorServer]="validationMessagesServer?.IsRoom"
+                                   [displayErrorServer]="!(infoForm.get('IsRoom').dirty || infoForm.get('IsRoom').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input m-left-10">{{ t('infrastructure.capacity') }}<span
+            class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('infrastructure.capacity') }}"
+                 type="number" onlyNumber min="0" formControlName="NumberOfSeats" name="input-NumberOfSeats"
+                 [class.is-invalid]="infoForm.get('NumberOfSeats').invalid && (infoForm.get('NumberOfSeats').dirty || infoForm.get('NumberOfSeats').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.NumberOfSeats.hasOwnProperty('message') && infoForm.get('NumberOfSeats').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.NumberOfSeats">
+          <app-field-error-display
+            [displayError]="infoForm.get('NumberOfSeats').hasError(err.type) && (infoForm.get('NumberOfSeats').dirty || infoForm.get('NumberOfSeats').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.NumberOfSeats">
+          <app-field-error-display [errorServer]="validationMessagesServer?.NumberOfSeats"
+                                   [displayErrorServer]="!(infoForm.get('NumberOfSeats').dirty || infoForm.get('NumberOfSeats').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-right-15 mb-6">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input">{{ t('infrastructure.buildingName') }}
+            <span class="text-danger">*</span></span>
+          <select [attr.disabled]="(isBuilding == true) ? true : null" class="so-form-control so-select input-text"
+                  [class]="(isBuilding == true) ? 'disabled' : ''" name="select-classroomBuildingId"
+                  id="ClassroomBuildingId"
+                  formControlName="ClassroomBuildingId" (change)="provinceChange()"
+                  [class.is-invalid]="infoForm.get('ClassroomBuildingId').invalid && (infoForm.get('ClassroomBuildingId').dirty || infoForm.get('ClassroomBuildingId').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.ClassroomBuildingId.hasOwnProperty('message') && infoForm.get('ClassroomBuildingId').invalid">
+            <option value="" [selected]="(infoForm.get('ClassroomBuildingId').value != null) ? false : true">
+              {{t('infrastructure.buildingName') }}</option>
+            <ng-container *ngFor="let item of buildingFilter">
+              <option value="{{item.id}}">{{ item.Name }}</option>
+            </ng-container>
+          </select>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.ClassroomBuildingId">
+          <app-field-error-display
+            [displayError]="infoForm.get('ClassroomBuildingId').hasError(err.type) && (infoForm.get('ClassroomBuildingId').dirty || infoForm.get('ClassroomBuildingId').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.ClassroomBuildingId">
+          <app-field-error-display [errorServer]="validationMessagesServer?.ClassroomBuildingId"
+                                   [displayErrorServer]="!(infoForm.get('ClassroomBuildingId').dirty || infoForm.get('ClassroomBuildingId').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div class="col-6 p-left-15">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input m-left-10">{{ t('infrastructure.status') }}
+            <span class="text-danger">*</span></span>
+          <select class="so-form-control so-select input-text" name="select-isActive" id="isActive"
+                  formControlName="IsActive"
+                  [class.is-invalid]="infoForm.get('IsActive').invalid && (infoForm.get('IsActive').dirty || infoForm.get('IsActive').touched)"
+                  [class.is-invalid-server]="validationMessagesServer?.IsActive.hasOwnProperty('message') && infoForm.get('IsActive').invalid">
+            <option value="" [selected]="(infoForm.get('IsActive').value != null) ? false : true">{{
+              t('infrastructure.status') }}</option>
+            <option value="1">{{ t('infrastructure.using') }}</option>
+            <option value="0">{{ t('infrastructure.stopUsing') }}</option>
+          </select>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.IsActive">
+          <app-field-error-display
+            [displayError]="infoForm.get('IsActive').hasError(err.type) && (infoForm.get('IsActive').dirty || infoForm.get('IsActive').touched)"
+            errorMsg="{{ t(err.message) }}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.IsActive">
+          <app-field-error-display [errorServer]="validationMessagesServer?.IsActive"
+                                   [displayErrorServer]="!(infoForm.get('IsActive').dirty || infoForm.get('IsActive').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+
+
+      <div class="col-6 p-right-15 mb-6">
+        <div class="d-flex align-items-center flex-space-between ">
+          <span class="fs-14 fw-700 label-input">{{ t('infrastructure.floor') }}<span
+            class="text-danger">*</span></span>
+          <input class="so-form-control form-control input-text" placeholder="{{ t('infrastructure.floor') }}"
+                 type="number" formControlName="Floor" onlyNumber min="0" name="input-Floor"
+                 [class.is-invalid]="infoForm.get('Floor').invalid && (infoForm.get('Floor').dirty || infoForm.get('Floor').touched)"
+                 [class.is-invalid-server]="validationMessagesServer?.Floor.hasOwnProperty('message') && infoForm.get('Floor').invalid">
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngFor="let err of validation_messages.Floor">
+          <app-field-error-display
+            [displayError]="infoForm.get('Floor').hasError(err.type) && (infoForm.get('Floor').dirty || infoForm.get('Floor').touched)"
+            errorMsg="{{t(err.message,{name: ismaxBuilding})}}">
+          </app-field-error-display>
+        </div>
+        <div class="text-danger mt-2 pl-error" *ngIf="validationMessagesServer?.Floor">
+          <app-field-error-display [errorServer]="validationMessagesServer?.Floor"
+                                   [displayErrorServer]="!(infoForm.get('Floor').dirty || infoForm.get('Floor').touched)">
+          </app-field-error-display>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <div *ngIf="dataModal.nameForm == 'create'" class="checkbox-create-data d-flex m-right-20">
+      <label nz-checkbox [(ngModel)]="isChecked">{{ t('keepGeneratingData') }}</label>
+    </div>
+    <button name="btnCancel" type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+            (click)="closeModal()">{{t('btnAction.cancel')}}</button>
+    <button name="btnSubmit" type="button" class="so-btn so-btn-primary so-btn-primary--small"
+            (click)="onSubmit(infoForm.value)">{{t('btnAction.save')}}</button>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

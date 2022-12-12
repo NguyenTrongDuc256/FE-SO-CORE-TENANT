@@ -7,19 +7,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Subscriber, BehaviorSubject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
+import { GeneralService } from 'src/app/_services/general.service';
 @Component({
   selector: 'app-verify-account',
   templateUrl: './verify-account.component.html',
   styleUrls: ['./verify-account.component.scss', '../../helper-auth.scss'],
 })
 export class VerifyAccountComponent implements OnInit {
-  isLoading$: Observable<boolean>; // loading btn submit
   accountSelected: string = '';
   isVerifyAccount = false;
   userName = '';
   arrAccount = [];
   isLoading = false; // loading overlay
-  isLoadingSubject = new BehaviorSubject<boolean>(false);
   METHOD_PHONE = METHOD_PHONE;
   METHOD_EMAIL = METHOD_EMAIL;
   method: number;
@@ -29,9 +28,9 @@ export class VerifyAccountComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private showMessage: ShowMessageService,
-    private listenFirebaseService: ListenFirebaseService
+    private listenFirebaseService: ListenFirebaseService,
+    private generalService: GeneralService,
   ) {
-    this.isLoading$ = this.authService.isLoading$;
   }
 
   ngOnInit(): void {
@@ -57,27 +56,25 @@ export class VerifyAccountComponent implements OnInit {
     const domain = window.location.href.substring(start, end);
     this.isLoading = true;
     this.authService.verifyUser(this.userName.trim(), domain).subscribe((res: any) => {
-      if (res.status == 1) {
-        this.isVerifyAccount = true;
-        this.arrAccount = res.data;
-        this.arrAccount.forEach(item => {
-          item['method'] = item.email !='' ? METHOD_EMAIL : METHOD_PHONE;
-        })
-        res.data && res.data.length > 0 ? this.accountSelected = res.data[0].id : this.accountSelected = null;
-        const md5 = new Md5();
-        let userId = md5.appendStr(this.accountSelected).end();
-        localStorage.setItem('userAuthId', JSON.stringify(userId));
-        this.router.navigate([], {
-          relativeTo: this.activatedRoute,
-          queryParams: { userName: this.userName },
-          // queryParamsHandling: 'merge'
-        });
-      } else {
-        this.isVerifyAccount = false;
-        this.showMessage.error(res.msg);
-      }
+      this.isVerifyAccount = true;
+      this.arrAccount = res.data;
+      this.arrAccount.forEach(item => {
+        item['method'] = item.email !='' ? METHOD_EMAIL : METHOD_PHONE;
+      })
+      res.data && res.data.length > 0 ? this.accountSelected = res.data[0].id : this.accountSelected = null;
+      const md5 = new Md5();
+      let userId = md5.appendStr(this.accountSelected).end();
+      localStorage.setItem('userAuthId', JSON.stringify(userId));
+      this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: { userName: this.userName },
+        // queryParamsHandling: 'merge'
+      });
       this.isLoading = false;
-      this.authService.isLoadingSubject.next(false);
+    }, (err) => {
+      this.isLoading = false;
+      this.isVerifyAccount = false;
+      this.generalService.showToastMessageError400(err);
     });
   }
 
@@ -95,12 +92,12 @@ export class VerifyAccountComponent implements OnInit {
     localStorage.setItem('userAuthId', JSON.stringify(userId));
     this.isLoading = true;
     this.listenFireBase('send-verification-code', 'forgot-password')
-    this.authService.sendVerifyCode(dataInputUser).subscribe((res: any) => {
-      if (res.status == 0) {
-        this.showMessage.error(res.msg);
-      }
-      this.isLoading = false;
-    });
+    this.authService.sendVerifyCode(dataInputUser).subscribe(
+      (res: any) => {},
+      (err) => {
+        this.isLoading = false;
+        this.generalService.showToastMessageError400(err);
+      });
   }
 
   listenFireBase(action: string, module: string) {

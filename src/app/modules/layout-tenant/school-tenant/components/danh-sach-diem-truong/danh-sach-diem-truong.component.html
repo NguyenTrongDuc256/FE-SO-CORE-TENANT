@@ -1,115 +1,116 @@
-<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'school'">
+
+<div class="card card-flush p-0 h-full" *transloco="let t; scope: 'school'">
   <!-- start header -->
-  <div class="d-flex algin-items-center justify-content-between flex-wrap">
-    <h3 class="title-compo-global mb-3">{{t('school.danhSachDiemTruong')}}</h3>
-    <div class="filter d-flex flex-wrap algin-items-center">
-      <div class="so-input-search mx-4 mb-3">
-        <nz-input-group [nzSuffix]="suffixIconSearch">
-          <input type="text" name="input-search" nz-input placeholder="{{t('school.search')}}" #searchInput
-            (keydown)="search($event, searchInput.value)" />
-        </nz-input-group>
-        <ng-template #suffixIconSearch>
-          <img src="assets/images/svg/search.svg" alt="" nzType="search">
+  <div class="card-header p-0">
+    <h3 class="card-title fs-18 fw-700">{{t('school.danhSachDiemTruong2')}}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="so-input-search me-4 mb-3">
+          <input class="fw-600 text-color-river-bed" type="text" placeholder="{{ t('school.search') }}" #searchInput name="input-search"
+          (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="create()" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="">
+            {{t('btnAction.add')}}
+          </button>
         </ng-template>
       </div>
-      <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
-        <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="create()" name="btn-create">
-          <img src="assets/images/svg/add.svg" alt="">
-          {{t('btnAction.add')}}
-        </button>
-      </ng-template>
     </div>
   </div>
-  <!-- end header -->
 
-  <!-- content -->
-  <div class="mt-12">
-    <table class="table-global w-full mb-4">
-      <caption></caption>
-      <thead>
-        <th style="width: 4%;" class="text-header-table">
-          {{t('STT')}}</th>
-        <th style="width: 18%;" class="text-header-table">{{t('school.diemTruong')}}</th>
-        <th style="width: 10%;" class="text-header-table">{{t('code')}} </th>
-        <th style="width: 10%;" class="text-header-table">{{t('school.dienTich')}} </th>
-        <th style="width: 10%;" class="text-header-table">{{t('school.khoangCach')}} </th>
-        <th style="width: 15%;" class="text-header-table">{{t('email')}} </th>
-        <th style="width: 10%;" class="text-header-table">{{t('phone')}} </th>
-        <th style="width: 10%;" class="text-header-table">{{t('status')}} </th>
-        <th style="width: 18%;" class="text-header-table">{{t('school.district')}} </th>
-        <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
-          <th style="width: 10%;" class="text-header-table text-center"> {{t('action')}} </th>
-        </ng-template>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let item of arrList; let i=index">
-          <tr>
-            <td class="text-content-table">
-              {{i + 1}}
-            </td>
-            <td class="text-content-table">
-              <span class="text-link fw-500">
-                {{item.TenDiemTruong}}
-              </span>
-            </td>
-            <td>
-              {{item.MaDiemTruong}}
-            </td>
-            <td>
-              {{item.DienTich}}
-            </td>
-            <td>
-              {{item.KhoangCach}}
-            </td>
-            <td>
-              {{item.Email}}
-            </td>
-            <td>
-              {{item.DienThoai}}
-            </td>
-            <td>
-              <span class="badge so-badge so-badge-status so-badge-status-{{item?.TrangThai}}">
-                {{mapNameStatus(item?.TrangThai)}}
-              </span>
-            </td>
-            <td>
-              {{item.TenQuanHuyen}}
-            </td>
+  <!-- start content -->
+  <div class="card-body py-5 pt-0 p-0">
+    <div class="table-responsive">
+      <table class="table w-full table-row-bordered table-row-gray-300 mb-4">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 border-bottom border-gray-300 text-color-river-bed">
+            <th style="width: 4%;" class="text-center">
+              {{t('STT')}}</th>
+            <th style="width: 18%;">{{t('school.diemTruong')}}</th>
+            <th style="width: 10%;">{{t('code')}} </th>
+            <th style="width: 10%;">{{t('school.dienTich')}} </th>
+            <th style="width: 10%;">{{t('school.khoangCach')}} </th>
+            <th style="width: 15%;">{{t('email')}} </th>
+            <th style="width: 10%;">{{t('phone')}} </th>
+            <th style="width: 10%;">{{t('status')}} </th>
+            <th style="width: 18%;">{{t('school.district')}} </th>
             <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
-              <td class="text-center">
-                <div class="d-flex justify-content-center">
-                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
-                    class="so-btn-open-drop-menu so-btn-open-drop-menu-no-border d-flex align-items-center justify-content-center" name="btn-open-menu">
-                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
-                  </span>
-                </div>
-                <nz-dropdown-menu #menu="nzDropdownMenu" class="so-drop-menu">
-                  <ul nz-menu>
-                    <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
-                      <li nz-menu-item (click)="update(item.id, item.MaDiemTruong, item)"
-                        class="d-flex align-items-center so-item-drop-menu" name="btn-update">
-                        <img src="assets/images/svg/write.svg" alt="">
-                        {{t('btnAction.update')}}
-                      </li>
-                    </ng-template>
-                    <li nz-menu-item (click)="delete(item.MaDiemTruong, item.TenDiemTruong)"
-                      class="d-flex align-items-center so-item-drop-menu text-danger" name="btn-delete">
-                      <img src="assets/images/svg/delete6.svg" alt="">
-                      {{t('btnAction.delete')}}
-                    </li>
-                  </ul>
-                </nz-dropdown-menu>
-              </td>
+              <th style="width: 10%;" class="text-center"> {{t('action')}} </th>
             </ng-template>
           </tr>
-        </ng-container>
-        <tr *ngIf="arrList?.length == 0 || !arrList">
-          <td class="text-no-data" colspan="10">{{t('noData')}}</td>
-        </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i=index">
+            <tr class="fs-13 fw-600 text-color-river-bed">
+              <td class="text-center">
+                {{i + 1}}
+              </td>
+              <td>
+                <span class="fw-600">
+                  {{item.TenDiemTruong}}
+                </span>
+              </td>
+              <td>
+                {{item.MaDiemTruong}}
+              </td>
+              <td>
+                {{item.DienTich}}
+              </td>
+              <td>
+                {{item.KhoangCach}}
+              </td>
+              <td>
+                {{item.Email}}
+              </td>
+              <td>
+                {{item.DienThoai}}
+              </td>
+              <td>
+                {{t(mapNameStatus(item?.TrangThai))}}
+              </td>
+              <td>
+                {{item.TenQuanHuyen}}
+              </td>
+              <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+                <td class="text-center">
+                  <div class="d-flex justify-content-center">
+                    <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click"
+                      class="so-action" name="btn-open-menu">
+                      <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" class="so-action--icon-opend">
+                    </span>
+                  </div>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <ng-template ngxPermissionsOnly="{{ permission.school_manager }}">
+                        <li nz-menu-item (click)="update(item.id, item.MaDiemTruong, item)"
+                          class="fs-13 fw-600 text-color-river-bed" name="btn-update">
+                          <img src="assets/images/svg/write.svg" alt="" class="so-action--icon">
+                          {{t('btnAction.update')}}
+                        </li>
+                      </ng-template>
+                      <li nz-menu-item (click)="delete(item.MaDiemTruong, item.TenDiemTruong)"
+                        class="fs-13 fw-600 text-danger" name="btn-delete">
+                        <img src="assets/images/svg/delete6.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+              </ng-template>
+            </tr>
+          </ng-container>
+          <tr *ngIf="arrList?.length == 0 || !arrList">
+            <td class="text-no-data" colspan="10">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <!-- end content -->
+
 </div>
 
 <div class="spinner" *ngIf="isLoading">

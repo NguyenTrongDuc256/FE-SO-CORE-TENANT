@@ -9,9 +9,9 @@
   <div class="row" *ngFor="let itemList of dataPermission; let index = index"
     [ngClass]="{'border-bt': dataPermission.length - 1 != index}">
     <div class="col-md-3 pb-3 pt-3" *ngFor="let item of itemList">
-      <span class="fs-16 fw-700 color-50A5F1">
+      <span class="fs-14 fw-700 color-50A5F1">
         {{ item.name }}
-        <span class="fw-500 permissin-code">({{ item.code }})</span>
+        <span class="fs-13 fw-500 permissin-code">({{ item.code }})</span>
       </span>
     </div>
   </div>

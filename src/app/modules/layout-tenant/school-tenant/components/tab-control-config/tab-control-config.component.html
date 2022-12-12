@@ -1,19 +1,35 @@
-<div class="bg-white p-8 h-full border-radius-bg" *transloco="let t; scope: 'school'">
-  <nz-tabset (nzSelectedIndexChange)="changeTab($event)" [nzSelectedIndex]="tabActive" class="so-tab-custom">
-    <nz-tab [nzTitle]="tab1">
-      <ng-template #tab1>
-        <img src="assets/images/svg/icon-note-book-blue2.svg" alt="">
-        {{t('school.managerSubject')}}
-      </ng-template>
-      <app-tab-subject-school-tenant></app-tab-subject-school-tenant>
-    </nz-tab>
-    <nz-tab [nzTitle]="tab2">
-      <ng-template #tab2>
-        <img src="assets/images/svg/icon-grade-blue.svg" alt="">
-        {{t('school.managerGrade')}}
-      </ng-template>
-      <app-tab-grade-school-tenant></app-tab-grade-school-tenant>
-    </nz-tab>
-  </nz-tabset>
+<div class="card so-tab-horizontal h-100" *transloco="let t; scope: 'school'">
+  <div class="card-header card-header-stretch justify-content-end p-0">
+      <div class="card-toolbar">
+          <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+              <li class="nav-item">
+                  <a class="nav-link fs-14 fw-600 {{ tabActive == +listTab.SUBJECT ? 'active' : '' }}" data-bs-toggle="tab" (click)="activeTab(listTab.SUBJECT)">
+                    <img src="assets/images/svg/icon-note-book-blue2.svg" alt="" class="me-2">
+                    {{t('school.managerSubject')}}
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link fs-14 fw-600 {{ tabActive == +listTab.GRADE ? 'active' : '' }}" data-bs-toggle="tab" (click)="activeTab(listTab.GRADE)">
+                    <img src="assets/images/svg/icon-grade-blue.svg" alt="" class="me-2">
+                    {{t('school.managerGrade')}}
+                  </a>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div class="card-body p-0">
+      <div class="tab-content" id="myTabContent">
+        <ng-container *ngIf="tabActive == +listTab.SUBJECT">
+            <div class="tab-pane fade {{ tabActive == +listTab.SUBJECT ? 'show active' : '' }}" role="tabpanel">
+              <app-tab-subject-school-tenant></app-tab-subject-school-tenant>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="tabActive == +listTab.GRADE">
+            <div class="tab-pane fade {{ tabActive == +listTab.GRADE ? 'show active' : '' }}" role="tabpanel">
+              <app-tab-grade-school-tenant></app-tab-grade-school-tenant>
+            </div>
+        </ng-container>
+      </div>
+  </div>
 </div>
 

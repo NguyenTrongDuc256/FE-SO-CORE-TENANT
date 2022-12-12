@@ -1,0 +1,58 @@
+{
+  "buildingManager": "Quản lý Tòa nhà/Giảng đường",
+  "order": "STT",
+  "buildingName": "Tên toà nhà",
+  "buildingCode": "Mã toà nhà",
+  "numberOfFloor":"Số tầng",
+  "status": "Trạng thái",
+  "stopUsing": "Ngưng sử dụng",
+  "using": "Đang sử dụng",
+  "action": "Hành động",
+  "search": "Tìm kiếm",
+  "addBuilding": "Thêm mới toà nhà",
+  "updateBuilding": "Chỉnh sửa toà nhà",
+  "deleteBuilding": "Xoá toàn nhà",
+  "keepGeneratingData": "Tiếp tục tạo dữ liệu",
+  "validators": {
+    "name": {
+      "required": "Bạn chưa nhập tên môn học",
+      "maxlength": "Tên toàn nhà không được có nhiều hơn 255 kí tự",
+      "pattern": "Tên toàn nhà không hợp lệ"
+    },
+    "code": {
+      "required": "Bạn chưa nhập mã môn học",
+      "maxlength": "Mã toàn nhà không được có nhiều hơn 50 kí tự",
+      "maxlengthclass": "Mã phòng học không được có nhiều hơn 50 kí tự",
+      "minlength": "Mã toàn nhà tối thiểu trên 3 kí tự",
+      "pattern": "Mã toàn nhà không hợp lệ"
+    },
+    "numberOfFloor": {
+      "required": "Bạn chưa nhập số tầng áp dụng",
+      "max": "Số tầng không vựt quá {{name}} tầng của toà nhà đã chọn"
+    },
+    "numberOfSeats" : {
+      "required": "Bạn chưa nhập sức chứa tối đa"
+    },
+    "isRoom": {
+      "required": "Bạn chưa chọn loại phòng"
+    },
+    "isActive": {
+      "required": "Bạn chưa chọn trang thái"
+    },
+    "classroomBuildingId": {
+      "required": "Bạn chưa chọn toà nhà"
+    }
+  },
+
+  "classroomManager": "Quản lý phòng học",
+  "createClassroom": "Thêm phòng học mới",
+  "updateClassroom": "Sửa phòng học",
+  "deleteClassroom": "Xoá phòng học",
+  "classroomName": "Tên phòng",
+  "classroomCode": "Mã phòng",
+  "classroomType": "Loại phòng",
+  "capacity": "Sức chứa",
+  "floor": "Tầng",
+  "functionRoom": "Phòng chức năng",
+  "classroom": "Phòng học"
+}

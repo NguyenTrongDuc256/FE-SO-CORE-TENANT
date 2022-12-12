@@ -1,0 +1,212 @@
+<div class="card shadow-none card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'setting'">
+  <div class="card-header p-0">
+    <h3 class="card-title fs-18 fw-700"></h3>
+    <div class="card-toolbar">
+      <ng-template ngxPermissionsOnly="{{ permission.tenant_update }}">
+        <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="onChangeIsUpdateInfo(1)" name="btn-create">
+          <img src="assets/images/svg/edit11.svg" alt="icon">
+          {{t('setting.chiSuaThongTin')}}
+        </button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="card-body p-0">
+      <div class="row mb-7">
+        <div class="col-md-6">
+          <!-- begin: logo-->
+          <div class="row mb-10">
+            <div class="col-md-4 pe-0  position-relative">
+              <div class="box-img-logo">
+                <a href="{{tenantInfo.logo || logoDefault}}" target="_blank" *ngIf="tenantInfo.logo">
+                  <img src="{{tenantInfo.logo || logoDefault}}" alt="logo">
+                </a>
+              </div>
+            </div>
+            <div class="col-md-8 row pe-0">
+              <label class="col-md-12 mb-6 ps-3 col-form-label ">
+                <div class="">
+                  <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                  <span>{{ t('setting.logo') }}</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <!-- end: logo-->
+          <!-- begin: Favicon-->
+          <div class="row">
+            <div class="col-md-4 pe-0 position-relative">
+              <div class="box-img-logo">
+                <a href="{{tenantInfo.favicon || faviconDefault}}" target="_blank" *ngIf="tenantInfo.favicon">
+                  <img src="{{tenantInfo.favicon || faviconDefault}}" alt="favicon">
+                </a>
+              </div>
+            </div>
+            <div class="col-md-8 row pe-0">
+              <label class="col-md-12 mb-6 ps-3 col-form-label ">
+                <div class="">
+                  <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                  <span>{{ t('setting.favicon') }}</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <!-- end: logo-->
+        </div>
+
+        <!-- begin: background login-->
+        <div class="col-md-6">
+          <div class="row mb-6">
+            <label class="col-md-4 col-form-label ">
+              <div class="ps-6">
+                <img class="search-icon pe-1" src="assets/images/svg/icon-logo-user-blue.svg" alt="">
+                <span>{{ t('setting.background') }}</span>
+              </div>
+            </label>
+          </div>
+          <!-- end: background login-->
+          <div class="row">
+            <div class="ps-3">
+              <div class="ps-6 w-full position-relative">
+                <div class="box-img-backgournd">
+                  <a href="{{tenantInfo.backgroundLogin || backgroundLoginDefault}}" target="_blank" *ngIf="tenantInfo.backgroundLogin">
+                    <img src="{{tenantInfo.backgroundLogin || backgroundLoginDefault}}" alt="background_login">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/user-nurse.svg" alt="">
+            <span class="pe-1">{{ t('setting.tenKH') }}</span><span class="text-danger fw-700">*</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.name}}</span>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/link.png" alt="">
+            <span>{{ t('setting.duongDan') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.domain}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/phone-1.svg" alt="">
+            <span>{{ t('setting.soDienThoai') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.phone}}</span>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label ">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/email-1.svg" alt="">
+            <span>{{ t('setting.email') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.email}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/address.svg" alt="">
+            <span>{{ t('setting.diaChi') }}</span>
+          </div>
+        </label>
+        <div class="col-md-10">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.address}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/info.svg" alt="">
+            <span>{{ t('setting.maKhuVuc') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.areaCode}}</span>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/bx_time_1.svg" alt="">
+            <span>{{ t('setting.muiGio') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.timeZoneCode}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/lang.svg" alt="">
+            <span>{{ t('setting.ngonNgu') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.languageCode}}</span>
+          </div>
+        </div>
+        <label class="col-md-2 col-form-label ">
+          <div class="ps-6">
+            <img class="search-icon pe-1" src="assets/images/svg/tiente.svg" alt="">
+            <span>{{ t('setting.donViTienTe') }}</span>
+          </div>
+        </label>
+        <div class="col-md-4">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.monetaryUnitCode}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-6">
+        <label class="col-md-2 col-form-label ">
+          <div class="">
+            <img class="search-icon pe-1" src="assets/images/svg/info.svg" alt="">
+            <span>{{ t('setting.trangThai') }}</span>
+          </div>
+        </label>
+        <div class="col-md-10 d-flex align-items-center">
+          <div class="col-form-label-custom">
+            <span>{{tenantInfo.isActive == 1 ? t('setting.kichHoat') : t('setting.daKhoa')}}</span>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<!--<div class="spinner" *ngIf="isLoading">-->
+<!--  <app-loading></app-loading>-->
+<!--</div>-->

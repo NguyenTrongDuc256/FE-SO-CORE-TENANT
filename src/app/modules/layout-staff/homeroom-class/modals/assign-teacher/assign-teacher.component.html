@@ -1,0 +1,89 @@
+<form action="" [formGroup]="formSubmit" *transloco="let t; scope: 'training'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body text-normal-global">
+    <div class="mb-10 row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px; min-width: 7rem;" class="d-inline-block">{{t('training.classCode')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent?.infoClass?.code || '--'}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px; min-width: 7rem;" class="d-inline-block">{{t('training.className')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent?.infoClass?.name || '--'}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px; min-width: 7rem;" class="d-inline-block">{{t('grade')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent?.infoClass?.gradeName}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px; min-width: 7rem;" class="d-inline-block">{{t('schoolYear')}}:</span>
+          <span class="text-link fw-600">{{shoolYear}}</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="form-group d-flex">
+          <label for="layout" class="fw-600 mt-3" style="margin-right: 1rem; margin-left: 8px; min-width: 7rem;">{{t('teacher')}} <span class="text-danger">*</span></label>
+          <div class="flex-grow-1">
+            <nz-select nzMode="default" nzPlaceHolder="{{t('chooseOption')}}" nzAllowClear nzShowSearch nzServerSearch
+              (nzOnSearch)="onSearch($event)" formControlName="UserId" class="so-select-search form-control so-form-control"
+              [class.is-invalid]="(formSubmit.get('UserId').invalid && (formSubmit.get('UserId').dirty || formSubmit.get('UserId').touched) || hasErr)"
+              >
+              <ng-container *ngFor="let o of arrTeachers">
+                <nz-option *ngIf="!isLoadingSelect" [nzValue]="o.userId" [nzLabel]="o.fullName"></nz-option>
+              </ng-container>
+              <nz-option *ngIf="isLoadingSelect" nzDisabled nzCustomContent>
+                <span nz-icon nzType="loading" class="loading-icon"></span>
+                {{t('loadingData')}}
+              </nz-option>
+            </nz-select>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'notNull',
+              message: t('training.requiredTeacher'),
+              control: formSubmit.controls['UserId']
+              }">
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- error -->
+    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+      <ng-container *ngIf="(control.hasError(validation) && (control.dirty || control.touched)) || hasErr">
+        <div class="fv-plugins-message-container">
+          <span role="alert">
+            <div class="err-form text-danger">
+              <span>&nbsp;{{ message }}</span>
+            </div>
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
+      (click)="submit(formSubmit.value)">{{t(dataModal?.btnAccept)}}</button>
+  </div>
+</form>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

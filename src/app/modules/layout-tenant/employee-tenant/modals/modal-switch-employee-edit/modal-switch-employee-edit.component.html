@@ -1,7 +1,7 @@
 <div class="modal-header">
   <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
   <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal('dismiss')"
-          [hidden]="!dataModal?.isHiddenBtnClose">
+          [hidden]="dataModal?.isHiddenBtnClose">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>

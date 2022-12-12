@@ -21,31 +21,34 @@ import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormatTimeToMinutePipe } from 'src/app/_shared/pipe/format-time-to-minute.pipe';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegistrationComponent,
-    ForgotPasswordComponent,
-    LogoutComponent,
-    AuthComponent,
-    ModalLockLoginComponent,
-    VerifyAccountComponent,
-    SendCodeComponent,
-    ResetPasswordComponent,
-    NumberDirective,
-    SelectLayoutUnitComponent,
-    FormatTimeToMinutePipe
-  ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NzSwitchModule,
-    NzRadioModule,
-    CoreModule,
-    TranslocoModule
-  ],
-  providers: [{ provide: TRANSLOCO_SCOPE, useValue: "auth" }],
+    declarations: [
+        LoginComponent,
+        RegistrationComponent,
+        ForgotPasswordComponent,
+        LogoutComponent,
+        AuthComponent,
+        ModalLockLoginComponent,
+        VerifyAccountComponent,
+        SendCodeComponent,
+        ResetPasswordComponent,
+        NumberDirective,
+        SelectLayoutUnitComponent,
+        FormatTimeToMinutePipe
+    ],
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NzSwitchModule,
+        NzRadioModule,
+        CoreModule,
+        TranslocoModule
+    ],
+    providers: [{provide: TRANSLOCO_SCOPE, useValue: "auth"}],
+    exports: [
+        FormatTimeToMinutePipe
+    ]
 })
 export class AuthModule {}

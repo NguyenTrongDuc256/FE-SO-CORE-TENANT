@@ -1,0 +1,33 @@
+<ng-container *transloco="let t;">
+  <div class="modal-header border-0">
+    <h5 class="title-modal-global fw-700">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="">
+      <div class="content-top">
+        <img src="assets/images/png/genInitial-point.png" alt="">
+      </div>
+      <div class="mt-6 ps-3 pe-3">
+        <span class="text-color-bittersweet fs-14 fw-700">Bạn có chắc chắn muốn sinh
+          {{this.dataModal.dataFromParent.point
+          }} điểm hành vi cho tất cả học
+          sinh mới của trường trong Học kỳ {{this.dataModal.dataFromParent.semester}} hay
+          không?</span>
+      </div>
+      <div class="mt-20 d-flex align-items-center justify-content-center">
+        <button type="button" class="me-5 so-btn so-btn-cancel cf-button" data-dismiss="modal" name="btn-accept"
+          (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+        <button type="button" class="so-btn so-btn-danger" name="btn-cancel"
+          (click)="submit()">{{t(dataModal?.btnAccept)}}</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

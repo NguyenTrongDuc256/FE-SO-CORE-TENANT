@@ -1,0 +1,53 @@
+<div class="d-flex flex-row so-tab-vertical shadow-sm h-100" *transloco="let t; scope: 'training'">
+  <ul class="card nav nav-tabs nav-pills flex-row border-0 flex-md-column mb-3 me-3 mb-md-0 min-w-lg-200px w-20">
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'comment' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+         (click)="activeTab('comment')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/u_edit.svg" alt="">
+        </span>
+        <span class="d-flex flex-column align-items-start">
+          <span class="fs-14 fw-700">{{t('training.commentStudent')}}</span>
+        </span>
+      </a>
+    </li>
+    <li class="nav-item w-100 me-0 mb-md-2">
+      <a class="nav-link w-100 {{ tabActive == 'behavior' ? 'active' : '' }} btn btn-flex" data-bs-toggle="tab"
+         (click)="activeTab('behavior')">
+        <span class="svg-icon svg-icon-2 me-5">
+          <img class="so-tab-icon" src="assets/images/svg/icon-sidebar/icon-diem-hanh-vi.svg" alt="">
+        </span>
+        <span class="title-hover">
+          <span class="fs-14 fw-700 webkit-box-1">Chấm điểm hành vi</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+  <div class="card tab-content w-80 " id="myTabContent">
+    <ng-container *ngIf="tabActive == 'comment'">
+      <div class="tab-pane fade {{ tabActive == 'comment' ? 'show active' : '' }} h-100" role="tabpanel">
+        <app-tab-daily-comment-student-course></app-tab-daily-comment-student-course>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="tabActive == 'behavior'">
+      <div class="tab-pane fade {{ tabActive == 'behavior' ? 'show active' : '' }} h-100" role="tabpanel">
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == null">
+          <app-tab-scoring-behavior-course-staff></app-tab-scoring-behavior-course-staff>
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'all-history'">
+
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 1 || subtab == 2 ">
+
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'history' ">
+
+        </ng-container>
+        <ng-container *ngIf="tabActive == 'behavior' && subtab == 'all-score' ">
+
+        </ng-container>
+
+      </div>
+    </ng-container>
+  </div>
+</div>

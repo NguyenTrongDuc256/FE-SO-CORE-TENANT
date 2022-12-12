@@ -1,0 +1,69 @@
+
+.border-50A5F1 {
+  border-style: dashed !important;
+  border-color: #50A5F1 !important;
+  border-width: 1px !important;
+  border-radius: 0.5px;
+}
+
+.homeroom-class-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 5px;
+  border: 1px solid rgb(255 255 255);
+  background-color: #cbd0d5;
+  img {
+    width: 130px;
+    height: 130px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+}
+
+.img-hanet {
+  width: 86px;
+  height: 86px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid rgb(255 255 255);
+  background-color: #cbd0d5;
+  img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+}
+
+.img-avatar {
+  img {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+  }
+}
+
+.pt-pb {
+  padding-top: 0.6rem !important;
+  padding-bottoM: 0.6rem !important;
+}
+
+.text-decoration {
+  text-decoration: underline;
+}
+
+.table td {
+  vertical-align: top;
+}
+
+.button-save-bottom{
+  position: sticky;
+  bottom: 28px;
+  right: 14px;
+  background: #A9D6FF;
+  padding: 1rem;
+  .btn-cancel{
+  }
+  .btn-accept{
+  }
+}

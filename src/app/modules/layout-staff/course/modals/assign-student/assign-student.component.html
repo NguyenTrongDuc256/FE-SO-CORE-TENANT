@@ -1,0 +1,141 @@
+<ng-container *transloco="let t; scope: 'training'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
+      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-10 row">
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px;">{{t('training.classCode')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent.infoClass.code}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px;">{{t('training.className')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent.infoClass.name}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px;">{{t('grade')}}:</span>
+          <span class="text-link fw-600">{{dataFromParent.infoClass.gradeName}}</span>
+        </span>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-3">
+        <span style="margin-right: 3rem;" class="fw-600">
+          <span style="margin-right: 1rem; margin-left: 8px;">{{t('schoolYear')}}:</span>
+          <span class="text-link fw-600">{{shoolYear}}</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <div class="d-inline-flex align-items-center justify-content-between w-full flex-wrap mb-3">
+        <div class="d-inline-flex align-items-center mb-3">
+          <span class="fw-700">{{t('training.selectStudent')}}</span>
+          <span class="mx-14">{{t('selected')}} <span class="text-link fw-600">{{listUserIdSubmit.length}} {{t('student').toLowerCase()}}</span></span>
+        </div>
+        <div class="filter d-flex flex-wrap algin-items-center">
+          <select name="gradeId" id="gradeId" [(ngModel)]="gradeId" class="so-select mb-3 me-4" (ngModelChange)="getListUsers()">
+            <option [value]="''">{{ t("grade") }}</option>
+            <ng-container *ngFor="let grade of arrGrades">
+              <option [value]="grade.id">{{ grade.name }}</option>
+            </ng-container>
+          </select>
+          <select name="homeroom-class" id="homeroom-class" [(ngModel)]="homeroomClassId" class="so-select mb-3 me-4"
+            (ngModelChange)="getListUsers()">
+            <option [value]="''">{{ t("training.homeroomClass") }}</option>
+            <ng-container *ngFor="let fi of arrHomeroomClass">
+              <option [value]="fi.id">{{ fi.Name }}</option>
+            </ng-container>
+          </select>
+          <div class="so-input-search mb-3">
+            <input type="text" placeholder="{{ t('training.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+            <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)"/>
+          </div>
+        </div>
+      </div>
+
+      <hr class="course-hr-custom">
+
+      <div class="table-responsive">
+        <table class="table table-row-bordered table-row-gray-300 w-full mb-4 so-table">
+          <caption></caption>
+          <thead>
+            <tr class="fs-14 fw-700">
+              <th style="width: 5%;" class="text-header-table text-center">
+                <label nz-checkbox class="so-checkbox d-inline-flex" name="checkbox-all" [(ngModel)]="isCheckAll" [nzValue]="null"
+                [nzDisabled]="listUsers.length == 0 || !listUsers" (ngModelChange)="checkedAll($event)">
+              </label>
+              </th>
+              <th style="width: 5%;" class="text-header-table text-center">{{t('STT')}}</th>
+              <th style="width: 23%;" class="text-header-table"> {{t('fullName')}}</th>
+              <th style="width: 10%;" class="text-header-table"> {{t('code')}} </th>
+              <th style="width: 10%;" class="text-header-table"> {{t('account')}} </th>
+              <th style="width: 12%;" class="text-header-table"> {{t('gender')}} </th>
+              <th style="width: 15%;" class="text-header-table"> {{t('birthday')}} </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of listUsers; let i=index">
+              <tr class="fs-13 fw-600">
+                <td class="text-content-table text-center">
+                  <div class="d-flex justify-content-center">
+                    <label nz-checkbox class="so-checkbox" name="checkbox-user" [(ngModel)]="item.isChecked"
+                      [nzValue]="item.id" (ngModelChange)="checked($event, item)">
+                    </label>
+                  </div>
+                </td>
+                <td class="text-content-table text-center">
+                  {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+                </td>
+                <td class="text-content-table">
+                  <span class="fw-700">{{item.name}}</span>
+                </td>
+                <td>
+                  {{item.code}}
+                </td>
+                <td>
+                  {{item.username}}
+                </td>
+                <td>
+                  {{item.gender == 1 ? t('genderName.male') : item.gender == 2 ? t('genderName.female') : t('genderName.other')}}
+                </td>
+                <td>
+                  {{item.birthday | formatTime}}
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="listUsers?.length == 0 || !listUsers" class="tr-no-border">
+              <td class="text-no-data" colspan="7">{{t('noData')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-5" *ngIf="collectionSize > sizeOption[0]">
+        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+          [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
+      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept" (click)="submit()"
+      >
+      {{t(dataModal?.btnAccept)}}
+    </button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

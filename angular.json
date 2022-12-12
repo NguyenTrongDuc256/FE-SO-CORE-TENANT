@@ -30,7 +30,8 @@
               "clipboard.js",
               "prismjs",
               "@cordobo/qrcode",
-              "rxjs"
+              "rxjs",
+              "exceljs"
             ],
             "index": "src/index.html",
             "main": "src/main.ts",

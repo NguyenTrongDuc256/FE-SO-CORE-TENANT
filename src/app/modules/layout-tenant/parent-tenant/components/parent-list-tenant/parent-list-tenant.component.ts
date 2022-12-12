@@ -18,6 +18,12 @@ import {
   ModalChangePasswordComponent
 } from "../../../../../_shared/modals/modal-change-password/modal-change-password.component";
 import {GeneralService} from "src/app/_services/general.service";
+import {
+  ModalImportEmployeeTenantComponent
+} from "../../../employee-tenant/modals/modal-import-employee-tenant/modal-import-employee-tenant.component";
+import {
+  ModalImportParentTenantComponent
+} from "../../modals/modal-import-parent-tenant/modal-import-parent-tenant.component";
 
 @Component({
   selector: 'app-parent-list-tenant',
@@ -44,9 +50,9 @@ export class ParentListTenantComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private showMessageService: ShowMessageService,
     private parentService: ParentService,
     private generalService: GeneralService,
+    private showMessageService: ShowMessageService,
   ) {
   }
 
@@ -59,54 +65,31 @@ export class ParentListTenantComponent implements OnInit {
   getDataParent() {
     this.isLoading = true;
 
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
-
     this.parentService.getParentList(this.pageIndex, this.pageSize, this.valueDefaultSchool, this.valueDefaultGrade, this.valueDefaultClass, this.keyWord).subscribe((res: any) => {
-      if (res.status === 1) {
         this.collectionSize = res.data.totalItems;
         this.dataSource = res.data.data;
         this.dataSource.forEach(item => {
           item.genderName = this.getGenderName(item.gender)
         })
         this.isLoading = false;
-      }
 
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err)
       this.isLoading = false;
     });
   }
 
   getDataGeneralList() {
     this.isLoading = true;
-    setTimeout(() => {
-      if (this.isLoading) {
-        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
-        this.isLoading = false;
-      }
-    }, TIME_OUT_LISTEN_FIREBASE);
-
     this.parentService.getDataGeneralList().subscribe((res: any): void => {
-      if (res.status === 1) {
         this.dataApi = res.data;
         this.schoolList = this.dataApi.schools;
         this.gradeList = this.dataApi.grades;
         this.classList = this.dataApi.homeroomClasses;
         this.isLoading = false;
-      }
-      if (res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
+
     }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err)
       this.isLoading = false;
     });
   }
@@ -159,11 +142,11 @@ export class ParentListTenantComponent implements OnInit {
 
   getGenderName(value: number): string {
     if (value === 1)
-      return translate('genderName.male');
+      return 'genderName.male';
     else if (value === 2)
-      return translate('genderName.female');
+      return 'genderName.female';
     else
-      return translate('genderName.other');
+      return 'genderName.other';
   }
 
   openModalChangePassword(item) {
@@ -204,9 +187,6 @@ export class ParentListTenantComponent implements OnInit {
           this.getDataParent()
         }
       },
-      (reason) => {
-        return;
-      }
     );
   }
 
@@ -239,7 +219,6 @@ export class ParentListTenantComponent implements OnInit {
         this.getDataParent();
       }
     }, (reason) => {
-      console.log(reason);
     });
   }
 
@@ -280,50 +259,7 @@ export class ParentListTenantComponent implements OnInit {
           this.getDataParent()
         };
       },
-      (reason) => { }
     );
-
-    //
-    // let title: string = '';
-    // let content: string = '';
-    // let dataInput: number = 0;
-    // if (item.isActive === 0) {
-    //   title = translate('parent.lockedApp');
-    //   content = translate('parent.lockedContent');
-    // } else {
-    //   title = translate('parent.openApp');
-    //   content = translate('parent.openContent');
-    //   dataInput = 1;
-    // }
-    // const modalRef = this.modalService.open(ModalUpdateStatusComponent,
-    //   {
-    //     scrollable: true,
-    //     windowClass: 'myCustomModalClass',
-    //     keyboard: false,
-    //     centered: false,
-    //     size: 'lg'
-    //   });
-    //
-    // let data: any = {
-    //   titleModal: title,
-    //   btnCancel: translate('btnAction.cancel'),
-    //   btnAccept: translate('btnAction.save'),
-    //   isHiddenBtnClose: false,
-    //   dataFromParent: {
-    //     dataInput: dataInput,
-    //     userId: item.id,
-    //     content: content
-    //   }
-    // }
-    //
-    // modalRef.componentInstance.dataModal = data;
-    // modalRef.result.then((result) => {
-    //   if (result === true) {
-    //     this.getDataParent();
-    //   }
-    // }, (reason) => {
-    //   console.log(reason);
-    // });
   }
 
   openModalSendNotification(item) {
@@ -370,5 +306,26 @@ export class ParentListTenantComponent implements OnInit {
     // }, (reason) => {
     //   console.log(reason);
     // });
+  }
+
+  openModalImport(): void {
+    const modalRef = this.modalService.open(ModalImportParentTenantComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass',
+        keyboard: false,
+        centered: true,
+        backdrop: 'static',
+        size: 'xl',
+      });
+
+    let data: any = {
+      title: 'titleImport',
+      isHiddenBtnClose: false, // hidden/show btn close modal
+      schoolList: this.schoolList
+    }
+    modalRef.componentInstance.dataModal = data;
+    modalRef.result.then((result) => {
+    });
   }
 }

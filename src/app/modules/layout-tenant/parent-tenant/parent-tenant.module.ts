@@ -17,6 +17,12 @@ import {TRANSLOCO_SCOPE, TranslocoModule} from "@ngneat/transloco";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NgxPermissionsModule} from "ngx-permissions";
 import {ModalUpdateStatusComponent} from "./modals/modal-update-status/modal-update-status.component";
+import {
+  ModalImportParentTenantComponent
+} from "./modals/modal-import-parent-tenant/modal-import-parent-tenant.component";
+import {
+  ResultImportParentTenantComponent
+} from "./components/result-import-parent-tenant/result-import-parent-tenant.component";
 
 
 @NgModule({
@@ -26,6 +32,8 @@ import {ModalUpdateStatusComponent} from "./modals/modal-update-status/modal-upd
     ParentCreateTenantComponent,
     ParentEditTenantComponent,
     ModalUpdateStatusComponent,
+    ModalImportParentTenantComponent,
+    ResultImportParentTenantComponent
   ],
   imports: [
     CommonModule,

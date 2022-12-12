@@ -8,8 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StudentDetailTenantComponent implements OnInit {
   studentId: string;
-  tab: number;
-
+  tabActive: string = 'student-detail';
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -18,27 +17,32 @@ export class StudentDetailTenantComponent implements OnInit {
 
   ngOnInit() {
     this.studentId = this.activatedRoute.snapshot.params.studentId;
-    this.activatedRoute.queryParams.subscribe(res => {
-      if (res.tab) {
-        this.tab = res.tab;
+    this.activatedRoute.queryParams.subscribe(el => {
+      if (el.tab) {
+        this.tabActive = el.tab;
       } else {
-        this.tab == 1;
+        this.tabActive = 'student-detail';
         this.router.navigate([], {
           relativeTo: this.activatedRoute,
           queryParams: {
-            tab: 1
+            tab: 'student-detail'
           },
+          queryParamsHandling: 'merge'
         });
       }
     })
   }
 
-  changeTab(event: number) {
+  activeTab(value: string) {
+    this.tabActive = value;
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: {
-        tab: event
+        tab: value
       },
+      queryParamsHandling: 'merge'
     });
   }
+
+
 }

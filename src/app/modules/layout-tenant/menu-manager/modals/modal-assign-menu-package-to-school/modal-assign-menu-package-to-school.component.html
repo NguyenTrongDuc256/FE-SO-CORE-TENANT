@@ -1,0 +1,59 @@
+<ng-container *transloco="let t; scope: 'menu-manager'">
+  <div class="modal-header">
+    <h5 class="title-modal-global">{{dataModal?.titleModal}}</h5>
+    <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal()"
+      [hidden]="dataModal?.isHiddenBtnClose">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-color-river-bed">
+    <div class="infomation-menu-package">
+      <span class="lb-info fs-13 fw-700">{{ t('menuManager.menuPackage') }}:</span>
+      <span class="value-info fs-13 fw-700">{{ dataModal.dataFromParent.dataMenu.name }}</span>
+      <span class="lb-info fs-13 fw-700">{{ t('menuManager.menuCode') }}:</span>
+      <span class="value-info fs-13 fw-700">{{ dataModal.dataFromParent.dataMenu.code }}</span>
+    </div>
+    <div class="col-md-12 row mt-10 m-0">
+      <div class="col-md-2 lb-form fs-13 fw-700"><img class="lb-icon" src="assets/images/svg/school_icon.svg" alt="">
+        {{ t('menuManager.school') }}
+      </div>
+      <div class="col-md-10 custom-search-school p-0">
+        <input type="text" class="so-form-control form-control custom-input-search fs-13 fw-600" placeholder="{{ t('search') }}" [(ngModel)]="keyWord" (keyup.enter)="searchSchool()">
+        <img class="search-icon" src="assets/images/svg/search.svg" alt="">
+      </div>
+    </div>
+    <div class="col-md-12 row mt-2 m-0" *ngIf="resultFilterDataSchool && resultFilterDataSchool.length > 0">
+      <div class="offset-md-2 col-md-10 p-0 mb-3">
+        <div class="custom-school-check-all form-control">
+          <div class="check-all-item fs-13 fw-700">
+            <label><span class="number-check fs-13 fw-700">Đã chọn: {{ countSchoolSelected }} trường</span></label>
+          </div>
+        </div>
+        <div class="custom-school-list form-control">
+          <ng-container *ngFor="let item of resultFilterDataSchool">
+            <div class="school-item">
+              <div class="check-item">
+                <label nz-checkbox (nzCheckedChange)="checktem($event,item.id)"
+                  [ngModel]="schoolChecked[item.id]"></label>
+              </div>
+              <div class="info-generate">
+                <span class="school-name fs-13 fw-700">{{ item.name }}</span>
+              </div>
+              <div class="school-code fs-13 fw-700"> ({{ item.code }})</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal"
+      (click)="closeModal()">{{dataModal?.btnCancel}}</button>
+    <button type="button" class="so-btn so-btn-primary so-btn-primary--small"
+      (click)="assignMenuPackage()">{{dataModal?.btnAccept}}</button>
+  </div>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

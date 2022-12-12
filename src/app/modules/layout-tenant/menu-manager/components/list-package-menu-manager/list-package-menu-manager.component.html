@@ -1,0 +1,101 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'menu-manager'">
+  <ng-container *ngIf="!checkAddMenuPackage && !checkUpdateMenuPackage && !checkDetailMenuPackage">
+    <div class="card-header">
+      <h3 class="card-title fs-18 fw-700"></h3>
+      <div class="card-toolbar">
+        <div class="filter d-flex flex-wrap align-items-center">
+          <div class="so-input-search me-4 mb-3">
+            <input class="fw-600 text-color-river-bed" type="text" name="input-search"
+              placeholder="{{ t('menuManager.enterNameCodeMenuPackage') }}" [(ngModel)]="keyWord"
+              (keyup.enter)="getDataMenuPackage()">
+            <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer" (click)="getDataMenuPackage()" />
+          </div>
+          <ng-template ngxPermissionsOnly="{{ permission.menu_package_manager }}">
+            <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="openModalAddMenu()"
+              name="btn-create">
+              <img src="assets/images/svg/add.svg" alt="icon">
+              {{t('btnAction.add')}}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="card-body py-5 pt-0">
+      <div class="table-responsive">
+        <table class="table table-row-bordered table-row-gray-300">
+          <caption></caption>
+          <thead>
+            <tr class="fs-14 fw-700 text-color-river-bed">
+              <th class="{{ item.className }}" *ngFor="let item of columns">{{ t(item.name) }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="dataMenuPackage && dataMenuPackage.length > 0">
+              <tr *ngFor="let item of dataMenuPackage;let i = index;" class="fs-13 fw-600 text-color-river-bed">
+                <td class="text-center">{{ i+1 }}</td>
+                <td class=""><span class="custom-name-package-menu fs-11 fw-700"
+                    (click)="viewDetailMenuPackageManager(item)" name="btn-view-detail-menu-package">{{ item.name
+                    }}</span></td>
+                <td>{{ item.code }}</td>
+                <td class="link-menu color-layout-apply">{{
+                  getLayoutAppply(item.layouts) }}</td>
+                <td class="text-center">
+                  <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                    name="opend-so-action">
+                    <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user"
+                          (click)="updateMenuPackage(item)"><img class="so-action--icon"
+                            src="assets/images/svg/write.svg" alt="">{{t('btnAction.update')}}
+                        </li>
+                        <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-assign-role-user"
+                          (click)="getDataSchoolNotAssign(item)"><img class="so-action--icon"
+                            src="assets/images/svg/share_icon.svg" alt="">{{ t('menuManager.assignMenuToSchool') }}
+                        </li>
+                        <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-change-password"
+                          (click)="deleteMenuPackage(item)"><img class="so-action--icon"
+                            src="assets/images/svg/icon-delete.svg" alt="">{{t('btnAction.delete')}}
+                        </li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="dataMenuPackage?.length == 0 || !dataMenuPackage">
+              <td class="text-no-data" colspan="6">{{t('noData')}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <app-pagination *ngIf="collectionSize > sizeOption[0]" [pageSize]="pageSize" [pageIndex]="pageIndex"
+        [collectionSize]="collectionSize" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="checkAddMenuPackage">
+    <div class="card-body py-5">
+      <app-cerate-package-menu-manager class="h-100" (checkCreatedMenuPackage)="checkCreatedMenuPackage($event)">
+      </app-cerate-package-menu-manager>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="checkUpdateMenuPackage">
+    <div class="card-body py-5">
+      <app-update-package-menu-manager class="h-100" (checkEditMenuPackage)="checkEditMenuPackage($event)"
+        [menuPackageIdUpdate]="menuPackageIdUpdate">
+      </app-update-package-menu-manager>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="checkDetailMenuPackage">
+    <div class="card-body py-5">
+      <app-detail-menu-package-manager class="h-100" (checkCloseDetailMenuPackage)="checkCloseDetailMenuPackage($event)"
+        [menuPackageManagerId]="menuPackageManagerId">
+      </app-detail-menu-package-manager>
+    </div>
+  </ng-container>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

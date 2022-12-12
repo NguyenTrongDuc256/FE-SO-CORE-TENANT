@@ -1,0 +1,231 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'employee'">
+  <div class="card-header">
+    <h3 class="card-title fs-18 fw-700">{{ t('employee.title') }}</h3>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap">
+        <button class="so-btn so-btn-cancel me-4 mb-3" name="btn-export">
+          <img class="pe-2" src="assets/images/svg/export.svg" alt="icon">
+          {{t('btnAction.export')}}
+        </button>
+        <button class="so-btn so-btn-cancel me-4 mb-3" name="btn-export" (click)="openModalImport()">
+          <img class="pe-2" src="assets/images/svg/import6.svg" alt="icon">
+          {{t('btnAction.import')}}
+        </button>
+        <div class="w-200px me-4 mb-3">
+          <nz-select id="searchRole" nzShowSearch [(ngModel)]="roleId" class="form-control so-form-control"
+                     nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeRole()">
+            <nz-option nzValue="" nzLabel="{{ t('employee.selectRole') }}"></nz-option>
+            <nz-option *ngFor="let item of roleList"
+                       [nzLabel]="item.name"
+                       [nzValue]="item.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="so-input-search me-4 mb-3">
+          <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+                 (keyup.enter)="search(searchInput.value)" class="form-control so-form-control">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+               (click)="search(searchInput.value)"/>
+        </div>
+        <button class="so-btn so-btn-cancel me-4 mb-3" name="btn-export" (click)="onClickAdvFilter()">
+          <img class="pe-2" src="assets/images/svg/filter6.svg" alt="icon">
+          {{t('employee.locNangCao')}}
+        </button>
+        <ng-template ngxPermissionsOnly="{{ permission.employee_modify }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3"
+                  [routerLink]="['/staff/employee/create-or-edit', 0]" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="">
+            {{t('btnAction.add')}}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isAdvFilter" class="d-flex justify-content-end adv-filter">
+    <div class="filter d-flex flex-wrap">
+      <div class="me-4 mb-3 w-300px">
+        <nz-select id="searchHinhThucHopDong" nzShowSearch [(ngModel)]="hinhThucHopDong"
+                   class="form-control so-form-control"
+                   nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeHinhThucHopDong()">
+          <nz-option nzValue="" nzLabel="{{ t('employee.hopDong') }}"></nz-option>
+          <nz-option *ngFor="let item of moetCategories?.hinh_thuc_hop_dong"
+                     [nzLabel]="item.name"
+                     [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div class="me-4 mb-3 w-100px">
+        <nz-select id="searchGender" nzShowSearch [(ngModel)]="gender" class="form-control so-form-control"
+                   nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeGender()">
+          <nz-option nzValue="" nzLabel="{{ t('employee.gioiTinh') }}"></nz-option>
+          <nz-option *ngFor="let item of genderList"
+                     [nzLabel]="t(item.name)"
+                     [nzValue]="item.id">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div class="me-4 mb-3 w-200px">
+        <nz-select id="searchviTriViecLam" nzShowSearch [(ngModel)]="viTriViecLam" class="form-control so-form-control"
+                   nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeViTriViecLam()">
+          <nz-option nzValue="" nzLabel="{{ t('employee.viTriViecLam') }}"></nz-option>
+          <nz-option *ngFor="let item of moetCategories.vi_tri_viec_lam"
+                     [nzLabel]="item.name"
+                     [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div class="me-4 mb-3 w-200px">
+        <nz-select id="searchIsLoggedIn" nzShowSearch [(ngModel)]="isLoggedIn" class="form-control so-form-control"
+                   nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeIsLoggedIn()">
+          <nz-option nzValue="" nzLabel="{{ t('employee.trangThaiDangNhap') }}"></nz-option>
+          <nz-option [nzLabel]="t('employee.chuaDangNhap')" [nzValue]="0"></nz-option>
+          <nz-option [nzLabel]="t('employee.daDangNhap')" [nzValue]="1"></nz-option>
+        </nz-select>
+      </div>
+      <div class="w-150px">
+        <nz-select id="searchDanToc" nzShowSearch [(ngModel)]="danToc" class="form-control so-form-control"
+                   nzNotFoundContent="{{t(nzNotFoundContent)}}" (ngModelChange)="onChangeDanToc()">
+          <nz-option nzValue="" nzLabel="{{ t('employee.danToc') }}"></nz-option>
+          <nz-option *ngFor="let item of moetCategories.dan_toc"
+                     [nzLabel]="item.name"
+                     [nzValue]="item.code">
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300">
+        <caption></caption>
+        <thead>
+        <tr class="fs-14 fw-700 text-color-river-bed">
+          <th class="w-4 text-center">{{'STT'}}</th>
+          <th>{{ t('employee.fullName') }}</th>
+          <th>{{ t('gender') }}</th>
+          <th>{{ t('employee.username') }}</th>
+          <th>{{ t('email') }}</th>
+          <th>{{ t('employee.phone') }}</th>
+          <th>{{ t('role') }}</th>
+          <th>{{ t('status') }}</th>
+          <th>{{ t('employee.school1') }}</th>
+          <th class="text-center">{{ t('action') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="fs-13 fw-600 text-color-river-bed" *ngFor="let item of dataSource, let i = index">
+          <td class="text-center">{{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-50px me-3">
+                <img *ngIf="item.avatar" src="{{ item.avatar }}" class="border-radius-50 object-fit-cover" alt="">
+                <img *ngIf="!item.avatar" [src]="avatar" class="border-radius-50 object-fit-cover" alt="">
+              </div>
+              <div class="d-flex justify-content-start flex-column">
+                <a class="text-color-picton-blue fs-14 fw-700 mb-1">{{ item.fullName }}</a>
+                <span class="d-block fs-13">
+                  <span class="text-color-picton-blue">ID: </span>
+                  <span>{{ item.code }}</span>
+                </span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="gender-male" *ngIf="item.gender == 1">
+              {{ t('genderName.male') }}
+            </span>
+            <span class="gender-fmale" *ngIf="item.gender == 2">
+              {{ t('genderName.female') }}
+            </span>
+            <span class="gender-other" *ngIf="item.gender == 3">
+              {{ t('genderName.other') }}
+            </span>
+          </td>
+          <td>
+            <span>{{ item.username }}</span>
+          </td>
+          <td>
+            <div class="d-flex align-items-center" *ngIf="item.email">
+              <img class="action-icon pe-2" src="assets/images/svg/email6.svg" alt="">
+              <span>{{ item.email }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center" *ngIf="item.phone">
+              <img class="action-icon pe-2" src="assets/images/svg/phone6.svg" alt="">
+              <span>{{ item.phone }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge so-badge bg-color-picton-blue text-color-white cursor-pointer"
+                  (click)="getRoleListByUserId(item.userId)">
+              {{ item.roleNumber }}
+            </span>
+          </td>
+          <td>
+            <span class="badge so-badge bg-color-picton-blue text-color-white w-80px text-center"
+                  *ngIf="item.isActive == 1">
+              {{ t('employee.active') }}
+            </span>
+            <span class="badge so-badge bg-color-bittersweet text-color-white w-80px text-center"
+                  *ngIf="item.isActive != 1">
+              {{ t('employee.noActive') }}
+            </span>
+          </td>
+          <td>
+            <div *ngFor="let school of item.schools">
+              <span>{{school.name}}</span>
+            </div>
+          </td>
+          <td class="text-center">
+            <span class="so-action" nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                  name="opend-so-action">
+              <img class="so-action--icon-opend" src="assets/images/svg/three_vertical_dot_icon.svg" alt="">
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <ng-template ngxPermissionsOnly="{{ permission.employee_modify }}">
+                    <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-employee"
+                        [routerLink]="['/staff/employee/create-or-edit', item.employeeId]">
+                      <img class="so-action--icon" src="assets/images/svg/write.svg" alt="">{{ t('btnAction.update') }}
+                    </li>
+                  </ng-template>
+                   <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+                     <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-user-code"
+                         (click)="openModalChangeUsernameCode(item)">
+                        <img class="so-action--icon" src="assets/images/svg/user-nurse.svg"
+                             alt="">{{ t('editUsernameCode') }}
+                      </li>
+                   </ng-template>
+                    <ng-template ngxPermissionsOnly="{{ permission.user_modify }}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-update-password"
+                          (click)="openModalChangePassword(item)">
+                        <img class="so-action--icon" src="assets/images/svg/password.svg"
+                             alt="">{{ t('employee.btnAction.changedPassword') }}
+                      </li>
+                    </ng-template>
+                    <ng-template ngxPermissionsOnly="{{ permission.employee_modify }}">
+                      <li nz-menu-item class="fs-13 fw-600 text-color-river-bed" name="btn-delete"
+                          (click)="openModalConfirmDelete(item)">
+                        <img class="so-action--icon" src="assets/images/svg/delete6.svg"
+                             alt="">{{ t('btnAction.delete') }}
+                      </li>
+                    </ng-template>
+                </ul>
+              </nz-dropdown-menu>
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="dataSource?.length == 0 || !dataSource">
+          <td class="text-no-data" colspan="10">{{t('noData')}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                    *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+    </app-pagination>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

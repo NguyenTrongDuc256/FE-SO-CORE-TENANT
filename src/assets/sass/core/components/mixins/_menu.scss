@@ -7,7 +7,7 @@
 	/*rtl:ignore*/
 	transform: rotateZ($angle);
 	transition: get($menu, accordion, arrow-transition);
-	
+
 	[direction="rtl"] & {
 		/*rtl:ignore*/
 		transform: rotateZ($angleRtl);
@@ -40,7 +40,7 @@
 
 // Set menu indention
 @mixin menu-link-indention($value, $offset) {
-	// Accordion mode			
+	// Accordion mode
 	.menu-sub:not([data-popper-placement]) {
 		> .menu-item {
 			> .menu-content,
@@ -83,7 +83,7 @@
 					padding-left: #{$value};
 					padding-right: 0;
 				}
-		
+
 				> .menu-sub:not([data-popper-placement]) {
 					> .menu-item {
 						> .menu-content,
@@ -91,7 +91,7 @@
 							padding-left: calc(#{2 * $value});
 							padding-right: 0;
 						}
-		
+
 						> .menu-sub:not([data-popper-placement]) {
 							> .menu-item {
 								> .menu-content,
@@ -99,7 +99,7 @@
 									padding-left: calc(#{3 * $value});
 									padding-right: 0;
 								}
-		
+
 								> .menu-sub:not([data-popper-placement]) {
 									> .menu-item {
 										> .menu-content,

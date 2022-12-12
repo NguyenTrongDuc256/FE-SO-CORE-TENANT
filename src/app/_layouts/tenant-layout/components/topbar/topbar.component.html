@@ -1,19 +1,19 @@
 <!-- Search toolbar -->
 <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass">
   <div class="d-flex align-items-center search">
-    <img src="./assets/media/icons/duotune/general/gen021.svg" alt="" class="svg-icon"
+    <img src="assets/images/svg/layout/search.svg" alt="" class="svg-icon"
       [ngClass]="toolbarButtonIconSizeClass">
     <input type="text" placeholder="Tìm kiếm">
   </div>
 </div>
 
 
-<div class="d-flex align-items-center fw-700" [ngClass]="toolbarButtonMarginClass" style="color: #495057">
+<div class="d-flex align-items-center fw-700" [ngClass]="toolbarButtonMarginClass">
   <div class="btn btn-icon btn-active-light-primary position-relative" [ngClass]="toolbarButtonHeightClass"
     data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"
     data-kt-menu-flip="bottom">
     <span class="svg-icon"
-      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/media/icons/duotune/general/gen022.svg" alt=""></span>
+      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/images/svg/layout/compiling.svg" alt=""></span>
   </div>
   <app-switch-layout></app-switch-layout>
 </div>
@@ -24,18 +24,18 @@
   <div class="btn btn-icon btn-active-light-primary position-relative" [ngClass]="toolbarButtonHeightClass"
     id="kt_drawer_chat_toggle">
     <span class="svg-icon"
-      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/images/svg/bell-blue.svg" alt=""></span>
-    <span class="
-        bullet bullet-dot
-        bg-success
-        h-6px
-        w-6px
-        position-absolute
-        translate-middle
-        top-0
-        start-50
-        animation-blink
-      "></span>
+      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/images/svg/layout/noti.svg" alt=""></span>
+<!--    <span class="-->
+<!--        bullet bullet-dot-->
+<!--        bg-success-->
+<!--        h-6px-->
+<!--        w-6px-->
+<!--        position-absolute-->
+<!--        translate-middle-->
+<!--        top-0-->
+<!--        start-50-->
+<!--        animation-blink-->
+<!--      "></span>-->
   </div>
   <!-- end::Menu wrapper -->
 </div>
@@ -46,31 +46,32 @@
   <div class="btn btn-icon btn-active-light-primary position-relative" [ngClass]="toolbarButtonHeightClass"
     id="kt_drawer_chat_toggle">
     <span class="svg-icon"
-      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/images/svg/message-blue.svg" alt=""></span>
-    <span class="
-        bullet bullet-dot
-        bg-success
-        h-6px
-        w-6px
-        position-absolute
-        translate-middle
-        top-0
-        start-50
-        animation-blink
-      "></span>
+      [ngClass]="toolbarButtonIconSizeClass"><img src="assets/images/svg/layout/messenger.svg" alt=""></span>
+<!--    <span class="-->
+<!--        bullet bullet-dot-->
+<!--        bg-success-->
+<!--        h-6px-->
+<!--        w-6px-->
+<!--        position-absolute-->
+<!--        translate-middle-->
+<!--        top-0-->
+<!--        start-50-->
+<!--        animation-blink-->
+<!--      "></span>-->
   </div>
   <!-- end::Menu wrapper -->
 </div>
-<!-- (click)="logout()" -->
+
 <!-- begin::User -->
 <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass" id="kt_header_user_menu_toggle">
   <!-- begin::Toggle -->
   <div class="cursor-pointer symbol d-flex align-items-center justify-content-center"
-    [ngClass]="toolbarUserAvatarHeightClass" data-kt-menu-trigger="click" data-kt-menu-attach="parent"
+    (click)="isToggle = !isToggle"
+    [ngClass]="toolbarUserAvatarHeightClass"
     data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
     <img src="./assets/images/svg/user-white.svg" alt="avatars" />
   </div>
-  <app-user-inner></app-user-inner>
+  <app-user-inner [class]="isToggle ? 'show so-show-user-inner' : ''"></app-user-inner>
   <!-- end::Toggle  -->
 </div>
 <!-- end::User -->

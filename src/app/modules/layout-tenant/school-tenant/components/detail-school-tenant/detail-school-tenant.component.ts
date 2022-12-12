@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { School } from 'src/app/_models/layout-tenant/school/school.model';
 import { ShareDataUsingService } from 'src/app/_services/share-data.service';
-import { DATA_PERMISSION } from 'src/app/_shared/utils/constant';
-import { ADVANCED } from '../../constant';
+import { DATA_PERMISSION, INFO_ADVANCED_SCHOOL, TRAINING_LEVEL } from 'src/app/_shared/utils/constant';
 @Component({
   selector: 'app-detail-school-tenant',
   templateUrl: './detail-school-tenant.component.html',
   styleUrls: ['./detail-school-tenant.component.scss', '../../helper.scss'],
 })
 export class DetailSchoolTenantComponent implements OnInit {
-  arrInfoAdvanced = ADVANCED;
+  arrInfoAdvanced = INFO_ADVANCED_SCHOOL;
   isLoading = false;
   permission = DATA_PERMISSION;
   infoBasicSchool: School;
@@ -53,5 +52,9 @@ export class DetailSchoolTenantComponent implements OnInit {
     this.router.navigate([
       '/tenant/school/detail/' + this.schoolId + '/update',
     ]);
+  }
+
+  mapNameEducationStage(stage: number) {
+    return TRAINING_LEVEL.find(item => item.code == stage)?.name || '--'
   }
 }

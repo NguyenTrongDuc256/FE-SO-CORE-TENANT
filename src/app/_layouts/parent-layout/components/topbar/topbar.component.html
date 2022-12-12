@@ -65,11 +65,14 @@
 <!-- begin::User -->
 <div class="d-flex align-items-center" [ngClass]="toolbarButtonMarginClass" id="kt_header_user_menu_toggle">
   <!-- begin::Toggle -->
-  <div class="cursor-pointer symbol d-flex align-items-center justify-content-center" (click)="logout()"
+  <div class="cursor-pointer symbol d-flex align-items-center justify-content-center"
+    (click)="isToggle = !isToggle"
     [ngClass]="toolbarUserAvatarHeightClass" data-kt-menu-trigger="click" data-kt-menu-attach="parent"
     data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
     <img src="./assets/images/svg/user-white.svg" alt="avatars" />
   </div>
+  <app-user-inner [class]="isToggle ? 'show so-show-user-inner' : ''"></app-user-inner>
+
   <!-- end::Toggle  -->
 </div>
 <!-- end::User -->

@@ -4,6 +4,12 @@
   "changePassword": "Đổi mật khẩu",
   "updateUsernameCode": "Cập nhật username và code",
   "fullname": "Họ và tên",
+  "fatherFullname": "Họ và tên bố",
+  "fatherPhone": "SĐT bố",
+  "fatherEmail": "Email của bố",
+  "motherFullname": "Họ và tên mẹ",
+  "motherPhone": "SĐT mẹ",
+  "motherEmail": "Email của mẹ",
   "createStudent": "Thêm mới học sinh",
   "updateStudent": "Cập nhật học sinh",
   "username": "Tên đăng nhập",
@@ -15,7 +21,6 @@
   "password": "Mật khẩu",
   "passwordTrue": "Đã đổi",
   "passwordFalse": "Chưa đổi",
-  "active": "Kích hoạt",
   "noActive": "Đã khóa",
   "school": "Trường",
   "newPassword": "Mật khẩu mới",
@@ -38,6 +43,7 @@
     "appAccessLock": "Khóa truy cập app",
     "unlockAppAccess": "Mở khóa truy cập app"
   },
+  "homeroomClass": "Lớp chủ nhiệm",
   "currentAccommodation": "Chỗ ở hiện nay",
   "sortOrder": "Thứ tự sắp xếp",
   "personalInformation": "Thông tin cá nhân",
@@ -66,7 +72,7 @@
   "tutor": "Người đỡ đầu",
   "ACEcode": "Mã ACE",
   "address": "Địa chỉ",
-  "updateUsernameAndCode": "Cập nhật username và code",
+  "updateUsernameAndCode": "Cập nhật Tên đăng nhập/ Mã người dùng",
   "studentPersonalInformation": "Thông tin cá nhân học sinh",
   "generalInformation": "Thông tin chung",
   "studentAddress": "Địa chỉ học sinh",
@@ -94,14 +100,25 @@
   "permanentResidence": "HKTT",
   "presentAddress": "Địa chỉ hiện nay",
   "enter": "Nhập-",
+  "search": "Nhập từ khóa tìm kiếm",
+  "categoryRecords": "Danh mục hồ sơ",
+  "nameRecord": "Tên hồ sơ",
+  "nameLink": "Tên đường dẫn",
+  "link": "Đường dẫn",
+  "note1": "Chức năng này chỉ cho phép import đường dẫn theo danh sách học sinh",
+  "note2": "Cột \"Mã học sinh\", \"Họ và tên\", \"Giới tính\", \"Ngày sinh\", \"Khối\", \"Lớp chủ nhiệm\" là những cột bắt buộc phải nhập",
+  "downloadSampleFiles": "Tải file mẫu",
+  "selectSchool": "Chọn trường",
   "validators": {
     "fullName": {
       "required": "Bạn chưa nhập họ và tên",
-      "pattern": "Họ và tên không đúng định dạng"
+      "pattern": "Họ và tên không đúng định dạng",
+      "maxlength": "Họ và tên không được có nhiều hơn 255 kí tự"
     },
     "code": {
       "required": "Bạn chưa nhập mã",
-      "pattern": "Mã không đúng định dạng"
+      "pattern": "Mã không đúng định dạng",
+      "maxlength": "Mã không được có nhiều hơn 50 kí tự"
     },
     "birthday": {
       "required": "Bạn chưa nhập ngày sinh"
@@ -154,7 +171,8 @@
     },
     "fatherFullName": {
       "required": "Bạn chưa nhập họ và tên",
-      "pattern": "Họ và tên không đúng định dạng"
+      "pattern": "Họ và tên không đúng định dạng",
+      "maxlength": "Họ và tên không được có nhiều hơn 255 kí tự"
     },
     "fatherCode": {
       "required": "Bạn chưa nhập mã",
@@ -182,7 +200,8 @@
     },
     "motherFullName": {
       "required": "Bạn chưa nhập họ và tên",
-      "pattern": "Họ và tên không đúng định dạng"
+      "pattern": "Họ và tên không đúng định dạng",
+      "maxlength": "Họ và tên không được có nhiều hơn 255 kí tự"
     },
     "motherCode": {
       "required": "Bạn chưa nhập mã",
@@ -210,7 +229,8 @@
     },
     "tutorFullName": {
       "required": "Bạn chưa nhập họ và tên",
-      "pattern": "Họ và tên không đúng định dạng"
+      "pattern": "Họ và tên không đúng định dạng",
+      "maxlength": "Họ và tên không được có nhiều hơn 255 kí tự"
     },
     "tutorCode": {
       "required": "Bạn chưa nhập mã",
@@ -236,5 +256,6 @@
       "required": "Bạn chưa nhập email",
       "email": "Email không đúng định dạng"
     }
-  }
+  },
+  "studentRecords": "Hồ sơ học sinh"
 }

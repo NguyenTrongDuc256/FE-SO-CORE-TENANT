@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
 import { ListenFirebaseService } from 'src/app/_services/listen-firebase.service';
 import { ShowMessageService } from 'src/app/_services/show-message.service';
-import { MESSAGE_ERROR_CALL_API, TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
+import { TIME_OUT_LISTEN_FIREBASE } from 'src/app/_shared/utils/constant';
 
 @Component({
   selector: 'app-modal-refuse-records-teacher',
@@ -47,7 +47,6 @@ export class ModalRefuseRecordsComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false;
-        this.showMessage.error(MESSAGE_ERROR_CALL_API);
       }
     );
   }

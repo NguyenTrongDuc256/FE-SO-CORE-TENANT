@@ -2,7 +2,7 @@ FROM node:latest AS node
 WORKDIR /app
 # install config
 COPY package*.json ./
-RUN npm install -g npm@8.13.2 @angular/cli@13.3.1
+RUN npm install -g npm@8.19.2 @angular/cli@13.3.1
 
 #todo: check verion in package.json -> conflick angular/core 11 vs 13
 RUN npm install

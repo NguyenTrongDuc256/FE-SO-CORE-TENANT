@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h5 class="title-modal-global">{{t(dataModal?.titleModal)}}</h5>
     <button type="button" class="close modal-btn-close" data-dismiss="modal" (click)="closeModal(false)"
-      name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
+            name="icon-close" [hidden]="dataModal?.isHiddenBtnClose">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -15,26 +15,21 @@
               <label for="name" class="fw-600">{{t('school.tenDiemTruong')}} <span class="text-danger">*</span></label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="name" name="name"
-                placeholder="{{t('school.enterTenDiemTruong')}}" autocomplete="off" formControlName="TenDiemTruong">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'required',
-                  message: t('requiredName'),
-                  control: formSubmit.controls['TenDiemTruong']
-                  }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'notEmpty',
-                message: t('requiredName'),
-                control: formSubmit.controls['TenDiemTruong']
-                }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                  validation: 'maxlength',
-                  message: t('maxLengthName'),
-                  control: formSubmit.controls['TenDiemTruong']
-                  }">
-              </ng-container>
+              <input type="text" class="form-control so-form-control" id="name" name="name"
+                     placeholder="{{t('school.enterTenDiemTruong')}}" autocomplete="off" formControlName="TenDiemTruong"
+                     [class.is-invalid]="formSubmit.get('TenDiemTruong').invalid && (formSubmit.get('TenDiemTruong').dirty || formSubmit.get('TenDiemTruong').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.TenDiemTruong.hasOwnProperty('message') && formSubmit.get('TenDiemTruong').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.TenDiemTruong">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('TenDiemTruong').hasError(err.type) && (formSubmit.get('TenDiemTruong').dirty || formSubmit.get('TenDiemTruong').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.TenDiemTruong">
+                <app-field-error-display [errorServer]="validationMessagesServer?.TenDiemTruong"
+                                         [displayErrorServer]="!(formSubmit.get('TenDiemTruong').dirty || formSubmit.get('TenDiemTruong').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -46,26 +41,23 @@
               <label for="code" class="fw-600">{{t('code')}} <span class="text-danger">*</span></label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="code" name="code" placeholder="{{t('enterCode')}}"
-                autocomplete="off" formControlName="MaDiemTruong" [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'required',
-                message: t('school.requiredCode'),
-                control: formSubmit.controls['MaDiemTruong']
-                }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: t('patternCode'),
-                control: formSubmit.controls['MaDiemTruong']
-                }">
-              </ng-container>
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'maxlength',
-                message: t('maxLengthCode'),
-                control: formSubmit.controls['MaDiemTruong']
-                }">
-            </ng-container>
+              <input type="text" class="form-control so-form-control" id="code" name="code"
+                     placeholder="{{t('enterCode')}}"
+                     autocomplete="off" formControlName="MaDiemTruong"
+                     [attr.disabled]="dataFromParent.nameForm == 'update' ? '' : null"
+                     [class.is-invalid]="formSubmit.get('MaDiemTruong').invalid && (formSubmit.get('MaDiemTruong').dirty || formSubmit.get('MaDiemTruong').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.MaDiemTruong.hasOwnProperty('message') && formSubmit.get('MaDiemTruong').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.MaDiemTruong">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('MaDiemTruong').hasError(err.type) && (formSubmit.get('MaDiemTruong').dirty || formSubmit.get('MaDiemTruong').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.MaDiemTruong">
+                <app-field-error-display [errorServer]="validationMessagesServer?.MaDiemTruong"
+                                         [displayErrorServer]="!(formSubmit.get('MaDiemTruong').dirty || formSubmit.get('MaDiemTruong').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -80,8 +72,9 @@
               <label for="address" class="fw-600">{{t('address')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="address" name="address" placeholder="{{t('enterAddress')}}"
-                autocomplete="off" formControlName="DiaChi">
+              <input type="text" class="form-control so-form-control" id="address" name="address"
+                     placeholder="{{t('enterAddress')}}"
+                     autocomplete="off" formControlName="DiaChi">
             </div>
           </div>
         </div>
@@ -93,14 +86,21 @@
               <label for="khoangCach" class="fw-600">{{t('school.khoangCach')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="number" class="form-control" id="khoangCach" name="khoangCach"
-              placeholder="{{t('school.enterKhoangCach')}}" autocomplete="off" formControlName="KhoangCach">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: t('school.onlyNumber'),
-                control: formSubmit.controls['KhoangCach']
-                }">
-              </ng-container>
+              <input type="text" class="form-control so-form-control" id="khoangCach" name="khoangCach"
+                     placeholder="{{t('school.enterKhoangCach')}}" autocomplete="off" formControlName="KhoangCach"
+                     [class.is-invalid]="formSubmit.get('KhoangCach').invalid && (formSubmit.get('KhoangCach').dirty || formSubmit.get('KhoangCach').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.KhoangCach.hasOwnProperty('message') && formSubmit.get('KhoangCach').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.KhoangCach">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('KhoangCach').hasError(err.type) && (formSubmit.get('KhoangCach').dirty || formSubmit.get('KhoangCach').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.KhoangCach">
+                <app-field-error-display [errorServer]="validationMessagesServer?.KhoangCach"
+                                         [displayErrorServer]="!(formSubmit.get('KhoangCach').dirty || formSubmit.get('KhoangCach').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -115,8 +115,8 @@
               <label for="phuongTien" class="fw-600">{{t('school.phuongTien')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="phuongTien" name="phuongTien"
-              placeholder="{{t('school.enterPhuongTien')}}" autocomplete="off" formControlName="PhuongTien">
+              <input type="text" class="form-control so-form-control" id="phuongTien" name="phuongTien"
+                     placeholder="{{t('school.enterPhuongTien')}}" autocomplete="off" formControlName="PhuongTien">
             </div>
           </div>
         </div>
@@ -128,14 +128,21 @@
               <label for="dienTich" class="fw-600">{{t('school.dienTich')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="number" class="form-control" id="dienTich" name="dienTich"
-              placeholder="{{t('school.enterDienTich')}}" autocomplete="off" formControlName="DienTich">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: t('school.onlyNumber'),
-                control: formSubmit.controls['DienTich']
-                }">
-              </ng-container>
+              <input type="text" class="form-control so-form-control" id="dienTich" name="dienTich"
+                     placeholder="{{t('school.enterDienTich')}}" autocomplete="off" formControlName="DienTich"
+                     [class.is-invalid]="formSubmit.get('DienTich').invalid && (formSubmit.get('DienTich').dirty || formSubmit.get('DienTich').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.DienTich.hasOwnProperty('message') && formSubmit.get('DienTich').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.DienTich">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('DienTich').hasError(err.type) && (formSubmit.get('DienTich').dirty || formSubmit.get('DienTich').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.DienTich">
+                <app-field-error-display [errorServer]="validationMessagesServer?.DienTich"
+                                         [displayErrorServer]="!(formSubmit.get('DienTich').dirty || formSubmit.get('DienTich').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -150,14 +157,22 @@
               <label for="phone" class="fw-600">{{t('phone')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="phone" name="phone" placeholder="{{t('school.enterSĐT')}}"
-              autocomplete="off" formControlName="DienThoai">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: t('school.patternPhone'),
-                control: formSubmit.controls['DienThoai']
-                }">
-              </ng-container>
+              <input type="text" class="form-control so-form-control" id="phone" name="phone"
+                     placeholder="{{t('school.enterSĐT')}}"
+                     autocomplete="off" formControlName="DienThoai"
+                     [class.is-invalid]="formSubmit.get('DienThoai').invalid && (formSubmit.get('DienThoai').dirty || formSubmit.get('DienThoai').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.DienThoai.hasOwnProperty('message') && formSubmit.get('DienThoai').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.DienThoai">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('DienThoai').hasError(err.type) && (formSubmit.get('DienThoai').dirty || formSubmit.get('DienThoai').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.DienThoai">
+                <app-field-error-display [errorServer]="validationMessagesServer?.DienThoai"
+                                         [displayErrorServer]="!(formSubmit.get('DienThoai').dirty || formSubmit.get('DienThoai').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -169,14 +184,22 @@
               <label for="email" class="fw-600">{{t('email')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <input type="text" class="form-control" id="email" name="email" placeholder="{{t('school.enterEmail')}}"
-              autocomplete="off" formControlName="Email">
-              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
-                validation: 'pattern',
-                message: t('school.patternEmail'),
-                control: formSubmit.controls['Email']
-                }">
-              </ng-container>
+              <input type="text" class="form-control so-form-control" id="email" name="email"
+                     placeholder="{{t('school.enterEmail')}}"
+                     autocomplete="off" formControlName="Email"
+                     [class.is-invalid]="formSubmit.get('Email').invalid && (formSubmit.get('Email').dirty || formSubmit.get('Email').touched)"
+                     [class.is-invalid-server]="validationMessagesServer?.Email.hasOwnProperty('message') && formSubmit.get('Email').invalid">
+              <div class="text-danger mt-2" *ngFor="let err of validationMessages.Email">
+                <app-field-error-display
+                  [displayError]="formSubmit.get('Email').hasError(err.type) && (formSubmit.get('Email').dirty || formSubmit.get('Email').touched)"
+                  errorMsg="{{ t(err.message) }}">
+                </app-field-error-display>
+              </div>
+              <div class="text-danger mt-2" *ngIf="validationMessagesServer?.Email">
+                <app-field-error-display [errorServer]="validationMessagesServer?.Email"
+                                         [displayErrorServer]="!(formSubmit.get('Email').dirty || formSubmit.get('Email').touched)">
+                </app-field-error-display>
+              </div>
             </div>
           </div>
         </div>
@@ -191,7 +214,8 @@
               <label for="quanHuyen" class="fw-600">{{t('school.district')}}</label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <select name="quanHuyen" id="quanHuyen" class="w-full" formControlName="QuanHuyen">
+              <select name="quanHuyen" id="quanHuyen" class="w-full form-control so-form-control"
+                      formControlName="QuanHuyen">
                 <option [value]="null">{{t('school.chonDistrict')}}</option>
                 <ng-container *ngFor="let district of arrDistrict">
                   <option [value]="district.MA">{{district.TEN}}</option>
@@ -208,7 +232,9 @@
               <label for="status" class="fw-600">{{t('status')}} </label>
             </div>
             <div class="col-sm-12 col-md-9 col-lg-9 col-xl-9">
-              <label class="p-0" nz-checkbox name="status" formControlName="TrangThai">{{ t("activated") }}</label>
+              <label nz-checkbox class="so-checkbox" name="status" formControlName="TrangThai">
+                <span>{{t('activated')}}</span>
+              </label>
             </div>
           </div>
         </div>
@@ -220,7 +246,6 @@
         <div class="fv-plugins-message-container">
           <span role="alert">
             <div class="err-form text-danger">
-              <img src="assets/images/svg/icon-false.svg" alt="">
               <span>&nbsp;{{ message }}</span>
             </div>
           </span>
@@ -229,10 +254,15 @@
     </ng-template>
   </div>
   <div class="modal-footer">
+    <div class="so-checkbox-style2 d-flex m-right-20">
+      <label nz-checkbox [(ngModel)]="isContinueCreate"
+             [ngModelOptions]="{standalone: true}"
+             *ngIf="dataFromParent.nameForm == 'create'">{{ t('keepGeneratingData') }}</label>
+    </div>
     <button type="button" class="so-btn so-btn-cancel" data-dismiss="modal" name="btn-cancel"
-      (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
+            (click)="closeModal(false)">{{t(dataModal?.btnCancel)}}</button>
     <button type="button" class="so-btn so-btn-primary so-btn-primary--small" name="btn-accept"
-      (click)="submit(formSubmit.value)" [disabled]="!formSubmit.valid">{{t(dataModal?.btnAccept)}}</button>
+            (click)="submit(formSubmit.value)">{{t(dataModal?.btnAccept)}}</button>
   </div>
 </form>
 

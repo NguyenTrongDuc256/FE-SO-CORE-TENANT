@@ -1,0 +1,149 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'declare'">
+  <div class="card-header">
+    <div class="card-title flex-column align-items-start pt-6">
+      <h3 class="fs-18 fw-700">{{t('declare.listSubjectGrade')}}</h3>
+      <span class="fw-500 fs-13 text-color-river-bed">{{t('subject')}}: {{collectionSize}}
+        {{t('subject').toLowerCase()}}</span>
+    </div>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap algin-items-center text-color-river-bed">
+        <select name="gradeId" id="gradeId" [(ngModel)]="gradeId" class="so-select mb-3 me-4 fw-600"
+          (ngModelChange)="filter()">
+          <ng-container *ngFor="let fi of arrGrades">
+            <option [value]="fi.id">{{ fi.name }}</option>
+          </ng-container>
+        </select>
+        <select name="type-subject" id="type-subject" [(ngModel)]="subjectType" class="so-select me-4 mb-3 fw-600"
+          (ngModelChange)="filter()">
+          <option [value]="''">{{ t("declare.typeSubject") }}</option>
+          <ng-container *ngFor="let fi of arrTypeSubjects">
+            <option [value]="fi.value">{{ t(fi.label) }}</option>
+          </ng-container>
+        </select>
+        <select name="report-type" id="report-type" [(ngModel)]="reportTypeId" class="so-select mb-3 me-4 fw-600"
+          (ngModelChange)="filter()">
+          <option [value]="''">{{ t("declare.reportType") }}</option>
+          <ng-container *ngFor="let fi of arrReportTypes">
+            <option [value]="fi.id">{{ fi.Name }}</option>
+          </ng-container>
+        </select>
+        <select name="status" id="status" [(ngModel)]="status" class="so-select me-4 mb-3 fw-600" (ngModelChange)="filter()">
+          <option [value]="''">{{ t("status") }}</option>
+          <ng-container *ngFor="let fi of arrStatus">
+            <option [value]="fi.value">{{ t(fi.label) }}</option>
+          </ng-container>
+        </select>
+        <label nz-checkbox class="fs-13 so-checkbox d-inline-flex fw-600 mb-3 me-4 text-color-river-bed" name="isSyncMoet"
+          [(ngModel)]="isSyncMoet" [ngModelOptions]="{standalone: true}" [nzValue]="isSyncMoet"
+          (ngModelChange)="filter()">
+          {{t('declare.isSyncMoet')}}
+        </label>
+        <div class="so-input-search me-4 mb-3">
+          <input class="fw-600" type="text" placeholder="{{ t('declare.search') }}" #searchInput name="input-search"
+            (keydown)="search($event, searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="" nzType="search" (click)="searchClickIcon(searchInput.value)" />
+        </div>
+        <ng-template ngxPermissionsOnly="{{ permission.subject_grade_manager }}">
+          <button class="so-btn so-btn-primary so-btn-primary--small mb-3" (click)="create()" name="btn-create">
+            <img src="assets/images/svg/add.svg" alt="">
+            {{t('btnAction.add')}}
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5 pt-0">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-300 so-table w-full mb-4">
+        <caption></caption>
+        <thead>
+          <tr class="fs-14 fw-700 text-color-river-bed">
+            <th style="width: 4%;" class="text-center"> {{t('STT')}}</th>
+            <th style="width: 17%;"> {{t('subjectName')}}</th>
+            <th style="width: 15%;"> {{t('declare.gradeBookType')}} </th>
+            <th style="width: 16%;"> {{t('declare.reportType')}} </th>
+            <th style="width: 31%;"> {{t('declare.convertType')}} </th>
+            <th style="width: 10%;" class="text-center"> {{t('status')}} </th>
+            <ng-template ngxPermissionsOnly="{{ permission.homeroom_class_manager }}">
+              <th style="width: 6%;" class="text-center">{{t('action')}}</th>
+            </ng-template>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of arrList; let i=index">
+            <tr class="fs-13 fw-600 text-color-river-bed">
+              <td class="text-center">
+                {{isLoading ? (oldPageIndex-1)*pageSize + i + 1 : (pageIndex-1)*pageSize + i + 1}}
+              </td>
+              <td>
+                <div>
+                  <div>
+                    <span class="fw-700 d-block mb-1">{{item?.SubjectName}}
+                      <span class="text-link">({{item.SubjectCode}})</span>
+                    </span>
+                  </div>
+                  <div class="color-tertiary">{{item?.OtherName}}</div>
+                </div>
+              </td>
+              <td>
+                {{item?.GradebookType == 1 ? t('gradeByNumber') : t('gradeByText')}}
+                <div class="text-link">{{item?.GradebookTypeName}}</div>
+              </td>
+              <td>
+                {{item?.ReportTypeName}}
+              </td>
+              <td>
+                <ng-container *ngFor="let ct of item?.ConvertMethod">
+                  <div class="row mb-1">
+                    <div class="col-6">
+                      <img src="assets/images/svg/icon-check-blue.svg" alt=""> {{ct?.ReportTypeFormulaName}}
+                    </div>
+                    <div class="col-6">{{t('declare.subjectConvert')}}: <span
+                        class="text-link">{{ct?.MoetSubjectName}}</span></div>
+                  </div>
+                </ng-container>
+              </td>
+              <td class="text-center">
+                <span class="badge so-badge {{item?.IsActive == 1 ? 'so-badge--success' : 'so-badge--danger'}}">
+                  {{t(mapNameStatus(item?.IsActive))}}
+                </span>
+              </td>
+              <ng-template ngxPermissionsOnly="{{ permission.subject_grade_manager }}">
+                <td class="text-center">
+                  <span nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click" class="so-action" name="btn-open-menu">
+                    <img src="assets/images/svg/three_vertical_dot_icon.svg" alt="" class="so-action--icon-opend">
+                  </span>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="update(item)" class="fs-13 fw-600 text-color-river-bed"
+                        name="btn-update">
+                        <img src="assets/images/svg/write.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.update')}}
+                      </li>
+                      <li nz-menu-item (click)="delete(item?.id, item?.SubjectName)" class="fs-13 fw-600 text-danger"
+                        name="btn-delete">
+                        <img src="assets/images/svg/icon-delete.svg" alt="" class="so-action--icon">
+                        {{t('btnAction.delete')}}
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+              </ng-template>
+            </tr>
+          </ng-container>
+          <tr *ngIf="arrList?.length == 0 || !arrList">
+            <td class="text-no-data" colspan="8">{{t('noData')}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+        *ngIf="collectionSize > sizeOption[0]" [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

@@ -1,0 +1,122 @@
+<div class="card card-flush shadow-sm p-0 h-full" *transloco="let t; scope: 'behavior'">
+  <div class="card-header border-bottom-gray-200">
+    <div class="card-title">
+      <div class="d-flex align-items-baseline ">
+        <h3 class=" fs-18 fw-700 me-6">{{courseInfo?.name}}</h3>
+        <span class="fs-14 fw-600 text-color-picton-blue">{{listOfOption.length}} {{ t('student') }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-5">
+    <div class=" d-flex align-items-center flex-space-between mb-10 flex-wrap">
+      <div class="d-flex align-items-center w-40 mb-3">
+        <p class="me-6">{{ t('behavior.title.chonHocSinh') }}</p>
+        <nz-select class="w-70 so-form-control so-select"
+                   [nzMaxTagCount]="3"
+                   [nzMaxTagPlaceholder]="tagPlaceHolder"
+                   nzMode="multiple"
+                   nzPlaceHolder="{{ t('student') }}"
+                   [(ngModel)]="listOfSelectedValue" >
+          <nz-option *ngFor="let item of listOfOption , let i = index" [nzLabel]="item.fullName"
+                     [nzValue]="item.id"></nz-option>
+        </nz-select>
+        <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
+
+      </div>
+      <div class="d-flex align-items-center flex-space-between mb-3 flex-end flex-basic-520">
+        <p class="me-6">{{ t('behavior.title.chooseDate') }}</p>
+        <div class="">
+          <app-range-date-picker class="w-70 datetimeHistory" [startDate]="startDate" [endDate]="endDate"
+                                 [timePicker]="timePicker"
+                                 (dataTimeOutput)="dataTimeOutput($event)"></app-range-date-picker>
+        </div>
+      </div>
+    </div>
+
+    <div class="box__history">
+      <ng-container *ngFor="let item of historyScoreAllStudent">
+        <div class="box__history--item pt-6 pb-6 border-bottom-05"
+             [class]="(item['behaviorLog'].isCancelled == 1) ? 'opacity05' : ''">
+          <div class="item-title mb-6 d-flex align-items-center">
+            <div class="d-flex align-items-center me-6">
+              <div class="item-avatar icon-size border-radius-50 overflow-hidden">
+                <img class="img-cover"
+                     src="{{ (item['student'].avatar) ? item['student'].avatar : avatar }}">
+              </div>
+              <h5 class="fs-14 fw-600">{{item['student'].fullName}}<span
+                class="text-color-picton-blue">({{item['student'].code}})</span></h5>
+            </div>
+
+            <ng-container *ngIf="item['behaviorLog'].isApplyTimeNumber == 1; then solancham , else diem"></ng-container>
+            <ng-template #solancham>
+              <div class="d-flex align-items-center fs-15">
+                  <span
+                    [class]="(item['behaviorLog'].behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                    class="point fw-700">
+                    {{ t('behavior.title.numberOfTimes') }} {{ item['behaviorLog'].timeNumber }}
+                    : {{item['behaviorLog'].behaviorType == 1 ? '+' : ''}}{{ item['behaviorLog'].point }}
+                  </span>
+              </div>
+            </ng-template>
+            <ng-template #diem>
+                <span
+                  [class]="(item['behaviorLog'].behaviorType == 1 ) ? 'text-color-greenish-teal' : 'text-color-bittersweet'"
+                  class="point fs-16 fw-700"> {{ t('behavior.title.point') }}: {{item['behaviorLog'].behaviorType == 1 ? '+' : ''}}{{ item['behaviorLog'].point }}</span>
+            </ng-template>
+          </div>
+
+          <div class="item-top d-flex align-items-center">
+            <div class="item-top--icon">
+              <img class="img-cover"
+                   src="{{ (item['behaviorLog'].behaviorCategoryAvatar) ? item['behaviorLog'].behaviorCategoryAvatar : 'assets/images/png/auth/logo-SO.png' }}"
+                   alt="">
+            </div>
+            <div class="item-top--content ps-6  flex-grow-1">
+              <h6 class="fs-13 fw-600 webkit-box-1">{{ item['behaviorLog'].behaviorName }}</h6>
+              <p class="webkit-box-2 fs-13 fw-600 text-color-mountain-mist">{{ t('behavior.title.comment') }}
+                : {{ item['behaviorLog'].comment }}</p>
+            </div>
+          </div>
+          <div class="item-bottom mt-6 d-flex align-items-center flex-space-between">
+            <div class="item-bottom--left d-flex align-items-center">
+              <span class="badge so-badge text-color-white bg-color-picton-blue me-5">{{ item['behaviorLog'].behaviorCategoryName }}</span>
+              <span class="time me-2 text-color-boulder d-flex align-items-center">
+                 <span class="icon-size">
+                  <img src="assets/images/svg/icon-calendar.svg" alt="">
+                </span>
+                Ngày: {{ item['behaviorLog'].date | formatTime :'dd/MM/yyyy' }}
+                </span>
+            </div>
+            <div class="item-bottom--right d-flex align-items-center">
+              <div class="d-flex align-items-center me-6 fs-13 fw-600"><span class="icon-size"><img
+                src="assets/images/svg/bx_time.svg"
+                alt=""></span> <span
+                class="time me-4">{{ item['behaviorLog'].time | formatTime :'HH:mm dd/MM/yyyy' }}</span> -
+                by: {{ item['behaviorLog'].createdBy.fullName }} <span
+                  class="code text-color-picton-blue">({{ item['behaviorLog'].createdBy.code }})</span></div>
+               <ng-template ngxPermissionsOnly="{{ permission.behavior_grading }}">
+              <button *ngIf="item['behaviorLog'].canCancel == 1"
+                      class="button-costurm badge so-badge text-color-white bg-color-butterscotch" name="btn-cancel"
+                      (click)="cancelBehavior(item)">
+                <img class="add-icon" src="assets/images/svg/History_white.svg" alt="">
+                <span class="fs-12 fw-600">{{ t('behavior.title.cancel') }}</span>
+              </button>
+               </ng-template>
+              <span *ngIf="item['behaviorLog'].isCancelled == 1"
+                    class="badge so-badge text-color-white bg-color-red">{{ t('behavior.title.canceled') }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="footer-card">
+        <app-pagination [pageSize]="pageSize" [pageIndex]="pageIndex" [collectionSize]="collectionSize"
+                        [sizeOption]="sizeOption" (paginationChange)="paginationChange($event)"
+                        *ngIf="collectionSize>= sizeOption[0]">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

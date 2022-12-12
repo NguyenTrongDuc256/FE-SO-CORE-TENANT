@@ -1,0 +1,22 @@
+{
+  "assignHomeroomClass": "Assign homeroom class",
+  "fullNameTeacher": "Full name teacher",
+  "assignMainHomeroomTeacher": "Assign main homeroom teacher",
+  "isAssigned": "Assigned",
+  "assignGradeMaster": "Assign grade master",
+  "chooseAssignStatus": "Status assign",
+  "unassigned": "Unassigned",
+  "assigned": "Assign",
+  "teacherTeaching": "Teacher teaching",
+  "titleModalConfirmMainHomeroomTeacher": "Confirming the change of assignment of homeroom teacher",
+  "hasMainHomeroomTeacher": "The class currently has a homeroom teacher!",
+  "currentMainHomeroomTeacher": "Current main homeroom teacher of class",
+  "subsTituteMainHomeroomTeacher": "Substitute main homeroom teacher of class",
+  "alternativeChoice": "Alternative choice",
+  "option1ConfirmAssign": "Add a new homeroom teacher to the class and keep the current teacher in this class",
+  "option2ConfirmAssign": "Remove the current teacher from the class and the teacher selected to be the main teacher",
+  "notHasMainHomeroomTeacher": "The class currently does not have a homeroom teacher!",
+  "mainHomeroomTeacher": "Main homeroom teacher",
+  "fullNameStaff": "Full name staff",
+  "assignCourseTeacher": "Assign course teacher"
+}

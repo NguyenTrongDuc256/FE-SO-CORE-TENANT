@@ -1,0 +1,258 @@
+<div class="card so-tab-horizontal shadow-none p-0 h-full" *transloco="let t; scope: 'behavior'">
+  <div class="card-header p-0 border-bottom-none">
+    <div class="card-title">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="w-200px me-4 mb-3">
+          <nz-select id="searchGrade" class="form-control so-form-control"
+                     nzShowSearch
+                     nzNotFoundContent="{{t(nzNotFoundContent)}}"
+                     [(ngModel)]="gradeId" (ngModelChange)="onChangeGrade()">
+            <nz-option nzValue="" nzLabel="{{ t('grade') }}"></nz-option>
+            <nz-option *ngFor="let item of gradeList"
+                       [nzLabel]="item.name"
+                       [nzValue]="item.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="w-200px me-4 mb-3">
+          <nz-select id="searchHomeroomClass" class="form-control so-form-control"
+                     nzShowSearch
+                     nzNotFoundContent="{{t(nzNotFoundContent)}}"
+                     [(ngModel)]="homeroomClassId" (ngModelChange)="onChangeHomeroomClass()"
+                     [ngClass]="{'disabled': gradeId == '' ? true : false}"
+                     [nzDisabled]="gradeId == '' ? true : false">
+            <nz-option nzValue="" nzLabel="{{ t('class') }}"></nz-option>
+            <nz-option *ngFor="let item of homeroomClassList"
+                       [nzLabel]="item.name"
+                       [nzValue]="item.id">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <div class="filter d-flex flex-wrap align-items-center">
+        <div class="me-4 mb-3 d-flex align-items-center" *ngIf="formGroup && homeroomClassInfo">
+          <span class="w-110px me-2 fw-700">{{t('behavior.label.chonNgayCham')}}</span>
+          <app-single-date-picker id="date"
+                                  [currentDate]="gradingDate"
+                                  [timePicker]="timePicker"
+                                  (dataTimeOutput)="dataTimeOutput($event)"
+                                  [maxDate]="maxDate"
+                                  [minDate]="numberGradingBackDate ? checkMinDate - (numberGradingBackDate * 86400) : null"
+          ></app-single-date-picker>
+        </div>
+        <div class="so-input-search me-4 mb-3" *ngIf="formGroup && homeroomClassInfo">
+          <input #searchInput type="text" name="input-search" placeholder="{{ t('search') }}"
+                 (keyup.enter)="search(searchInput.value)">
+          <img src="assets/images/svg/search.svg" alt="icon" class="cursor-pointer"
+               (click)="search(searchInput.value)"/>
+        </div>
+        <button class="border-none fs-13 fw-600 text-color-white bg-color-blue-lotus guide-action me-4 mb-3"
+                name="btn-guide">
+          <span class="fs-13 fw-600">?</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="h-full">
+    <form [formGroup]="formGroup" *ngIf="formGroup && homeroomClassInfo" >
+      <div class="d-flex justify-content-between">
+        <h3 class="card-title fs-16 fw-700">
+          <span>{{t('behavior.label.chamNhieuHS')}} {{homeroomClassInfo?.name}}</span> <span
+          class="fs-13 ps-3 text-color-picton-blue">{{studentList.length}} {{t('behavior.label.student')}}</span>
+        </h3>
+        <div class="filter d-flex flex-wrap align-items-center" (click)="redirectURLHistoryHomeroomClass()">
+          <a class="d-flex align-items-center">
+            <img class="pe-2" src="assets/images/svg/history.svg" alt="">
+            <a class="fs-14 fw-700 text-decoration-underline">{{ t('behavior.title.scoringHistory') }}</a>
+          </a>
+        </div>
+      </div>
+      <div class="row pt-4">
+        <!-- loại điểm -->
+        <div class="col-lg-2 d-flex">
+          <label class="col-form-label pe-2 white-space-nowrap">
+            <div class="d-flex align-items-center">
+              <img class="pe-2 w-20px" src="assets/images/svg/point.svg" alt="">
+              <span class="fw-700"> {{t('behavior.title.point')}}</span>
+            </div>
+          </label>
+          <div class="w-full mb-2">
+            <nz-select id="pointType" class="form-control so-form-control"
+                       nzShowSearch
+                       nzNotFoundContent="{{t(nzNotFoundContent)}}"
+                       formControlName="behaviorScoreType"
+                       (ngModelChange)="onChangeBehaviorScoreType()">
+              <nz-option *ngFor="let item of behaviorScoreTypeList"
+                         [nzLabel]="t(item.value)"
+                         [nzValue]="item.key">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <!--Danh mục-->
+        <div class="col-lg-3 d-flex">
+          <div class="col-form-label pe-2 white-space-nowrap">
+            <div class="d-flex align-items-center">
+              <img class="pe-2 w-20px" src="assets/images/svg/sao1.svg" alt="">
+              <span class="fw-700"> {{t('behavior.label.categories')}}</span>
+            </div>
+          </div>
+          <div class="w-full mb-2">
+            <nz-select id="selectCategory" class="form-control so-form-control"
+                       nzShowSearch
+                       nzNotFoundContent="{{t(nzNotFoundContent)}}"
+                       formControlName="behaviorCategories" (ngModelChange)="onChangeBehaviorCategories($event)"
+                       [class.is-invalid]="formGroup.get('behaviorCategories').invalid && (formGroup.get('behaviorCategories').dirty || formGroup.get('behaviorCategories').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.behaviorCategories.hasOwnProperty('message') && formGroup.get('behaviorCategories').invalid">
+              <nz-option nzValue="" nzLabel="{{ t('behavior.label.selectCategory') }}"></nz-option>
+              <nz-option *ngFor="let item of behaviorCategoriesList"
+                         [nzLabel]="item.name"
+                         [nzValue]="item.id">
+              </nz-option>
+            </nz-select>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.behaviorCategories">
+              <app-field-error-display [displayError]="formGroup.get('behaviorCategories').hasError(err.type) && (formGroup.get('behaviorCategories').dirty || formGroup.get('behaviorCategories').touched)" errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.behaviorCategories">
+              <app-field-error-display [errorServer]="validationMessagesServer?.behaviorCategories" [displayErrorServer]="!(formGroup.get('behaviorCategories').dirty || formGroup.get('behaviorCategories').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+
+        <!--Tiêu chí-->
+        <div class="col-lg-7 d-flex">
+          <div class="col-form-label pe-2 white-space-nowrap">
+            <div class="d-flex align-items-center">
+              <img class="pe-2 w-20px" src="assets/images/svg/tieu_chi.svg" alt="">
+              <span class="fw-700"> {{t('behavior.label.bahavior')}}</span>
+            </div>
+          </div>
+          <div class="w-full mb-2">
+            <nz-select id="selectCriteria" class="form-control so-form-control w-full"
+                       nzShowSearch
+                       nzNotFoundContent="{{t(nzNotFoundContent)}}"
+                       formControlName="behaviorId"
+                       [ngClass]="{'disabled': formGroup.value.behaviorCategories == '' ? true : false}"
+                       [nzDisabled]="formGroup.value.behaviorCategories == '' ? true : false"
+                       [class.is-invalid]="formGroup.get('behaviorId').invalid && (formGroup.get('behaviorId').dirty || formGroup.get('behaviorId').touched)"
+                       [class.is-invalid-server]="validationMessagesServer?.behaviorId.hasOwnProperty('message') && formGroup.get('behaviorId').invalid">
+              <nz-option nzValue="" nzLabel="{{ t('behavior.label.selectCriteria') }}"></nz-option>
+              <nz-option *ngFor="let item of behaviorList"
+                         [nzLabel]="item.name"
+                         [nzValue]="item.id">
+              </nz-option>
+            </nz-select>
+            <div class="text-danger mt-2" *ngFor="let err of validationMessages.behaviorId">
+              <app-field-error-display [displayError]="formGroup.get('behaviorId').hasError(err.type) && (formGroup.get('behaviorId').dirty || formGroup.get('behaviorId').touched)" errorMsg="{{ t(err.message) }}">
+              </app-field-error-display>
+            </div>
+            <div class="text-danger mt-2" *ngIf="validationMessagesServer?.behaviorId">
+              <app-field-error-display [errorServer]="validationMessagesServer?.behaviorId" [displayErrorServer]="!(formGroup.get('behaviorId').dirty || formGroup.get('behaviorId').touched)">
+              </app-field-error-display>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter d-flex  justify-content-between pt-7">
+        <span class="fw-700" style="width: 120px">{{t('behavior.label.commentG')}}</span>
+        <textarea class="form-control so-form-control" name="commentGeneral" rows="2"
+                  [ngModelOptions]="{standalone: true}"
+                  [ngModel]="commentGeneral" (ngModelChange)="onChangeCommentGeneral($event)"
+        ></textarea>
+      </div>
+      <div class="card-body p-0 pt-3">
+        <div class="table-responsive">
+          <table class="table">
+            <caption></caption>
+            <thead>
+            <tr class="fs-14 fw-700">
+              <th style="width: 3%">
+                <label nz-checkbox class="so-checkbox check-all" name="check-all" [ngModelOptions]="{standalone: true}"
+                       [ngModel]="allChecked" (ngModelChange)="onChangeCheckAll($event)"></label>
+              </th>
+              <th style="width: 3%">{{t('STT')}}</th>
+              <th style="width: 17%">{{t('behavior.label.studentName')}}</th>
+              <th style="width: 7%">{{t('behavior.label.diemHienTai')}}</th>
+              <th style="width: 70%">{{t('behavior.title.comment')}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container formArrayName="studentBehaviors">
+              <ng-container *ngFor="let itemForm of formGroup.get('studentBehaviors')['controls']; let index = index">
+                <tr class="fs-13 fw-600" [formGroupName]="index" *ngIf="itemForm.value.isDisplay">
+                  <td>
+                    <label nz-checkbox class="so-checkbox" name="check-item" formControlName="checked"
+                           (ngModelChange)="updateSingleChecked($event, index)"></label>
+                  </td>
+                  <td>{{index + 1}}</td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-50px me-3">
+                        <img *ngIf="itemForm.value.avatar" src="{{ itemForm.value.avatar }}"
+                             class="border-radius-50 object-fit-cover" alt="">
+                        <img *ngIf="!itemForm.value.avatar" [src]="avatar" class="border-radius-50 object-fit-cover"
+                             alt="">
+                      </div>
+                      <div class="d-flex justify-content-start flex-column">
+                      <span class="fs-14 fw-700 mb-1">
+                        {{ itemForm.value.fullName }}
+                        <img class="pe-2 w-20px" src="assets/images/svg/gender6.svg" alt="">
+                      </span>
+                        <span class="d-block fs-13">
+                        <span class="fs-600">{{t('behavior.label.maHocSinh')}}: </span>
+                        <span class="text-color-picton-blue">{{ itemForm.value.code }}</span>
+                      </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                  <span class="badge so-badge text-color-white bg-color-picton-blue"
+                        *ngIf="itemForm.value.totalPoint === null">
+                    ? {{t('behavior.label.diem')}}
+                  </span>
+                    <span class="badge so-badge text-color-white bg-color-picton-blue"
+                          [ngClass]="{'bg-color-picton-blue': itemForm.value.isWarningPoint == 0, 'bg-color-carrot-orange': itemForm.value.isWarningPoint == 1}"
+                          *ngIf="itemForm.value.totalPoint !== null">
+                    {{itemForm.value.totalPoint}} {{t('behavior.label.diem')}}
+                  </span>
+                  </td>
+                  <td>
+                    <div class="me-1">
+                      <textarea class="form-control so-form-control" name="comment" formControlName="comment" rows="2"></textarea>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+            <tr *ngIf="studentBehaviors.length == 0 || !studentBehaviors">
+              <td class="text-no-data" colspan="5">{{t('noData')}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="button-save-bottom w-100 d-flex justify-content-center align-items-center">
+    <button type="button"
+            class="so-btn so-btn-cancel me-4"
+            [routerLink]="['/staff/behavior']" [queryParams]="{gradeId: gradeId, homeroomClassId: homeroomClassId}">
+      {{t('btnAction.cancel')}}
+    </button>
+    <button type="button" *ngIf="formGroup && homeroomClassInfo"
+            class="so-btn so-btn-primary so-btn-primary&#45;&#45;small"
+            (click)="submitForm(formGroup.value)">
+      {{t('btnAction.save')}}
+    </button>
+  </div>
+</div>
+
+<div class="spinner" *ngIf="isLoading">
+  <app-loading></app-loading>
+</div>

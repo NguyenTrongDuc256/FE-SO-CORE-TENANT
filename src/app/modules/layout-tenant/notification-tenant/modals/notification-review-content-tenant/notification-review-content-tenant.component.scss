@@ -1,0 +1,29 @@
+.title-modal-global{
+  width: 33%;
+  display: inline-block;
+}
+.action-review{
+  width: 33%;
+  text-align: center;
+  img{
+    height: 20px; margin-right: 20px
+  }
+}
+::ng-deep .modal-md-plus {
+  max-width: 35%;
+}
+
+::ng-deep .modal-sm-plus {
+  max-width: 20%;
+}
+::ng-deep.insertHtml > .image > img{
+  max-width: 100%;
+}
+.h-15{
+  height: 15px !important;
+  margin-right: 10px !important;
+}
+
+.w-45{
+  width: 50% !important;;
+}

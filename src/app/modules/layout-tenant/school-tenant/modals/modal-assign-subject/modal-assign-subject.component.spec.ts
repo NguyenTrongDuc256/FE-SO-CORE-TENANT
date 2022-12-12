@@ -1,4 +1,3 @@
-import { SchoolYearListTenantRoutingModule } from './../../../school-year-tenant/school-year-tenant-routing.module';
 import { SchoolTenantModule } from './../../school-tenant.module';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
@@ -22,7 +21,6 @@ describe('ModalAssignSubjectComponent', () => {
       declarations: [ModalAssignSubjectComponent],
       imports: [
         CommonModule,
-        SchoolYearListTenantRoutingModule,
         CoreModule,
         SchoolTenantModule,
         RouterModule,

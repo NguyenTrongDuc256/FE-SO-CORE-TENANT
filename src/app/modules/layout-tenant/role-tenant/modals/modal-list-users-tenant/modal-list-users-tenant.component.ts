@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralService } from 'src/app/_services/general.service';
 import { RoleService } from 'src/app/_services/layout-tenant/role/role.service';
-import { ShowMessageService } from 'src/app/_services/show-message.service';
 import {
   PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
-  STATUS_USERS
+  STATUS_ACTIVE
 } from 'src/app/_shared/utils/constant';
 
 @Component({
@@ -31,7 +31,7 @@ export class ModalListUsersTenantComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private roleService: RoleService,
-    private showMessage: ShowMessageService,
+    private generalService: GeneralService
   ) { }
 
   ngOnInit(): void {
@@ -46,30 +46,39 @@ export class ModalListUsersTenantComponent implements OnInit {
       .getListUserRole(this.dataFromParent.roleId, this.keyword, this.pageSize, this.pageIndex)
       .subscribe(
         (res: any) => {
-          if (res.status == 1) {
-            this.listUsers = res.data.data;
-            this.collectionSize = res.data?.totalItems;
-          } else {
-            this.showMessage.error(res.msg);
-          }
+          this.listUsers = res.data.data;
+          this.collectionSize = res.data?.totalItems;
+          this.oldPageIndex = this.pageIndex;
           this.isLoading = false;
         },
         (err: any) => {
           this.isLoading = false;
+          this.generalService.showToastMessageError400(err);
         }
       );
   }
 
   mapNameStatus(value: number) {
-    return STATUS_USERS.find(status => status.value == value)?.label || '--';
+    return STATUS_ACTIVE.find(status => status.value == value)?.label || '--';
   }
 
   search(event, value: string) {
-    if (event.key === 'Enter' || event.key === 'Tab') {
-      this.pageIndex = 1;
-      this.keyword = value.trim();
-      this.getList();
+    // if (event.key === 'Enter' || event.key === 'Tab') {
+    //   this.searchByValue(value);
+    // }
+    if (event.key === 'Enter') {
+      this.searchByValue(value);
     }
+  }
+
+  searchClickIcon(value: string) {
+    this.searchByValue(value);
+  }
+
+  searchByValue(value: string) {
+    this.pageIndex = PAGE_INDEX_DEFAULT;
+    this.keyword = value.trim();
+    this.getList();
   }
 
   paginationChange(event: any) {

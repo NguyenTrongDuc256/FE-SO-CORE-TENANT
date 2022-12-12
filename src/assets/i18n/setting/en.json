@@ -1,0 +1,88 @@
+{
+  "chiSuaThongTin": "Edit information",
+  "dangHoatDong": "Active",
+  "daKhoa": "Locked",
+  "thongTin": "Information",
+  "cauHinhChung": "Config general ",
+  "cauHinhDiemDanh": "Config attendance",
+  "cauHinhThietBiDiemDanh": "Config attendance device",
+  "ngayTao": "Created date",
+  "logo": "Logo",
+  "background": "Background login",
+  "favicon": "Favicon",
+  "tenKH": "Customer name",
+  "duongDan": "Domain",
+  "trangThai": "Status",
+  "soDienThoai": "Phone",
+  "email": "Email",
+  "diaChi": "Address",
+  "maKhuVuc": "Location code",
+  "muiGio": "Time zone",
+  "ngonNgu": "Language",
+  "donViTienTe": "Monetary unit code",
+  "kichHoat": "Activated",
+  "taiLen": "Upload",
+  "cauHinhLogin": "Config login",
+  "cauHinhThoiGianHoc": "Config study time",
+  "cauHinhPhamViGuiThongBao": "Config notification scope",
+  "cauHinhMatKhau": "Config password",
+  "toiThieu6KyTu": "Minimum 6 characters",
+  "toiDa50KyTu": "Up to 50 characters",
+  "macDinh": "Default",
+  "regexPass": "No spaces, only characters from a-z, A-Z, 0-9 and special characters",
+  "itNhat1So": "Contains at least 1 number",
+  "itNhat1KytuDacBiet": "Contains at least 1 special character",
+  "itNhat1KytuVietHoa": "Contains at least 1 uppercase character",
+  "linkTaiAndroidIOS": "Configure app download link (Android, IOS)",
+  "linkAndroid": "Android app download link",
+  "linkIOS": "iOS app download link",
+  "thu7": "7th learning on/off",
+  "chuNhat": "Turn on/off Sunday school",
+  "phamViGui": "Sending range",
+  "validators": {
+    "name": {
+      "required": "Name is required",
+      "maxlength": "Name cannot exceed 255 characters"
+    },
+    "email": {
+      "email": "Invalid email",
+      "pattern":"Invalid email"
+    },
+    "phone": {
+      "pattern": "Invalid phone"
+    },
+    "linkUrl": {
+      "pattern": "Invalid domain"
+    },
+    "address": {
+      "maxlength": "Address cannot exceed 255 characters"
+    }
+  },
+  "attendanceConfig": {
+    "attendanceStatusConfig": "Attendance status config",
+    "timeAllowUpdateAttendance": "Time allow update attendance",
+    "day": "day",
+    "attendanceStatus": "Attendance status",
+    "default": "Default",
+    "active": "Active",
+    "enterTimeAllowUpdateAttendance": "Enter time allow update attendance",
+    "timeAllowUpdateAttendanceRequired": "Time allow update attendance is required",
+    "hanetAttendanceConfig": "Hanet attendance config",
+    "schowColumnImageAttendance": "Schow column image attendance",
+    "attendanceTimeFrame": "Attendance time frame",
+    "from": "From",
+    "to": "To",
+    "attendanceType": "Attendance type",
+    "attendanceCome": "Attendance come",
+    "attendanceCheckout": "Attendance checkout"
+  },
+  "nhapTenKhachHang": "Enter customer name",
+  "nhapPhone": "Enter phone",
+  "nhapEmail": "Enter customer name email",
+  "nhapAddress": "Enter address",
+  "nhaplinkAndroid": "Enter path app Android",
+  "nhaplinkIOS": "Enter path app IOS",
+  "chonAnhLogo": "Select image logo",
+  "chonAnhFavicon": "Select image favicon",
+  "chonAnhLogin": "Select image background login"
+}

@@ -85,7 +85,6 @@
 }
 
 .file-manager-photo-label:hover{
-  //box-shadow: 0 0 0 1pt #2e9afe;
   box-shadow: 0pt 0pt 3pt 0pt #2e9afe;
   cursor: pointer;
   .btn-delete-img{
@@ -98,12 +97,7 @@
 }
 
 .file-manager-photo-label-choose{
-  //box-shadow: 0 0 0 1pt #2e9afe;
   box-shadow: 0pt 0pt 3pt 0pt #2e9afe;
-  //cursor: pointer;
-  //.btn-delete-img{
-  //  display: block;
-  //}
 }
 .file-manager-photo-label{
   .btn-delete-img{
@@ -136,7 +130,6 @@
 
 .upload-image-file-manager{
   cursor: pointer;
-  //max-height: 300px; overflow-y: scroll;
   .dropzone{
     border: 1px dashed #eeeeee;
     height: 160px;
@@ -145,9 +138,7 @@
       height: 80%;
       width: 100;
     }
-    .dropzone-title{
-
-    }
+    .dropzone-title{}
   }
   .btn-dropzone{
     height: 60px;
@@ -155,17 +146,11 @@
     border-radius: 50%}
 }
 
-
-
-
 .text-span-bread{
   font-size: 17px;
   font-weight: 500;
   color: #1890ff
 }
-
-
-
 
 ::ng-deep.menu-global-overlay-panel{
   z-index: 997 !important;
@@ -177,7 +162,7 @@
     .dropdown-item{
       display: flex;
       align-items: center;
-      justify-content: start;
+      justify-content: flex-start;
 
       padding: 0 1.5rem 0 0.5rem;
       height: 32px;

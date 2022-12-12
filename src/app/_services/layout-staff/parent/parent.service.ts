@@ -17,7 +17,7 @@ export class ParentService {
   }
 
   deleteParent(data: any) {
-    return this.http.delete(`${environment.apiIdentityService}/api/parents/delete/${data}`);
+    return this.http.delete(`${environment.apiIdentityService}/api/parents/${data}`);
   }
 
   store(data: any) {
@@ -42,6 +42,20 @@ export class ParentService {
 
   updateAccessApp(data) {
     return this.http.patch(`${environment.apiIdentityService}/api/user/update-access-app-status`, data);
+  }
+
+  // 8. upload file danh sách hồ sơ học sinh
+  uploadFileImportParent(file) {
+    return this.http.post(`${environment.apiIdentityService}/api/parents/upload-parent`, file);
+  }
+  // 9. Danh sách dữ liệu result
+  getListResultImportFile(keyImport: string, schoolId: string) {
+    return this.http.get(`${environment.apiIdentityService}/api/parents/get-upload-temp?keyImport=${keyImport}&schoolId=${schoolId}`);
+  }
+
+  // 10. Lưu dữ liệu import
+  saveDataImport(data) {
+    return this.http.post(`${environment.apiIdentityService}/api/parents/confirm-upload`, data);
   }
 
 }

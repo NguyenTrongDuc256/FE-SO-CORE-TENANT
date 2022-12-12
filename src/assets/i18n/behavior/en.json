@@ -1,0 +1,47 @@
+{
+  "title": {
+    "configScopeBehavior": "Cấu hình điểm hành vi",
+    "criteriaManagement": "Quản lý tiêu chí",
+    "addCategory": "Thêm mới danh mục",
+    "editCategory": "Cập nhật danh mục",
+    "deleteCategory": "Xóa danh mục",
+    "addCriteria": "Thêm mới tiêu chí đánh giá",
+    "editCriteria": "Cập nhật tiêu chí đánh giá",
+    "deleteCriteria": "Xóa tiêu chí đánh giá",
+    "scoreBehavior": "Score behavior",
+    "scoringBehaviorHomeroomClass": "Chấm điểm hành vi lớp chủ nhiệm",
+    "scoringBehaviorCourse": "Chấm điểm hành vi lớp môn học",
+    "scoringBehaviorStudent": "Chấm điểm hành vi theo học sinh",
+    "scoringHistory": "Scoring history",
+    "plusMark": "Điểm cộng",
+    "minusMark": "Điểm trừ",
+    "scoreManyStudents": "Score many students",
+    "currentScore": "Current score",
+    "studentID" : "Student ID",
+    "mark" : "Mark",
+    "history": "Lịch sử",
+    "warning": "Điểm văn minh đang ở mức cảnh báo",
+    "evaluationCriteria": "Tiêu chí đánh giá",
+    "contentScoringBehavior": "Behavioral scoring content",
+    "comment": "Comment",
+    "numberOfTimes": "Number of times",
+    "point": "Point",
+    "xacNhanHuyChamDiem": "Are you sure you want to do this to confirm the cancellation of grading?",
+    "diemBanDau": "Initial point",
+    "diemDaCong": "Points added",
+    "diemDaTru": "Points deducted",
+    "chooseDate": "Dot date",
+    "cancel" : "Cancel",
+    "canceled": "Canceled",
+    "chonHocSinh": "Chọn học sinh",
+    "confirmBehavior": "Xác nhận chấm điểm hành vi",
+    "maHS": "Student ID"
+  },
+  "validators": {
+
+  },
+  "label": {
+
+  },
+  "minusMark": "Điểm trừ"
+}

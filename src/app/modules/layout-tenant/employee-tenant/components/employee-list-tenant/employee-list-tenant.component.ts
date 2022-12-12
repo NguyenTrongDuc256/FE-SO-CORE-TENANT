@@ -1,9 +1,8 @@
-import {ShowMessageService} from 'src/app/_services/show-message.service';
-
 import {
   AVATAR_DEFAULT,
   DATA_PERMISSION,
-  MESSAGE_ERROR_CALL_API, PAGE_INDEX_DEFAULT,
+  MESSAGE_ERROR_CALL_API,
+  PAGE_INDEX_DEFAULT,
   PAGE_SIZE_DEFAULT,
   PAGE_SIZE_OPTIONS_DEFAULT,
   TIME_OUT_LISTEN_FIREBASE
@@ -23,6 +22,18 @@ import {
   ModalSwitchEmployeeEditComponent
 } from "../../modals/modal-switch-employee-edit/modal-switch-employee-edit.component";
 import {translate} from "@ngneat/transloco";
+import {
+  ModalRoleListTenantComponent
+} from "../../../user-tenant/modals/modal-role-list-tenant/modal-role-list-tenant.component";
+import {UserService} from "../../../../../_services/layout-tenant/user/user.service";
+import {
+  ModalChangeUsernameCodeComponent
+} from "../../../../../_shared/modals/modal-change-username-code/modal-change-username-code.component";
+import {Router} from "@angular/router";
+import {ShowMessageService} from 'src/app/_services/show-message.service';
+import {
+  ModalImportEmployeeTenantComponent
+} from "../../modals/modal-import-employee-tenant/modal-import-employee-tenant.component";
 
 @Component({
   selector: 'app-employee-list-tenant',
@@ -32,77 +43,87 @@ import {translate} from "@ngneat/transloco";
 export class EmployeeListTenantComponent implements OnInit {
   avatar: string = AVATAR_DEFAULT;
   permission: any = DATA_PERMISSION;
-  collectionSize: number = 0;
-  sizeOption: number[] = PAGE_SIZE_OPTIONS_DEFAULT;
-  pageIndex: number = 1;
+  collectionSize: number;
+  pageIndex: number = PAGE_INDEX_DEFAULT;
+  oldPageIndex: number = this.pageIndex;
   pageSize: number = PAGE_SIZE_DEFAULT;
+  sizeOption: number[] = PAGE_SIZE_OPTIONS_DEFAULT;
   keyWord: string = '';
   isLoading: boolean = false;
 
   roleId: string = '';
   roleList: any[] = [];
   valueDefaultSchool: string = '';
-  dataSource: EmployeeList[];
-  schoolList: SchoolList[];
+  dataSource: EmployeeList[] = [];
+  schoolList: SchoolList[] = [];
+  nzNotFoundContent: string = 'employee.notFoundContent';
 
   constructor(
     private modalService: NgbModal,
     private showMessageService: ShowMessageService,
     private employeeService: EmployeeService,
     private generalService: GeneralService,
+    private userService: UserService,
+    private router: Router,
   ) {
   }
 
   ngOnInit(): void {
     this.getSchoolList();
-    this.getMoetCategories();
+    this.getInitializationData();
     this.getEmployeeList();
   }
 
   paginationChange(event: any) {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getEmployeeList();
   }
 
   onChangeSchool() {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getEmployeeList();
   }
 
   onChangeRole() {
+    this.oldPageIndex = this.pageIndex;
+    this.pageIndex = PAGE_INDEX_DEFAULT;
     this.getEmployeeList();
   }
 
-  onClickSearch(valueSearch) {
+  search(valueSearch): void {
+    this.oldPageIndex = this.pageIndex;
     this.pageIndex = PAGE_INDEX_DEFAULT;
     this.keyWord = valueSearch;
     this.getEmployeeList();
   }
 
-  onEventKeyupEnter(valueSearch) {
-    this.pageIndex = PAGE_INDEX_DEFAULT;
-    this.keyWord = valueSearch;
-    this.getEmployeeList();
-  }
-
-  getMoetCategories(): void {
+  getInitializationData(): void {
     this.isLoading = true;
-    this.employeeService.getInitializationData().subscribe((res: any): void => {
-        if (res.status != undefined && res.status == 1) {
-          this.roleList = res.data.roles || [];
-        } else {
-          this.showMessageService.error(res.msg);
-        }
+    const timeoutCallAPI = setTimeout(() => {
+      if (this.isLoading) {
+        this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
-      }, (err: any) => {
+      }
+    }, TIME_OUT_LISTEN_FIREBASE);
+    this.employeeService.getInitializationData().subscribe(
+      (res: any): void => {
+        clearTimeout(timeoutCallAPI);
+        this.roleList = res.data.roles || [];
+        this.isLoading = false;
+      }, (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       }
     );
   }
 
-  getEmployeeList() {
+  getEmployeeList(): void {
     this.isLoading = true;
-    setTimeout(() => {
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
@@ -111,17 +132,14 @@ export class EmployeeListTenantComponent implements OnInit {
 
     this.employeeService.getEmployeeList(this.pageIndex, this.pageSize, this.valueDefaultSchool, this.roleId, this.keyWord)
       .subscribe((res: any): void => {
-        if (res.status != undefined && res.status === 1) {
-          this.collectionSize = res.data.totalItems;
-          this.dataSource = res.data.data;
-          this.isLoading = false;
-        }
+        clearTimeout(timeoutCallAPI);
+        this.collectionSize = res.data.totalItems;
+        this.dataSource = res.data.data;
+        this.isLoading = false;
 
-        if (res.status != undefined && res.status === 0) {
-          this.isLoading = false;
-          this.showMessageService.error(res.msg);
-        }
       }, (_err: any) => {
+        clearTimeout(timeoutCallAPI);
+        this.generalService.showToastMessageError400(_err);
         this.isLoading = false;
       });
   }
@@ -160,7 +178,6 @@ export class EmployeeListTenantComponent implements OnInit {
       if (result === true) {
         this.getEmployeeList();
       }
-    }, (reason) => {
     });
   }
 
@@ -180,7 +197,7 @@ export class EmployeeListTenantComponent implements OnInit {
       btnAccept: 'btnAction.save',
       isHiddenBtnClose: false, // hidden/show btn close modal
       dataFromParent: {
-        dataInput: {id: item.userId},
+        dataInput: {userId: item.userId},
         keyFirebaseAction: 'delete',
         keyFirebaseModule: 'employee',
         apiSubmit: (dataInput: any) => this.employeeService.delete(dataInput)
@@ -192,114 +209,97 @@ export class EmployeeListTenantComponent implements OnInit {
       if (result === true) {
         this.getEmployeeList();
       }
-    }, (reason) => {
-
     });
   }
 
-  openModalUpdateStatus(item) {
-    // let title = '';
-    // let content = '';
-    // let dataInput = 0;
-    // if (item.isActive) {
-    //   title = translate('user.locked');
-    //   content = translate('user.userLocked');
-    // } else {
-    //   title = translate('user.active');
-    //   content = translate('user.userActive');
-    //   dataInput = 1;
-    // }
-    //
-    // const modalRef = this.modalService.open(ModalUpdateStatusComponent,
-    //   {
-    //     scrollable: true,
-    //     windowClass: 'myCustomModalClass',
-    //     keyboard: false,
-    //     centered: false,
-    //     size: 'lg'
-    //   });
-    //
-    // let data = {
-    //   titleModal: title,
-    //   btnCancel: translate('btnAction.cancel'),
-    //   btnAccept: translate('btnAction.save'),
-    //   isHiddenBtnClose: false,
-    //   dataFromParent: {
-    //     dataInput: dataInput,
-    //     userId: item.id,
-    //     content: content
-    //   }
-    // }
-    //
-    // modalRef.componentInstance.dataModal = data;
-    // modalRef.result.then((result) => {
-    //   console.log(result);
-    //   if (result === true) {
-    //     this.getDataUser();
-    //   }
-    // }, (reason) => {
-    //   console.log(reason);
-    // });
-  }
-
-  openModalRoleList(item) {
-    // const modalRef = this.modalService.open(ModalRoleListTenantComponent,
-    //   {
-    //     scrollable: true,
-    //     windowClass: 'myCustomModalClass',
-    //     keyboard: false,
-    //     centered: false,
-    //     size: 'xl'
-    //   });
-    //
-    // let data = {
-    //   titleModal: translate('user.roleList'),
-    //   btnCancel: translate('user.close'),
-    //   btnAccept: translate('btnAction.save'),
-    //   isHiddenBtnClose: false,
-    //   dataFromParent: {
-    //     userId: item.id,
-    //   }
-    // }
-    //
-    // modalRef.componentInstance.dataModal = data;
-    // modalRef.result.then((result) => {
-    //   console.log(result);
-    //   if (result === true) {
-    //     this.getDataUser();
-    //   }
-    // }, (reason) => {
-    //   console.log(reason);
-    // });
-  }
-
   getSchoolList() {
-    this.isLoading = true;
+    this.employeeService.getSchoolList().subscribe((res: any): void => {
+      this.schoolList = res.data;
+    }, (_err: any) => {
+      this.generalService.showToastMessageError400(_err);
+    });
+  }
 
-    setTimeout(() => {
+  openModalSwitchEmployeeEdit(item) {
+    if (item.employees.length == 1) {
+      this.router.navigate(['/tenant/employee/create-or-edit', item.employees[0].id]);
+    } else {
+      const modalRef = this.modalService.open(ModalSwitchEmployeeEditComponent,
+        {
+          scrollable: true,
+          windowClass: 'myCustomModalClass',
+          keyboard: false,
+          centered: false,
+          backdrop: 'static',
+          size: 'lg',
+        });
+
+      let data: any = {
+        titleModal: translate('employee.modalEmployeeEdit'),
+        btnCancel: translate('btnAction.cancel'),
+        btnAccept: translate('btnAction.save'),
+        isHiddenBtnClose: false, // hidden/show btn close modal
+        dataFromParent: {
+          dataEmployee: item,
+        },
+      }
+
+      modalRef.componentInstance.dataModal = data;
+      modalRef.result.then((result) => {
+      });
+    }
+  }
+
+  getRoleListByUserId(userId: string) {
+    this.isLoading = true;
+    const timeoutCallAPI = setTimeout(() => {
       if (this.isLoading) {
         this.showMessageService.error(MESSAGE_ERROR_CALL_API);
         this.isLoading = false;
       }
     }, TIME_OUT_LISTEN_FIREBASE);
 
-    this.employeeService.getSchoolList().subscribe((res: any): void => {
-      if (res.status != undefined && res.status === 1) {
-        this.schoolList = res.data;
-        this.isLoading = false;
-      }
+    this.userService.getRoleList(userId).subscribe((res: any): void => {
+      clearTimeout(timeoutCallAPI);
+      this.openModalRoleListByUserId(userId, res.data);
+      this.isLoading = false;
 
-      if (res.status != undefined && res.status === 0) {
-        this.isLoading = false;
-        this.showMessageService.error(res.msg);
-      }
     }, (_err: any) => {
+      clearTimeout(timeoutCallAPI);
+      this.generalService.showToastMessageError400(_err);
       this.isLoading = false;
     });
   }
 
-  openModalSwitchEmployeeEdit(item) {
-    const modalRef = this.modalService.open(ModalSwitchEmployeeEditComponent,
+  openModalRoleListByUserId(userId: string, roleList: any) {
+    const modalRef = this.modalService.open(ModalRoleListTenantComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass',
+        keyboard: false,
+        centered: false,
+        backdrop: 'static',
+        size: 'xl'
+      });
+
+    let data: any = {
+      titleModal: 'user.roleList',
+      btnCancel: 'user.close',
+      btnAccept: 'btnAction.save',
+      isHiddenBtnClose: false,
+      dataFromParent: {
+        userId: userId,
+        roleList: roleList
+      }
+    }
+
+    modalRef.componentInstance.dataModal = data;
+    modalRef.result.then((result) => {
+    });
+  }
+
+  openModalChangeUsernameCode(item: any): void {
+    const modalRef = this.modalService.open(ModalChangeUsernameCodeComponent,
       {
         scrollable: true,
         windowClass: 'myCustomModalClass',
@@ -308,21 +308,50 @@ export class EmployeeListTenantComponent implements OnInit {
         backdrop: 'static',
         size: 'lg',
       });
-
     let data: any = {
-      titleModal: translate('employee.modalEmployeeEdit'),
-      btnCancel: translate('btnAction.cancel'),
-      btnAccept: translate('btnAction.save'),
+      titleModal: 'editUsernameCode',
+      btnCancel: 'btnAction.cancel',
+      btnAccept: 'btnAction.save',
       isHiddenBtnClose: false, // hidden/show btn close modal
       dataFromParent: {
-        dataEmployee: item,
+        userId: item.userId,
+        fullName: item.fullName,
+        code: item.code,
+        username: item.username,
+        keyFirebaseAction: 'update',
+        keyFirebaseModule: 'user',
+        apiSubmit: (dataInput: any) => {
+          return this.generalService.changeUsernameCodeUserLayoutTenant(dataInput)
+        }
       },
     }
 
     modalRef.componentInstance.dataModal = data;
     modalRef.result.then((result) => {
-      console.log(result)
-    }, (reason) => {
+      if (result === true) {
+        this.getEmployeeList();
+      }
+    });
+  }
+
+  openModalImport(): void {
+    const modalRef = this.modalService.open(ModalImportEmployeeTenantComponent,
+      {
+        scrollable: true,
+        windowClass: 'myCustomModalClass',
+        keyboard: false,
+        centered: true,
+        backdrop: 'static',
+        size: 'xl',
+      });
+
+    let data: any = {
+      title: 'titleImport',
+      isHiddenBtnClose: false, // hidden/show btn close modal
+      schoolList: this.schoolList
+    }
+    modalRef.componentInstance.dataModal = data;
+    modalRef.result.then((result) => {
     });
   }
 }
